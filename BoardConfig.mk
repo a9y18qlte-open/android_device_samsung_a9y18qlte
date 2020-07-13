@@ -64,7 +64,6 @@ TARGET_NO_RADIOIMAGE := true
 # vendor/qassa/prebuilt/common/Android.mk merges this via custom_apns.py.
 CUSTOM_APNS_FILE := $(DEVICE_PATH)/configs/custom_apns.xml
 
-BOARD_VENDOR := samsung
 TARGET_BOARD_PLATFORM := sdm660
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno512
 
