@@ -88,7 +88,6 @@ TARGET_2ND_CPU_VARIANT := cortex-a53
 $(call soong_config_set,samsungVars,target_specific_header_path,$(DEVICE_PATH)/include)
 
 # Kernel
-TARGET_KERNEL_ARCH := arm64
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 BOARD_BOOT_HEADER_VERSION := 0
 BOARD_KERNEL_BASE := 0x00000000
