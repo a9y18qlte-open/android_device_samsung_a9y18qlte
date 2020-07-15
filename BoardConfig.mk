@@ -72,6 +72,7 @@ BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_OFFSET := 0x00008000
 BOARD_RAMDISK_OFFSET := 0x02000000
+BOARD_RAMDISK_USE_LZ4 := true
 BOARD_KERNEL_SECOND_OFFSET := 0x00F00000
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
 BOARD_KERNEL_CMDLINE := console=ram androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 sched_enable_hmp=1 sched_enable_power_aware=1 service_locator.enable=1 firmware_class.path=/vendor/firmware_mnt/image
