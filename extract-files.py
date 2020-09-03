@@ -314,6 +314,12 @@ blob_fixups: blob_fixups_user_type = {
         .remove_needed('libqfp_sensortest.so')
         .remove_needed('libsynaFpSensorTestNwd.so')
         .add_needed('libfp_sensortest_shim.so'),
+    (
+        'vendor/lib/libvdis_core.so',
+        'vendor/lib64/libsensorlistener.so',
+        'vendor/lib64/libvdis_core.so',
+    ): blob_fixup()
+        .add_needed('libshim_sensorndkbridge.so'),
     # Parcel::print(TextOutput&), removed in Android 14; libsve_shim provides it.
     'system/lib64/libsveservice.so': blob_fixup()
         .add_needed('libsve_shim.so'),

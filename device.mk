@@ -372,7 +372,9 @@ PRODUCT_COPY_FILES += \
 # Sensors
 PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-impl.samsung \
-    android.hardware.sensors@1.0-service.a9y18qlte
+    android.hardware.sensors@1.0-service.a9y18qlte \
+    libsensorndkbridge \
+    libshim_sensorndkbridge
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
@@ -605,7 +607,6 @@ PRODUCT_PACKAGES += \
 # AOSP libraries and modules
 # Source builds of generic AOSP code the stock Android 10 vendor shipped. Every
 # blob linking one of them still finds all the symbols it imports.
-# libsensorndkbridge stays stock: Samsung's exports camera ALooper variants.
 PRODUCT_PACKAGES += \
     audio.primary.default \
     audio.r_submix.default \
