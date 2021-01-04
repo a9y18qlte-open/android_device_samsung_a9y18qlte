@@ -73,9 +73,6 @@ ro.vendor.cscsupported=1
 # FRP
 ro.frp.pst=/dev/block/bootdevice/by-name/persistent
 
-# Filesystem
-fs_mgr.overlayfs.prefer_cache_backing_storage=true
-
 # Sensors
 ro.vendor.sensors.facing=false
 ro.vendor.sensors.cmc=false
