@@ -683,6 +683,5 @@ PRODUCT_PACKAGES += \
     libexpat.vendor \
     libprocessgroup_shim
 
-# Storage
-PRODUCT_VENDOR_PROPERTIES += \
-    external_storage.sdcardfs.enabled=0
+# Enable project quotas and casefolding for emulated storage without sdcardfs
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
