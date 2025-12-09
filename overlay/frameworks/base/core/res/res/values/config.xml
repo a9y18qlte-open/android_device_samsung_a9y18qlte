@@ -1159,4 +1159,5 @@
          This can be overridden to false for devices which can't send stk sms message via
          framework, but would be sent via modem. -->
     <bool name="config_stk_sms_send_support">true</bool>
+    <bool name="config_deviceSupportsHighPerfTransitions">false</bool>
 </resources>
