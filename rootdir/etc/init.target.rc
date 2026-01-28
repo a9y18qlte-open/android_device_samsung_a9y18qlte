@@ -59,6 +59,7 @@ on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
     mount_all /vendor/etc/fstab.qcom
+    mount tmpfs tmpfs /metadata size=10m
     wait /dev/block/bootdevice/by-name/omr
     mount ext4 /dev/block/bootdevice/by-name/omr /omr nosuid nodev noatime noauto_da_alloc,discard,journal_checksum,data=ordered,errors=continue
     chown root system /omr
