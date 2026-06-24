@@ -59,6 +59,18 @@
       "Actions": [
         { "Name": "SetAttribute", "Params": { "Name": "STunePreferIdle", "Value": "0" } }
       ]
+    },
+    {
+      "Name": "SFMainPolicy",
+      "Actions": [
+        { "Name": "JoinCgroup", "Params": { "Controller": "cpuset", "Path": "surfaceflinger" } }
+      ]
+    },
+    {
+      "Name": "SFRenderEnginePolicy",
+      "Actions": [
+        { "Name": "JoinCgroup", "Params": { "Controller": "cpuset", "Path": "surfaceflinger" } }
+      ]
     }
   ]
 }
