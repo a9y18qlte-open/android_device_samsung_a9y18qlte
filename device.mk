@@ -451,7 +451,6 @@ PRODUCT_PACKAGES += \
 # vendor blobs (health, audio, BT, GNSS, RIL, camera, ...) link them, so install
 # vendor variants. Without these the stock HAL services fail to link at boot.
 PRODUCT_PACKAGES += \
-    android.frameworks.displayservice@1.0.vendor \
     android.hardware.bluetooth@1.0.vendor \
     android.hardware.camera.provider@2.5.vendor \
     android.hardware.drm@1.1.vendor \
