@@ -1156,7 +1156,6 @@ vendor/lib/libsec-ril-dsds.so
 vendor/lib/libsec-ril.so
 vendor/lib/libsec_semRil.so
 vendor/lib/libsystem_health_mon.so
-vendor/lib/libvkmanager_vendor.so
 vendor/lib/libvndsecril-client.so
 vendor/lib/vendor.qti.hardware.radio.atcmdfwd@1.0.so
 vendor/lib/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
@@ -1184,7 +1183,6 @@ vendor/lib64/libsec-ril-dsds.so
 vendor/lib64/libsec-ril.so
 vendor/lib64/libsec_semRil.so
 vendor/lib64/libsystem_health_mon.so
-vendor/lib64/libvkmanager_vendor.so
 vendor/lib64/libvndsecril-client.so
 vendor/lib64/vendor.qti.hardware.radio.atcmdfwd@1.0.so
 vendor/lib64/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
