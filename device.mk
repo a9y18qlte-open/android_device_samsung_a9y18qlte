@@ -570,6 +570,7 @@ PRODUCT_PACKAGES += \
 
 # RIL
 PRODUCT_PACKAGES += \
+    libvkmanager_vendor \
     secril_config_svc
 
 # Touch
