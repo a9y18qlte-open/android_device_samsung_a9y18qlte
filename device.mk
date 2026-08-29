@@ -14,9 +14,6 @@ DEVICE_PACKAGE_OVERLAYS += \
 # Dalvik heap
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
 
-# ART
-PRODUCT_ENABLE_UFFD_GC := true
-
 ENABLE_VENDOR_RIL_SERVICE := true
 
 # Boot animation
