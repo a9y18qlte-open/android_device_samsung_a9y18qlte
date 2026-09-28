@@ -90,3 +90,8 @@ ro.vendor.sdk.sensors.gestures=false
 # registers with a null device pointer. The first call segfaults it, gatekeeperd
 # aborts on DEAD_OBJECT, and no lock credential can ever be stored.
 ro.hardware.gatekeeper=mdfpp
+ro.hardware.keystore=mdfpp
+
+# Camera
+persist.camera.HAL3.enabled=true
+persist.vendor.camera.HAL3.enabled=true

@@ -114,30 +114,11 @@ BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET) --second_offse
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION) --pagesize $(BOARD_KERNEL_PAGESIZE)
 
 # Kernel config
-TARGET_KERNEL_CONFIG := a9y18qlte_defconfig
+TARGET_KERNEL_CONFIG := a9y18qlte_eur_open_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/a9y18qlte
 TARGET_KERNEL_VERSION := 4.4
-TARGET_PREBUILT_KERNEL := $(OUT_DIR)/target/product/$(TARGET_DEVICE)/obj/KERNEL_OBJ/arch/arm64/boot/Image.gz-dtb
-# Use the GCC 4.9 prebuilts shipped in the ROM tree instead of a toolchain
-# outside it. Recursive '=' is deliberate: BUILD_TOP is defined by
-# vendor/qassa/config/BoardConfigKernel.mk, which is parsed after this file.
-KERNEL_TOOLCHAIN = $(BUILD_TOP)/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin
-KERNEL_TOOLCHAIN_ARM32 = $(BUILD_TOP)/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
-TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
-TARGET_KERNEL_CROSS_COMPILE_PREFIX_ARM32 := arm-linux-androideabi-
-
-# aarch64-linux-android-gcc in the AOSP prebuilt is not a compiler: it is a
-# python wrapper with a hardcoded '#!/usr/bin/python' shebang that just execs
-# real-aarch64-linux-android-gcc. Ubuntu 22.04 ships no /usr/bin/python, so the
-# wrapper dies with ENOENT ("execute_noreturn ... failed: No such file or
-# directory"). Call the real binary directly - the kernel Makefile reads
-# $(CROSS_COMPILE)gcc in exactly one place (Makefile:342, CC), and every other
-# tool in the prefix (as/ld/ar/nm/objcopy/strip) is a genuine ELF binary.
-#
-# Alternative, if you would rather fix it system-wide:
-#     sudo ln -s /usr/bin/python3 /usr/bin/python
-# The wrapper is python3-clean, so that works too.
-KERNEL_CC = CC="$(CCACHE_BIN) $(KERNEL_TOOLCHAIN)/real-aarch64-linux-android-gcc"
+TARGET_KERNEL_CLANG_COMPILE := true
+#TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
 # Partitions
 BOARD_SUPPRESS_SECURE_ERASE := true
@@ -173,9 +154,7 @@ QCOM_BT_USE_BTNV := true
 QCOM_BT_USE_SMD_TTY := true
 
 # Camera
-BOARD_USE_SAMSUNG_CAMERAFORMAT_NV21 := true
 TARGET_USES_QTI_CAMERA_DEVICE := true
-USE_DEVICE_SPECIFIC_CAMERA := true
 
 # Dexpreopt
 ifeq ($(HOST_OS),linux)

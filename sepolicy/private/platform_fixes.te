@@ -36,10 +36,6 @@ allow system_server shell:unix_stream_socket getopt;
 # system_server's rtc0/hctosys read is granted in sepolicy/vendor: the RTC sits
 # under the SPMI tree and its genfscon has to live beside that one.
 
-# --- misc partition ----------------------------------------------------------
-allow misc_writer proc_cmdline:file r_file_perms;
-allow misc_writer misc_block_device:blk_file rw_file_perms;   # sda8  misc
-
 # --- other partitions --------------------------------------------------------
 allow fsck userdata_block_device:blk_file rw_file_perms;      # sda29 userdata
 allow fsck cache_block_device:blk_file rw_file_perms;         # sda25 cache
