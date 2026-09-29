@@ -87,6 +87,16 @@ function blob_fixup() {
             # it for depth data). Exposed as camera 54 it renders upside down.
             sed -i '/<SensorName>s5k5e9yx<\/SensorName>/,/<\/CameraModuleConfig>/ s|<MountAngle>270</MountAngle>|<MountAngle>90</MountAngle>|' "${2}"
             ;;
+        vendor/lib/libmmcamera2_sensor_modules.so)
+            # The sensor sub-module reports ISO as
+            #   100 * analog_gain * digital_gain / iso100_gain
+            # but Samsung's sensor path never fills digital_gain, so it holds
+            # garbage and android.sensor.sensitivity comes out as INT32_MIN.
+            # Drop that multiply: vmul.f32 s0, s0, s4 -> nop.w at 0x63ad8.
+            if [ "$(xxd -s 0x63ad4 -l 16 -p "${2}")" = "21ee000a20ee020a80ee030abdeec00a" ]; then
+                printf '\xaf\xf3\x00\x80' | dd of="${2}" bs=1 seek=$((0x63ad8)) conv=notrunc status=none
+            fi
+            ;;
     esac
 }
 
