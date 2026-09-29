@@ -58,3 +58,10 @@ vendor.sec.rild.libpath2=/vendor/lib64/libsec-ril-dsds.so
 ro.adb.secure=1
 persist.service.adb.enable=1
 persist.sys.usb.config=adb
+
+# Camera
+# The Camera1 API shim otherwise adds a full-size ZSL/reprocess stream next to
+# the JPEG stream; both land on one shared VFE output and the combined buffer
+# queue exceeds what msm_isp accepts ("Invalid buffer request"), so API1 apps
+# get no preview.
+camera.disable_zsl_mode=1
