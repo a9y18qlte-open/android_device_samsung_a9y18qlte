@@ -81,6 +81,12 @@ function blob_fixup() {
                 printf '\x14\x28\x16\xd0' | dd of="${2}" bs=1 seek=$((0x12edc)) conv=notrunc status=none
             fi
             ;;
+        vendor/etc/camera/camera_config.xml)
+            # The depth sensor (s5k5e9yx) is mounted like the other rear
+            # modules, but is configured with MountAngle 270 (Samsung only uses
+            # it for depth data). Exposed as camera 54 it renders upside down.
+            sed -i '/<SensorName>s5k5e9yx<\/SensorName>/,/<\/CameraModuleConfig>/ s|<MountAngle>270</MountAngle>|<MountAngle>90</MountAngle>|' "${2}"
+            ;;
     esac
 }
 
