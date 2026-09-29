@@ -106,6 +106,18 @@ function blob_fixup() {
                 printf '\xaf\xf3\x00\x80' | dd of="${2}" bs=1 seek=$((0x63ad8)) conv=notrunc status=none
             fi
             ;;
+        vendor/lib/hw/camera.sdm660.so)
+            # Video recordings were green: the HAL writes UBWC video because it
+            # cannot read vendor.video.disable.ubwc, but the stock encoder only
+            # takes linear NV12. Keep video linear (NV12_VENUS) while preview
+            # stays UBWC - making both linear enables CPP output duplication,
+            # which page-faults with this kernel. In
+            # QCamera3Channel::getStreamDefaultFormat() replace the
+            # isVideoUBWCEnabled() call with "movs r0, #0; nop" (0xb50d4).
+            if [ "$(xxd -s 0xb50d4 -l 6 -p "${2}")" = "8cf06cee0028" ]; then
+                printf '\x00\x20\x00\xbf' | dd of="${2}" bs=1 seek=$((0xb50d4)) conv=notrunc status=none
+            fi
+            ;;
     esac
 }
 
