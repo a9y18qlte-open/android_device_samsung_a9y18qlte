@@ -58,6 +58,21 @@ if [ -z "${SRC}" ]; then
     SRC="adb"
 fi
 
+function blob_fixup() {
+    case "${1}" in
+        vendor/lib/libmmcamera_interface.so)
+            # mm_stream_streamon() iterates buf_status[] with an int8_t index.
+            # HAL3 gralloc streams register 128 buffer slots, so the index wraps
+            # to -128, reads garbage before the array and waits for a buffer
+            # "mapping" that never happens -> stream-on timeout, no HAL3 preview.
+            # Make the index unsigned: sxtb r2, r0 (42 b2) -> uxtb r2, r0 (c2 b2).
+            if [ "$(xxd -s 0x1bf7c -l 8 -p "${2}")" = "013042b29142eddc" ]; then
+                printf '\xc2' | dd of="${2}" bs=1 seek=$((0x1bf7e)) conv=notrunc status=none
+            fi
+            ;;
+    esac
+}
+
 # Initialize the helper
 setup_vendor "${DEVICE}" "${VENDOR}" "${LINEAGE_ROOT}" true "${CLEAN_VENDOR}"
 
