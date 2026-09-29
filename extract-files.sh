@@ -70,6 +70,17 @@ function blob_fixup() {
                 printf '\xc2' | dd of="${2}" bs=1 seek=$((0x1bf7e)) conv=notrunc status=none
             fi
             ;;
+        vendor/lib/hw/vendor.samsung.hardware.camera.provider@3.0-impl.so)
+            # SehCameraProvider::getCameraIdList() drops every camera id > 19;
+            # only Samsung's sehGetCameraIdList() returns them. That hides the
+            # telephoto (50), ultra-wide (52) and depth (54) sensors from AOSP
+            # cameraserver. Hide only id 20 (a second instance of the main
+            # sensor used for Samsung dual modes) instead:
+            # cmp r0, #19; bgt (13 28 16 dc) -> cmp r0, #20; beq (14 28 16 d0).
+            if [ "$(xxd -s 0x12ed8 -l 8 -p "${2}")" = "0ff082ed132816dc" ]; then
+                printf '\x14\x28\x16\xd0' | dd of="${2}" bs=1 seek=$((0x12edc)) conv=notrunc status=none
+            fi
+            ;;
     esac
 }
 
