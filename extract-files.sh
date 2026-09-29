@@ -69,6 +69,15 @@ function blob_fixup() {
             if [ "$(xxd -s 0x1bf7c -l 8 -p "${2}")" = "013042b29142eddc" ]; then
                 printf '\xc2' | dd of="${2}" bs=1 seek=$((0x1bf7e)) conv=notrunc status=none
             fi
+            # mm_stream_calc_offset_snapshot() pads the snapshot stride with the
+            # backend's width_padding (1), so e.g. the telephoto's 3672-wide
+            # snapshot gets a stride that is not 16-byte aligned; the VFE write
+            # master rounds each line up and overruns the buffer (SMMU page
+            # fault, "camera daemon died"). Always pad the stride to 32:
+            # stride = (w + p - 1) & -p  ->  stride = (w + 31) & ~31 at 0x1ed1a.
+            if [ "$(xxd -s 0x1ed1a -l 12 -p "${2}")" = "0beb01024942013a02ea0103" ]; then
+                printf '\x0b\xf1\x1f\x02\x22\xf0\x1f\x03\x00\xbf\x00\xbf' | dd of="${2}" bs=1 seek=$((0x1ed1a)) conv=notrunc status=none
+            fi
             ;;
         vendor/lib/hw/vendor.samsung.hardware.camera.provider@3.0-impl.so)
             # SehCameraProvider::getCameraIdList() drops every camera id > 19;
