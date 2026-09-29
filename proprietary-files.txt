@@ -185,6 +185,11 @@ vendor/lib64/libxml.so
 vendor/lib64/vendor.qti.hardware.data.dynamicdds@1.0.so
 
 # Camera
+vendor/lib/camera.device@1.0-impl.so
+vendor/lib/camera.device@3.2-impl.so
+vendor/lib/camera.device@3.3-impl.so
+vendor/lib/camera.device@3.4-impl.so
+vendor/lib/camera.device@3.5-impl.so
 vendor/lib/hw/camera.sdm660.so
 vendor/lib/libbase64.so
 vendor/lib/libdepthmapwrapper.so
