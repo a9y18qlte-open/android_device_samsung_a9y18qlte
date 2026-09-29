@@ -93,5 +93,5 @@ ro.hardware.gatekeeper=mdfpp
 ro.hardware.keystore=mdfpp
 
 # Camera
-persist.camera.HAL3.enabled=true
-persist.vendor.camera.HAL3.enabled=true
+persist.camera.HAL3.enabled=1
+persist.vendor.camera.HAL3.enabled=1
