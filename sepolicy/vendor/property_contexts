@@ -22,3 +22,8 @@ vendor.sys.qseecomd.enable    u:object_r:vendor_qseecomd_prop:s0
 # on every boot.
 vendor.bluetooth_fw_ver          u:object_r:samsung_bluetooth_prop:s0
 persist.ril.interfaceconf.failed u:object_r:samsung_ril_prop:s0
+
+# libsec-ril publishes the SIM slot of the ongoing call here (renamed from
+# ril.dds.call.slotid by extract-files.sh, a radio_prop vendor code may not
+# read); the audio HIDL impl needs it to pick the right modem voice session.
+vendor.calls.slotid              u:object_r:samsung_call_slot_prop:s0

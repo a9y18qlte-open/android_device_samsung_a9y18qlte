@@ -74,6 +74,10 @@ set_prop(hal_bluetooth_default, samsung_bluetooth_prop)
 type samsung_ril_prop, property_type;
 set_prop(rild, samsung_ril_prop)
 
+type samsung_call_slot_prop, property_type;
+set_prop(rild, samsung_call_slot_prop)
+get_prop(hal_audio_default, samsung_call_slot_prop)
+
 
 ##############################################################################
 # Rules observed once each service actually reached its own domain. None of

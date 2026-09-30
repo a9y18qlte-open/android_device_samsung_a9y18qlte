@@ -60,6 +60,13 @@ fi
 
 function blob_fixup() {
     case "${1}" in
+        vendor/lib/libsec-ril.so|vendor/lib/libsec-ril-dsds.so|vendor/lib64/libsec-ril.so|vendor/lib64/libsec-ril-dsds.so)
+            # The RIL publishes the SIM slot of the ongoing call as
+            # ril.dds.call.slotid, a radio_prop that vendor processes may not
+            # read. Rename it (same length) so the audio HIDL impl can use it
+            # to select the SIM 2 voice session.
+            sed -i 's/ril.dds.call.slotid/vendor.calls.slotid/g' "${2}"
+            ;;
         vendor/lib/libmmcamera_interface.so)
             # mm_stream_streamon() iterates buf_status[] with an int8_t index.
             # HAL3 gralloc streams register 128 buffer slots, so the index wraps

@@ -51,6 +51,7 @@ PRODUCT_PACKAGES += \
 
 # Audio
 PRODUCT_PACKAGES += \
+    android.hardware.audio@5.0-impl.a9y18qlte \
     audio.a2dp.default \
     audio_amplifier.sdm660 \
     audio.r_submix.default \
