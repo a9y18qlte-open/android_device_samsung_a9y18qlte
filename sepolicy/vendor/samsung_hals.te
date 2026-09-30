@@ -82,3 +82,7 @@ type omr_file, file_type, data_file_type;
 allow hal_keymaster_default sec_efs_file:dir create_dir_perms;
 allow hal_keymaster_default sec_efs_file:file create_file_perms;
 allow hal_keymaster_default efs_file:dir search;
+
+# Power HAL: double tap to wake (TARGET_TAP_TO_WAKE_NODE)
+type sysfs_dt2w, sysfs_type, fs_type;
+allow hal_power_default sysfs_dt2w:file rw_file_perms;

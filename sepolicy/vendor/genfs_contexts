@@ -54,3 +54,6 @@ genfscon sysfs /devices/soc/1da4000.ufshc                     u:object_r:sysfs_u
 
 # msm_core parameters, written by init and energyawareness.
 genfscon sysfs /module/msm_core/parameters                     u:object_r:sysfs_msm_core:s0
+
+# Double tap to wake toggle, written by the power HAL.
+genfscon sysfs /devices/virtual/sec/tsp/dt2w_enable           u:object_r:sysfs_dt2w:s0

@@ -1,0 +1,5 @@
+# Zinitix ZT7548 touchscreen (sec_touchscreen)
+#
+# With aod_enable set, the panel reports a double tap on the screen-off
+# (LPM) panel as KEY_BLACK_UI_GESTURE (455). Treat it as a wake key.
+key 455   WAKEUP

@@ -150,3 +150,10 @@ on property:persist.sys.storage_preload=1
 
 on property:persist.sys.storage_preload=0
     start umount_service
+
+# Double tap to wake: the power HAL (TARGET_TAP_TO_WAKE_NODE) writes this
+# from Settings > Display. The touch panel then reports a double tap while the
+# display is off, mapped to WAKEUP by sec_touchscreen.kl.
+on boot
+    chown system system /sys/class/sec/tsp/dt2w_enable
+    chmod 0660 /sys/class/sec/tsp/dt2w_enable
