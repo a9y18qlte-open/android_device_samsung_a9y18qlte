@@ -42,6 +42,7 @@ type lineage_touch_hwservice, hwservice_manager_type;
 add_hwservice(hal_audio_default, samsung_audio_hwservice)
 add_hwservice(hal_camera_default, samsung_camera_hwservice)
 add_hwservice(hal_fingerprint_default, samsung_fingerprint_hwservice)
+add_hwservice(hal_gnss_qti, samsung_gnss_hwservice)
 add_hwservice(hal_health_default, samsung_health_hwservice)
 add_hwservice(hal_light_default, samsung_light_hwservice)
 add_hwservice(hal_nfc_default, nxp_nfc_hwservice)

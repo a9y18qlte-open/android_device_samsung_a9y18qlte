@@ -133,7 +133,6 @@ PRODUCT_PRODUCT_PROPERTIES += \
 # GPS
 PRODUCT_PACKAGES += \
     android.hardware.gnss@2.0-impl-qti \
-    android.hardware.gnss@2.0-service \
     libcurl \
     libgnss \
     libgnsspps

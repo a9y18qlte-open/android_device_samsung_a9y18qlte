@@ -60,6 +60,11 @@ fi
 
 function blob_fixup() {
     case "${1}" in
+        vendor/etc/init/android.hardware.gnss@2.0-service-qti.rc)
+            # vendor_qti_diag is a Samsung/QTI config.fs AID that this build does
+            # not define; init rejects the whole service over an unknown group.
+            sed -i 's/ vendor_qti_diag//' "${2}"
+            ;;
         vendor/lib/libsec-ril.so|vendor/lib/libsec-ril-dsds.so|vendor/lib64/libsec-ril.so|vendor/lib64/libsec-ril-dsds.so)
             # The RIL publishes the SIM slot of the ongoing call as
             # ril.dds.call.slotid, a radio_prop that vendor processes may not

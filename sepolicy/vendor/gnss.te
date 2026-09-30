@@ -1,0 +1,22 @@
+# Stock QTI GNSS stack: android.hardware.gnss@2.0-service-qti (hal_gnss_qti)
+# plus loc_launcher and the daemons it starts, e.g. lowi-server (location).
+
+# --- QMI to the modem location engine ---------------------------------------
+# LocApiMsgTask opens an AF_MSM_IPC socket to reach the modem's location
+# service; the same generic-socket case as time_daemon in samsung_devices.te.
+# Without it locClientOpen fails with status 11 and retries forever.
+#   avc: denied { create } for comm="LocApiMsgTask"
+#        scontext=u:r:hal_gnss_qti:s0 tcontext=u:r:hal_gnss_qti:s0 tclass=socket
+allow { hal_gnss_qti location } self:socket { create read write ioctl };
+allowxperm { hal_gnss_qti location } self:socket ioctl { 0xc302 0xc304 };
+
+# --- subsystem names ---------------------------------------------------------
+# Both enumerate /sys/devices/soc/*/subsysN/name at startup to find the modem.
+allow { hal_gnss_qti location } sysfs_subsys:dir search;
+allow { hal_gnss_qti location } sysfs_subsys:file r_file_perms;
+
+# --- battery state -------------------------------------------------------------
+# The location engine reads /sys/class/power_supply to tell the modem whether
+# the phone is charging ("setGpsBatteryFlag() : file open error" without it).
+allow hal_gnss_qti sysfs_batteryinfo:dir search;
+allow hal_gnss_qti sysfs_batteryinfo:file r_file_perms;
