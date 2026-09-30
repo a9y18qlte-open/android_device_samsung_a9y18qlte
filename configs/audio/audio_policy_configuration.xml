@@ -238,17 +238,19 @@
             </routes>
         </module>
 
-        <!-- A2DP Audio HAL -->
-        <xi:include href="a2dp_audio_policy_configuration.xml"/>
+        <!-- Bluetooth Audio HAL (A2DP + hearing aid over the BluetoothAudio HAL 2.0).
+             The legacy a2dp module (audio.a2dp.default) talks to the stack over the
+             .a2dp_ctrl socket, which the AOSP stack never serves while the
+             BluetoothAudio HAL is present, so its output could not be opened and
+             media stayed on the speaker. A2DP offload is disabled in vendor.prop
+             because the stock primary HAL has it compiled out. -->
+        <xi:include href="bluetooth_audio_policy_configuration.xml"/>
 
         <!-- Usb Audio HAL -->
         <xi:include href="usb_audio_policy_configuration.xml"/>
 
         <!-- Remote Submix Audio HAL -->
         <xi:include href="r_submix_audio_policy_configuration.xml"/>
-
-        <!-- Hearing aid Audio HAL -->
-        <xi:include href="hearing_aid_audio_policy_configuration.xml"/>
 
         <!-- Tms and playback-record (hidden sound) Audio HALs are NOT included.
              They declare Samsung-only device types (AUDIO_DEVICE_OUT_EXTERNAL_TMS,
