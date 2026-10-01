@@ -50,12 +50,19 @@ std::string gPrimaryOutRouting;  // last non-zero "routing=" of gPrimaryOut
 bool gCallPending;
 unsigned gCallGeneration;
 
-int callSlot() {
+int slotProperty(const char* name) {
     char slot[PROPERTY_VALUE_MAX];
-    property_get("vendor.calls.slotid", slot, "-1");
+    property_get(name, slot, "-1");
     if (!strcmp(slot, "0")) return 0;
     if (!strcmp(slot, "1")) return 1;
     return -1;
+}
+
+// Circuit-switched calls are reported by libsec-ril itself, VoLTE calls by
+// ril/secril-shim when the IMS stack announces the call to that SIM's RIL.
+int callSlot() {
+    int slot = slotProperty("vendor.calls.slotid");
+    return slot >= 0 ? slot : slotProperty("vendor.calls.ims_slotid");
 }
 
 // gLock must be held.
