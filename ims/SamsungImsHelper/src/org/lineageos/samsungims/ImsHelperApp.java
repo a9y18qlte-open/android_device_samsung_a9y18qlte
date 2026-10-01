@@ -12,6 +12,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.XmlResourceParser;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -52,6 +53,8 @@ import java.util.List;
  * - Keep its per-slot VoLTE switch (Settings.System voicecall_type, set by the
  *   stock Settings app) in line with AOSP's Enhanced 4G LTE setting.
  * - Make sure the carrier has an IMS APN; AOSP's APN list often lacks one.
+ * - Make sure the carrier has an XCAP APN Android 10 can bring up, for call
+ *   forwarding, call waiting and call barring over Ut.
  * - Tell Android VoLTE is available on a SIM exactly when the IMS service has
  *   its VoLTE switch on for it. The IMS service registers whenever it has a
  *   profile for the carrier, but only places calls when the switch is on;
@@ -74,6 +77,13 @@ public class ImsHelperApp extends Application {
 
     // RILConstants.DATA_PROFILE_IMS
     private static final int DATA_PROFILE_IMS = 2;
+
+    // The IMS service asks for its XCAP PDN with NET_CAPABILITY_CBS, as
+    // Android 10 has no APN type for NET_CAPABILITY_XCAP.
+    private static final String APN_TYPE_XCAP = "xcap";
+    private static final String APN_TYPE_CBS = "cbs";
+    // XCAP APN for carriers res/xml/xcap_apns.xml does not list.
+    private static final String XCAP_APN_DEFAULT = "xcap";
 
     private static final String PROP_OMC_PATH = "persist.sys.omc_path";
 
@@ -126,7 +136,11 @@ public class ImsHelperApp extends Application {
             }
             updateVoiceCallTypes();
             for (SubscriptionInfo sub : activeSubscriptions()) {
-                ensureImsApn(sub);
+                String numeric = simOperator(sub);
+                if (numeric != null) {
+                    ensureImsApn(numeric);
+                    ensureXcapApn(numeric);
+                }
                 sendIsimLoaded(sub);
             }
             watchImsSwitches();
@@ -235,11 +249,7 @@ public class ImsHelperApp extends Application {
      * DATA_PROFILE_IMS and modem_cognitive set; AOSP's APN list often has no
      * IMS APN at all, or one without them.
      */
-    private void ensureImsApn(SubscriptionInfo sub) {
-        String numeric = getSystemService(TelephonyManager.class)
-                .createForSubscriptionId(sub.getSubscriptionId()).getSimOperator();
-        if (TextUtils.isEmpty(numeric) || numeric.length() < 5) return;
-
+    private void ensureImsApn(String numeric) {
         ContentResolver cr = getContentResolver();
         boolean found = false;
         try (Cursor c = cr.query(Telephony.Carriers.CONTENT_URI,
@@ -274,6 +284,95 @@ public class ImsHelperApp extends Application {
         values.put(Telephony.Carriers.MODEM_PERSIST, 1);
         cr.insert(Telephony.Carriers.CONTENT_URI, values);
         Log.i(TAG, "added IMS APN for " + numeric);
+    }
+
+    /**
+     * The IMS service sets up a PDN on the carrier's XCAP APN for call
+     * forwarding, call waiting and call barring over Ut, and AOSP's APN list
+     * has no XCAP APNs. Take the carrier's XCAP APN from res/xml/xcap_apns.xml
+     * (generated from Samsung's CSCs), else use "xcap". Many carriers run XCAP
+     * on their internet APN; if the carrier already has an APN of that name,
+     * give it the XCAP types rather than adding a second one. The IMS service
+     * requests type cbs instead of xcap, so XCAP APNs need both. Users can
+     * edit the APN in the APN settings if theirs differs.
+     */
+    private void ensureXcapApn(String numeric) {
+        String apn = findXcapApn(numeric);
+        ContentResolver cr = getContentResolver();
+        long sameApn = -1;
+        String sameApnType = null;
+        try (Cursor c = cr.query(Telephony.Carriers.CONTENT_URI,
+                new String[] {Telephony.Carriers._ID, Telephony.Carriers.TYPE,
+                        Telephony.Carriers.APN},
+                Telephony.Carriers.NUMERIC + "=?", new String[] {numeric}, null)) {
+            while (c != null && c.moveToNext()) {
+                String type = c.getString(1);
+                if (hasApnType(type, APN_TYPE_XCAP)) {
+                    if (!hasApnType(type, APN_TYPE_CBS)) {
+                        addApnTypes(c.getLong(0), type, APN_TYPE_CBS);
+                    }
+                    return;
+                }
+                if (sameApn < 0 && apn.equalsIgnoreCase(c.getString(2))) {
+                    sameApn = c.getLong(0);
+                    sameApnType = type;
+                }
+            }
+        }
+        if (sameApn >= 0) {
+            addApnTypes(sameApn, sameApnType, APN_TYPE_XCAP + "," + APN_TYPE_CBS);
+            return;
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(Telephony.Carriers.NAME, "XCAP");
+        values.put(Telephony.Carriers.NUMERIC, numeric);
+        values.put(Telephony.Carriers.MCC, numeric.substring(0, 3));
+        values.put(Telephony.Carriers.MNC, numeric.substring(3));
+        values.put(Telephony.Carriers.APN, apn);
+        values.put(Telephony.Carriers.TYPE, APN_TYPE_XCAP + "," + APN_TYPE_CBS);
+        values.put(Telephony.Carriers.PROTOCOL, "IPV4V6");
+        values.put(Telephony.Carriers.ROAMING_PROTOCOL, "IPV4V6");
+        cr.insert(Telephony.Carriers.CONTENT_URI, values);
+        Log.i(TAG, "added XCAP APN " + apn + " for " + numeric);
+    }
+
+    private void addApnTypes(long id, String type, String add) {
+        ContentValues values = new ContentValues();
+        values.put(Telephony.Carriers.TYPE, TextUtils.isEmpty(type) ? add : type + "," + add);
+        getContentResolver().update(Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI,
+                Long.toString(id)), values, null, null);
+        Log.i(TAG, "added type " + add + " to APN " + id);
+    }
+
+    /** The carrier's XCAP APN from Samsung's CSCs, else "xcap". */
+    private String findXcapApn(String numeric) {
+        try (XmlResourceParser parser = getResources().getXml(R.xml.xcap_apns)) {
+            for (int type = parser.next(); type != XmlPullParser.END_DOCUMENT;
+                    type = parser.next()) {
+                if (type == XmlPullParser.START_TAG && "apn".equals(parser.getName())
+                        && numeric.equals(parser.getAttributeValue(null, "numeric"))) {
+                    return parser.getAttributeValue(null, "apn");
+                }
+            }
+        } catch (IOException | XmlPullParserException e) {
+            Log.e(TAG, "cannot read XCAP APNs", e);
+        }
+        return XCAP_APN_DEFAULT;
+    }
+
+    private static boolean hasApnType(String types, String type) {
+        if (types == null) return false;
+        for (String t : types.split(",")) {
+            if (t.trim().equalsIgnoreCase(type)) return true;
+        }
+        return false;
+    }
+
+    private String simOperator(SubscriptionInfo sub) {
+        String numeric = getSystemService(TelephonyManager.class)
+                .createForSubscriptionId(sub.getSubscriptionId()).getSimOperator();
+        return TextUtils.isEmpty(numeric) || numeric.length() < 5 ? null : numeric;
     }
 
     private void sendIsimLoaded(SubscriptionInfo sub) {
