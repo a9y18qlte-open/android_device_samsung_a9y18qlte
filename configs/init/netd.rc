@@ -3,8 +3,6 @@ service netd /system/bin/netd
     socket dnsproxyd stream 0660 root inet
     socket mdns stream 0660 root system
     socket fwmarkd stream 0660 root inet
-    # Samsung RIL expects this QoS control socket during IMS calls.
-    socket qosd stream 0660 root radio
     onrestart restart zygote
     onrestart restart zygote_secondary
     # b/121354779: netd itself is not updatable, but on startup it dlopen()s the

@@ -107,7 +107,8 @@ PRODUCT_COPY_FILES += \
 # RIL / IMS
 PRODUCT_PACKAGES += \
     libsec-ril-shim \
-    libsec-ril-dsds-shim
+    libsec-ril-dsds-shim \
+    qosd
 
 # Bluetooth
 PRODUCT_PACKAGES += \

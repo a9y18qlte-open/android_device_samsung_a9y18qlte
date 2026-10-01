@@ -23,6 +23,7 @@
 
 # See rild.te. Both of these otherwise fall back to generic types that rild is
 # not permitted to touch.
+/vendor/bin/qosd                                                    u:object_r:qosd_exec:s0
 /dev/socket/qosd                                                    u:object_r:qosd_socket:s0
 /data/vendor/secradio(/.*)?                                         u:object_r:rild_secradio_data_file:s0
 

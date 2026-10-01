@@ -1,0 +1,9 @@
+# Stand-in for the qosd socket served by Samsung's netd on stock
+# (see ril/qosd/qosd.c).
+type qosd, domain;
+type qosd_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(qosd)
+
+allow qosd self:unix_stream_socket { accept listen getattr read write };
+allow rild qosd:unix_stream_socket connectto;
