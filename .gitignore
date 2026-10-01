@@ -1,4 +1,0 @@
-# Samsung CSC carrier data - local only, never published.
-# Region-specific (this set is INS/BNG/NPL/SLK), extracted from stock firmware.
-# device.mk ships these only if present, so public clones ship nothing.
-configs/csc/
