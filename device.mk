@@ -108,7 +108,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libsec-ril-shim \
     libsec-ril-dsds-shim \
-    qosd
+    qosd \
+    SamsungImsHelper
 
 # Bluetooth
 PRODUCT_PACKAGES += \
