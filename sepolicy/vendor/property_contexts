@@ -27,3 +27,5 @@ persist.ril.interfaceconf.failed u:object_r:samsung_ril_prop:s0
 # ril.dds.call.slotid by extract-files.sh, a radio_prop vendor code may not
 # read); the audio HIDL impl needs it to pick the right modem voice session.
 vendor.calls.slotid              u:object_r:samsung_call_slot_prop:s0
+# Set by ril/secril-shim for VoLTE calls.
+vendor.calls.ims_slotid          u:object_r:samsung_call_slot_prop:s0

@@ -99,3 +99,7 @@ persist.vendor.camera.HAL3.enabled=1
 # output with the JPEG stream and the combined buffer queue exceeds what
 # msm_isp accepts ("Invalid buffer request"), so API1 apps get no preview.
 camera.disable_zsl_mode=1
+
+# RIL: libsec-ril behind ril/secril-shim
+vendor.sec.rild.libpath=/vendor/lib64/libsec-ril-shim.so
+vendor.sec.rild.libpath2=/vendor/lib64/libsec-ril-dsds-shim.so

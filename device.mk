@@ -104,6 +104,11 @@ PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usb_audio_policy_configuration.xml \
     frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/usb_audio_policy_configuration.xml
 
+# RIL / IMS
+PRODUCT_PACKAGES += \
+    libsec-ril-shim \
+    libsec-ril-dsds-shim
+
 # Bluetooth
 PRODUCT_PACKAGES += \
     libbthost_if \
