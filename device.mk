@@ -426,3 +426,7 @@ PRODUCT_PACKAGES += \
 
 # Inherit vendor
 $(call inherit-product, vendor/samsung/a9y18qlte/a9y18qlte-vendor.mk)
+
+# AOD
+PRODUCT_PACKAGES += \
+    AodBrightness

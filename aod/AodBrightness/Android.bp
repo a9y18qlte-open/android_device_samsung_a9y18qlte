@@ -1,0 +1,12 @@
+//
+// Copyright (C) 2026 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+android_app {
+    name: "AodBrightness",
+    srcs: ["src/**/*.java"],
+    certificate: "platform",
+    platform_apis: true,
+}
