@@ -18,6 +18,7 @@ DEVICE_PATH := device/samsung/a9y18qlte
 BUILD_TOP := $(shell pwd)
 BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_VINTF_PRODUCT_COPY_FILES := true
 TARGET_BOOT_ANIMATION_RES := 1080
 
 # Audio
@@ -99,6 +100,8 @@ BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
 # /sys/fs/pstore stays empty - which is why the enforcing bootloop could not be
 # diagnosed at all. With console=ram the failed boot is readable from recovery.
 BOARD_KERNEL_CMDLINE := console=ram androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 sched_enable_hmp=1 sched_enable_power_aware=1 service_locator.enable=1 swiotlb=1 firmware_class.path=/vendor/firmware_mnt/image
+# 19.1 bring-up: boot permissive until the Android 12 policy is complete (remove for enforcing).
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 # No androidboot.selinux here: the device boots enforcing. Getting there needed
 # four classes of fix, all of them invisible while permissive because a denial
 # that is merely logged still lets the access through:
@@ -187,7 +190,6 @@ BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 PRODUCT_FULL_TREBLE_OVERRIDE := true
 BOARD_SHIPPING_API_LEVEL := 26
 BOARD_VNDK_VERSION := current
-BOARD_VNDK_RUNTIME_DISABLE := true
 
 # Vendor / ODM
 TARGET_COPY_OUT_VENDOR := vendor
@@ -234,12 +236,12 @@ BOARD_ROOT_EXTRA_FOLDERS := config omr efs
 BOARD_SECCOMP_POLICY := $(DEVICE_PATH)/seccomp_policy
 
 # SELinux
-include device/qcom/sepolicy/sepolicy.mk
-BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/private
+include device/qcom/sepolicy-legacy-um/SEPolicy.mk
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 # multiclientd and smdexe are declared public so vendor policy can name them -
 # rild has to binder into multiclientd, and neither plat nor vendor could
 # express that while the type was private. See sepolicy/public.
-BOARD_PLAT_PUBLIC_SEPOLICY_DIR += $(DEVICE_PATH)/sepolicy/public
+SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public
 # Domains for the Samsung binaries under /vendor. These must live in vendor
 # policy, not plat_private: declaring a vendor_file_type there trips Treble
 # neverallows.

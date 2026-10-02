@@ -11,11 +11,11 @@
 # Unlabelled they fall to generic sysfs. One type serves every reader.
 type sysfs_subsys, sysfs_type, fs_type;
 allow { rmt_storage thermal-engine wcnss_service hal_sensors_default time_daemon
-        vendor_pd_mapper vendor_per_mgr vendor_per_proxy sensors atfwd
+        vendor_pd_mapper vendor_per_mgr sensors atfwd
         factory_adsp }
       sysfs_subsys:dir search;
 allow { rmt_storage thermal-engine wcnss_service hal_sensors_default time_daemon
-        vendor_pd_mapper vendor_per_mgr vendor_per_proxy sensors atfwd
+        vendor_pd_mapper vendor_per_mgr sensors atfwd
         factory_adsp }
       sysfs_subsys:file r_file_perms;
 
@@ -50,12 +50,10 @@ allow sensors efs_file:dir getattr;
 # Only the harmless parts are granted. Its writes to /data/misc/sensors and its
 # dac_override are both neverallowed - see the note at the end of
 # sepolicy/private/platform_fixes.te.
-allow init-qcom-sensors-sh persist_file:lnk_file r_file_perms;
-allow init-qcom-sensors-sh self:capability chown;
+# 19.1 legacy-um has no init-qcom-sensors-sh domain; rules dropped until the port needs it.
 
 # --- thermal-engine ----------------------------------------------------------
 # Writes cpus_offlined to take cores offline under load, and arms a wake alarm.
-allow thermal-engine sysfs_mpctl:file rw_file_perms;
 allow thermal-engine sysfs_batteryinfo:dir search;
 allow thermal-engine self:capability2 wake_alarm;
 
@@ -94,8 +92,8 @@ get_prop(mediacodec, vendor_audio_prop)
 # /dev/pta, char 10:34, owned system:system, left on the generic device type.
 # The consumer is energyawareness, not init - it only looked like init before,
 # because energyawareness had no domain of its own and ran as init.
-type sec_pta_device, dev_type;
-allow energyawareness sec_pta_device:chr_file rw_file_perms;
+# /dev/pta is labelled pta_device by 19.1 legacy-um.
+allow energyawareness pta_device:chr_file rw_file_perms;
 
 # --- Wi-Fi bring-up sysfs ----------------------------------------------------
 # init flips the bring-up trigger and macloader reads back the MAC and state:
@@ -128,9 +126,8 @@ allow hal_nfc_default nfc_device:chr_file rw_file_perms;
 
 # --- block devices -----------------------------------------------------------
 # Names resolved through /dev/block/by-name.
-# ssd_block_device is already declared in
-# device/qcom/sepolicy/generic/vendor/common/device.te - only the sda4 label was
-# missing.
+# 19.1 legacy-um no longer declares ssd_block_device (17.1 device/qcom/sepolicy did).
+type ssd_block_device, dev_type;   # sda4  ssd (RPMB), used by the TEE
 type modem_efs_block_device, dev_type;   # sda1  modemst1
 allow rmt_storage modem_efs_block_device:blk_file rw_file_perms;
 allow tee ssd_block_device:blk_file rw_file_perms;

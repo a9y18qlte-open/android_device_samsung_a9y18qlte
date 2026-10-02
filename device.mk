@@ -47,13 +47,12 @@ PRODUCT_AAPT_PREBUILT_DPI := xxxhdpi xxhdpi xhdpi hdpi
 
 # ANT+
 PRODUCT_PACKAGES += \
-    AntHalService
+    AntHalService-Soong
 
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio@5.0-impl.a9y18qlte \
     audio.a2dp.default \
-    audio_amplifier.sdm660 \
     audio.r_submix.default \
     audio.usb.default \
     libaudio-resampler \
@@ -119,19 +118,11 @@ PRODUCT_PACKAGES += \
     libsndmonitor \
     libhdmiedid \
     libhfp \
-    libldacBT_dec \
     vendor.qti.hardware.bluetooth_audio@2.0.vendor \
     vendor.qti.hardware.btconfigstore@1.0 \
     vendor.qti.hardware.btconfigstore@1.0.vendor
 
-# Camera
-PRODUCT_PACKAGES += \
-    Snap
 
-# Cgroup and task_profiles
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/cgroups.json:$(TARGET_COPY_OUT_VENDOR)/etc/cgroups.json \
-    $(LOCAL_PATH)/configs/task_profiles.json:$(TARGET_COPY_OUT_VENDOR)/etc/task_profiles.json
 
 # Display
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -139,10 +130,7 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 # GPS
 PRODUCT_PACKAGES += \
-    android.hardware.gnss@2.0-impl-qti \
-    libcurl \
-    libgnss \
-    libgnsspps
+    libcurl
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/gps/apdr.conf:$(TARGET_COPY_OUT_VENDOR)/etc/apdr.conf \
@@ -188,8 +176,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.0-impl \
     android.hardware.drm@1.0-service \
-    android.hardware.drm@1.2-service.clearkey \
-    android.hardware.drm@1.2-service.widevine 
+    android.hardware.drm@1.2-service.clearkey
 
 # Memory
 PRODUCT_PACKAGES += \
@@ -246,7 +233,7 @@ PRODUCT_COPY_FILES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power@1.2-service-qti
+    android.hardware.power-service-qti
 
 # Public Libraries
 PRODUCT_COPY_FILES += \
@@ -283,8 +270,7 @@ PRODUCT_PACKAGES += \
     init.samsung.bsp.rc \
     init.samsung.rc \
     init.target.rc \
-    ueventd.qcom.rc \
-    loggy.sh
+    ueventd.qcom.rc
 
 # Recovery
 PRODUCT_PACKAGES += \
@@ -308,21 +294,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/qcom/opensource/data-ipa-cfg-mgr/ipacm/src/IPACM_cfg.xml:$(TARGET_COPY_OUT_VENDOR)/etc/IPACM_cfg.xml
 
-# Media
-#
-# libstagefright_omx (and the omx@1.0 service) are built with
-# -D__ANDROID_VNDK_EXT__, so they reference the Qualcomm VNDK-extension mime
-# types MEDIA_MIMETYPE_VIDEO_DIVX4 / _DIVX311. Those live only in the VNDK
-# extension library, which nothing was pulling into the build - so the vendor
-# partition got Samsung's stock libstagefright_foundation.so instead, which
-# exports only DIVX/DIVX3. Result: the omx service failed to link and
-# crash-looped every 5s, breaking all media playback and video recording.
-PRODUCT_PACKAGES += \
-    libstagefright_foundation_ext
 
-# Camera app (replaces Aperture, see TARGET_APERTURE_OPTOUT in qassa_a9y18qlte.mk)
-PRODUCT_PACKAGES += \
-    Snap
 
 # Seccomp
 PRODUCT_COPY_FILES += \
@@ -342,16 +314,10 @@ PRODUCT_SOONG_NAMESPACES += $(LOCAL_PATH)
 PRODUCT_PACKAGES += \
     libvulkan
 
-# Thermal
-PRODUCT_PACKAGES += \
-    android.hardware.thermal@1.0-impl \
-    android.hardware.thermal@1.0-service \
-    thermal.sdm660
 
 # Whitelisted app
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/qti_whitelist.xml:system/etc/sysconfig/qti_whitelist.xml \
-    $(LOCAL_PATH)/configs/init/netd.rc:system/etc/init/netd.rc \
     $(LOCAL_PATH)/configs/privapp-permissions-com.sec.imsservice.xml:system/etc/permissions/privapp-permissions-com.sec.imsservice.xml \
     $(LOCAL_PATH)/configs/privapp-permissions-hotword.xml:system/etc/permissions/privapp-permissions-hotword.xml \
     $(LOCAL_PATH)/configs/privapp-permissions-qti.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/privapp-permissions-qti.xml
@@ -360,11 +326,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.wifi@1.0-service \
     libcld80211 \
-    libqsap_sdk \
-    libQWiFiSoftApCfg \
     libwpa_client \
     hostapd \
-    dhcpcd.conf \
     macloader \
     wificond \
     wpa_supplicant \
@@ -373,6 +336,84 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wifi/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf \
     $(LOCAL_PATH)/configs/wifi/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf
+
+# HIDL
+# Android 10 vendor blobs still link libhidltransport/libhwbinder, which
+# Android 12 merged into libhidlbase; ship the vendor compat copies.
+PRODUCT_PACKAGES += \
+    libhidltransport.vendor \
+    libhwbinder.vendor
+
+# Keymaster
+# The stock Android 10 keymaster@3.0-impl cannot load against Android 12 keymaster
+# libraries; build the AOSP impl, which wraps Samsung's legacy keystore.mdfpp module
+# (ro.hardware.keystore=mdfpp) and is loaded by the stock keymaster service.
+PRODUCT_PACKAGES += android.hardware.keymaster@3.0-impl
+
+# VNDK compat
+# Android 12 no longer ships HIDL interface libraries in the VNDK; the Android 10
+# vendor blobs (health, audio, BT, GNSS, RIL, camera, ...) link them, so install
+# vendor variants. Without these the stock HAL services fail to link at boot.
+PRODUCT_PACKAGES += \
+    android.frameworks.displayservice@1.0.vendor \
+    android.hardware.biometrics.fingerprint@2.1.vendor \
+    android.hardware.bluetooth.a2dp@1.0.vendor \
+    android.hardware.bluetooth@1.0.vendor \
+    android.hardware.camera.provider@2.5.vendor \
+    android.hardware.drm@1.1.vendor \
+    android.hardware.drm@1.2.vendor \
+    android.hardware.gatekeeper@1.0.vendor \
+    android.hardware.gnss.measurement_corrections@1.0.vendor \
+    android.hardware.gnss.visibility_control@1.0.vendor \
+    android.hardware.gnss@1.0.vendor \
+    android.hardware.gnss@1.1.vendor \
+    android.hardware.gnss@2.0.vendor \
+    android.hardware.health@1.0.vendor \
+    android.hardware.health@2.0.vendor \
+    android.hardware.keymaster@4.0.vendor \
+    android.hardware.light@2.0.vendor \
+    android.hardware.power@1.2.vendor \
+    android.hardware.radio.config@1.0.vendor \
+    android.hardware.radio.config@1.1.vendor \
+    android.hardware.radio.config@1.2.vendor \
+    android.hardware.radio.deprecated@1.0.vendor \
+    android.hardware.radio@1.2.vendor \
+    android.hardware.radio@1.3.vendor \
+    android.hardware.radio@1.4.vendor \
+    android.hardware.soundtrigger@2.2.vendor \
+    android.hardware.usb@1.0.vendor \
+    android.hardware.usb@1.1.vendor \
+    android.hardware.vibrator@1.0.vendor \
+    android.hardware.vibrator@1.1.vendor \
+    android.hardware.vibrator@1.2.vendor \
+    android.hardware.vibrator@1.3.vendor \
+    android.system.net.netd@1.1.vendor \
+    libstagefright_softomx.vendor \
+    vendor.qti.hardware.capabilityconfigstore@1.0.vendor \
+    vendor.qti.hardware.fstman@1.0.vendor \
+    libstagefright_omx_vendor
+
+# The stock RIL and widevine link Android 10 protobuf (VNDK v29).
+PRODUCT_COPY_FILES += \
+    prebuilts/vndk/v29/arm64/arch-arm64-armv8-a/shared/vndk-core/libprotobuf-cpp-full.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libprotobuf-cpp-full.so \
+    prebuilts/vndk/v29/arm64/arch-arm-armv8-a/shared/vndk-core/libprotobuf-cpp-full.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-full.so \
+    prebuilts/vndk/v29/arm64/arch-arm64-armv8-a/shared/vndk-core/libprotobuf-cpp-lite.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libprotobuf-cpp-lite.so \
+    prebuilts/vndk/v29/arm64/arch-arm-armv8-a/shared/vndk-core/libprotobuf-cpp-lite.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-lite.so
+
+# 19.1 bring-up: adb without authorization, so boot loops can be debugged after
+# a clean flash. Product props load after system and override ro.adb.secure=1.
+PRODUCT_PRODUCT_PROPERTIES += ro.adb.secure=0
+
+# Health / audio effects
+# The stock Android 10 health service and audio effect impls cannot link against
+# Android 12 libraries; use the AOSP implementations.
+PRODUCT_PACKAGES += \
+    android.hardware.audio.effect@5.0-impl \
+    android.hardware.health@2.1-impl \
+    android.hardware.health@2.1-service
+
+# Samsung system blobs (multiclientd) still link libhidltransport/libhwbinder.
+PRODUCT_PACKAGES += libhidltransport libhwbinder
 
 # Inherit vendor
 $(call inherit-product, vendor/samsung/a9y18qlte/a9y18qlte-vendor.mk)

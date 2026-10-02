@@ -37,7 +37,6 @@
 /vendor/lib/hw/gralloc\.sdm660\.so                                  u:object_r:same_process_hal_file:s0
 
 # Samsung PTA character device.
-/dev/pta                                                            u:object_r:sec_pta_device:s0
 
 # Block devices. Nothing labelled these, so every consumer hit the generic
 # block_device type. Names taken from /dev/block/by-name on the device.

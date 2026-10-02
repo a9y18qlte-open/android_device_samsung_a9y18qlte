@@ -30,6 +30,8 @@ allow hal_health_default battery_efs_file:file { write setattr };
 # --- camera -----------------------------------------------------------------
 # Flash, firmware version and the v4l2 device names are all read out of sysfs,
 # and the provider writes the kernel's memory-boost knob while streaming.
+# 19.1 legacy-um does not declare sysfs_camera; vendor/genfs_contexts labels it.
+type sysfs_camera, sysfs_type, fs_type;
 r_dir_file(hal_camera_default, sysfs_camera)
 allow hal_camera_default sysfs_camera:file rw_file_perms;
 binder_call(hal_camera_default, surfaceflinger)
@@ -46,7 +48,6 @@ allow hal_camera_default sysfs_vmscan:dir search;
 allow hal_camera_default sysfs_vmscan:file rw_file_perms;
 
 # --- usb --------------------------------------------------------------------
-r_dir_file(hal_usb_default, sysfs_usb_c)
 
 # --- power ------------------------------------------------------------------
 allow hal_power_default sysfs_batteryinfo:dir search;

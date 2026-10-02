@@ -18,8 +18,8 @@ cc_library_static {
     name: "libinit_a9y18qlte",
     recovery_available: true,
     srcs: ["init_a9y18qlte.cpp"],
+    static_libs: ["libbase"],
     include_dirs: [
-        "system/core/base/include",
         "system/core/init"
     ]
 }

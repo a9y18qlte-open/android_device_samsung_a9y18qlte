@@ -41,7 +41,6 @@ genfscon sysfs /power/volkey_wakeup                           u:object_r:sysfs_v
 # SPMI/PMIC tree, walked by hvdcp. The RTC sits underneath it, so it needs the
 # longer prefix to win - genfscon resolves by longest match.
 genfscon sysfs /devices/soc/800f000.qcom,spmi                 u:object_r:sysfs_spmi:s0
-genfscon sysfs /devices/soc/800f000.qcom,spmi/spmi-0/spmi0-00/800f000.qcom,spmi:qcom,pm660@0:qcom,pm660_rtc/rtc u:object_r:sysfs_rtc:s0
 
 # Wi-Fi bring-up nodes, written by init and read back by macloader. Declared in
 # vendor policy because macloader is a vendor domain, so the genfscon has to

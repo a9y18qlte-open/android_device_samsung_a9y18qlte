@@ -110,7 +110,7 @@ on post-fs-data
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/device/extldo    
 	
 # MST/NFC Switch
-    chown spay system /dev/mst_ctrl
+    chown system system /dev/mst_ctrl
     chmod 0660 /dev/mst_ctrl    
 
 # setup cgroup freezer for freecess

@@ -51,4 +51,3 @@ vendor.nxp.nxpnfc::INxpNfc                                                u:obje
 # The LineageOS framework probes for its touch HAL on every boot. No such HAL
 # exists in this tree, so the lookup returns null either way - labelling it
 # only stops the probe from being logged as a denial.
-vendor.lineage.touch::IHighTouchPollingRate                               u:object_r:lineage_touch_hwservice:s0
