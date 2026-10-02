@@ -51,3 +51,6 @@ vendor.nxp.nxpnfc::INxpNfc                                                u:obje
 # The LineageOS framework probes for its touch HAL on every boot. No such HAL
 # exists in this tree, so the lookup returns null either way - labelling it
 # only stops the probe from being logged as a denial.
+
+# Qualcomm Audio HAL extension
+vendor.qti.hardware.audiohalext::IAudioHalExt                             u:object_r:hal_audio_hwservice:s0

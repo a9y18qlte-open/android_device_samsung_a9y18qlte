@@ -77,3 +77,6 @@
 # with its consumer.
 /efs/wifi(/.*)?                                                     u:object_r:wifi_efs_file:s0
 /mnt/vendor/efs/wifi(/.*)?                                          u:object_r:wifi_efs_file:s0
+
+# QCOM crashdata script
+/vendor/bin/init\.qcom\.crashdata\.sh                                     u:object_r:qti_init_shell_exec:s0

@@ -87,3 +87,12 @@ allow hal_keymaster_default efs_file:dir search;
 # Power HAL: double tap to wake (TARGET_TAP_TO_WAKE_NODE)
 type sysfs_dt2w, sysfs_type, fs_type;
 allow hal_power_default sysfs_dt2w:file rw_file_perms;
+
+# Light HAL: Samsung LCD and backlight controls
+type sysfs_lcd, sysfs_type, fs_type;
+allow hal_light_default { sysfs_graphics sysfs_lcd sysfs_leds }:dir r_dir_perms;
+allow hal_light_default { sysfs_graphics sysfs_lcd sysfs_leds }:file rw_file_perms;
+allow hal_light_default { sysfs_graphics sysfs_lcd sysfs_leds }:lnk_file r_file_perms;
+
+# Power HAL: touchscreen sysfs node
+allow hal_power_default sysfs_sectouch:dir search;

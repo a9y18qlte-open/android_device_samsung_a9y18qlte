@@ -403,7 +403,7 @@ PRODUCT_COPY_FILES += \
 
 # 19.1 bring-up: adb without authorization, so boot loops can be debugged after
 # a clean flash. Product props load after system and override ro.adb.secure=1.
-PRODUCT_PRODUCT_PROPERTIES += ro.adb.secure=0
+PRODUCT_PRODUCT_PROPERTIES += ro.adb.secure=1
 
 # Health / audio effects
 # The stock Android 10 health service and audio effect impls cannot link against
