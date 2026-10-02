@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Samsung's ImsService (compat GoogleImsServiceAdapter). Android 12 reads the
+         ImsService package from Telephony's config_ims_mmtel_package; the
+         framework's config_ims_package used up to Android 10 is no longer read. -->
+    <string name="config_ims_mmtel_package" translatable="false">com.sec.imsservice</string>
+</resources>

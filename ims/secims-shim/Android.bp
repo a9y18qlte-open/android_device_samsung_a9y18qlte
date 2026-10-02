@@ -1,0 +1,8 @@
+// utf8_length() for Samsung's libsec-ims.so (Android 10 blob). It lived in
+// libutils (utils/Unicode.h) until Android 11 removed it.
+
+cc_library_shared {
+    name: "libsecims_shim",
+    srcs: ["utf8_length.c"],
+    compile_multilib: "64",
+}

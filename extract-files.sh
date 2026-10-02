@@ -65,6 +65,11 @@ function blob_fixup() {
             # not define; init rejects the whole service over an unknown group.
             sed -i 's/ vendor_qti_diag//' "${2}"
             ;;
+        lib64/libsec-ims.so)
+            # utf8_length() was removed from libutils in Android 11.
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --add-needed "libsecims_shim.so" "${2}"
+            ;;
         bin/multiclientd)
             # Q blob importing strdup8to16(), removed from libcutils in Android 11.
             [ "$2" = "" ] && return 0
