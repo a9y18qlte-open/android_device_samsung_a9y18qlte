@@ -1,6 +1,7 @@
-// Copy of hardware/interfaces/audio/core/all-versions/default (android-10),
-// with PrimaryDevice::setMode() telling Samsung's audio HAL which SIM a call
-// is on. Only @5.0 is built; it is the version the audio HAL service uses.
+// Android 12's hardware/interfaces/audio/core/all-versions/default, built for
+// @5.0, with Samsung SIM slot hooks (SimSlot.cpp): PrimaryDevice::setMode()
+// tells Samsung's audio HAL which SIM a call is on, and output/stream hooks
+// pick the modem voice session for VoLTE calls.
 
 cc_library_shared {
     name: "android.hardware.audio@5.0-impl.a9y18qlte",
@@ -8,7 +9,6 @@ cc_library_shared {
     proprietary: true,
     vendor: true,
     srcs: [
-        "Conversions.cpp",
         "Device.cpp",
         "DevicesFactory.cpp",
         "ParametersUtil.cpp",
@@ -21,7 +21,9 @@ cc_library_shared {
 
     defaults: ["hidl_defaults"],
 
-    export_include_dirs: ["include"],
+    static_libs: [
+        "libaudiofoundation",
+    ],
 
     shared_libs: [
         "libbase",
@@ -29,25 +31,27 @@ cc_library_shared {
         "libfmq",
         "libhardware",
         "libhidlbase",
-        "libhidltransport",
         "liblog",
+        "libmedia_helper",
+        "libmediautils_vendor",
+        "libmemunreachable",
         "libutils",
         "android.hardware.audio.common-util",
         "android.hardware.audio@5.0",
+        "android.hardware.audio@5.0-util",
         "android.hardware.audio.common@5.0",
         "android.hardware.audio.common@5.0-util",
     ],
 
     header_libs: [
+        "android.hardware.audio-impl_headers",
         "android.hardware.audio.common.util@all-versions",
         "libaudioclient_headers",
+        "libaudioutils_headers",
         "libaudio_system_headers",
         "libhardware_headers",
         "libmedia_headers",
-    ],
-
-    whole_static_libs: [
-        "libmedia_helper",
+        "libmediautils_headers",
     ],
 
     cflags: [
