@@ -415,5 +415,13 @@ PRODUCT_PACKAGES += \
 # Samsung system blobs (multiclientd) still link libhidltransport/libhwbinder.
 PRODUCT_PACKAGES += libhidltransport libhwbinder
 
+# Q libcutils for Samsung RIL blobs and multiclientd (strdup8to16, removed in
+# Android 11); they are patched to need libcutils-v29.so.
+PRODUCT_PACKAGES += \
+    libcutils-v29.vendor64 \
+    libcutils-v29.vendor32 \
+    libcutils-v29.system64 \
+    libcutils-v29.system32
+
 # Inherit vendor
 $(call inherit-product, vendor/samsung/a9y18qlte/a9y18qlte-vendor.mk)

@@ -65,7 +65,16 @@ function blob_fixup() {
             # not define; init rejects the whole service over an unknown group.
             sed -i 's/ vendor_qti_diag//' "${2}"
             ;;
+        bin/multiclientd)
+            # Q blob importing strdup8to16(), removed from libcutils in Android 11.
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --replace-needed "libcutils.so" "libcutils-v29.so" "${2}"
+            ;;
         vendor/lib/libsec-ril.so|vendor/lib/libsec-ril-dsds.so|vendor/lib64/libsec-ril.so|vendor/lib64/libsec-ril-dsds.so)
+            # strdup8to16() was removed from libcutils in Android 11; use the Q
+            # (VNDK v29) libcutils shipped as libcutils-v29.so.
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --replace-needed "libcutils.so" "libcutils-v29.so" "${2}"
             # The RIL publishes the SIM slot of the ongoing call as
             # ril.dds.call.slotid, a radio_prop that vendor processes may not
             # read. Rename it (same length) so the audio HIDL impl can use it
