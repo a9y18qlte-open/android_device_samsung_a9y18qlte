@@ -270,3 +270,19 @@ allow factory_adsp diag_device:chr_file rw_file_perms;
 
 # GNSS stack attempts to read core props that violate Treble neverallows
 dontaudit hal_gnss_qti { radio_prop default_prop }:file read;
+
+# RIL & Telephony fixes
+dontaudit rild radio_core_data_file:dir search;
+dontaudit secril_config { radio_prop default_prop }:file read;
+
+# Camera & Graphics fixes
+allow hal_graphics_composer_default sysfs_camera:dir search;
+dontaudit hal_camera_default { default_prop radio_prop bootanim_system_prop persist_debug_prop }:file read;
+
+# Bluetooth & Audio fixes
+allow hal_bluetooth_qti efs_file:dir search;
+dontaudit hal_audio_default radio_prop:file read;
+
+# Daemon dontaudits
+dontaudit multiclientd system_data_file:dir search;
+dontaudit hal_nfc_default system_file:file read;

@@ -66,9 +66,11 @@ set_prop(tee, vendor_qseecomd_prop)
 
 vendor_internal_prop(samsung_bluetooth_prop)
 set_prop(hal_bluetooth_default, samsung_bluetooth_prop)
+set_prop(hal_bluetooth_qti, samsung_bluetooth_prop)
 
-vendor_internal_prop(samsung_ril_prop)
+vendor_restricted_prop(samsung_ril_prop)
 set_prop(rild, samsung_ril_prop)
+get_prop(system_app, samsung_ril_prop)
 
 vendor_internal_prop(samsung_call_slot_prop)
 set_prop(rild, samsung_call_slot_prop)
