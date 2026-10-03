@@ -56,6 +56,5 @@ ro.vendor.qti.va_aosp.support=1
 # adb now requires the host key to be authorised on the device. Takes effect on
 # the next full build; the first adb connection after flashing will prompt on
 # the handset before it will talk to a new machine.
-ro.adb.secure=1
 persist.service.adb.enable=1
 persist.sys.usb.config=adb

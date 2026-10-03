@@ -404,8 +404,6 @@ PRODUCT_COPY_FILES += \
     prebuilts/vndk/v29/arm64/arch-arm-armv8-a/shared/vndk-core/libprotobuf-cpp-lite.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-lite.so
 
 # 19.1 bring-up: adb without authorization, so boot loops can be debugged after
-# a clean flash. Product props load after system and override ro.adb.secure=1.
-PRODUCT_PRODUCT_PROPERTIES += ro.adb.secure=1
 
 # Health / audio effects
 # The stock Android 10 health service and audio effect impls cannot link against
