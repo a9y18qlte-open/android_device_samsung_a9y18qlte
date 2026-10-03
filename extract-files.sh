@@ -95,6 +95,15 @@ function blob_fixup() {
             if [ "$(xxd -s 0x1bf7c -l 8 -p "${2}")" = "013042b29142eddc" ]; then
                 printf '\xc2' | dd of="${2}" bs=1 seek=$((0x1bf7e)) conv=notrunc status=none
             fi
+            # mm_stream_calc_offset_snapshot() pads scanline with the backend's
+            # height_padding (1). When height / 2 is odd (e.g. 5664x3186 16:9 snapshot,
+            # height / 2 = 1593), Qualcomm CPP DMA writes Chroma in pairs of rows (1594 rows),
+            # crossing the page boundary and triggering SMMU fault / crash.
+            # Always pad scanline to a multiple of 4:
+            # scanline = (h + p - 1) & -p  ->  scanline = (h + 3) & ~3 at 0x1ed10.
+            if [ "$(xxd -s 0x1ed10 -l 10 -p "${2}")" = "83185242013b03ea0205" ]; then
+                printf '\x00\xf1\x03\x03\x23\xf0\x03\x05\x00\xbf' | dd of="${2}" bs=1 seek=$((0x1ed10)) conv=notrunc status=none
+            fi
             # mm_stream_calc_offset_snapshot() pads the snapshot stride with the
             # backend's width_padding (1), so e.g. the telephoto's 3672-wide
             # snapshot gets a stride that is not 16-byte aligned; the VFE write
