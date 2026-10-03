@@ -1,0 +1,25 @@
+//
+// Copyright (C) 2026 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+cc_library_shared {
+    name: "libcamera_metadata_shim",
+    vendor: true,
+    compile_multilib: "32",
+    srcs: ["camera_metadata_shim.cpp"],
+    header_libs: [
+        "libhardware_headers",
+    ],
+    shared_libs: [
+        "libcamera_metadata",
+        "liblog",
+        "libdl",
+    ],
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-unused-parameter",
+    ],
+}

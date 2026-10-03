@@ -115,6 +115,7 @@ function blob_fixup() {
             if [ "$(xxd -s 0x12ed8 -l 8 -p "${2}")" = "0ff082ed132816dc" ]; then
                 printf '\x14\x28\x16\xd0' | dd of="${2}" bs=1 seek=$((0x12edc)) conv=notrunc status=none
             fi
+            "${PATCHELF}" --add-needed "libcamera_metadata_shim.so" "${2}"
             ;;
         vendor/etc/camera/camera_config.xml)
             # The depth sensor (s5k5e9yx) is mounted like the other rear
