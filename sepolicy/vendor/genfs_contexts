@@ -62,3 +62,5 @@ genfscon sysfs /devices/virtual/lcd/panel/alpm                u:object_r:sysfs_p
 
 # Samsung LCD sysfs tree
 genfscon sysfs /devices/virtual/lcd/panel                                 u:object_r:sysfs_lcd:s0
+
+genfscon sysfs /devices/soc/c900000.qcom,mdss_mdp/c900000.qcom,mdss_mdp:qcom,mdss_fb_primary/leds/lcd-backlight u:object_r:sysfs_leds:s0

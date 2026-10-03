@@ -262,3 +262,11 @@ allow macloader efs_file:dir search;
 # --- qti init shell ----------------------------------------------------------
 allow qti_init_shell { sysfs sysfs_msm_power }:file setattr;
 allow qti_init_shell persist_file:lnk_file read;
+
+# factory_adsp access to persist, mnt_vendor, and diag
+allow factory_adsp persist_file:lnk_file r_file_perms;
+allow factory_adsp mnt_vendor_file:dir search;
+allow factory_adsp diag_device:chr_file rw_file_perms;
+
+# GNSS stack attempts to read core props that violate Treble neverallows
+dontaudit hal_gnss_qti { radio_prop default_prop }:file read;

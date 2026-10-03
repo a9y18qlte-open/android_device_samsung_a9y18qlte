@@ -76,6 +76,7 @@ allow connfwexe tcpdump_socket_file:sock_file { create unlink };
 # existing one; this makes it land correctly at creation.
 type_transition connfwexe system_data_file:sock_file tcpdump_socket_file ".tcpdump_socket";
 allow connfwexe system_data_file:dir { write add_name remove_name };
+dontaudit connfwexe system_data_root_file:dir write;
 get_prop(connfwexe, hwservicemanager_prop)
 
 # connfwexe registers with multiclientd and answers over hwbinder. Both named
