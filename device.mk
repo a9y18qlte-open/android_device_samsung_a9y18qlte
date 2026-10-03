@@ -362,6 +362,7 @@ PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0.vendor \
     android.hardware.camera.provider@2.5.vendor \
     libcamera_metadata_shim \
+    GrapheneCamera \
     android.hardware.drm@1.1.vendor \
     android.hardware.drm@1.2.vendor \
     android.hardware.gatekeeper@1.0.vendor \
