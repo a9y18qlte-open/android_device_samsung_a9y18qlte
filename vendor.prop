@@ -93,8 +93,6 @@ ro.hardware.gatekeeper=mdfpp
 ro.hardware.keystore=mdfpp
 
 # Camera
-persist.camera.HAL3.enabled=1
-persist.vendor.camera.HAL3.enabled=1
 # Camera1 API shim: skip the full-size ZSL/reprocess stream. It shares a VFE
 # output with the JPEG stream and the combined buffer queue exceeds what
 # msm_isp accepts ("Invalid buffer request"), so API1 apps get no preview.
