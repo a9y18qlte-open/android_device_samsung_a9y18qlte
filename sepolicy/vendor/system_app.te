@@ -1,3 +1,4 @@
 # AodBrightness picks the AOD low-power brightness.
 type sysfs_panel_alpm, sysfs_type, fs_type;
 allow system_app sysfs_panel_alpm:file rw_file_perms;
+allow system_app sysfs_lcd:dir search;
