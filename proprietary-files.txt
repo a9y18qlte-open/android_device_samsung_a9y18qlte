@@ -1558,7 +1558,6 @@ vendor/lib64/libhdcpsrm.so
 
 # WiFi
 vendor/bin/cnss-daemon
-vendor/bin/cnss_diag
 vendor/bin/fstman
 vendor/bin/qrtr-ns
 vendor/bin/hostapd_cli
