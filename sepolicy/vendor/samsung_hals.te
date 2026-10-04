@@ -96,3 +96,6 @@ allow hal_light_default { sysfs_graphics sysfs_lcd sysfs_leds }:lnk_file r_file_
 
 # Power HAL: touchscreen sysfs node
 allow hal_power_default sysfs_sectouch:dir search;
+
+# Keymaster reads attestation key files (GAK_RSA, GAK_EC, SAK_EC) in /efs/prov
+allow hal_keymaster_default unlabeled:file r_file_perms;
