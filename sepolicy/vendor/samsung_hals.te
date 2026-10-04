@@ -99,3 +99,7 @@ allow hal_power_default sysfs_sectouch:dir search;
 
 # Keymaster reads attestation key files (GAK_RSA, GAK_EC, SAK_EC) in /efs/prov
 allow hal_keymaster_default unlabeled:file r_file_perms;
+
+# SurfaceFlinger needs to read process cmdline from composer HAL
+allow surfaceflinger hal_graphics_composer_default:dir search;
+allow surfaceflinger hal_graphics_composer_default:file r_file_perms;
