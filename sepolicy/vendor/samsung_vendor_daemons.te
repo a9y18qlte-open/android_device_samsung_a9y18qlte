@@ -103,3 +103,7 @@ allow factory_adsp self:socket { create read write };
 allow factory_adsp self:netlink_socket { create bind read write };
 allow factory_adsp self:tcp_socket { create bind listen accept read write };
 allow factory_adsp node:tcp_socket node_bind;
+
+# Allow QSEEComd/TEE to search and read EFS for Widevine L1 keys
+allow tee { efs_file sec_efs_file }:dir r_dir_perms;
+allow tee { efs_file sec_efs_file }:file r_file_perms;
