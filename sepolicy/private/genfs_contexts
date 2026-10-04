@@ -28,3 +28,4 @@ genfscon sysfs /devices/virtual/sec/switch                           u:object_r:
 
 # Camera sysfs is labelled in sepolicy/vendor/genfs_contexts instead:
 # sysfs_camera is a qcom vendor type and plat policy cannot name it.
+genfscon proc /last_kmsg u:object_r:proc_last_kmsg:s0
