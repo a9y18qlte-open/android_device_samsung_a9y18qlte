@@ -30,7 +30,13 @@ DEVICE_PACKAGE_OVERLAYS += \
 # java.lang.OutOfMemoryError roughly every 9 seconds, which stopped IMS from
 # ever completing SIP registration (and would starve any other memory-hungry
 # app). SM-A920F reports MemTotal ~5.6GB, so use the 6GB profile.
-$(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
+PRODUCT_SYSTEM_PROPERTIES += \
+    dalvik.vm.heapstartsize=16m \
+    dalvik.vm.heapgrowthlimit=256m \
+    dalvik.vm.heapsize=512m \
+    dalvik.vm.heaptargetutilization=0.5 \
+    dalvik.vm.heapminfree=8m \
+    dalvik.vm.heapmaxfree=32m
 
 ENABLE_VENDOR_RIL_SERVICE := true
 
