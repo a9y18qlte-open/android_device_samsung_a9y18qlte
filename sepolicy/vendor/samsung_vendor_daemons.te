@@ -107,3 +107,4 @@ allow factory_adsp node:tcp_socket node_bind;
 # Allow QSEEComd/TEE to search and read EFS for Widevine L1 keys
 allow tee { efs_file sec_efs_file }:dir r_dir_perms;
 allow tee { efs_file sec_efs_file }:file r_file_perms;
+get_prop(secril_config, samsung_ril_prop)

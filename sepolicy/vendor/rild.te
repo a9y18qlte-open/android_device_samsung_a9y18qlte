@@ -64,3 +64,4 @@ r_dir_file(rild, imei_efs_file)
 # It also reads its own per-uid traffic counters back out of qtaguid.
 allow rild proc_net:file rw_file_perms;
 allow rild proc_qtaguid_stat:file r_file_perms;
+get_prop(smdexe, samsung_ril_prop)
