@@ -1,0 +1,2 @@
+# Allow vendor_init to set camera properties during early boot
+set_prop(vendor_init, camera_prop)
