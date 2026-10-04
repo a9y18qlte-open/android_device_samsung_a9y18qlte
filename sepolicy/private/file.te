@@ -36,3 +36,4 @@ type sysfs_lcd_writable, sysfs_type, fs_type;
 
 # connfwexe's packet-capture control socket, /data/.tcpdump_socket.
 type tcpdump_socket_file, file_type, data_file_type, core_data_file_type;
+type proc_last_kmsg, fs_type, proc_type;
