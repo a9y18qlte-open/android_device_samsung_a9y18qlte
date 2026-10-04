@@ -14,8 +14,10 @@
 # limitations under the License.
 #
 
-# Set boot SPL
+# Set boot & vendor SPL
 BOOT_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.vendor.build.security_patch=2022-06-01
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
