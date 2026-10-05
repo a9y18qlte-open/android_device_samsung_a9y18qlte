@@ -103,3 +103,7 @@ allow hal_keymaster_default unlabeled:file r_file_perms;
 # SurfaceFlinger needs to read process cmdline from composer HAL
 allow surfaceflinger hal_graphics_composer_default:dir search;
 allow surfaceflinger hal_graphics_composer_default:file r_file_perms;
+
+get_prop(hal_camera_default, samsung_ril_prop)
+get_prop(hal_gnss_qti, samsung_ril_prop)
+dontaudit hal_audio_default audio_prop:file read;
