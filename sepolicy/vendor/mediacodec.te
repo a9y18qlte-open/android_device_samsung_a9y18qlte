@@ -1,2 +1,0 @@
-# Allow mediacodec to read system default properties
-get_prop(mediacodec, default_prop)
