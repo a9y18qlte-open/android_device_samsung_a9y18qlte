@@ -1,2 +1,0 @@
-# Allow wcnss_service to read wigig core properties
-get_prop(wcnss_service, vendor_wigig_core_prop)
