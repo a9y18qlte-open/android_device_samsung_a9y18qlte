@@ -36,3 +36,4 @@ allow time_daemon sysfs:file r_file_perms;
 # low 16 bits of the request.
 allow time_daemon self:socket { create read write ioctl };
 allowxperm time_daemon self:socket ioctl { 0xc302 0xc304 };
+allow init { sysfs_batteryinfo sysfs_ufs }:file { write setattr };

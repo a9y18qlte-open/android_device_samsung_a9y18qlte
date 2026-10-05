@@ -37,3 +37,4 @@ service.camera.                  u:object_r:camera_prop:s0
 # Extended Samsung RIL properties
 persist.ril.                     u:object_r:samsung_ril_prop:s0
 mdc.                             u:object_r:samsung_ril_prop:s0
+persist.vendor.crash.          u:object_r:vendor_crash_prop:s0

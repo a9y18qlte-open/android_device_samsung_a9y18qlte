@@ -65,3 +65,5 @@ r_dir_file(rild, imei_efs_file)
 allow rild proc_net:file rw_file_perms;
 allow rild proc_qtaguid_stat:file r_file_perms;
 get_prop(smdexe, samsung_ril_prop)
+dontaudit smdexe vendor_default_prop:file read;
+dontaudit rild { default_prop system_prop }:file read;
