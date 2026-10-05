@@ -1,3 +1,1 @@
-# Allow qti_init_shell to manage crash count properties and file permissions
-set_prop(qti_init_shell, vendor_default_prop)
 dontaudit qti_init_shell self:capability dac_read_search;
