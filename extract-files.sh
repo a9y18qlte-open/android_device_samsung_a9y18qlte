@@ -60,6 +60,10 @@ fi
 
 function blob_fixup() {
     case "${1}" in
+        vendor/etc/init/init.vendor.rilcommon.rc)
+            # remove triggers setting vendor.vts.native_server.on
+            sed -i '/on property:vts.native_server.on=\*/,/setprop/d' "${2}"
+            ;;
         vendor/etc/init/android.hardware.gnss@2.0-service-qti.rc)
             # vendor_qti_diag is a Samsung/QTI config.fs AID that this build does
             # not define; init rejects the whole service over an unknown group.
