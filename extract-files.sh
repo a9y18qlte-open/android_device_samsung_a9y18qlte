@@ -64,6 +64,15 @@ function blob_fixup() {
             # remove triggers setting vendor.vts.native_server.on
             sed -i '/on property:vts.native_server.on=\*/,/setprop/d' "${2}"
             ;;
+        vendor/lib64/libril.so)
+            # radio::sec::signalLevelInfosChanged() logs an error on every signal
+            # level update while no Samsung radio indication client is
+            # registered, which is always the case on AOSP. Drop the log call:
+            # bl __android_log_buf_print (8e 33 00 94) -> nop.
+            if [ "$(xxd -s 0x6b380 -l 12 -p "${2}")" = "e1071f32e403082a8e330094" ]; then
+                printf '\x1f\x20\x03\xd5' | dd of="${2}" bs=1 seek=$((0x6b388)) conv=notrunc status=none
+            fi
+            ;;
         vendor/etc/init/android.hardware.gnss@2.0-service-qti.rc)
             # vendor_qti_diag is a Samsung/QTI config.fs AID that this build does
             # not define; init rejects the whole service over an unknown group.
