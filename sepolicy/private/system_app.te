@@ -5,3 +5,13 @@ allow system_app proc_vmallocinfo:file r_file_perms;
 allow system_app proc_pagetypeinfo:file r_file_perms;
 
 dontaudit system_app system_data_root_file:dir write;
+
+# VoWiFi (EpdgService, com.sec.epdg). The ril.epdg.* properties are radio_prop.
+set_prop(system_app, epdg_tunaddr_prop)
+set_prop(system_app, radio_prop)
+unix_socket_connect(system_app, eris, eris)
+# Samsung's crash-recorder logs (/data/log/epdgcr, /data/log/imscr) have no type
+# here; the stack runs without them.
+dontaudit system_app { system_data_root_file system_data_file }:file { getattr open append };
+# imsservice reads the DNS servers from net.dns*, which only netd may now.
+dontaudit system_app net_dns_prop:file read;

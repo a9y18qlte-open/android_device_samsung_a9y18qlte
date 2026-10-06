@@ -338,6 +338,12 @@
     <!-- ImsService package name to bind to by default, if config_dynamic_bind_ims is true -->
      <string name="config_ims_package">com.sec.imsservice</string>
 
+    <!-- VoWiFi: Samsung's EpdgService provides the IWLAN data and network services and
+         picks the transport of the IMS data call (AP-assisted mode). -->
+    <string name="config_wlan_data_service_package" translatable="false">com.sec.epdg</string>
+    <string name="config_wlan_network_service_package" translatable="false">com.sec.epdg</string>
+    <string name="config_qualified_networks_service_package" translatable="false">com.sec.epdg</string>
+
     <!-- MMS user agent string -->
      <string name="config_mms_user_agent">Android-Mms/2.0</string>
 

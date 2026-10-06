@@ -1,0 +1,17 @@
+// Sets the IPv6 addresses of the VoWiFi tunnel. Samsung's EpdgService gets them from
+// the ePDG and had netd add them (Samsung netd); on AOSP an app may not call netd, so
+// the patched EpdgService puts them in sys.epdg.tunaddr.<iface> and init runs this
+// helper.
+// It also keeps SLAAC addresses off the tunnel; see epdg_addr.cpp.
+
+cc_binary {
+    name: "epdg_addr",
+    srcs: ["epdg_addr.cpp"],
+    shared_libs: [
+        "libbase",
+        "liblog",
+        "libnetutils",
+    ],
+    init_rc: ["epdg_addr.rc"],
+    system_ext_specific: true,
+}

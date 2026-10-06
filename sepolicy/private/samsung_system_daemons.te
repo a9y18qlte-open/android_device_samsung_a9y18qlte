@@ -82,3 +82,49 @@ allow multiclientd domain:file { open read getattr };
 # app while brokering the second SIM. multiclientd is coredomain, so this is
 # core-to-core and needs no Treble violator attribute - only the traversal.
 allow multiclientd radio_data_file:dir search;
+
+##############################################################################
+# VoWiFi.
+
+# eris: Samsung's IKEv2 client (strongSwan) for the ePDG tunnel. It creates the
+# epdg<n> TUN device, talks IKE to the ePDG over UDP 500/4500 and takes its
+# requests from EpdgService over the eris socket.
+type eris, domain, coredomain;
+type eris_exec, exec_type, file_type, system_file_type;
+init_daemon_domain(eris)
+net_domain(eris)
+wakelock_use(eris)
+
+type eris_socket, file_type, coredomain_socket, mlstrustedobject;
+type eris_data_file, file_type, data_file_type, core_data_file_type;
+
+allow eris self:capability { net_admin net_bind_service net_raw };
+allow eris self:unix_stream_socket { accept listen };
+allow eris self:tun_socket create_socket_perms_no_ioctl;
+allow eris tun_device:chr_file rw_file_perms;
+allowxperm eris tun_device:chr_file ioctl { TUNGETIFF TUNSETIFF TUNSETOWNER TUNSETPERSIST };
+allow eris self:netlink_route_socket { create_socket_perms_no_ioctl nlmsg_read nlmsg_readpriv nlmsg_write };
+allow eris node:udp_socket node_bind;
+allow eris port:udp_socket name_bind;
+allow eris eris_data_file:dir create_dir_perms;
+allow eris eris_data_file:file create_file_perms;
+# The SIM authentication for IKE (EAP-AKA) goes through the RIL multiplexer.
+allow eris multiclientd:unix_stream_socket connectto;
+# It tunes /proc/sys/net/core/xfrm_acq_expires for kernel IPsec, which it does
+# not use: the tunnel is userspace ESP over the TUN device.
+dontaudit eris proc_net:file write;
+
+# epdg_addr: sets the IPv6 addresses of the tunnel for EpdgService, which may not
+# call netd itself. See device ims/epdg-addr.
+type epdg_addr, domain, coredomain;
+type epdg_addr_exec, exec_type, file_type, system_file_type;
+init_daemon_domain(epdg_addr)
+
+allow epdg_addr self:capability net_admin;
+allow epdg_addr self:netlink_route_socket { create_socket_perms_no_ioctl nlmsg_write };
+# if_nametoindex()
+allow epdg_addr self:udp_socket { create ioctl };
+# Lists the tunnel's addresses (/proc/net/if_inet6) and turns off SLAAC on it
+# (/proc/sys/net/ipv6/conf/<iface>/autoconf).
+r_dir_file(epdg_addr, proc_net)
+allow epdg_addr proc_net:file w_file_perms;

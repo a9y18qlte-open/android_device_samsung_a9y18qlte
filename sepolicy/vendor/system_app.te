@@ -2,3 +2,8 @@
 type sysfs_panel_alpm, sysfs_type, fs_type;
 allow system_app sysfs_panel_alpm:file rw_file_perms;
 allow system_app sysfs_lcd:dir search;
+
+# VoWiFi: EpdgService does the SIM authentication for IKE through the RIL's
+# Samsung channel interface.
+binder_call(system_app, rild)
+allow system_app samsung_radio_hwservice:hwservice_manager find;

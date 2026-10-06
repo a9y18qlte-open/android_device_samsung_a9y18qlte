@@ -10,3 +10,6 @@
 # the IPv6 companion. Both are registered by the same app, so they share a type.
 ims6      u:object_r:samsung_ims_service:s0
 secims    u:object_r:samsung_ims_service:s0
+# VoWiFi: EpdgService and sveservice (the AP voice engine) run as system_app too.
+epdgService u:object_r:samsung_ims_service:s0
+SveService  u:object_r:samsung_ims_service:s0
