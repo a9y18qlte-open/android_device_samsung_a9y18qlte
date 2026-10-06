@@ -106,6 +106,10 @@ vendor.sec.rild.libpath2=/vendor/lib64/libsec-ril-dsds-shim.so
 # COMMON_CONFIG_DUAL_IMS, which com.sec.imsservice cannot read on AOSP)
 persist.ril.config.dualims=DSDS_DI
 
+# IMS: let com.sec.imsservice's ImsSmsImpl take incoming SMS over IMS itself; the
+# legacy mode expects Samsung's telephony framework to register for them
+persist.radio.ims.legacysmsip.enabled=0
+
 # Perf lock client for the camera HAL (stock vendor/build.prop). Without it the
 # HAL gets no perf locks and the aux cameras/video overflow the VFE bus.
 ro.vendor.extension_library=libqti-perfd-client.so
