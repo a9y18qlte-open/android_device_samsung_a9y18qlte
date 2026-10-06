@@ -1946,7 +1946,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>3_AT</NetworkName>
@@ -1956,7 +1955,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>3_DK</NetworkName>
@@ -1966,7 +1964,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>3_HK</NetworkName>
@@ -1976,7 +1973,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>3_ID</NetworkName>
@@ -1986,7 +1982,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>3_IE</NetworkName>
@@ -1996,7 +1991,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>3_MO</NetworkName>
@@ -2006,7 +2000,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>3_SE</NetworkName>
@@ -2016,7 +2009,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>4ka_SK</NetworkName>
@@ -2026,7 +2018,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>A1_AT</NetworkName>
@@ -2036,7 +2027,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>A1_BG</NetworkName>
@@ -2046,7 +2036,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>A1_SI</NetworkName>
@@ -2056,7 +2045,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>ACMOSS_FR</NetworkName>
@@ -2066,7 +2054,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>AIRTEL_LK</NetworkName>
@@ -2076,7 +2063,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>AIS_TH</NetworkName>
@@ -2086,7 +2072,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>ALE_EC</NetworkName>
@@ -2096,7 +2081,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>APT_TW</NetworkName>
@@ -2106,7 +2090,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>ATT_US</NetworkName>
@@ -2116,7 +2099,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>AVEA_TR</NetworkName>
@@ -2126,7 +2108,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Airbus_MX</NetworkName>
@@ -2136,7 +2117,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Airtel_KE</NetworkName>
@@ -2146,7 +2126,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Airtel_TZ</NetworkName>
@@ -2156,7 +2135,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Airtel_UG</NetworkName>
@@ -2166,7 +2144,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Alcom_FI</NetworkName>
@@ -2176,7 +2153,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Alfa_LB</NetworkName>
@@ -2186,7 +2162,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Alfa_RU</NetworkName>
@@ -2196,7 +2171,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Algar_BR</NetworkName>
@@ -2206,7 +2180,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Aliv_BS</NetworkName>
@@ -2216,7 +2189,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Altan_MX</NetworkName>
@@ -2226,7 +2198,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Altel_KZ</NetworkName>
@@ -2236,7 +2207,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Annatel_IL</NetworkName>
@@ -2246,7 +2216,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Arqia_BR</NetworkName>
@@ -2256,7 +2225,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Astca_NZ</NetworkName>
@@ -2266,7 +2234,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Att_ius_MX</NetworkName>
@@ -2276,7 +2243,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Avantel_CO</NetworkName>
@@ -2286,7 +2252,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Azercell_AZ</NetworkName>
@@ -2296,7 +2261,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>BSNL_IN</NetworkName>
@@ -2306,7 +2270,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>BTC_BS</NetworkName>
@@ -2316,7 +2279,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>BTOP_GB</NetworkName>
@@ -2326,7 +2288,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Bakcell_AZ</NetworkName>
@@ -2336,7 +2297,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Banglalink_BD</NetworkName>
@@ -2346,7 +2306,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Batelco_BH</NetworkName>
@@ -2356,7 +2315,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Beeline_KZ</NetworkName>
@@ -2366,7 +2324,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Best_LA</NetworkName>
@@ -2376,7 +2333,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Bite_LT</NetworkName>
@@ -2386,7 +2342,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Bitel_PE</NetworkName>
@@ -2396,7 +2351,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Brisanet_BR</NetworkName>
@@ -2406,7 +2360,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>CHT_TW</NetworkName>
@@ -2416,7 +2369,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>CMHK_HK</NetworkName>
@@ -2426,7 +2378,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>CSL_HK</NetworkName>
@@ -2436,7 +2387,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>CTC_MO</NetworkName>
@@ -2446,7 +2396,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>CTG_HK</NetworkName>
@@ -2456,7 +2405,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>CTM_MO</NetworkName>
@@ -2466,7 +2414,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>CUHK_HK</NetworkName>
@@ -2476,7 +2423,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Cable_JM</NetworkName>
@@ -2486,7 +2432,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Cable_PA</NetworkName>
@@ -2496,7 +2441,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Celcom_MY</NetworkName>
@@ -2506,7 +2450,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>CellC_ZA</NetworkName>
@@ -2516,7 +2459,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Cellcard_KH</NetworkName>
@@ -2526,7 +2468,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Cellcom_IL</NetworkName>
@@ -2536,7 +2477,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Cellfie_GE</NetworkName>
@@ -2546,7 +2486,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Cogeco_CA</NetworkName>
@@ -2556,7 +2495,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Coopvoce_IT</NetworkName>
@@ -2566,7 +2504,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>DIGI_HU</NetworkName>
@@ -2576,7 +2513,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>DIGI_MY</NetworkName>
@@ -2586,7 +2522,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>DITO_PH</NetworkName>
@@ -2596,7 +2531,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>DPAC_US</NetworkName>
@@ -2606,7 +2540,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>DTAC_TH</NetworkName>
@@ -2616,7 +2549,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>DU_AE</NetworkName>
@@ -2626,7 +2558,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Dhiraagu_MV</NetworkName>
@@ -2636,7 +2567,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Dialog_LK</NetworkName>
@@ -2646,7 +2576,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Digi_ES</NetworkName>
@@ -2656,7 +2585,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Digi_IT</NetworkName>
@@ -2666,7 +2594,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Digi_PT</NetworkName>
@@ -2676,7 +2603,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Docomo_JP</NetworkName>
@@ -2686,7 +2612,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>EDF_FR</NetworkName>
@@ -2696,7 +2621,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>ESK_CA</NetworkName>
@@ -2706,7 +2630,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Elisa_EE</NetworkName>
@@ -2716,7 +2639,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Elisa_FI</NetworkName>
@@ -2726,7 +2648,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Enel_ES</NetworkName>
@@ -2736,7 +2657,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Entel_BO</NetworkName>
@@ -2746,7 +2666,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Entel_CL</NetworkName>
@@ -2756,7 +2675,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Entel_PE</NetworkName>
@@ -2766,7 +2684,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Erate_NO</NetworkName>
@@ -2776,7 +2693,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Erillisverkot_FI</NetworkName>
@@ -2786,7 +2702,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Etisalat_EG</NetworkName>
@@ -2796,7 +2711,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>FET_TW</NetworkName>
@@ -2806,7 +2720,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Fastweb_IT</NetworkName>
@@ -2816,7 +2729,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>GRAMEENPHONE_BD</NetworkName>
@@ -2826,7 +2738,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>GenericIR92_US</NetworkName>
@@ -2836,7 +2747,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>HotMobile_IL</NetworkName>
@@ -2846,7 +2756,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Hubone_FR</NetworkName>
@@ -2856,7 +2765,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Hutch_LK</NetworkName>
@@ -2866,7 +2774,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>INWI_MA</NetworkName>
@@ -2876,7 +2783,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>IceNet_NO</NetworkName>
@@ -2886,7 +2792,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Iliad_IT</NetworkName>
@@ -2896,7 +2801,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Indosat_ID</NetworkName>
@@ -2906,7 +2810,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>JTL_KE</NetworkName>
@@ -2916,7 +2819,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>JT_GB</NetworkName>
@@ -2926,7 +2828,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Jazz_PK</NetworkName>
@@ -2936,7 +2837,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>KDDI_JP</NetworkName>
@@ -2946,7 +2846,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>KOLBI_CR</NetworkName>
@@ -2956,7 +2855,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>KT_KR</NetworkName>
@@ -2966,7 +2864,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Laotel_LA</NetworkName>
@@ -2976,7 +2873,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>LycaMobile_PT</NetworkName>
@@ -2986,7 +2882,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Lyca_IT</NetworkName>
@@ -2996,7 +2891,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Lyca_SE</NetworkName>
@@ -3006,7 +2900,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MECTel_MM</NetworkName>
@@ -3016,7 +2909,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MEO_PT</NetworkName>
@@ -3026,7 +2918,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MOBILY_SA</NetworkName>
@@ -3036,7 +2927,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MOD_PK</NetworkName>
@@ -3046,7 +2936,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MOI_QA</NetworkName>
@@ -3056,7 +2945,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MPT_MM</NetworkName>
@@ -3066,7 +2954,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MTN_GH</NetworkName>
@@ -3076,7 +2963,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MTN_NG</NetworkName>
@@ -3086,7 +2972,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MTN_UG</NetworkName>
@@ -3096,7 +2981,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MTN_ZA</NetworkName>
@@ -3106,7 +2990,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MTS_AM</NetworkName>
@@ -3116,7 +2999,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>MTS_BY</NetworkName>
@@ -3126,7 +3008,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Magticom_GE</NetworkName>
@@ -3136,7 +3017,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Manx_GB</NetworkName>
@@ -3146,7 +3026,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Maroc_MA</NetworkName>
@@ -3156,7 +3035,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Maxis_MY</NetworkName>
@@ -3166,7 +3044,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Meteor_IE</NetworkName>
@@ -3176,7 +3053,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Metfone_KH</NetworkName>
@@ -3186,7 +3062,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Mobifone_VN</NetworkName>
@@ -3196,7 +3071,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Mobileone_SG</NetworkName>
@@ -3206,7 +3080,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Mobitel_LK</NetworkName>
@@ -3216,7 +3089,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Moldcell_MD</NetworkName>
@@ -3226,7 +3098,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Movistar_AR</NetworkName>
@@ -3236,7 +3107,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Movistar_CL</NetworkName>
@@ -3246,7 +3116,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Movistar_CO</NetworkName>
@@ -3256,7 +3125,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Movistar_EC</NetworkName>
@@ -3266,7 +3134,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Movistar_PE</NetworkName>
@@ -3276,7 +3143,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Movistar_UY</NetworkName>
@@ -3286,7 +3152,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Mtel_BA</NetworkName>
@@ -3296,7 +3161,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Mtel_ME</NetworkName>
@@ -3306,7 +3170,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Mvno_NL</NetworkName>
@@ -3316,7 +3179,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Mytel_MM</NetworkName>
@@ -3326,7 +3188,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>NOS_PT</NetworkName>
@@ -3336,7 +3197,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Nova_IS</NetworkName>
@@ -3346,7 +3206,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>OUTREMER_FR</NetworkName>
@@ -3356,7 +3215,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Omantel_OM</NetworkName>
@@ -3366,7 +3224,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Ooredoo_KW</NetworkName>
@@ -3376,7 +3233,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Ooredoo_MM</NetworkName>
@@ -3386,7 +3242,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Ooredoo_MV</NetworkName>
@@ -3396,7 +3251,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Ooredoo_QA</NetworkName>
@@ -3406,7 +3260,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Optus_AU</NetworkName>
@@ -3416,7 +3269,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Orange_CH</NetworkName>
@@ -3426,7 +3278,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Orange_DO</NetworkName>
@@ -3436,7 +3287,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Orange_EG</NetworkName>
@@ -3446,7 +3296,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Orange_FR</NetworkName>
@@ -3456,7 +3305,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Orange_JO</NetworkName>
@@ -3466,7 +3314,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Orange_LU</NetworkName>
@@ -3476,7 +3323,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Orange_MD</NetworkName>
@@ -3486,7 +3332,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Orange_PL</NetworkName>
@@ -3496,7 +3341,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>P1_MY</NetworkName>
@@ -3506,7 +3350,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>PCCW_HK</NetworkName>
@@ -3516,7 +3359,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>PCL_IL</NetworkName>
@@ -3526,7 +3368,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>PTR_IL</NetworkName>
@@ -3536,7 +3377,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>PTV_ES</NetworkName>
@@ -3546,7 +3386,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Personal_PY</NetworkName>
@@ -3556,7 +3395,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Plintron_IT</NetworkName>
@@ -3566,7 +3404,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Post_LU</NetworkName>
@@ -3576,7 +3413,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>RDS_RO</NetworkName>
@@ -3586,7 +3422,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>ROBI_BD</NetworkName>
@@ -3596,7 +3431,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Rain_ZA</NetworkName>
@@ -3606,7 +3440,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Rakuten_JP</NetworkName>
@@ -3616,7 +3449,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Redbull_SA</NetworkName>
@@ -3626,7 +3458,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>SBB_CH</NetworkName>
@@ -3636,7 +3467,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>SPM_FR</NetworkName>
@@ -3646,7 +3476,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>STC_SA</NetworkName>
@@ -3656,7 +3485,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Safaricom_KE</NetworkName>
@@ -3666,7 +3494,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Salam_SA</NetworkName>
@@ -3676,7 +3503,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Seatel_KH</NetworkName>
@@ -3686,7 +3512,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Siminn_IS</NetworkName>
@@ -3696,7 +3521,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Singtel_SG</NetworkName>
@@ -3706,7 +3530,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Smart_KH</NetworkName>
@@ -3716,7 +3539,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Smart_PH</NetworkName>
@@ -3726,7 +3548,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Smartfren_ID</NetworkName>
@@ -3736,7 +3557,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Smartone_HK</NetworkName>
@@ -3746,7 +3566,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Softbank_JP</NetworkName>
@@ -3756,7 +3575,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Spark_NZ</NetworkName>
@@ -3766,7 +3584,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Spectranet_NG</NetworkName>
@@ -3776,7 +3593,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Spusu_AT</NetworkName>
@@ -3786,7 +3602,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Spusu_GB</NetworkName>
@@ -3796,7 +3611,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Spusu_IT</NetworkName>
@@ -3806,7 +3620,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Starhub_SG</NetworkName>
@@ -3816,7 +3629,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Sunrise_CH</NetworkName>
@@ -3826,7 +3638,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Sure_GB</NetworkName>
@@ -3836,7 +3647,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>T2_SI</NetworkName>
@@ -3846,7 +3656,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TDC_DK</NetworkName>
@@ -3856,7 +3665,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TMobile_AT</NetworkName>
@@ -3866,7 +3674,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TMobile_CZ</NetworkName>
@@ -3876,7 +3683,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TMobile_HR</NetworkName>
@@ -3886,7 +3692,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TMobile_ME</NetworkName>
@@ -3896,7 +3701,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TMobile_NL</NetworkName>
@@ -3906,7 +3710,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TMobile_PL</NetworkName>
@@ -3916,7 +3719,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TMobile_US</NetworkName>
@@ -3926,7 +3728,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TPG_SG</NetworkName>
@@ -3936,7 +3737,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TSTAR_TW</NetworkName>
@@ -3946,7 +3746,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TWM_TW</NetworkName>
@@ -3956,7 +3755,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tango_LU</NetworkName>
@@ -3966,7 +3764,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telavox_BE</NetworkName>
@@ -3976,7 +3773,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tele2_EE</NetworkName>
@@ -3986,7 +3782,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tele2_KZ</NetworkName>
@@ -3996,7 +3791,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tele2_LT</NetworkName>
@@ -4006,7 +3800,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tele2_NL</NetworkName>
@@ -4016,7 +3809,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tele2_SE</NetworkName>
@@ -4026,7 +3818,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telecom_AM</NetworkName>
@@ -4036,7 +3827,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telecom_BA</NetworkName>
@@ -4046,7 +3836,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telecom_IL</NetworkName>
@@ -4056,7 +3845,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telecom_IT</NetworkName>
@@ -4066,7 +3854,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telecom_SE</NetworkName>
@@ -4076,7 +3863,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telefonica_CZ</NetworkName>
@@ -4086,7 +3872,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telefonica_GB</NetworkName>
@@ -4096,7 +3881,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telefonica_SK</NetworkName>
@@ -4106,7 +3890,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telekom_AL</NetworkName>
@@ -4116,7 +3899,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telekom_RS</NetworkName>
@@ -4126,7 +3908,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telekom_SI</NetworkName>
@@ -4136,7 +3917,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telemach_HR</NetworkName>
@@ -4146,7 +3926,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telemach_SI</NetworkName>
@@ -4156,7 +3935,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telenor_BG</NetworkName>
@@ -4166,7 +3944,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telenor_HU</NetworkName>
@@ -4176,7 +3953,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telenor_ME</NetworkName>
@@ -4186,7 +3962,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telenor_MM</NetworkName>
@@ -4196,7 +3971,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telenor_PK</NetworkName>
@@ -4206,7 +3980,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telenor_RS</NetworkName>
@@ -4216,7 +3989,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telepost_GL</NetworkName>
@@ -4226,7 +3998,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telia_DK</NetworkName>
@@ -4236,7 +4007,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telia_EE</NetworkName>
@@ -4246,7 +4016,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telia_FI</NetworkName>
@@ -4256,7 +4025,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telia_NO</NetworkName>
@@ -4266,7 +4034,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telia_SE</NetworkName>
@@ -4276,7 +4043,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telkom_ZA</NetworkName>
@@ -4286,7 +4052,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telkomsel_ID</NetworkName>
@@ -4296,7 +4061,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telstra_AU</NetworkName>
@@ -4306,7 +4070,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Telzar_IL</NetworkName>
@@ -4316,7 +4079,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tigo_BO</NetworkName>
@@ -4326,7 +4088,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tigo_CO</NetworkName>
@@ -4336,7 +4097,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tigo_GT</NetworkName>
@@ -4346,7 +4106,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tigo_PA</NetworkName>
@@ -4356,7 +4115,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tigo_PY</NetworkName>
@@ -4366,7 +4124,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tigo_TZ</NetworkName>
@@ -4376,7 +4133,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Truemove_TH</NetworkName>
@@ -4386,7 +4142,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Tuenti_AR</NetworkName>
@@ -4396,7 +4151,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>TwoDegree_NZ</NetworkName>
@@ -4406,7 +4160,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>UMobile_MY</NetworkName>
@@ -4416,7 +4169,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>UPC_CH</NetworkName>
@@ -4426,7 +4178,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Ucom_AM</NetworkName>
@@ -4436,7 +4187,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Ufone_PK</NetworkName>
@@ -4446,7 +4196,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Umniah_JO</NetworkName>
@@ -4456,7 +4205,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Unifique_BR</NetworkName>
@@ -4466,7 +4214,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Unitel_LA</NetworkName>
@@ -4476,7 +4223,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>VGR_SE</NetworkName>
@@ -4486,7 +4232,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>VIP_MK</NetworkName>
@@ -4496,7 +4241,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>VITI_NZ</NetworkName>
@@ -4506,7 +4250,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>VZW_US</NetworkName>
@@ -4516,7 +4259,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Velcom_BY</NetworkName>
@@ -4526,7 +4268,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vietnamobile_VN</NetworkName>
@@ -4536,7 +4277,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Viettel_VN</NetworkName>
@@ -4546,7 +4286,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vinaphone_VN</NetworkName>
@@ -4556,7 +4295,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vipmobile_RS</NetworkName>
@@ -4566,7 +4304,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Virgin_SA</NetworkName>
@@ -4576,7 +4313,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Viva_BH</NetworkName>
@@ -4586,7 +4322,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Viva_KW</NetworkName>
@@ -4596,7 +4331,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vivacom_BG</NetworkName>
@@ -4606,7 +4340,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodacom_ZA</NetworkName>
@@ -4616,7 +4349,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>VodafoneFiji_NZ</NetworkName>
@@ -4626,7 +4358,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>VodafonePNG_NZ</NetworkName>
@@ -4636,7 +4367,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_AL</NetworkName>
@@ -4646,7 +4376,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_AU</NetworkName>
@@ -4656,7 +4385,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_CZ</NetworkName>
@@ -4666,7 +4394,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_DE</NetworkName>
@@ -4676,7 +4403,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_EG</NetworkName>
@@ -4686,7 +4412,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_ES</NetworkName>
@@ -4696,7 +4421,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_GB</NetworkName>
@@ -4706,7 +4430,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_GR</NetworkName>
@@ -4716,7 +4439,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_HR</NetworkName>
@@ -4726,7 +4448,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_HU</NetworkName>
@@ -4736,7 +4457,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_IE</NetworkName>
@@ -4746,7 +4466,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_IS</NetworkName>
@@ -4756,7 +4475,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_IT</NetworkName>
@@ -4766,7 +4484,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_NL</NetworkName>
@@ -4776,7 +4493,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_NZ</NetworkName>
@@ -4786,7 +4502,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_OM</NetworkName>
@@ -4796,7 +4511,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_PT</NetworkName>
@@ -4806,7 +4520,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_QA</NetworkName>
@@ -4816,7 +4529,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_RO</NetworkName>
@@ -4826,7 +4538,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_TR</NetworkName>
@@ -4836,7 +4547,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>We_EG</NetworkName>
@@ -4846,7 +4556,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Wecom_IL</NetworkName>
@@ -4856,7 +4565,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Wind_GR</NetworkName>
@@ -4866,7 +4574,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Windtre_IT</NetworkName>
@@ -4876,7 +4583,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Wom_CL</NetworkName>
@@ -4886,7 +4592,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Wom_CO</NetworkName>
@@ -4896,7 +4601,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>XL_ID</NetworkName>
@@ -4906,7 +4610,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Xphone_IL</NetworkName>
@@ -4916,7 +4619,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>YTL_MY</NetworkName>
@@ -4926,7 +4628,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>ZEB_LT</NetworkName>
@@ -4936,7 +4637,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Zain_BH</NetworkName>
@@ -4946,7 +4646,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Zain_JO</NetworkName>
@@ -4956,7 +4655,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Zain_KW</NetworkName>
@@ -4966,7 +4664,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Zain_SA</NetworkName>
@@ -4976,7 +4673,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Zantel_TZ</NetworkName>
@@ -4986,7 +4682,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Zeop_FR</NetworkName>
@@ -4996,7 +4691,6 @@
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
         <Setting>
           <NetworkName>Zong_PK</NetworkName>
@@ -5006,7 +4700,6 @@
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
-          <Voice_Domain_Preference_EUTRAN>imspsvoicepreferred</Voice_Domain_Preference_EUTRAN>
         </Setting>
       </NbSetting>
     </IMSSetting>
