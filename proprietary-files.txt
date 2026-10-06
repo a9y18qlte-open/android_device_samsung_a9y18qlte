@@ -1385,6 +1385,27 @@ lib64/libsemnativecarrierfeature.so
 lib64/libsecril-client.so
 lib64/libstrongswan.so
 lib64/vendor.samsung.hardware.radio.bridge@2.0.so
+
+# Radio-IMS - VoWiFi: EpdgService (ePDG tunnel) and sveservice (AP voice engine)
+# EpdgService.apk is patched by vendor/samsung/a9y18qlte/tools/epdg.
+-app/sveservice/sveservice.apk
+-priv-app/EpdgService/EpdgService.apk
+etc/mapconprovider.xml
+etc/permissions/privapp-permissions-com.sec.epdg.xml
+lib64/libAudioFWInterface.so
+lib64/libnativecfms.so
+lib64/libPSI.so
+lib64/libRecorder.so
+lib64/librtp.so
+lib64/librtppayload.so
+lib64/libSamsungAPVoiceEngine.so
+lib64/libsamsung_videoengine_9_0.so
+lib64/libsavscmn.so
+lib64/libSTE.so
+lib64/libsvejni.so
+lib64/libsveservice.so
+lib64/libvad.so
+
 product/lib/libdiag_system.so
 product/lib64/libdiag_system.so
 product/etc/permissions/com.qualcomm.qti.imscmservice-V2.0-java.xml

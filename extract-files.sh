@@ -73,6 +73,45 @@ function blob_fixup() {
             # utf8_length() was removed from libutils in Android 11.
             [ "$2" = "" ] && return 0
             "${PATCHELF}" --add-needed "libsecims_shim.so" "${2}"
+            # CallSession::StartAllMediaForUAS() leaves the audio of an answered
+            # VoWiFi call (AP voice engine, SAE) to Samsung's phone app, which
+            # starts it through changeAudioPath(); AOSP never calls that, so
+            # incoming VoWiFi calls had no audio. Start it on answer like outgoing
+            # calls: b.ne (41 25 00 54) -> nop.
+            if [ "$(xxd -s 0x3efccc -l 12 -p "${2}")" = "682a50b91f05007141250054" ]; then
+                printf '\x1f\x20\x03\xd5' | dd of="${2}" bs=1 seek=$((0x3efcd4)) conv=notrunc status=none
+            fi
+            ;;
+        lib64/libsvejni.so)
+            # VoWiFi audio engine (sveservice). Links libsurfaceflinger, which no
+            # longer exists, for nothing it uses.
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --remove-needed "libsurfaceflinger.so" "${2}"
+            ;;
+        lib64/libAudioFWInterface.so)
+            # Android 10 AudioRecord/AudioTrack users. libsve_shim provides the old
+            # AudioRecord constructor and set(), which Android 12 changed.
+            [ "$2" = "" ] && return 0
+            # It allocates the objects itself, with the Android 10 sizes:
+            # AudioRecord 696 -> 1048 bytes, AudioTrack 1032 -> 1232 bytes.
+            if [ "$(xxd -s 0x20b0 -l 4 -p "${2}")" = "00578052" ]; then
+                printf '\x00\x83\x80\x52' | dd of="${2}" bs=1 seek=$((0x20b0)) conv=notrunc status=none
+            fi
+            if [ "$(xxd -s 0x22e8 -l 4 -p "${2}")" = "00818052" ]; then
+                printf '\x00\x9a\x80\x52' | dd of="${2}" bs=1 seek=$((0x22e8)) conv=notrunc status=none
+            fi
+            # Samsung's stream type 15 does not exist on AOSP and AudioTrack
+            # rejects it; play the call on the voice call stream (0) instead:
+            # orr w1, wzr, #0xf -> mov w1, #0.
+            if [ "$(xxd -s 0x2818 -l 4 -p "${2}")" = "e10f0032" ]; then
+                printf '\x01\x00\x80\x52' | dd of="${2}" bs=1 seek=$((0x2818)) conv=notrunc status=none
+            fi
+            "${PATCHELF}" --add-needed "libsve_shim.so" "${2}"
+            ;;
+        lib64/libsamsung_videoengine_9_0.so)
+            # Camera::connect() and Surface::isValid() changed in Android 11/12.
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --add-needed "libsve_shim.so" "${2}"
             ;;
         bin/multiclientd)
             # Q blob importing strdup8to16(), removed from libcutils in Android 11.

@@ -45,3 +45,9 @@
 
 # connfwexe packet-capture control socket. See private/platform_fixes.te.
 /data/\.tcpdump_socket    u:object_r:tcpdump_socket_file:s0
+
+# VoWiFi. See samsung_system_daemons.te.
+/system/bin/eris                  u:object_r:eris_exec:s0
+/(system_ext|system/system_ext)/bin/epdg_addr u:object_r:epdg_addr_exec:s0
+/dev/socket/eris                  u:object_r:eris_socket:s0
+/data/misc/eris(/.*)?             u:object_r:eris_data_file:s0

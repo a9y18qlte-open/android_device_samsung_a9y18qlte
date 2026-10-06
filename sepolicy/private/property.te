@@ -1,0 +1,2 @@
+# Set by EpdgService, read by init to start epdg_addr.
+system_internal_prop(epdg_tunaddr_prop)

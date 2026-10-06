@@ -117,6 +117,11 @@ PRODUCT_PACKAGES += \
     SamsungImsHelper \
     libsecims_shim
 
+# VoWiFi
+PRODUCT_PACKAGES += \
+    epdg_addr \
+    libsve_shim
+
 # Bluetooth
 PRODUCT_PACKAGES += \
     libbthost_if \

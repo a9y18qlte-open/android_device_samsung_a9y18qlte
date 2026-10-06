@@ -1,0 +1,21 @@
+# One service per tunnel (epdg<n> per SIM), so that tunnels coming up together
+# do not overwrite each other's addresses.
+service epdg_addr0 /system_ext/bin/epdg_addr ${sys.epdg.tunaddr.epdg0}
+    user system
+    group system inet
+    capabilities NET_ADMIN
+    oneshot
+    disabled
+
+service epdg_addr1 /system_ext/bin/epdg_addr ${sys.epdg.tunaddr.epdg1}
+    user system
+    group system inet
+    capabilities NET_ADMIN
+    oneshot
+    disabled
+
+on property:sys.epdg.tunaddr.epdg0=*
+    start epdg_addr0
+
+on property:sys.epdg.tunaddr.epdg1=*
+    start epdg_addr1
