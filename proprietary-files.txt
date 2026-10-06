@@ -86,6 +86,7 @@ vendor/lib64/hw/android.hardware.audio.effect@2.0-impl.so
 vendor/lib64/hw/android.hardware.audio.effect@4.0-impl.so
 vendor/lib64/hw/android.hardware.audio.effect@5.0-impl.so
 vendor/lib64/hw/vendor.samsung.hardware.audio@1.0-impl.so
+vendor/etc/init/android.hardware.audio@2.0-service.rc
 
 vendor/etc/audio_configs.xml
 vendor/etc/audio_effects_sec.xml
@@ -685,6 +686,15 @@ vendor/lib64/vendor.display.config@1.0.so
 vendor/lib64/vendor.display.config@1.1.so
 vendor/lib64/vendor.display.config@1.2.so
 vendor/lib64/vendor.display.config@1.3.so
+vendor/bin/hw/android.hardware.graphics.allocator@2.0-service
+vendor/bin/hw/android.hardware.graphics.composer@2.1-service
+vendor/etc/init/android.hardware.graphics.allocator@2.0-service.rc
+vendor/etc/init/android.hardware.graphics.composer@2.1-service.rc
+vendor/lib64/hw/android.hardware.graphics.allocator@2.0-impl.so
+vendor/lib64/hw/android.hardware.graphics.composer@2.1-impl.so
+vendor/lib64/libhwc2on1adapter.so
+vendor/lib64/libhwc2onfbadapter.so
+vendor/lib64/libqti_vndfwk_detect.so
 
 # Dolby
 vendor/etc/dolby/dax-default.xml
@@ -1207,6 +1217,8 @@ vendor/bin/pm-proxy
 vendor/bin/pm-service
 vendor/lib/libperipheral_client.so
 vendor/lib64/libperipheral_client.so
+vendor/bin/hw/android.hardware.usb@1.1-service.wahoo
+vendor/etc/init/android.hardware.usb@1.1-service.wahoo.rc
 
 # Postprocessing
 vendor/bin/hw/vendor.display.color@1.0-service
@@ -1319,6 +1331,17 @@ vendor/lib64/libqrtr.so
 vendor/lib64/libqsocket.so
 vendor/lib64/libsystem_health_mon.so
 vendor/lib64/vendor.qti.hardware.radio.atcmdfwd@1.0.so
+vendor/lib/libreference-ril.so
+vendor/lib/libril.so
+vendor/lib/librilutils.so
+# Not the stock build (same NEEDED, different code); pinned to keep it.
+vendor/lib/librmnetctl.so|42cc2ad37f306f170c5df08e8681a51996293501
+vendor/lib/libvkmanager_vendor.so
+vendor/lib64/libreference-ril.so
+vendor/lib64/libril.so
+vendor/lib64/librilutils.so
+vendor/lib64/librmnetctl.so|3bc9f0e140370fd4e95d8e262c30be515883cc10
+vendor/lib64/libvkmanager_vendor.so
 
 # Radio-IMS
 bin/imsd
@@ -1343,6 +1366,9 @@ etc/permissions/vsimservice_library.xml
 -app/ImsSettings/ImsSettings.apk
 -priv-app/ImsTelephonyService/ImsTelephonyService.apk
 -priv-app/imsservice/imsservice.apk
+# imsmanager.jar is patched by vendor/samsung/a9y18qlte/tools/imsservice.
+etc/permissions/imsmanager_library.xml
+framework/imsmanager.jar
 framework/EpdgManager.jar
 framework/rcsopenapi.jar
 framework/svemanager.jar
@@ -1501,6 +1527,9 @@ vendor/lib64/vendor.samsung.hardware.wifi.hostapd@2.0.so
 vendor/lib64/vendor.samsung.hardware.wifi.supplicant@2.0.so
 vendor/lib64/vendor.samsung.hardware.wifi@2.0.so
 vendor/lib64/vendor.samsung.hardware.security.proca@2.0.so
+vendor/etc/floating_feature.xml
+vendor/lib64/vendor.samsung.frameworks.security.dsms@1.0_vendor.so
+vendor/lib64/vendor.samsung.hardware.security.securestorage@3.0.so
 
 # Sensors
 vendor/bin/hw/android.hardware.sensors@1.0-service
