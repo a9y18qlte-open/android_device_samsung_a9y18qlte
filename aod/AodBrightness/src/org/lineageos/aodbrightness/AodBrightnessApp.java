@@ -17,6 +17,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.hardware.display.AmbientDisplayConfiguration;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.os.UserHandle;
 import android.util.Log;
 
@@ -32,6 +33,11 @@ import java.io.IOException;
  * /sys/class/lcd/panel/alpm. Watch the light sensor while the screen is off and
  * use the dim level in the dark. Without a light sensor, or when it reports
  * nothing, stay at the bright level so the always-on display stays readable.
+ *
+ * The always-on display sits in DOZE_SUSPEND, where the panel driver lets the CPU
+ * suspend but no longer takes frames. Once a minute, when SystemUI redraws the clock,
+ * hold a draw wake lock briefly: the display goes back to DOZE for the new frame,
+ * then returns to DOZE_SUSPEND.
  */
 public class AodBrightnessApp extends Application implements SensorEventListener {
     private static final String TAG = "AodBrightness";
@@ -48,17 +54,29 @@ public class AodBrightnessApp extends Application implements SensorEventListener
     // How long to wait for a first reading before falling back to the bright level.
     private static final long SENSOR_TIMEOUT_MS = 3000;
 
+    // Long enough for SystemUI to draw the new minute and the panel to take it.
+    private static final long DRAW_WAKE_LOCK_MS = 1500;
+
     private final Handler mHandler = new Handler();
 
     private AmbientDisplayConfiguration mAmbientConfig;
     private SensorManager mSensorManager;
     private Sensor mLightSensor;
     private boolean mListening;
+    private boolean mTicking;
+    private PowerManager.WakeLock mDrawWakeLock;
     private String mMode;
 
     private final Runnable mSensorTimeout = () -> {
         Log.i(TAG, "No light sensor reading, using the bright level");
         setMode(HLPM_60NIT);
+    };
+
+    private final BroadcastReceiver mTimeTickReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mDrawWakeLock.acquire(DRAW_WAKE_LOCK_MS);
+        }
     };
 
     private final BroadcastReceiver mScreenReceiver = new BroadcastReceiver() {
@@ -68,6 +86,7 @@ public class AodBrightnessApp extends Application implements SensorEventListener
                 onScreenOff();
             } else {
                 stopListening();
+                stopTicking();
             }
         }
     };
@@ -79,6 +98,8 @@ public class AodBrightnessApp extends Application implements SensorEventListener
         mAmbientConfig = new AmbientDisplayConfiguration(this);
         mSensorManager = getSystemService(SensorManager.class);
         mLightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        mDrawWakeLock = getSystemService(PowerManager.class)
+                .newWakeLock(PowerManager.DRAW_WAKE_LOCK, TAG);
         if (mLightSensor == null) {
             Log.i(TAG, "No light sensor, the always-on display stays at the bright level");
         }
@@ -92,8 +113,14 @@ public class AodBrightnessApp extends Application implements SensorEventListener
     }
 
     private void onScreenOff() {
-        if (mLightSensor == null || mListening
-                || !mAmbientConfig.alwaysOnEnabled(UserHandle.USER_CURRENT)) {
+        if (!mAmbientConfig.alwaysOnEnabled(UserHandle.USER_CURRENT)) {
+            return;
+        }
+        if (!mTicking) {
+            mTicking = true;
+            registerReceiver(mTimeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+        }
+        if (mLightSensor == null || mListening) {
             return;
         }
         mListening = true;
@@ -108,6 +135,14 @@ public class AodBrightnessApp extends Application implements SensorEventListener
         mListening = false;
         mHandler.removeCallbacks(mSensorTimeout);
         mSensorManager.unregisterListener(this);
+    }
+
+    private void stopTicking() {
+        if (!mTicking) {
+            return;
+        }
+        mTicking = false;
+        unregisterReceiver(mTimeTickReceiver);
     }
 
     @Override

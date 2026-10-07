@@ -8,4 +8,8 @@
     <!-- Put the display in DOZE/DOZE_SUSPEND for the always-on display, so the
          panel switches to its low-power mode instead of staying fully on. -->
     <bool name="doze_display_state_supported">true</bool>
+
+    <!-- Show the always-on display in DOZE_SUSPEND: in DOZE the panel driver holds
+         a wake lock and the CPU never suspends. AodBrightness lets the clock update. -->
+    <bool name="doze_suspend_display_state_supported">true</bool>
 </resources>
