@@ -78,7 +78,17 @@ char* Device::halGetParameters(const char* keys) {
 }
 
 int Device::halSetParameters(const char* keysAndValues) {
-    return mDevice->set_parameters(mDevice, keysAndValues);
+    int status = mDevice->set_parameters(mDevice, keysAndValues);
+    // Samsung's audio HAL ignores bt_wbs and takes the SCO sample rate from
+    // g_sco_samplerate, which stock Samsung Bluetooth sends along with it. Without
+    // it wideband (mSBC) SCO runs on the 8 kHz path and calls on a headset have
+    // no audio one way and noise the other.
+    String8 wbs;
+    if (AudioParameter(String8(keysAndValues)).get(String8("bt_wbs"), wbs) == OK) {
+        mDevice->set_parameters(mDevice, wbs == AudioParameter::valueOn ? "g_sco_samplerate=16000"
+                                                                         : "g_sco_samplerate=8000");
+    }
+    return status;
 }
 
 // Methods from ::android::hardware::audio::CPP_VERSION::IDevice follow.
