@@ -19,12 +19,14 @@
 #include <android/content/AttributionSourceState.h>
 #include <binder/Binder.h>
 #include <camera/Camera.h>
+#include <camera/CameraBase.h>
 #include <gui/Surface.h>
 #include <media/AudioRecord.h>
 #include <utils/String8.h>
 
 using android::AudioRecord;
 using android::Camera;
+using android::CameraBase;
 using android::sp;
 using android::String16;
 using android::String8;
@@ -51,7 +53,7 @@ void _ZN7android11AudioRecordC1ERKNS_8String16E(AudioRecord* self,
 android::status_t
 _ZN7android11AudioRecord3setE14audio_source_tj14audio_format_tjmPFviPvS3_ES3_jb15audio_session_tNS0_13transfer_typeE19audio_input_flags_tjiPK18audio_attributes_ti28audio_microphone_direction_tf(
         AudioRecord* self, audio_source_t inputSource, uint32_t sampleRate, audio_format_t format,
-        audio_channel_mask_t channelMask, size_t frameCount, AudioRecord::callback_t cbf,
+        audio_channel_mask_t channelMask, size_t frameCount, AudioRecord::legacy_callback_t cbf,
         void* user, uint32_t notificationFrames, bool threadCanCallJava,
         audio_session_t sessionId, AudioRecord::transfer_type transferType,
         audio_input_flags_t flags, uid_t uid, pid_t pid, const audio_attributes_t* pAttributes,
@@ -80,5 +82,13 @@ sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int cl
 sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int clientUid,
                          int clientPid) {
     return Camera::connect(cameraId, clientPackageName, clientUid, clientPid,
-                           29 /* targetSdkVersion, the blobs target Android 10 */);
+                           29 /* targetSdkVersion, the blobs target Android 10 */,
+                           false /* overrideToPortrait */, false /* forceSlowJpegMode */);
+}
+
+// static status_t CameraBase<Camera>::getCameraInfo(int, CameraInfo*)
+android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInfo* cameraInfo)
+        __asm__("_ZN7android10CameraBaseINS_6CameraENS_12CameraTraitsIS1_EEE13getCameraInfoEiPNS_8hardware10CameraInfoE");
+android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInfo* cameraInfo) {
+    return CameraBase<Camera>::getCameraInfo(cameraId, false /* overrideToPortrait */, cameraInfo);
 }
