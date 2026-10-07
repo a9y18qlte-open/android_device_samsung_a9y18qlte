@@ -116,6 +116,22 @@ function blob_fixup() {
                 printf '\x01\x00\x80\x52' | dd of="${2}" bs=1 seek=$((0x2818)) conv=notrunc status=none
             fi
             "${PATCHELF}" --add-needed "libsve_shim.so" "${2}"
+            # Android 13 moved the RefBase of AudioTrack and AudioRecord off the
+            # start of the object; libsve_shim finds it before counting references.
+            # Point the RefBase::incStrong()/decStrong() imports at it by renaming
+            # them in place (RefBase -> SveBase keeps the string table layout).
+            perl -0777 -pi -e 's/_ZNK7android7RefBase9(inc|dec)StrongEPKv/_ZNK7android7SveBase9$1StrongEPKv/g' "${2}"
+            # The same change moved fields it reads inline: AudioTrack::mStatus
+            # (initCheck()) 0x208 -> 0x200, AudioTrack::mSessionId (getSessionId())
+            # 0x34c -> 0x35c, AudioRecord::mStatus 0x88 -> 0x8c.
+            local patch addr old new
+            for patch in 240c:040942b9:040142b9 2950:080842b9:080042b9 \
+                    2514:144c43b9:145c43b9 2528:88698052:886b8052 21d4:048940b9:048d40b9; do
+                IFS=: read -r addr old new <<< "${patch}"
+                if [ "$(xxd -s 0x${addr} -l 4 -p "${2}")" = "${old}" ]; then
+                    echo "${new}" | xxd -r -p | dd of="${2}" bs=1 seek=$((0x${addr})) conv=notrunc status=none
+                fi
+            done
             ;;
         lib64/libsamsung_videoengine_9_0.so)
             # Camera::connect() and Surface::isValid() changed in Android 11/12.

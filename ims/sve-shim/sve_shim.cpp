@@ -22,10 +22,13 @@
 #include <camera/CameraBase.h>
 #include <gui/Surface.h>
 #include <media/AudioRecord.h>
+#include <media/AudioTrack.h>
 #include <utils/String8.h>
 
 using android::AudioRecord;
+using android::AudioTrack;
 using android::Camera;
+using android::RefBase;
 using android::CameraBase;
 using android::sp;
 using android::String16;
@@ -91,4 +94,35 @@ android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInf
         __asm__("_ZN7android10CameraBaseINS_6CameraENS_12CameraTraitsIS1_EEE13getCameraInfoEiPNS_8hardware10CameraInfoE");
 android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInfo* cameraInfo) {
     return CameraBase<Camera>::getCameraInfo(cameraId, false /* overrideToPortrait */, cameraInfo);
+}
+
+// RefBase::incStrong() and decStrong() for libAudioFWInterface.so, whose imports of
+// them are renamed to SveBase (same length, see extract-files.sh). Android 13 made AudioSystem::AudioDeviceCallback a
+// virtual RefBase, which moved the RefBase of AudioTrack and AudioRecord away from
+// the start of the object; the blob still passes the object address as the RefBase.
+static const RefBase* toRefBase(const void* object) {
+    static const void* const kAudioTrackVtable = [] {
+        sp<AudioTrack> track = sp<AudioTrack>::make();
+        return *reinterpret_cast<const void* const*>(track.get());
+    }();
+    static const void* const kAudioRecordVtable = [] {
+        sp<AudioRecord> record = sp<AudioRecord>::make(AttributionSourceState());
+        return *reinterpret_cast<const void* const*>(record.get());
+    }();
+    const void* vtable = *static_cast<const void* const*>(object);
+    if (vtable == kAudioTrackVtable) return static_cast<const AudioTrack*>(object);
+    if (vtable == kAudioRecordVtable) return static_cast<const AudioRecord*>(object);
+    return static_cast<const RefBase*>(object);
+}
+
+extern "C" void sve_RefBase_incStrong(const void* object, const void* id)
+        __asm__("_ZNK7android7SveBase9incStrongEPKv");
+extern "C" void sve_RefBase_incStrong(const void* object, const void* id) {
+    toRefBase(object)->incStrong(id);
+}
+
+extern "C" void sve_RefBase_decStrong(const void* object, const void* id)
+        __asm__("_ZNK7android7SveBase9decStrongEPKv");
+extern "C" void sve_RefBase_decStrong(const void* object, const void* id) {
+    toRefBase(object)->decStrong(id);
 }
