@@ -58,7 +58,6 @@ PRODUCT_PACKAGES += \
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio@5.0-impl.a9y18qlte \
-    audio.a2dp.default \
     audio.r_submix.default \
     audio.usb.default \
     libaudio-resampler \
@@ -124,7 +123,6 @@ PRODUCT_PACKAGES += \
 
 # Bluetooth
 PRODUCT_PACKAGES += \
-    libbthost_if \
     audio.bluetooth.default \
     android.hardware.bluetooth.audio@2.0-impl \
     libsndmonitor \
