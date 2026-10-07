@@ -355,11 +355,16 @@ PRODUCT_PACKAGES += \
     libhidltransport.vendor \
     libhwbinder.vendor
 
-# Keymaster
-# The stock Android 10 keymaster@3.0-impl cannot load against Android 12 keymaster
-# libraries; build the AOSP impl, which wraps Samsung's legacy keystore.mdfpp module
-# (ro.hardware.keystore=mdfpp) and is loaded by the stock keymaster service.
-PRODUCT_PACKAGES += android.hardware.keymaster@3.0-impl
+# Keymaster / gatekeeper
+# AOSP keymaster 3.0 and gatekeeper 1.0 around Samsung's keystore.mdfpp and
+# gatekeeper.mdfpp modules (ro.hardware.keystore/gatekeeper=mdfpp); the stock
+# Android 10 keymaster@3.0-impl cannot load against Android 12+ keymaster
+# libraries. The services keep their stock options (see init.a9y18qlte.rc).
+PRODUCT_PACKAGES += \
+    android.hardware.gatekeeper@1.0-impl \
+    android.hardware.gatekeeper@1.0-service \
+    android.hardware.keymaster@3.0-impl \
+    android.hardware.keymaster@3.0-service
 
 # VNDK compat
 # Android 12 no longer ships HIDL interface libraries in the VNDK; the Android 10

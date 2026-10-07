@@ -910,10 +910,6 @@ vendor/lib64/libgnsspps.so
 vendor/lib64/libgps.utils.so
 
 # Gatekeeper
-vendor/bin/hw/android.hardware.gatekeeper@1.0-service
-vendor/etc/init/android.hardware.gatekeeper@1.0-service.rc
-vendor/lib/android.hardware.gatekeeper@1.0-impl.so
-vendor/lib64/android.hardware.gatekeeper@1.0-impl.so
 vendor/lib64/hw/gatekeeper.mdfpp.so
 
 # Graphics
@@ -986,16 +982,12 @@ vendor/lib64/vendor.qti.hardware.iop@1.0.so
 vendor/lib64/vendor.qti.hardware.iop@2.0.so
 
 # Keymaster
-vendor/bin/hw/android.hardware.keymaster@3.0-service
-vendor/etc/init/android.hardware.keymaster@3.0-service.rc
-vendor/lib/hw/android.hardware.keymaster@3.0-impl.so
 vendor/lib/libkeymaster3device.so
 vendor/lib/libkeymasterdeviceutils.so
 vendor/lib/libkeymasterprovision.so
 vendor/lib/libkeymasterutils.so
 vendor/lib/libqtikeymaster4.so
 vendor/lib/libskeymaster3device.so
-vendor/lib64/hw/android.hardware.keymaster@3.0-impl.so
 vendor/lib64/libkeymaster2_mdfpp.so
 vendor/lib64/libkeymaster3device.so
 vendor/lib64/libkeymasterdeviceutils.so
