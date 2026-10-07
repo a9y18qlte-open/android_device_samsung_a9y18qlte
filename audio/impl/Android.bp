@@ -1,4 +1,4 @@
-// Android 12's hardware/interfaces/audio/core/all-versions/default, built for
+// Android 13's hardware/interfaces/audio/core/all-versions/default, built for
 // @5.0, with Samsung SIM slot hooks (SimSlot.cpp): PrimaryDevice::setMode()
 // tells Samsung's audio HAL which SIM a call is on, and output/stream hooks
 // pick the modem voice session for VoLTE calls.
@@ -46,7 +46,6 @@ cc_library_shared {
     header_libs: [
         "android.hardware.audio-impl_headers",
         "android.hardware.audio.common.util@all-versions",
-        "libaudioclient_headers",
         "libaudioutils_headers",
         "libaudio_system_headers",
         "libhardware_headers",
