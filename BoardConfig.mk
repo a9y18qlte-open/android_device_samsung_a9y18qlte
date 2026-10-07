@@ -121,6 +121,9 @@ TARGET_KERNEL_CONFIG := a9y18qlte_eur_open_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/a9y18qlte
 TARGET_KERNEL_VERSION := 4.4
 TARGET_KERNEL_CLANG_COMPILE := true
+# 4.4 cannot link with ld.lld (empty built-in.o: "target emulation unknown");
+# link with the GNU binutils of the aarch64-linux-android-4.9 toolchain.
+TARGET_KERNEL_LLVM_BINUTILS := false
 #TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
 # Partitions
