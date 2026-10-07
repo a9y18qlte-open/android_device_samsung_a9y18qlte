@@ -29,6 +29,9 @@
 #include <memory.h>
 #include <string.h>
 #include <algorithm>
+#include <mutex>
+#include <set>
+#include <string>
 
 #include <android/log.h>
 #include <hidl/HidlTransportSupport.h>
@@ -48,6 +51,16 @@ namespace util {
 using namespace ::android::hardware::audio::CORE_TYPES_CPP_VERSION::implementation::util;
 }
 
+namespace {
+
+// Open input streams, restarted when the SCO sample rate changes (see halSetParameters()).
+std::mutex gInputStreamsLock;
+std::set<audio_stream_in_t*> gInputStreams;
+// Samsung's audio HAL starts out on the 8 kHz SCO path.
+std::string gScoSampleRate = "g_sco_samplerate=8000";
+
+}  // namespace
+
 Device::Device(audio_hw_device_t* device) : mIsClosed(false), mDevice(device) {}
 
 Device::~Device() {
@@ -61,6 +74,10 @@ Result Device::analyzeStatus(const char* funcName, int status,
 }
 
 void Device::closeInputStream(audio_stream_in_t* stream) {
+    {
+        std::lock_guard<std::mutex> lock(gInputStreamsLock);
+        gInputStreams.erase(stream);
+    }
     mDevice->close_input_stream(mDevice, stream);
     LOG_ALWAYS_FATAL_IF(mOpenedStreamsCount == 0, "mOpenedStreamsCount is already 0");
     --mOpenedStreamsCount;
@@ -85,8 +102,19 @@ int Device::halSetParameters(const char* keysAndValues) {
     // no audio one way and noise the other.
     String8 wbs;
     if (AudioParameter(String8(keysAndValues)).get(String8("bt_wbs"), wbs) == OK) {
-        mDevice->set_parameters(mDevice, wbs == AudioParameter::valueOn ? "g_sco_samplerate=16000"
-                                                                         : "g_sco_samplerate=8000");
+        const char* rate = wbs == AudioParameter::valueOn ? "g_sco_samplerate=16000"
+                                                          : "g_sco_samplerate=8000";
+        mDevice->set_parameters(mDevice, rate);
+        // Bluetooth reports the codec only once the SCO link is up. A recording from
+        // the headset starts its input stream before that, on the path of the previous
+        // rate; put input streams in standby so they restart on the new one.
+        std::lock_guard<std::mutex> lock(gInputStreamsLock);
+        if (gScoSampleRate != rate) {
+            gScoSampleRate = rate;
+            for (audio_stream_in_t* stream : gInputStreams) {
+                stream->common.standby(&stream->common);
+            }
+        }
     }
     return status;
 }
@@ -233,6 +261,10 @@ std::tuple<Result, sp<IStreamIn>> Device::openInputStreamCore(
     ALOGV("open_input_stream status %d stream %p", status, halStream);
     sp<IStreamIn> streamIn;
     if (status == OK) {
+        {
+            std::lock_guard<std::mutex> lock(gInputStreamsLock);
+            gInputStreams.insert(halStream);
+        }
         streamIn = new StreamIn(this, halStream);
         ++mOpenedStreamsCount;
         android::hardware::setMinSchedulerPolicy(streamIn, SCHED_NORMAL, ANDROID_PRIORITY_AUDIO);
