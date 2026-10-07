@@ -445,6 +445,16 @@ PRODUCT_PACKAGES += \
     libcutils-v29.system64 \
     libcutils-v29.system32
 
+# Sound trigger / thermal
+# The stock Android 10 builds of these AOSP default implementations are the same
+# code; build them. They load the stock sound_trigger.primary.sdm660 and
+# thermal.sdm660 modules.
+PRODUCT_PACKAGES += \
+    android.hardware.soundtrigger@2.0-impl \
+    android.hardware.soundtrigger@2.1-impl \
+    android.hardware.thermal@1.0-impl \
+    android.hardware.thermal@1.0-service
+
 # Inherit vendor
 $(call inherit-product, vendor/samsung/a9y18qlte/a9y18qlte-vendor.mk)
 

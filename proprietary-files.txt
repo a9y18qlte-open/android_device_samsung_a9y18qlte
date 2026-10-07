@@ -63,8 +63,6 @@ vendor/lib/vendor.samsung.hardware.audio@1.0.so
 vendor/lib/libdrc.so
 vendor/lib/libqtigef.so
 vendor/lib/libsurround_3mic_proc.so
-vendor/lib/hw/android.hardware.soundtrigger@2.0-impl.so
-vendor/lib/hw/android.hardware.soundtrigger@2.1-impl.so
 vendor/lib/hw/vendor.samsung.hardware.audio@1.0-impl.so
 vendor/lib64/libacdb-fts.so
 vendor/lib64/libacdbloader.so
@@ -1540,14 +1538,10 @@ vendor/lib/vendor.qti.hardware.tui_comm@1.0.so
 vendor/lib64/vendor.qti.hardware.tui_comm@1.0.so
 
 # Thermal
-vendor/bin/hw/android.hardware.thermal@1.0-service
 vendor/bin/thermal-engine
-vendor/etc/init/android.hardware.thermal@1.0-service.rc
 vendor/etc/thermal-engine.conf
-vendor/lib/hw/android.hardware.thermal@1.0-impl.so
 vendor/lib/hw/thermal.sdm660.so
 -vendor/lib/libthermalclient.so
-vendor/lib64/hw/android.hardware.thermal@1.0-impl.so
 vendor/lib64/hw/thermal.sdm660.so
 -vendor/lib64/libthermalclient.so
 vendor/lib64/libthermalioctl.so
