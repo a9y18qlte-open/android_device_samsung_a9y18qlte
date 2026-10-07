@@ -5,7 +5,8 @@
 //
 
 cc_library_shared {
-    name: "libcamera_metadata_shim",
+    name: "libcamera_metadata_shim.a9y18qlte",
+    stem: "libcamera_metadata_shim",
     vendor: true,
     compile_multilib: "32",
     srcs: ["camera_metadata_shim.cpp"],
