@@ -455,6 +455,16 @@ PRODUCT_PACKAGES += \
     android.hardware.thermal@1.0-impl \
     android.hardware.thermal@1.0-service
 
+# Graphics
+# AOSP passthrough mapper, allocator and composer around the stock gralloc.sdm660
+# and hwcomposer.sdm660 modules, replacing their Android 10 builds. The composer
+# service keeps its stock options (see init.a9y18qlte.rc).
+PRODUCT_PACKAGES += \
+    android.hardware.graphics.allocator@2.0-impl \
+    android.hardware.graphics.allocator@2.0-service \
+    android.hardware.graphics.composer@2.1-service \
+    android.hardware.graphics.mapper@2.0-impl
+
 # Inherit vendor
 $(call inherit-product, vendor/samsung/a9y18qlte/a9y18qlte-vendor.mk)
 
