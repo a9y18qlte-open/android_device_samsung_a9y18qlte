@@ -215,7 +215,6 @@ vendor/lib/libsns_low_lat_stream_stub.so
 vendor/lib/libvdis_core.so
 vendor/lib/libvdis_interface.so
 vendor/lib/libvideoutils.so
-vendor/lib/vendor.qti.hardware.camera.device@1.0.so
 vendor/lib64/libbase64.so
 vendor/lib64/libremosaiclib.so
 vendor/lib64/libremosaic_daemon.so
@@ -223,7 +222,6 @@ vendor/lib64/libsns_low_lat_stream_stub.so
 vendor/lib64/libvdis_core.so
 vendor/lib64/libvdis_interface.so
 vendor/lib64/libvideoutils.so
-vendor/lib64/vendor.qti.hardware.camera.device@1.0.so
 
 # Camera-actuators
 vendor/lib/libactuator_dw9808.so
@@ -663,10 +661,6 @@ vendor/lib/libqservice.so
 vendor/lib/libsdmcore.so
 vendor/lib/libsdmextension.so
 vendor/lib/libsdmutils.so
-vendor/lib/vendor.display.config@1.0.so
-vendor/lib/vendor.display.config@1.1.so
-vendor/lib/vendor.display.config@1.2.so
-vendor/lib/vendor.display.config@1.3.so
 vendor/lib64/hw/android.hardware.graphics.mapper@2.0-impl.so
 vendor/lib64/hw/gralloc.default.so
 vendor/lib64/hw/gralloc.sdm660.so
@@ -682,10 +676,6 @@ vendor/lib64/libqservice.so
 vendor/lib64/libsdmcore.so
 vendor/lib64/libsdmextension.so
 vendor/lib64/libsdmutils.so
-vendor/lib64/vendor.display.config@1.0.so
-vendor/lib64/vendor.display.config@1.1.so
-vendor/lib64/vendor.display.config@1.2.so
-vendor/lib64/vendor.display.config@1.3.so
 vendor/bin/hw/android.hardware.graphics.allocator@2.0-service
 vendor/bin/hw/android.hardware.graphics.composer@2.1-service
 vendor/etc/init/android.hardware.graphics.allocator@2.0-service.rc
@@ -945,9 +935,7 @@ vendor/lib64/libgps.utils.so
 vendor/bin/hw/android.hardware.gatekeeper@1.0-service
 vendor/etc/init/android.hardware.gatekeeper@1.0-service.rc
 vendor/lib/android.hardware.gatekeeper@1.0-impl.so
-vendor/lib/android.hidl.base@1.0.so
 vendor/lib64/android.hardware.gatekeeper@1.0-impl.so
-vendor/lib64/android.hidl.base@1.0.so
 vendor/lib64/hw/gatekeeper.mdfpp.so
 
 # Graphics
@@ -1203,14 +1191,12 @@ vendor/lib/libqti-perfd.so
 vendor/lib/libqti-util.so
 vendor/lib/libqti-utils.so
 vendor/lib/vendor.qti.hardware.perf@1.0.so
-vendor/lib/vendor.qti.hardware.perf@2.0.so
 vendor/lib64/libperfgluelayer.so
 vendor/lib64/libqti-perfd-client.so
 vendor/lib64/libqti-perfd.so
 vendor/lib64/libqti-util.so
 vendor/lib64/libqti-utils.so
 vendor/lib64/vendor.qti.hardware.perf@1.0.so
-vendor/lib64/vendor.qti.hardware.perf@2.0.so
 
 # Peripheral
 vendor/bin/pm-proxy
@@ -1378,7 +1364,6 @@ lib/libfactoryutil.so
 lib/libmdf.so
 lib/libomission_avoidance.so
 lib/libpacm_client.so
-lib/android.hardware.radio@1.0.so
 lib/libsecaudiocoreutils.so
 lib/libsecaudioeventutils.so
 lib/libsecnativefeature.so
@@ -1386,7 +1371,6 @@ lib/libsecure_storage.so
 lib/libsemnativecarrierfeature.so
 lib/libsecril-client.so
 lib64/libaresdns.so
-lib64/android.hardware.radio@1.0.so
 lib64/libevs_float.so
 lib64/libAudioTranscoder.so
 lib64/libcharon.so
@@ -1794,7 +1778,6 @@ vendor/lib64/libperfconfig.so
 vendor/lib64/libjson.so
 vendor/lib64/android.hardware.camera.provider@2.4-legacy.so
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so
-vendor/lib64/vendor.qti.hardware.btconfigstore@1.0.so
 vendor/lib64/vendor.samsung.hardware.health@1.0.so
 vendor/lib64/libsecaudiocoreutils.so
 vendor/lib64/libsecaudioinfo.so

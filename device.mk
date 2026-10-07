@@ -400,10 +400,18 @@ PRODUCT_PACKAGES += \
     android.hardware.vibrator@1.1.vendor \
     android.hardware.vibrator@1.2.vendor \
     android.hardware.vibrator@1.3.vendor \
+    android.hidl.base@1.0.vendor \
     android.system.net.netd@1.1.vendor \
     libstagefright_softomx.vendor \
+    vendor.display.config@1.0.vendor \
+    vendor.display.config@1.1.vendor \
+    vendor.display.config@1.2.vendor \
+    vendor.display.config@1.3.vendor \
+    vendor.qti.hardware.btconfigstore@1.0.vendor \
+    vendor.qti.hardware.camera.device@1.0.vendor \
     vendor.qti.hardware.capabilityconfigstore@1.0.vendor \
     vendor.qti.hardware.fstman@1.0.vendor \
+    vendor.qti.hardware.perf@2.0.vendor \
     libstagefright_omx_vendor
 
 # The stock RIL and widevine link Android 10 protobuf (VNDK v29).
@@ -425,6 +433,9 @@ PRODUCT_PACKAGES += \
 
 # Samsung system blobs (multiclientd) still link libhidltransport/libhwbinder.
 PRODUCT_PACKAGES += libhidltransport libhwbinder
+
+# Samsung IMS system blobs link android.hardware.radio@1.0.
+PRODUCT_PACKAGES += android.hardware.radio@1.0
 
 # Q libcutils for Samsung RIL blobs and multiclientd (strdup8to16, removed in
 # Android 11); they are patched to need libcutils-v29.so.
