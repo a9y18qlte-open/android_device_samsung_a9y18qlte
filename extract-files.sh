@@ -102,12 +102,12 @@ function blob_fixup() {
             # AudioRecord constructor and set(), which Android 12 changed.
             [ "$2" = "" ] && return 0
             # It allocates the objects itself, with the Android 10 sizes:
-            # AudioRecord 696 -> 1048 bytes, AudioTrack 1032 -> 1232 bytes.
+            # AudioRecord 696 -> 1128 bytes, AudioTrack 1032 -> 1264 bytes (Android 13).
             if [ "$(xxd -s 0x20b0 -l 4 -p "${2}")" = "00578052" ]; then
-                printf '\x00\x83\x80\x52' | dd of="${2}" bs=1 seek=$((0x20b0)) conv=notrunc status=none
+                printf '\x00\x8d\x80\x52' | dd of="${2}" bs=1 seek=$((0x20b0)) conv=notrunc status=none
             fi
             if [ "$(xxd -s 0x22e8 -l 4 -p "${2}")" = "00818052" ]; then
-                printf '\x00\x9a\x80\x52' | dd of="${2}" bs=1 seek=$((0x22e8)) conv=notrunc status=none
+                printf '\x00\x9e\x80\x52' | dd of="${2}" bs=1 seek=$((0x22e8)) conv=notrunc status=none
             fi
             # Samsung's stream type 15 does not exist on AOSP and AudioTrack
             # rejects it; play the call on the voice call stream (0) instead:
