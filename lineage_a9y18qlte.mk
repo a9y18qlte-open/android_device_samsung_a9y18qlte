@@ -34,6 +34,11 @@ TARGET_BOOT_ANIMATION_RES := 1080
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
 
+# In-line GApps integration
+ifeq ($(WITH_GAPPS),true)
+$(call inherit-product-if-exists, vendor/gapps/arm64/arm64-vendor.mk)
+endif
+
 PRODUCT_BRAND := samsung
 PRODUCT_DEVICE := a9y18qlte
 PRODUCT_MANUFACTURER := samsung
