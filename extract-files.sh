@@ -122,6 +122,12 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             "${PATCHELF}" --add-needed "libsve_shim.so" "${2}"
             ;;
+        lib64/liberis_strongswan.so)
+            # Android 13's BoringSSL renamed the lh_* hash table functions to
+            # OPENSSL_lh_*; liberis_shim provides the old names.
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --add-needed "liberis_shim.so" "${2}"
+            ;;
         bin/multiclientd)
             # Q blob importing strdup8to16(), removed from libcutils in Android 11.
             [ "$2" = "" ] && return 0

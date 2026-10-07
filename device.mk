@@ -119,6 +119,7 @@ PRODUCT_PACKAGES += \
 # VoWiFi
 PRODUCT_PACKAGES += \
     epdg_addr \
+    liberis_shim \
     libsve_shim
 
 # Bluetooth
