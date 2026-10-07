@@ -470,6 +470,37 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.composer@2.1-service \
     android.hardware.graphics.mapper@2.0-impl
 
+# AOSP libraries and modules
+# Source builds of generic AOSP code the stock Android 10 vendor shipped. Every
+# blob linking one of them still finds all the symbols it imports.
+# libsensorndkbridge stays stock: Samsung's exports camera ALooper variants.
+# fingerprint.default too: Samsung's is the real HAL module (libbauthserver).
+PRODUCT_PACKAGES += \
+    audio.primary.default \
+    audio.r_submix.default \
+    audio.usb.default \
+    cplay \
+    gralloc.default \
+    hostapd_cli \
+    libaudiopreprocessing \
+    libdrm.vendor \
+    libdrmclearkeyplugin \
+    libgui_vendor \
+    libjson \
+    libkeystore-engine-wifi-hidl \
+    libkeystore-wifi-hidl \
+    libnetfilter_conntrack \
+    libnfnetlink \
+    libqti_vndfwk_detect.vendor \
+    libstagefright_soft_g711dec.vendor \
+    libstagefright_soft_rawdec.vendor \
+    libstagefright_soft_vorbisdec.vendor \
+    libtinycompress \
+    vendor.nxp.nxpnfc@1.0.vendor \
+    vendor.qti.hardware.perf@1.0.vendor \
+    vibrator.default \
+    wpa_cli
+
 # Inherit vendor
 $(call inherit-product, vendor/samsung/a9y18qlte/a9y18qlte-vendor.mk)
 
