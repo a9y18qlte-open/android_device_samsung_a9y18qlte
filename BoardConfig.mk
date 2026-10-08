@@ -202,9 +202,6 @@ BOARD_VNDK_VERSION := current
 TARGET_COPY_OUT_VENDOR := vendor
 TARGET_COPY_OUT_ODM := vendor/odm
 
-# Enable 64-bits binder
-TARGET_USES_64_BIT_BINDER := true
-
 # Graphics
 BOARD_USES_ADRENO := true
 
