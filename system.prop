@@ -74,3 +74,9 @@ ro.vendor.qti.va_aosp.support=1
 # the handset before it will talk to a new machine.
 persist.service.adb.enable=1
 persist.sys.usb.config=adb
+
+# IMS: let com.sec.imsservice's ImsSmsImpl take SMS over IMS itself; the legacy
+# mode expects Samsung's telephony framework to register for them and never
+# reports send results or incoming messages to AOSP. A radio_prop, which
+# vendor_init may not set, so it lives here rather than in vendor.prop.
+persist.radio.ims.legacysmsip.enabled=0
