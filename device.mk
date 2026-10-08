@@ -465,6 +465,11 @@ PRODUCT_PACKAGES += \
     libcutils-v29.system64 \
     libcutils-v29.system32
 
+# Android 13 libcrypto for the Samsung keymaster and gatekeeper blobs; they are
+# patched to need libcrypto-v33.so.
+PRODUCT_PACKAGES += \
+    libcrypto-v33.vendor64
+
 # Sound trigger
 # The stock Android 10 build of this AOSP default implementation is the same
 # code; build it. It loads the stock sound_trigger.primary.sdm660 module.
