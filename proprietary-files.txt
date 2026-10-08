@@ -34,9 +34,7 @@ vendor/lib/rfsa/adsp/libsns_low_lat_stream_skel.so
 
 # ANT
 lib/com.qualcomm.qti.ant@1.0.so
--lib/libantradio.so
 lib64/com.qualcomm.qti.ant@1.0.so
--lib64/libantradio.so
 vendor/lib/com.qualcomm.qti.ant@1.0.so
 vendor/lib/hw/com.qualcomm.qti.ant@1.0-impl.so
 vendor/lib64/com.qualcomm.qti.ant@1.0.so
@@ -1387,7 +1385,6 @@ vendor/lib64/libsubsystem_control.so
 vendor/lib64/libwsmd_functions.so
 
 # Samsung
-vendor/bin/hw/android.hardware.health@2.0-service.samsung
 vendor/bin/hw/vendor.samsung.hardware.camera.provider@3.0-service
 vendor/bin/hw/vendor.samsung.hardware.light@3.0-service
 vendor/bin/hw/vendor.samsung.hardware.miscpower@2.0-service
@@ -1395,7 +1392,6 @@ vendor/bin/hw/vendor.samsung.hardware.vibrator@2.0-service
 vendor/bin/hw/vendor.samsung.hardware.tlc.ucm@1.0-service
 vendor/bin/vendor.samsung.hardware.security.proca@2.0-service
 vendor/bin/vendor.samsung.hardware.security.wsm@1.0-service
-vendor/etc/init/android.hardware.health@2.0-service.samsung.rc
 vendor/etc/init/vendor.samsung.hardware.camera.provider@3.0-service.rc
 vendor/etc/init/vendor.samsung.hardware.light@3.0-service.rc
 vendor/etc/init/vendor.samsung.hardware.miscpower@2.0-service.rc
@@ -1510,8 +1506,6 @@ vendor/lib/libstreamparser.so
 vendor/lib/libUBWC.so
 vendor/lib64/libstreamparser.so
 vendor/lib64/libUBWC.so
-
-# Vibrator
 
 # Voice
 vendor/lib/vendor.qti.voiceprint@1.0.so
@@ -1666,7 +1660,6 @@ vendor/lib/libstagefright_bufferqueue_helper_vendor.so
 # crash-looped. AOSP builds libstagefright_omx_utils itself (vendor_available VNDK).
 # vendor/lib/libstagefright_omx_vendor.so - dropped: same missing symbols, and it was
 # never actually packaged (absent from a9y18qlte-vendor.mk and Android.bp).
-vendor/lib/vndk/libstagefright_xmlparser.so
 vendor/lib/libsxqk.so
 vendor/lib/libsynaFpSensorTestNwd.so
 vendor/lib/libuniplugin.so
