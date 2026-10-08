@@ -482,6 +482,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libcrypto-v33.vendor64
 
+# Android 13 libutils for pm-service; it is patched to need libutils-v33.so.
+PRODUCT_PACKAGES += \
+    libutils-v33.vendor64
+
 # Sound trigger
 # The stock Android 10 build of this AOSP default implementation is the same
 # code; build it. It loads the stock sound_trigger.primary.sdm660 module.

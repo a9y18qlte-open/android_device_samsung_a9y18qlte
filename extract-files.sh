@@ -144,6 +144,12 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "libcrypto.so" "libcrypto-v33.so" "${2}"
             ;;
+        vendor/bin/pm-service)
+            # Android 14's RefBase aborts on its stack-allocated objects; use the
+            # Android 13 libutils.
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --replace-needed "libutils.so" "libutils-v33.so" "${2}"
+            ;;
         lib64/liberis_strongswan.so)
             # Android 13's BoringSSL renamed the lh_* hash table functions to
             # OPENSSL_lh_*; liberis_shim provides the old names.
