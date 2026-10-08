@@ -443,12 +443,18 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.perf@2.0.vendor \
     libstagefright_omx_vendor
 
-# The stock RIL and widevine link Android 10 protobuf (VNDK v29).
+# VNDK snapshot libraries
 PRODUCT_COPY_FILES += \
     prebuilts/vndk/v29/arm64/arch-arm64-armv8-a/shared/vndk-core/libprotobuf-cpp-full.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libprotobuf-cpp-full.so \
     prebuilts/vndk/v29/arm64/arch-arm-armv8-a/shared/vndk-core/libprotobuf-cpp-full.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-full.so \
     prebuilts/vndk/v29/arm64/arch-arm64-armv8-a/shared/vndk-core/libprotobuf-cpp-lite.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libprotobuf-cpp-lite.so \
-    prebuilts/vndk/v29/arm64/arch-arm-armv8-a/shared/vndk-core/libprotobuf-cpp-lite.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-lite.so
+    prebuilts/vndk/v29/arm64/arch-arm-armv8-a/shared/vndk-core/libprotobuf-cpp-lite.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-lite.so \
+    prebuilts/vndk/v29/arm64/arch-arm-armv8-a/shared/vndk-core/libprotobuf-cpp-lite.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-lite-v29.so \
+    prebuilts/vndk/v29/arm64/arch-arm64-armv8-a/shared/vndk-sp/libcutils.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libcutils-v29.so \
+    prebuilts/vndk/v29/arm64/arch-arm-armv8-a/shared/vndk-sp/libcutils.so:$(TARGET_COPY_OUT_VENDOR)/lib/libcutils-v29.so \
+    prebuilts/vndk/v29/arm64/arch-arm64-armv8-a/shared/vndk-sp/libcutils.so:$(TARGET_COPY_OUT_SYSTEM)/lib64/libcutils-v29.so \
+    prebuilts/vndk/v29/arm64/arch-arm-armv8-a/shared/vndk-sp/libcutils.so:$(TARGET_COPY_OUT_SYSTEM)/lib/libcutils-v29.so \
+    prebuilts/vndk/v33/arm64/arch-arm64-armv8-a/shared/vndk-sp/libutils.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libutils-v33.so
 
 # 19.1 bring-up: adb without authorization, so boot loops can be debugged after
 
@@ -466,39 +472,19 @@ PRODUCT_PACKAGES += libhidltransport libhwbinder
 # Samsung IMS system blobs link android.hardware.radio@1.0.
 PRODUCT_PACKAGES += android.hardware.radio@1.0
 
-# Q libcutils for Samsung RIL blobs and multiclientd (strdup8to16, removed in
-# Android 11); they are patched to need libcutils-v29.so.
-PRODUCT_PACKAGES += \
-    libcutils-v29.vendor64 \
-    libcutils-v29.vendor32 \
-    libcutils-v29.system64 \
-    libcutils-v29.system32
-
 # VNDK libraries the stock blobs link. Android 14 no longer ships the VNDK
 # APEX, so install their vendor variants: libsec-ril and netmgrd (libnetutils,
 # libsqlite), the camera HAL (libion, sensorservice), sensors.ssc (libpower),
 # GPS (libsqlite) and libsi (libpng).
+# libcrypto-v33 is provided by hardware/lineage/compat.
 PRODUCT_PACKAGES += \
     android.frameworks.sensorservice@1.0.vendor \
+    libcrypto-v33 \
     libion.vendor \
     libnetutils.vendor \
     libpng.vendor \
     libpower.vendor \
     libsqlite.vendor
-
-# Android 13 libcrypto for the Samsung keymaster and gatekeeper blobs; they are
-# patched to need libcrypto-v33.so.
-PRODUCT_PACKAGES += \
-    libcrypto-v33.vendor64
-
-# Android 13 libutils for pm-service; it is patched to need libutils-v33.so.
-PRODUCT_PACKAGES += \
-    libutils-v33.vendor64
-
-# Android 10 (VNDK v29) libprotobuf-cpp-lite for Widevine libwvhidl.so
-# (empty_string_ removed in modern protobuf); patched to need libprotobuf-cpp-lite-v29.so.
-PRODUCT_PACKAGES += \
-    libprotobuf-cpp-lite-v29.vendor32
 
 # Sound trigger
 # The stock Android 10 build of this AOSP default implementation is the same
