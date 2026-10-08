@@ -252,6 +252,11 @@ std::tuple<Result, sp<IStreamIn>> Device::openInputStreamCore(
         HidlUtils::audioSourceToHal(source, &halSource) != NO_ERROR) {
         return {Result::INVALID_ARGUMENTS, nullptr};
     }
+    // The stock HAL sends VOICE_COMMUNICATION capture flagged VOIP_TX to its
+    // audio-record-voip usecase, which this device has no front end for: the DSP
+    // rejects the stream and calls have no uplink audio. Android 14's audio
+    // policy sets the flag; without it the HAL uses its regular record path.
+    halFlags = static_cast<audio_input_flags_t>(halFlags & ~AUDIO_INPUT_FLAG_VOIP_TX);
     ALOGV("open_input_stream handle: %d devices: %x flags: %#x "
           "srate: %d format %#x channels %x address %s source %d",
           ioHandle, halDevice, halFlags, halConfig.sample_rate, halConfig.format,
