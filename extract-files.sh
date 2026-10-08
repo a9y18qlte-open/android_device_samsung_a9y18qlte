@@ -150,6 +150,17 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "libutils.so" "libutils-v33.so" "${2}"
             ;;
+        vendor/bin/hw/android.hardware.drm@1.2-service.widevine)
+            # DT_NEEDED contains unused libbinder.so, which is absent from the vendor namespace.
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --remove-needed "libbinder.so" "${2}"
+            ;;
+        vendor/lib/libwvhidl.so)
+            # References _ZN6google8protobuf8internal13empty_string_E, removed in Android 14 protobuf;
+            # use the Android 10 (VNDK v29) libprotobuf-cpp-lite.
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --replace-needed "libprotobuf-cpp-lite.so" "libprotobuf-cpp-lite-v29.so" "${2}"
+            ;;
         lib64/libsveservice.so)
             # Parcel::print(TextOutput&), removed in Android 14; libsve_shim
             # provides it.

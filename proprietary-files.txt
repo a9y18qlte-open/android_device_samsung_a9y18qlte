@@ -609,7 +609,10 @@ vendor/lib64/libStDrvInt.so
 vendor/lib64/libtzdrmgenprov.so
 
 # DRM-Widevine
+vendor/bin/hw/android.hardware.drm@1.2-service.widevine
+vendor/etc/init/android.hardware.drm@1.2-service.widevine.rc
 vendor/lib/libwvhidl.so
+vendor/lib/mediadrm/libwvdrmengine.so
 
 # Display-Hardware
 -lib/libsdm-disp-apis.so

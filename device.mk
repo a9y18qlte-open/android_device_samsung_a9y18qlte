@@ -495,6 +495,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libutils-v33.vendor64
 
+# Android 10 (VNDK v29) libprotobuf-cpp-lite for Widevine libwvhidl.so
+# (empty_string_ removed in modern protobuf); patched to need libprotobuf-cpp-lite-v29.so.
+PRODUCT_PACKAGES += \
+    libprotobuf-cpp-lite-v29.vendor32
+
 # Sound trigger
 # The stock Android 10 build of this AOSP default implementation is the same
 # code; build it. It loads the stock sound_trigger.primary.sdm660 module.
