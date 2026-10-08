@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#include <map>
+#include <mutex>
 #include <new>
 
 #include <android/content/AttributionSourceState.h>
@@ -36,6 +38,51 @@ using android::String8;
 using android::Surface;
 using android::content::AttributionSourceState;
 
+namespace {
+
+// Android 14 removed AudioRecord's legacy callback interface; Android 13's adapter.
+typedef void (*legacy_callback_t)(int event, void* user, void* info);
+enum {
+    EVENT_MORE_DATA = 0,
+    EVENT_OVERRUN = 1,
+    EVENT_MARKER = 2,
+    EVENT_NEW_POS = 3,
+    EVENT_NEW_IAUDIORECORD = 4,
+};
+
+class LegacyCallbackWrapper : public AudioRecord::IAudioRecordCallback {
+    const legacy_callback_t mCallback;
+    void* const mData;
+
+  public:
+    LegacyCallbackWrapper(legacy_callback_t callback, void* user)
+        : mCallback(callback), mData(user) {}
+
+    size_t onMoreData(const AudioRecord::Buffer& buffer) override {
+        AudioRecord::Buffer copy = buffer;
+        mCallback(EVENT_MORE_DATA, mData, &copy);
+        return copy.size();
+    }
+
+    void onOverrun() override { mCallback(EVENT_OVERRUN, mData, nullptr); }
+
+    void onMarker(uint32_t markerPosition) override {
+        mCallback(EVENT_MARKER, mData, &markerPosition);
+    }
+
+    void onNewPos(uint32_t newPos) override { mCallback(EVENT_NEW_POS, mData, &newPos); }
+
+    void onNewIAudioRecord() override { mCallback(EVENT_NEW_IAUDIORECORD, mData, nullptr); }
+};
+
+// AudioRecord only keeps a weak reference to its callback. Keep each wrapper alive
+// until the next set() on the same object address; the blob creates one AudioRecord
+// per call, so this stays at a handful of small objects.
+std::mutex gCallbackWrappersLock;
+std::map<const AudioRecord*, sp<LegacyCallbackWrapper>> gCallbackWrappers;
+
+}  // namespace
+
 extern "C" {
 
 // AudioRecord::AudioRecord(const String16& opPackageName)
@@ -45,7 +92,7 @@ extern "C" {
 void _ZN7android11AudioRecordC1ERKNS_8String16E(AudioRecord* self,
                                                  const String16& opPackageName) {
     AttributionSourceState attributionSource;
-    attributionSource.packageName = std::string(String8(opPackageName).string());
+    attributionSource.packageName = std::string(String8(opPackageName).c_str());
     attributionSource.token = sp<android::BBinder>::make();
     new (self) AudioRecord(attributionSource);
 }
@@ -56,7 +103,7 @@ void _ZN7android11AudioRecordC1ERKNS_8String16E(AudioRecord* self,
 android::status_t
 _ZN7android11AudioRecord3setE14audio_source_tj14audio_format_tjmPFviPvS3_ES3_jb15audio_session_tNS0_13transfer_typeE19audio_input_flags_tjiPK18audio_attributes_ti28audio_microphone_direction_tf(
         AudioRecord* self, audio_source_t inputSource, uint32_t sampleRate, audio_format_t format,
-        audio_channel_mask_t channelMask, size_t frameCount, AudioRecord::legacy_callback_t cbf,
+        audio_channel_mask_t channelMask, size_t frameCount, legacy_callback_t cbf,
         void* user, uint32_t notificationFrames, bool threadCanCallJava,
         audio_session_t sessionId, AudioRecord::transfer_type transferType,
         audio_input_flags_t flags, uid_t uid, pid_t pid, const audio_attributes_t* pAttributes,
@@ -66,7 +113,17 @@ _ZN7android11AudioRecord3setE14audio_source_tj14audio_format_tjmPFviPvS3_ES3_jb1
         inputSource != AUDIO_SOURCE_FM_TUNER && inputSource != AUDIO_SOURCE_HOTWORD) {
         inputSource = AUDIO_SOURCE_VOICE_COMMUNICATION;
     }
-    return self->set(inputSource, sampleRate, format, channelMask, frameCount, cbf, user,
+    sp<LegacyCallbackWrapper> callback;
+    if (cbf != nullptr) callback = sp<LegacyCallbackWrapper>::make(cbf, user);
+    {
+        std::lock_guard<std::mutex> lock(gCallbackWrappersLock);
+        if (callback != nullptr) {
+            gCallbackWrappers[self] = callback;
+        } else {
+            gCallbackWrappers.erase(self);
+        }
+    }
+    return self->set(inputSource, sampleRate, format, channelMask, frameCount, callback,
                      notificationFrames, threadCanCallJava, sessionId, transferType, flags, uid,
                      pid, pAttributes, selectedDeviceId, selectedMicDirection,
                      microphoneFieldDimension, 0 /* maxSharedAudioHistoryMs */);
@@ -84,7 +141,8 @@ sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int cl
                          int clientPid) __asm__("_ZN7android6Camera7connectEiRKNS_8String16Eii");
 sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int clientUid,
                          int clientPid) {
-    return Camera::connect(cameraId, clientPackageName, clientUid, clientPid,
+    return Camera::connect(cameraId, std::string(String8(clientPackageName).c_str()), clientUid,
+                           clientPid,
                            29 /* targetSdkVersion, the blobs target Android 10 */,
                            false /* overrideToPortrait */, false /* forceSlowJpegMode */);
 }

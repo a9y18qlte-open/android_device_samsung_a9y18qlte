@@ -7,7 +7,7 @@
 # /efs/FactoryApp labels moved to sepolicy/vendor/file_contexts alongside the
 # app_efs_file type declaration.
 /vendor/bin/hw/vendor\.samsung\.hardware\.wifi@2\.0-service u:object_r:hal_wifi_default_exec:s0
-/vendor/bin/hw/vendor\.samsung\.hardware\.light@3\.0-service u:object_r:hal_light_default_exec:s0
+/vendor/bin/hw/android\.hardware\.light-service\.samsung u:object_r:hal_light_default_exec:s0
 /vendor/bin/hw/android\.hardware\.gatekeeper@1\.0-service u:object_r:hal_gatekeeper_default_exec:s0
 /vendor/bin/hw/android\.hardware\.keymaster@3\.0-service u:object_r:hal_keymaster_default_exec:s0
 /vendor/bin/hw/vendor\.samsung\.hardware\.biometrics\.fingerprint@3\.0-service u:object_r:hal_fingerprint_default_exec:s0
@@ -23,7 +23,7 @@
 /vendor/bin/hw/nxp\.android\.hardware\.nfc@1\.1-service u:object_r:hal_nfc_default_exec:s0
 /vendor/bin/hw/android\.hardware\.usb@1\.1-service\.wahoo u:object_r:hal_usb_default_exec:s0
 /vendor/bin/hw/android\.hardware\.health@2\.0-service\.samsung u:object_r:hal_health_default_exec:s0
-/vendor/bin/hw/vendor\.samsung\.hardware\.vibrator@2\.0-service u:object_r:hal_vibrator_default_exec:s0
+/vendor/bin/hw/android\.hardware\.vibrator-service\.samsung u:object_r:hal_vibrator_default_exec:s0
 /vendor/bin/hw/vendor\.samsung\.hardware\.miscpower@2\.0-service u:object_r:hal_power_default_exec:s0
 
 # Samsung daemons on the system partition. See samsung_system_daemons.te.

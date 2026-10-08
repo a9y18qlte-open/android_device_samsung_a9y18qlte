@@ -114,3 +114,8 @@ persist.radio.ims.legacysmsip.enabled=0
 # Perf lock client for the camera HAL (stock vendor/build.prop). Without it the
 # HAL gets no perf locks and the aux cameras/video overflow the VFE bus.
 ro.vendor.extension_library=libqti-perfd-client.so
+
+# Graphics
+# Android 14 no longer finds the Adreno drivers through ro.board.platform.
+ro.hardware.egl=adreno
+ro.hardware.vulkan=adreno

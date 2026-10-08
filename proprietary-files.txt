@@ -43,7 +43,6 @@ vendor/lib64/hw/com.qualcomm.qti.ant@1.0-impl.so
 # Audio
 etc/permissions/audiosphere.xml
 framework/audiosphere.jar
-vendor/bin/hw/android.hardware.audio@2.0-service
 vendor/bin/audioflacapp
 vendor/firmware/dbmd4_va_fw.bin
 vendor/lib/libacdb-fts.so
@@ -57,11 +56,9 @@ vendor/lib/vendor.qti.hardware.audiohalext@1.0.so
 vendor/lib/libaudioalsa.so
 vendor/lib/libaudioparsers.so
 vendor/lib/libaudio_soundtrigger.so
-vendor/lib/vendor.samsung.hardware.audio@1.0.so
 vendor/lib/libdrc.so
 vendor/lib/libqtigef.so
 vendor/lib/libsurround_3mic_proc.so
-vendor/lib/hw/vendor.samsung.hardware.audio@1.0-impl.so
 vendor/lib64/libacdb-fts.so
 vendor/lib64/libacdbloader.so
 vendor/lib64/libacdbrtac.so
@@ -70,9 +67,6 @@ vendor/lib64/libaudcal.so
 vendor/lib64/libaudioalsa.so
 vendor/lib64/libaudioparsers.so
 vendor/lib64/libqtigef.so
-vendor/lib64/vendor.samsung.hardware.audio@1.0.so
-vendor/lib64/hw/vendor.samsung.hardware.audio@1.0-impl.so
-vendor/etc/init/android.hardware.audio@2.0-service.rc
 
 vendor/etc/audio_configs.xml
 vendor/etc/audio_effects_sec.xml
@@ -615,10 +609,7 @@ vendor/lib64/libStDrvInt.so
 vendor/lib64/libtzdrmgenprov.so
 
 # DRM-Widevine
-vendor/bin/hw/android.hardware.drm@1.2-service.widevine
-vendor/etc/init/android.hardware.drm@1.2-service.widevine.rc
 vendor/lib/libwvhidl.so
-vendor/lib/mediadrm/libwvdrmengine.so
 
 # Display-Hardware
 -lib/libsdm-disp-apis.so
@@ -1041,7 +1032,10 @@ vendor/lib/libOmxWmaDec.so
 # supplies them instead (see device.mk).
 vendor/lib/libstagefright_soft_ac4dec.so
 vendor/lib/libstagefright_soft_ddpdec.so
+vendor/lib/libstagefright_soft_g711dec.so
 vendor/lib/libstagefright_soft_qtiflacdec.so
+vendor/lib/libstagefright_soft_rawdec.so
+vendor/lib/libstagefright_soft_vorbisdec.so
 vendor/lib/libvpphvx.so
 vendor/lib/libvpplibrary.so
 vendor/lib/libvqzip.so
@@ -1386,21 +1380,15 @@ vendor/lib64/libwsmd_functions.so
 
 # Samsung
 vendor/bin/hw/vendor.samsung.hardware.camera.provider@3.0-service
-vendor/bin/hw/vendor.samsung.hardware.light@3.0-service
 vendor/bin/hw/vendor.samsung.hardware.miscpower@2.0-service
-vendor/bin/hw/vendor.samsung.hardware.vibrator@2.0-service
 vendor/bin/hw/vendor.samsung.hardware.tlc.ucm@1.0-service
 vendor/bin/vendor.samsung.hardware.security.proca@2.0-service
 vendor/bin/vendor.samsung.hardware.security.wsm@1.0-service
 vendor/etc/init/vendor.samsung.hardware.camera.provider@3.0-service.rc
-vendor/etc/init/vendor.samsung.hardware.light@3.0-service.rc
 vendor/etc/init/vendor.samsung.hardware.miscpower@2.0-service.rc
-vendor/etc/init/vendor.samsung.hardware.vibrator@2.0-service.rc
 vendor/etc/init/vendor.samsung.hardware.tlc.ucm@1.0-service.rc
 vendor/etc/init/vendor.samsung.hardware.wifi@2.0-service.rc
 vendor/lib/hw/vendor.samsung.hardware.camera.provider@3.0-impl.so
-vendor/lib/hw/lights.sdm660.so
-vendor/lib/hw/vendor.samsung.hardware.light@3.0-impl.so
 vendor/lib/libDLInterface.camera.samsung.so
 vendor/lib/libOpenCv.camera.samsung.so
 vendor/lib/libsamsungVoipResampler.so
@@ -1418,14 +1406,11 @@ vendor/lib/vendor.samsung.camera.device@4.0-impl.so
 vendor/lib/vendor.samsung.hardware.camera.device@1.0.so
 vendor/lib/vendor.samsung.hardware.camera.device@4.0.so
 vendor/lib/vendor.samsung.hardware.camera.provider@3.0.so
-vendor/lib/vendor.samsung.hardware.light@3.0.so
 vendor/lib/vendor.samsung.hardware.radio.channel@2.0.so
 vendor/lib/vendor.samsung.hardware.radio.bridge@2.0.so
 vendor/lib/vendor.samsung.hardware.radio@2.0.so
 vendor/lib/vendor.samsung.hardware.security.proca@2.0.so
-vendor/lib64/hw/lights.sdm660.so
 vendor/lib64/hw/vendor.samsung.hardware.camera.provider@3.0-impl.so
-vendor/lib64/hw/vendor.samsung.hardware.light@3.0-impl.so
 vendor/lib64/libDLInterface.camera.samsung.so
 vendor/lib64/libhal.wsm.samsung.so
 vendor/lib64/libOpenCv.camera.samsung.so
@@ -1438,12 +1423,10 @@ vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
 vendor/lib64/vendor.samsung.hardware.camera.device@1.0.so
 vendor/lib64/vendor.samsung.hardware.camera.device@4.0.so
 vendor/lib64/vendor.samsung.hardware.camera.provider@3.0.so
-vendor/lib64/vendor.samsung.hardware.light@3.0.so
 vendor/lib64/vendor.samsung.hardware.miscpower@2.0.so
 vendor/lib64/vendor.samsung.hardware.radio.channel@2.0.so
 vendor/lib64/vendor.samsung.hardware.radio.bridge@2.0.so
 vendor/lib64/vendor.samsung.hardware.radio@2.0.so
-vendor/lib64/vendor.samsung.hardware.vibrator@2.0.so
 vendor/lib64/vendor.samsung.hardware.wifi.hostapd@2.0.so
 vendor/lib64/vendor.samsung.hardware.wifi.supplicant@2.0.so
 vendor/lib64/vendor.samsung.hardware.wifi@2.0.so
@@ -1489,9 +1472,7 @@ vendor/lib64/vendor.qti.hardware.tui_comm@1.0.so
 # Thermal
 vendor/bin/thermal-engine
 vendor/etc/thermal-engine.conf
-vendor/lib/hw/thermal.sdm660.so
 -vendor/lib/libthermalclient.so
-vendor/lib64/hw/thermal.sdm660.so
 -vendor/lib64/libthermalclient.so
 vendor/lib64/libthermalioctl.so
 

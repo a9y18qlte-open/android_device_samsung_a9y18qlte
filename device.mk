@@ -57,7 +57,8 @@ PRODUCT_PACKAGES += \
 
 # Audio
 PRODUCT_PACKAGES += \
-    android.hardware.audio@5.0-impl.a9y18qlte \
+    android.hardware.audio.service \
+    android.hardware.audio@6.0-impl.a9y18qlte \
     audio.r_submix.default \
     audio.usb.default \
     libaudio-resampler \
@@ -185,9 +186,7 @@ PRODUCT_COPY_FILES += \
 
 # Media DRM
 PRODUCT_PACKAGES += \
-    android.hardware.drm@1.0-impl \
-    android.hardware.drm@1.0-service \
-    android.hardware.drm@1.2-service.clearkey
+    android.hardware.drm-service.clearkey
 
 # Memory
 PRODUCT_PACKAGES += \
@@ -308,13 +307,12 @@ PRODUCT_COPY_FILES += \
 # "ipa ipa2_nat_del_cmd:799 Nat table not initialized". Ship the matching QCOM
 # config for this IPA generation (v2, same as the ipa2_* call in the error).
 PRODUCT_COPY_FILES += \
-    vendor/qcom/opensource/data-ipa-cfg-mgr/ipacm/src/IPACM_cfg.xml:$(TARGET_COPY_OUT_VENDOR)/etc/IPACM_cfg.xml
+    vendor/qcom/opensource/data-ipa-cfg-mgr-legacy-um/ipacm/src/IPACM_cfg.xml:$(TARGET_COPY_OUT_VENDOR)/etc/IPACM_cfg.xml
 
 
 
 # Seccomp
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/seccomp_policy/configstore@1.1.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/configstore@1.1.policy \
     $(LOCAL_PATH)/seccomp_policy/mediacodec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy \
     $(LOCAL_PATH)/seccomp_policy/mediaextractor.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediaextractor.policy \
     $(LOCAL_PATH)/seccomp_policy/mediaextractor_sec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediaextractor_sec.policy
@@ -324,7 +322,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
 # Soong
-PRODUCT_SOONG_NAMESPACES += $(LOCAL_PATH) 
+PRODUCT_SOONG_NAMESPACES += \
+    $(LOCAL_PATH) \
+    hardware/samsung
 
 # SP-NDK
 PRODUCT_PACKAGES += \
@@ -348,7 +348,7 @@ endif
 
 # Wifi
 PRODUCT_PACKAGES += \
-    android.hardware.wifi@1.0-service \
+    android.hardware.wifi-service \
     libcld80211 \
     libwpa_client \
     hostapd \
@@ -402,7 +402,6 @@ PRODUCT_PACKAGES += \
     android.hardware.health@1.0.vendor \
     android.hardware.health@2.0.vendor \
     android.hardware.keymaster@4.0.vendor \
-    android.hardware.light@2.0.vendor \
     android.hardware.power@1.2.vendor \
     android.hardware.radio.config@1.0.vendor \
     android.hardware.radio.config@1.1.vendor \
@@ -414,10 +413,13 @@ PRODUCT_PACKAGES += \
     android.hardware.soundtrigger@2.2.vendor \
     android.hardware.usb@1.0.vendor \
     android.hardware.usb@1.1.vendor \
-    android.hardware.vibrator@1.0.vendor \
-    android.hardware.vibrator@1.1.vendor \
-    android.hardware.vibrator@1.2.vendor \
-    android.hardware.vibrator@1.3.vendor \
+    android.hardware.wifi@1.0.vendor \
+    android.hardware.wifi@1.1.vendor \
+    android.hardware.wifi@1.2.vendor \
+    android.hardware.wifi@1.3.vendor \
+    android.hardware.wifi.hostapd@1.0.vendor \
+    android.hardware.wifi.hostapd@1.1.vendor \
+    android.hardware.wifi.supplicant@1.0.vendor \
     android.hidl.base@1.0.vendor \
     android.system.net.netd@1.1.vendor \
     libstagefright_softomx.vendor \
@@ -445,7 +447,7 @@ PRODUCT_COPY_FILES += \
 # The stock Android 10 health service and audio effect impls cannot link against
 # Android 12 libraries; use the AOSP implementations.
 PRODUCT_PACKAGES += \
-    android.hardware.audio.effect@5.0-impl \
+    android.hardware.audio.effect@6.0-impl \
     android.hardware.health@2.1-impl \
     android.hardware.health@2.1-service
 
@@ -463,25 +465,31 @@ PRODUCT_PACKAGES += \
     libcutils-v29.system64 \
     libcutils-v29.system32
 
-# Sound trigger / thermal
-# The stock Android 10 builds of these AOSP default implementations are the same
-# code; build them. They load the stock sound_trigger.primary.sdm660 and
-# thermal.sdm660 modules.
+# Sound trigger
+# The stock Android 10 build of this AOSP default implementation is the same
+# code; build it. It loads the stock sound_trigger.primary.sdm660 module.
 PRODUCT_PACKAGES += \
     android.hardware.soundtrigger@2.0-impl \
-    android.hardware.soundtrigger@2.1-impl \
-    android.hardware.thermal@1.0-impl \
-    android.hardware.thermal@1.0-service
+    android.hardware.soundtrigger@2.1-impl
+
+# Thermal
+PRODUCT_PACKAGES += \
+    android.hardware.thermal@2.0-service.qti
+
+# Lights / vibrator
+PRODUCT_PACKAGES += \
+    android.hardware.light-service.samsung \
+    android.hardware.vibrator-service.samsung
 
 # Graphics
-# AOSP passthrough mapper, allocator and composer around the stock gralloc.sdm660
+# AOSP passthrough mapper 2.1, allocator and composer around the stock gralloc.sdm660
 # and hwcomposer.sdm660 modules, replacing their Android 10 builds. The composer
 # service keeps its stock options (see init.a9y18qlte.rc).
 PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.composer@2.1-service \
-    android.hardware.graphics.mapper@2.0-impl
+    android.hardware.graphics.mapper@2.0-impl-2.1
 
 # AOSP libraries and modules
 # Source builds of generic AOSP code the stock Android 10 vendor shipped. Every
@@ -505,9 +513,6 @@ PRODUCT_PACKAGES += \
     libnetfilter_conntrack \
     libnfnetlink \
     libqti_vndfwk_detect.vendor \
-    libstagefright_soft_g711dec.vendor \
-    libstagefright_soft_rawdec.vendor \
-    libstagefright_soft_vorbisdec.vendor \
     libtinycompress \
     vendor.nxp.nxpnfc@1.0.vendor \
     vendor.qti.hardware.perf@1.0.vendor \

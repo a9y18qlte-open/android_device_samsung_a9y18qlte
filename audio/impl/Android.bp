@@ -1,10 +1,10 @@
-// Android 13's hardware/interfaces/audio/core/all-versions/default, built for
-// @5.0, with Samsung SIM slot hooks (SimSlot.cpp): PrimaryDevice::setMode()
+// Android 14's hardware/interfaces/audio/core/all-versions/default, built for
+// @6.0, with Samsung SIM slot hooks (SimSlot.cpp): PrimaryDevice::setMode()
 // tells Samsung's audio HAL which SIM a call is on, and output/stream hooks
 // pick the modem voice session for VoLTE calls.
 
 cc_library_shared {
-    name: "android.hardware.audio@5.0-impl.a9y18qlte",
+    name: "android.hardware.audio@6.0-impl.a9y18qlte",
     relative_install_path: "hw",
     proprietary: true,
     vendor: true,
@@ -37,10 +37,10 @@ cc_library_shared {
         "libmemunreachable",
         "libutils",
         "android.hardware.audio.common-util",
-        "android.hardware.audio@5.0",
-        "android.hardware.audio@5.0-util",
-        "android.hardware.audio.common@5.0",
-        "android.hardware.audio.common@5.0-util",
+        "android.hardware.audio@6.0",
+        "android.hardware.audio@6.0-util",
+        "android.hardware.audio.common@6.0",
+        "android.hardware.audio.common@6.0-util",
     ],
 
     header_libs: [
@@ -54,7 +54,7 @@ cc_library_shared {
     ],
 
     cflags: [
-        "-DMAJOR_VERSION=5",
+        "-DMAJOR_VERSION=6",
         "-DMINOR_VERSION=0",
         "-include common/all-versions/VersionMacro.h",
     ],
