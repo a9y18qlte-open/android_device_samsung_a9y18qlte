@@ -465,6 +465,18 @@ PRODUCT_PACKAGES += \
     libcutils-v29.system64 \
     libcutils-v29.system32
 
+# VNDK libraries the stock blobs link. Android 14 no longer ships the VNDK
+# APEX, so install their vendor variants: libsec-ril and netmgrd (libnetutils,
+# libsqlite), the camera HAL (libion, sensorservice), sensors.ssc (libpower),
+# GPS (libsqlite) and libsi (libpng).
+PRODUCT_PACKAGES += \
+    android.frameworks.sensorservice@1.0.vendor \
+    libion.vendor \
+    libnetutils.vendor \
+    libpng.vendor \
+    libpower.vendor \
+    libsqlite.vendor
+
 # Android 13 libcrypto for the Samsung keymaster and gatekeeper blobs; they are
 # patched to need libcrypto-v33.so.
 PRODUCT_PACKAGES += \
