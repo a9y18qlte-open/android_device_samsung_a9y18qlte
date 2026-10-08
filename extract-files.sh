@@ -155,12 +155,6 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             "${PATCHELF}" --remove-needed "libbinder.so" "${2}"
             ;;
-        vendor/lib/libwvhidl.so)
-            # References _ZN6google8protobuf8internal13empty_string_E, removed in Android 14 protobuf;
-            # use the Android 10 (VNDK v29) libprotobuf-cpp-lite.
-            [ "$2" = "" ] && return 0
-            "${PATCHELF}" --replace-needed "libprotobuf-cpp-lite.so" "libprotobuf-cpp-lite-v29.so" "${2}"
-            ;;
         lib64/libsveservice.so)
             # Parcel::print(TextOutput&), removed in Android 14; libsve_shim
             # provides it.
@@ -175,14 +169,15 @@ function blob_fixup() {
             ;;
         bin/multiclientd)
             # Q blob importing strdup8to16(), removed from libcutils in Android 11.
+            # libcutils_shim provides it.
             [ "$2" = "" ] && return 0
-            "${PATCHELF}" --replace-needed "libcutils.so" "libcutils-v29.so" "${2}"
+            "${PATCHELF}" --add-needed "libcutils_shim.so" "${2}"
             ;;
         vendor/lib/libsec-ril.so|vendor/lib/libsec-ril-dsds.so|vendor/lib64/libsec-ril.so|vendor/lib64/libsec-ril-dsds.so)
-            # strdup8to16() was removed from libcutils in Android 11; use the Q
-            # (VNDK v29) libcutils shipped as libcutils-v29.so.
+            # strdup8to16() was removed from libcutils in Android 11; libcutils_shim
+            # provides it.
             [ "$2" = "" ] && return 0
-            "${PATCHELF}" --replace-needed "libcutils.so" "libcutils-v29.so" "${2}"
+            "${PATCHELF}" --add-needed "libcutils_shim.so" "${2}"
             # The RIL publishes the SIM slot of the ongoing call as
             # ril.dds.call.slotid, a radio_prop that vendor processes may not
             # read. Rename it (same length) so the audio HIDL impl can use it
