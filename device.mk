@@ -38,6 +38,15 @@ PRODUCT_SYSTEM_PROPERTIES += \
     dalvik.vm.heapminfree=8m \
     dalvik.vm.heapmaxfree=32m
 
+# ART
+# The 4.4 kernel lacks MREMAP_DONTUNMAP, so ART cannot use the userfaultfd GC.
+# The build cannot read the version of the inline-built kernel
+# ("<unknown-kernel>") and then enables it, which leaves the system boot image
+# and system_server artifacts unusable at runtime: odrefresh recompiled all of
+# them into /data on every boot (~47 s at the splash screen), since odsign
+# cannot keep its keys with the Samsung keymaster.
+PRODUCT_ENABLE_UFFD_GC := false
+
 ENABLE_VENDOR_RIL_SERVICE := true
 
 # Boot animation
