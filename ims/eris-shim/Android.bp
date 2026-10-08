@@ -1,6 +1,6 @@
-// The old BoringSSL lhash entry points for Samsung's strongSwan (eris, the
-// IKE daemon for VoWiFi). liberis_strongswan.so is an Android 10 blob;
-// Android 13's BoringSSL renamed these functions without changing them.
+// The old BoringSSL lhash and stack entry points for Samsung's strongSwan (eris,
+// the IKE daemon for VoWiFi). liberis_strongswan.so is an Android 10 blob;
+// Android 13 and 14's BoringSSL renamed these functions without changing them.
 
 cc_library_shared {
     name: "liberis_shim",

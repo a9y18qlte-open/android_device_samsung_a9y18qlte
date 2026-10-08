@@ -150,6 +150,12 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "libutils.so" "libutils-v33.so" "${2}"
             ;;
+        lib64/libsveservice.so)
+            # Parcel::print(TextOutput&), removed in Android 14; libsve_shim
+            # provides it.
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --add-needed "libsve_shim.so" "${2}"
+            ;;
         lib64/liberis_strongswan.so)
             # Android 13's BoringSSL renamed the lh_* hash table functions to
             # OPENSSL_lh_*; liberis_shim provides the old names.

@@ -1,6 +1,8 @@
 // Android 10 entry points used by Samsung's SVE blobs (sveservice, the audio engine
 // for VoWiFi calls). libAudioFWInterface.so and libsamsung_videoengine_9_0.so call
-// AudioRecord, Camera and Surface methods whose signatures changed in Android 11/12.
+// AudioRecord, Camera and Surface methods whose signatures changed in Android 11/12;
+// libsveservice.so and the video engine also use Parcel and GraphicBufferMapper
+// methods Android 14 changed.
 
 cc_library_shared {
     name: "libsve_shim",
@@ -17,6 +19,7 @@ cc_library_shared {
         "libbinder",
         "libcamera_client",
         "libgui",
+        "libui",
         "libutils",
         "framework-permission-aidl-cpp",
     ],

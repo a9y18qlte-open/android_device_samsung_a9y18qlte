@@ -43,3 +43,11 @@ void lh_doall_arg(_LHASH *lh, void (*func)(void *, void *), void *arg) {
 uint32_t lh_strhash(const char *c) {
     return OPENSSL_strhash(c);
 }
+
+typedef struct stack_st OPENSSL_STACK;
+
+void *OPENSSL_sk_delete_ptr(OPENSSL_STACK *sk, const void *p);
+
+void *sk_delete_ptr(OPENSSL_STACK *sk, const void *p) {
+    return OPENSSL_sk_delete_ptr(sk, p);
+}

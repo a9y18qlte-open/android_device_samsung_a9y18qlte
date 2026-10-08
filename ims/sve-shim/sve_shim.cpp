@@ -22,9 +22,11 @@
 #include <binder/Binder.h>
 #include <camera/Camera.h>
 #include <camera/CameraBase.h>
+#include <binder/Parcel.h>
 #include <gui/Surface.h>
 #include <media/AudioRecord.h>
 #include <media/AudioTrack.h>
+#include <ui/GraphicBufferMapper.h>
 #include <utils/String8.h>
 
 using android::AudioRecord;
@@ -183,4 +185,20 @@ extern "C" void sve_RefBase_decStrong(const void* object, const void* id)
         __asm__("_ZNK7android7SveBase9decStrongEPKv");
 extern "C" void sve_RefBase_decStrong(const void* object, const void* id) {
     toRefBase(object)->decStrong(id);
+}
+
+// Parcel::print(TextOutput&, uint32_t) for libsveservice.so; Android 14 takes a
+// std::ostream instead. It only dumps the parcel for debugging.
+extern "C" void sve_Parcel_print(const void* parcel, void* to, uint32_t flags)
+        __asm__("_ZNK7android6Parcel5printERNS_10TextOutputEj");
+extern "C" void sve_Parcel_print(const void*, void*, uint32_t) {}
+
+// GraphicBufferMapper::unlock(buffer_handle_t) for libsamsung_videoengine_9_0.so;
+// Android 14 added an optional out-fence argument.
+extern "C" android::status_t sve_GraphicBufferMapper_unlock(android::GraphicBufferMapper* mapper,
+                                                           buffer_handle_t handle)
+        __asm__("_ZN7android19GraphicBufferMapper6unlockEPK13native_handle");
+extern "C" android::status_t sve_GraphicBufferMapper_unlock(android::GraphicBufferMapper* mapper,
+                                                           buffer_handle_t handle) {
+    return mapper->unlock(handle, nullptr);
 }
