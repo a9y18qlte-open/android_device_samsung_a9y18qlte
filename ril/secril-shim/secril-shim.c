@@ -5,14 +5,21 @@
  */
 
 /*
- * Loads Samsung's libsec-ril and passes everything through, except that a
- * RIL_REQUEST_SIM_AUTHENTICATION answer is reported as successful when the
- * card itself returned 90 00 with data.
+ * Loads Samsung's libsec-ril and passes everything through, except:
  *
- * libsec-ril reports some valid AKA answers, e.g. a synchronisation failure
- * carrying AUTS (3GPP TS 31.102 7.1.2.1, tag DC), as RIL_E_INTERNAL_ERR. The
- * framework drops the card's answer on any error, so the IMS stack can never
- * answer the network's challenge and VoLTE registration stops at 401.
+ * - A RIL_REQUEST_SIM_AUTHENTICATION answer is reported as successful when the
+ *   card itself returned 90 00 with data. libsec-ril reports some valid AKA
+ *   answers, e.g. a synchronisation failure carrying AUTS (3GPP TS 31.102
+ *   7.1.2.1, tag DC), as RIL_E_INTERNAL_ERR. The framework drops the card's
+ *   answer on any error, so the IMS stack can never answer the network's
+ *   challenge and VoLTE registration stops at 401.
+ *
+ * - The RIL_REQUEST_GET_SMSC_ADDRESS answer is turned from the AT+CSCA form
+ *   libsec-ril returns ("8491020005",145) into the dial string the framework
+ *   expects (+8491020005). The framework keeps only the digits before the
+ *   comma, so the SMSC lost its international type; over IMS the SC address
+ *   becomes the SIP target of the SMS, and the network cannot route it
+ *   without the "+".
  */
 
 #define LOG_TAG "secril-shim"
@@ -39,7 +46,9 @@
 
 typedef const RIL_RadioFunctions* (*RilInitFunc)(const struct RIL_Env* env, int argc, char** argv);
 
-#define MAX_PENDING_AUTH 8
+#include <stdlib.h>
+
+#define MAX_PENDING 8
 
 static void* gRealRil;
 static const struct RIL_Env* gRilEnv;
@@ -47,32 +56,62 @@ static struct RIL_Env gShimEnv;
 static const RIL_RadioFunctions* gRealFuncs;
 static RIL_RadioFunctions gShimFuncs;
 
-static pthread_mutex_t gAuthLock = PTHREAD_MUTEX_INITIALIZER;
-static RIL_Token gPendingAuth[MAX_PENDING_AUTH];
-static unsigned gNextAuthSlot;
+struct PendingTokens {
+    RIL_Token tokens[MAX_PENDING];
+    unsigned next;
+};
 
-static void trackAuth(RIL_Token t) {
-    pthread_mutex_lock(&gAuthLock);
-    gPendingAuth[gNextAuthSlot++ % MAX_PENDING_AUTH] = t;
-    pthread_mutex_unlock(&gAuthLock);
+static pthread_mutex_t gPendingLock = PTHREAD_MUTEX_INITIALIZER;
+static struct PendingTokens gPendingAuth;
+static struct PendingTokens gPendingSmsc;
+
+static void track(struct PendingTokens* list, RIL_Token t) {
+    pthread_mutex_lock(&gPendingLock);
+    list->tokens[list->next++ % MAX_PENDING] = t;
+    pthread_mutex_unlock(&gPendingLock);
 }
 
-static int untrackAuth(RIL_Token t) {
+static int untrack(struct PendingTokens* list, RIL_Token t) {
     int found = 0;
-    pthread_mutex_lock(&gAuthLock);
-    for (int i = 0; i < MAX_PENDING_AUTH; i++) {
-        if (gPendingAuth[i] == t) {
-            gPendingAuth[i] = NULL;
+    pthread_mutex_lock(&gPendingLock);
+    for (int i = 0; i < MAX_PENDING; i++) {
+        if (list->tokens[i] == t) {
+            list->tokens[i] = NULL;
             found = 1;
             break;
         }
     }
-    pthread_mutex_unlock(&gAuthLock);
+    pthread_mutex_unlock(&gPendingLock);
     return found;
 }
 
+/*
+ * "8491020005",145 -> +8491020005 (type 145: international number). Returns 0
+ * when the answer is not in that form and should be passed on unchanged.
+ */
+static int smscToDialString(const char* in, char* out, size_t outlen) {
+    const char* comma = strchr(in, ',');
+    size_t n = 0;
+
+    if (comma == NULL) return 0;
+    if (atoi(comma + 1) == 145 && strchr(in, '+') == NULL && n + 1 < outlen) out[n++] = '+';
+    for (const char* p = in; p < comma && n + 1 < outlen; p++) {
+        if (*p != '"' && *p != ' ') out[n++] = *p;
+    }
+    out[n] = '\0';
+    return 1;
+}
+
 static void shimOnRequestComplete(RIL_Token t, RIL_Errno e, void* response, size_t responselen) {
-    if (t != NULL && untrackAuth(t) && e != RIL_E_SUCCESS && response != NULL &&
+    char smsc[64];
+
+    if (t != NULL && untrack(&gPendingSmsc, t)) {
+        if (e == RIL_E_SUCCESS && response != NULL &&
+            smscToDialString((const char*)response, smsc, sizeof(smsc))) {
+            gRilEnv->OnRequestComplete(t, e, smsc, strlen(smsc) + 1);
+            return;
+        }
+    } else if (t != NULL && untrack(&gPendingAuth, t) && e != RIL_E_SUCCESS && response != NULL &&
         responselen >= sizeof(RIL_SIM_IO_Response)) {
         const RIL_SIM_IO_Response* io = (const RIL_SIM_IO_Response*)response;
         if (io->sw1 == 0x90 && io->sw2 == 0x00 && io->simResponse != NULL &&
@@ -102,7 +141,8 @@ static void checkImsCall(const unsigned char* p, size_t len) {
 }
 
 static void shimOnRequest(int request, void* data, size_t datalen, RIL_Token t) {
-    if (request == RIL_REQUEST_SIM_AUTHENTICATION) trackAuth(t);
+    if (request == RIL_REQUEST_SIM_AUTHENTICATION) track(&gPendingAuth, t);
+    if (request == RIL_REQUEST_GET_SMSC_ADDRESS) track(&gPendingSmsc, t);
     if (request == RIL_REQUEST_OEM_HOOK_RAW && data != NULL) {
         checkImsCall((const unsigned char*)data, datalen);
     }
