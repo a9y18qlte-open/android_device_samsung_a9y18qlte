@@ -148,7 +148,7 @@ function blob_fixup() {
             # Android 14's RefBase aborts on its stack-allocated objects; use the
             # Android 13 libutils.
             [ "$2" = "" ] && return 0
-            "${PATCHELF}" --replace-needed "libutils.so" "libutils-v33.so" "${2}"
+            grep -q libutils-v33.so "${2}" || "${PATCHELF}" --add-needed "libutils-v33.so" "${2}"
             ;;
         vendor/bin/hw/android.hardware.drm@1.2-service.widevine)
             # DT_NEEDED contains unused libbinder.so, which is absent from the vendor namespace.
