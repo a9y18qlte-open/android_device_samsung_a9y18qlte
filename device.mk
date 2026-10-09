@@ -480,6 +480,7 @@ PRODUCT_PACKAGES += android.hardware.radio@1.0
 PRODUCT_PACKAGES += \
     android.frameworks.sensorservice@1.0.vendor \
     libcrypto-v33 \
+    libcutils_shim \
     libcutils_shim.vendor \
     libion.vendor \
     libnetutils.vendor \
@@ -547,3 +548,6 @@ $(call inherit-product, vendor/samsung/a9y18qlte/a9y18qlte-vendor.mk)
 # AOD
 PRODUCT_PACKAGES += \
     AodBrightness
+
+# Compatibility / vendor libraries
+PRODUCT_PACKAGES += \n    libexpat.vendor \n    libprocessgroup_shim
