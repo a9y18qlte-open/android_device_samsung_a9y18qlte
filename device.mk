@@ -474,7 +474,7 @@ PRODUCT_PACKAGES += android.hardware.radio@1.0
 PRODUCT_PACKAGES += \
     android.frameworks.sensorservice@1.0.vendor \
     libcrypto-v33 \
-    libcutils_shim \
+    libcutils_shim.vendor \
     libion.vendor \
     libnetutils.vendor \
     libpng.vendor \
