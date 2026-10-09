@@ -201,21 +201,16 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.memtrack@1.0-impl \
     android.hardware.memtrack@1.0-service \
-    memtrack.sdm660
-
+    
 # Net
 PRODUCT_PACKAGES += \
     netutils-wrapper-1.0
 
 # NFC
 PRODUCT_PACKAGES += \
-    libnfc-nci \
-    libnfc_nci_jni \
-    NfcNci \
     Tag
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_PRODUCT)/etc/libnfc-nci.conf \
     $(LOCAL_PATH)/configs/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_PRODUCT)/etc/libnfc-nxp.conf
 
 # Permissions
@@ -361,7 +356,6 @@ PRODUCT_PACKAGES += \
     libcld80211 \
     libwpa_client \
     hostapd \
-    macloader \
     wificond \
     wpa_supplicant \
     wpa_supplicant.conf
@@ -395,7 +389,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.frameworks.displayservice@1.0.vendor \
     android.hardware.biometrics.fingerprint@2.1.vendor \
-    android.hardware.bluetooth.a2dp@1.0.vendor \
     android.hardware.bluetooth@1.0.vendor \
     android.hardware.camera.provider@2.5.vendor \
     libcamera_metadata_shim.a9y18qlte \
@@ -497,7 +490,7 @@ PRODUCT_PACKAGES += \
 
 # Thermal
 PRODUCT_PACKAGES += \
-    android.hardware.thermal@2.0-service.qti
+    android.hardware.thermal-service.qti
 
 # Lights / vibrator
 PRODUCT_PACKAGES += \
@@ -550,4 +543,6 @@ PRODUCT_PACKAGES += \
     AodBrightness
 
 # Compatibility / vendor libraries
-PRODUCT_PACKAGES += \n    libexpat.vendor \n    libprocessgroup_shim
+PRODUCT_PACKAGES += \
+    libexpat.vendor \
+    libprocessgroup_shim
