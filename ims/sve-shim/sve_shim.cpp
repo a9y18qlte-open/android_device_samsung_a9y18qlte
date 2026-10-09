@@ -168,6 +168,14 @@ android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInf
     return CameraBase<Camera>::getCameraInfo(cameraId, 0 /* rotationOverride */, clientAttribution, 0 /* devicePolicy */, cameraInfo);
 }
 
+// static int32_t CameraBase<Camera>::getNumberOfCameras()
+int32_t CameraGetNumberOfCameras()
+        __asm__("_ZN7android10CameraBaseINS_6CameraENS_12CameraTraitsIS1_EEE18getNumberOfCamerasEv");
+int32_t CameraGetNumberOfCameras() {
+    AttributionSourceState clientAttribution;
+    return CameraBase<Camera>::getNumberOfCameras(clientAttribution, 0 /* devicePolicy */);
+}
+
 // RefBase::incStrong() and decStrong() for libAudioFWInterface.so, whose imports of
 // them are renamed to SveBase (same length, see extract-files.sh). Android 13 made AudioSystem::AudioDeviceCallback a
 // virtual RefBase, which moved the RefBase of AudioTrack and AudioRecord away from
