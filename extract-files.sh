@@ -60,6 +60,10 @@ fi
 
 function blob_fixup() {
     case "${1}" in
+        vendor/lib64/libgps.utils.so)
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --add-needed "libprocessgroup_shim.so" "${2}"
+            ;;
         vendor/etc/init/init.vendor.rilcommon.rc)
             # remove triggers setting vendor.vts.native_server.on
             sed -i '/on property:vts.native_server.on=\*/,/setprop/d' "${2}"
