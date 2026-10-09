@@ -91,6 +91,15 @@ extern "C" {
 // The blob allocates sizeof(AudioRecord) of Android 10; its blob fixup raises that
 // allocation to the Android 12 size. uid and pid are filled in by set(); recording is
 // refused without an attribution token.
+// AudioTrack::AudioTrack()
+// Removed in Android 15; construct with empty AttributionSourceState.
+void _ZN7android10AudioTrackC1Ev(AudioTrack* self) {
+    new (self) AudioTrack(AttributionSourceState());
+}
+void _ZN7android10AudioTrackC2Ev(AudioTrack* self) {
+    new (self) AudioTrack(AttributionSourceState());
+}
+
 void _ZN7android11AudioRecordC1ERKNS_8String16E(AudioRecord* self,
                                                  const String16& opPackageName) {
     AttributionSourceState attributionSource;
@@ -143,17 +152,20 @@ sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int cl
                          int clientPid) __asm__("_ZN7android6Camera7connectEiRKNS_8String16Eii");
 sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int clientUid,
                          int clientPid) {
-    return Camera::connect(cameraId, std::string(String8(clientPackageName).c_str()), clientUid,
-                           clientPid,
-                           29 /* targetSdkVersion, the blobs target Android 10 */,
-                           false /* overrideToPortrait */, false /* forceSlowJpegMode */);
+    AttributionSourceState clientAttribution;
+    clientAttribution.packageName = std::string(String8(clientPackageName).c_str());
+    clientAttribution.uid = clientUid;
+    clientAttribution.pid = clientPid;
+    return Camera::connect(cameraId, 29 /* targetSdkVersion */, 0 /* rotationOverride */,
+                           false /* forceSlowJpegMode */, clientAttribution, 0 /* devicePolicy */);
 }
 
 // static status_t CameraBase<Camera>::getCameraInfo(int, CameraInfo*)
 android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInfo* cameraInfo)
         __asm__("_ZN7android10CameraBaseINS_6CameraENS_12CameraTraitsIS1_EEE13getCameraInfoEiPNS_8hardware10CameraInfoE");
 android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInfo* cameraInfo) {
-    return CameraBase<Camera>::getCameraInfo(cameraId, false /* overrideToPortrait */, cameraInfo);
+    AttributionSourceState clientAttribution;
+    return CameraBase<Camera>::getCameraInfo(cameraId, 0 /* rotationOverride */, clientAttribution, 0 /* devicePolicy */, cameraInfo);
 }
 
 // RefBase::incStrong() and decStrong() for libAudioFWInterface.so, whose imports of
