@@ -189,7 +189,7 @@ BOARD_USES_QC_TIME_SERVICES := true
 
 # Recovery
 BOARD_HAS_DOWNLOAD_MODE := true
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 
 # Treble
@@ -269,3 +269,6 @@ TARGET_TAP_TO_WAKE_NODE := /sys/class/sec/tsp/dt2w_enable
 
 # Inherit from the proprietary version
 -include vendor/samsung/a9y18qlte/BoardConfigVendor.mk
+
+# Non-A/B device configuration
+AB_OTA_UPDATER := false
