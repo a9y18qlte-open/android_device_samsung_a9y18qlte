@@ -33,6 +33,7 @@ vendor.calls.ims_slotid          u:object_r:samsung_call_slot_prop:s0
 # Camera properties used by stock Samsung camera HAL and provider
 persist.camera.                  u:object_r:camera_prop:s0
 service.camera.                  u:object_r:camera_prop:s0
+vendor.camera.                   u:object_r:camera_prop:s0
 
 # Extended Samsung RIL properties
 persist.ril.                     u:object_r:samsung_ril_prop:s0
