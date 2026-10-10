@@ -1198,4 +1198,13 @@
         <item>0:2:15</item>
     </string-array>
 
+    <!-- The vibrator is an on/off motor without amplitude control, which
+         barely spins up within the default 100 ms fallback pulses. Use the
+         350 ms pulses of config_defaultNotificationVibePattern instead. -->
+    <integer-array name="config_notificationFallbackVibePattern">
+        <item>0</item>
+        <item>350</item>
+        <item>250</item>
+        <item>350</item>
+    </integer-array>
 </resources>
