@@ -116,4 +116,4 @@ ro.vendor.extension_library=libqti-perfd-client.so
 # Graphics
 # Android 14 no longer finds the Adreno drivers through ro.board.platform.
 ro.hardware.egl=adreno
-ro.hardware.vulkan=adreno
+ro.hardware.vulkan=sdm660
