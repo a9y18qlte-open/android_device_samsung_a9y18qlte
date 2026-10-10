@@ -70,11 +70,11 @@ PRODUCT_PACKAGES += \
     android.hardware.audio@6.0-impl.a9y18qlte \
     audio.r_submix.default \
     audio.usb.default \
-    libaudio-resampler \
-    libqcompostprocbundle \
-    libqcomvisualizer \
-    libqcomvoiceprocessing \
-    libvolumelistener
+    libaudio-resampler
+
+# IMS
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/etc/ims_samsung.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/ims_samsung.rc
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/configs/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
@@ -456,8 +456,7 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.camera.device@1.0.vendor \
     vendor.qti.hardware.capabilityconfigstore@1.0.vendor \
     vendor.qti.hardware.fstman@1.0.vendor \
-    vendor.qti.hardware.perf@2.0.vendor \
-    libstagefright_omx_vendor
+    vendor.qti.hardware.perf@2.0.vendor
 
 # VNDK snapshot libraries
 PRODUCT_COPY_FILES += \
