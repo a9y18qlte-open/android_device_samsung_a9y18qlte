@@ -155,6 +155,16 @@ on property:persist.sys.storage_preload=0
 # from Settings > Display. The touch panel then reports a double tap while the
 # display is off, mapped to WAKEUP by sec_touchscreen.kl.
 on boot
+    # mDNIe and panel tuneables, written by the LiveDisplay HAL.
+    chown system system /sys/class/mdnie/mdnie/mode
+    chown system system /sys/class/mdnie/mdnie/outdoor
+    chown system system /sys/class/mdnie/mdnie/sensorRGB
+    chown system system /sys/class/lcd/panel/power_reduce
+    chmod 0660 /sys/class/mdnie/mdnie/mode
+    chmod 0660 /sys/class/mdnie/mdnie/outdoor
+    chmod 0660 /sys/class/mdnie/mdnie/sensorRGB
+    chmod 0660 /sys/class/lcd/panel/power_reduce
+
     chown system system /sys/class/sec/tsp/dt2w_enable
     chmod 0660 /sys/class/sec/tsp/dt2w_enable
 

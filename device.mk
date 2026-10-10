@@ -360,13 +360,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/privapp-permissions-qti.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/privapp-permissions-qti.xml
 
 # Google hotword enrollment
-# Enrolls the "OK Google" voice model; it needs Google's voice interaction
-# service and crashes at every boot without GApps.
-ifeq ($(WITH_GAPPS),true)
-PRODUCT_PACKAGES += HotwordEnrollmentOKGoogleExTL3210
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/privapp-permissions-hotword.xml:system/etc/permissions/privapp-permissions-hotword.xml
-endif
 
 # Wifi
 PRODUCT_PACKAGES += \
@@ -513,6 +508,18 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.light-service.samsung \
     android.hardware.vibrator-service.samsung
+
+# LiveDisplay
+PRODUCT_PACKAGES += \
+    vendor.lineage.livedisplay@2.0-service.samsung-qcom
+
+# RIL
+PRODUCT_PACKAGES += \
+    secril_config_svc
+
+# Touch
+PRODUCT_PACKAGES += \
+    vendor.lineage.touch-service.samsung
 
 # Graphics
 # AOSP passthrough mapper 2.1, allocator and composer around the stock gralloc.sdm660

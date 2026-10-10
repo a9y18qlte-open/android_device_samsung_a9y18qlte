@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Privileged permission whitelist for the Google hotword enrollment blob
-    shipped as HotwordEnrollmentOKGoogleExTL3210 (a9y18qlte-vendor.mk).
+    shipped as HotwordEnrollmentOKGoogleExTL3210 and HotwordEnrollmentXGoogleExTL3210
+    (proprietary-files-gapps.txt).
 
     Android 10 hard-enforces this whitelist: a privileged app holding a
     signature|privileged permission with no entry here throws
@@ -12,6 +13,10 @@
 -->
 <permissions>
     <privapp-permissions package="com.android.hotwordenrollment.okgoogle">
+        <permission name="android.permission.MANAGE_VOICE_KEYPHRASES"/>
+    </privapp-permissions>
+
+    <privapp-permissions package="com.android.hotwordenrollment.xgoogle">
         <permission name="android.permission.MANAGE_VOICE_KEYPHRASES"/>
     </privapp-permissions>
 </permissions>

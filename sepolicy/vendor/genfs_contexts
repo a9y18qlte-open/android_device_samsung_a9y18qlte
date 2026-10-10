@@ -60,6 +60,17 @@ genfscon sysfs /devices/virtual/sec/tsp/dt2w_enable           u:object_r:sysfs_d
 # AOD low-power brightness, written by AodBrightness.
 genfscon sysfs /devices/virtual/lcd/panel/alpm                u:object_r:sysfs_panel_alpm:s0
 
+# mDNIe and panel tuneables, written by the LiveDisplay HAL.
+genfscon sysfs /devices/virtual/mdnie/mdnie/mode              u:object_r:sysfs_livedisplay_tuneable:s0
+genfscon sysfs /devices/virtual/mdnie/mdnie/outdoor           u:object_r:sysfs_livedisplay_tuneable:s0
+genfscon sysfs /devices/virtual/mdnie/mdnie/sensorRGB         u:object_r:sysfs_livedisplay_tuneable:s0
+genfscon sysfs /devices/virtual/lcd/panel/power_reduce        u:object_r:sysfs_livedisplay_tuneable:s0
+
+# Touch panel command interface, used by the touch HAL.
+genfscon sysfs /devices/virtual/sec/tsp/cmd                   u:object_r:sysfs_sec_tsp:s0
+genfscon sysfs /devices/virtual/sec/tsp/cmd_list              u:object_r:sysfs_sec_tsp:s0
+genfscon sysfs /devices/virtual/sec/tsp/cmd_result            u:object_r:sysfs_sec_tsp:s0
+
 # Samsung LCD sysfs tree
 genfscon sysfs /devices/virtual/lcd/panel                                 u:object_r:sysfs_lcd:s0
 

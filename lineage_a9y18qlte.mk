@@ -51,7 +51,7 @@ TARGET_VENDOR_PRODUCT_NAME := a9y18qlte
 PRODUCT_GMS_CLIENTID_BASE := android-samsung
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BuildDesc="a9y18qltexx-user 10 QP1A.190711.020 A920FXXS7CVH1 release-keys" \
-    BuildFingerprint=samsung/a9y18qltexx/a9y18qlte:10/QP1A.190711.020/A920FXXS7CVH1:user/release-keys \
+    BuildDesc="a9y18qltexx-user 10 QP1A.190711.020 A920FXXS7CVI9 release-keys" \
+    BuildFingerprint=samsung/a9y18qltexx/a9y18qlte:10/QP1A.190711.020/A920FXXS7CVI9:user/release-keys \
     DeviceProduct=a9y18qltexx \
     SystemName=a9y18qltexx

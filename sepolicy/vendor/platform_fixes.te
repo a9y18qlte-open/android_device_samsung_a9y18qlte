@@ -113,6 +113,7 @@ allow macloader wifi_vendor_data_file:file create_file_perms;
 
 # --- secril_config -----------------------------------------------------------
 # Reads the carrier property file out of EFS at startup: /efs/telephony.prop
+allow secril_config mnt_vendor_file:dir search;
 allow secril_config efs_file:dir search;
 allow secril_config efs_file:file r_file_perms;
 

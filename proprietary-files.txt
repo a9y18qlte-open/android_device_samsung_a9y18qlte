@@ -77,19 +77,8 @@ vendor/etc/sound_trigger_mixer_paths_wcd9340.xml
 
 
 # Audio FX Modules
-vendor/lib/lib_SoundAlive_AlbumArt_ver105.so;DISABLE_CHECKELF
-vendor/lib/lib_SoundAlive_play_plus_ver210.so;DISABLE_CHECKELF
 vendor/lib/soundfx/libasphere.so
-vendor/lib/soundfx/libaudioeffectoffload.so
-vendor/lib/soundfx/libaudiosaplus_sec.so
-vendor/lib/soundfx/libqcbassboost.so
-vendor/lib/soundfx/libqcreverb.so
-vendor/lib/soundfx/libqcvirt.so
 vendor/lib64/soundfx/libasphere.so
-vendor/lib64/soundfx/libaudioeffectoffload.so
-vendor/lib64/soundfx/libqcbassboost.so
-vendor/lib64/soundfx/libqcreverb.so
-vendor/lib64/soundfx/libqcvirt.so
 
 # Audio-ACDB
 vendor/etc/audconf/ODM/Bluetooth_cal.acdb
@@ -1063,7 +1052,6 @@ vendor/bin/ATFWD-daemon
 vendor/bin/ipacm;MODULE_SUFFIX=_vendor
 vendor/bin/netmgrd
 vendor/bin/rmt_storage
-vendor/bin/secril_config_svc;MODULE_SUFFIX=_vendor
 vendor/bin/tftp_server
 vendor/etc/data/dsi_config.xml
 vendor/etc/data/netmgr_config.xml
@@ -1254,7 +1242,6 @@ vendor/lib/libOpenCv.camera.samsung.so;DISABLE_CHECKELF
 vendor/lib/lib_SamsungRec_06005.so;DISABLE_CHECKELF
 vendor/lib/lib_SoundAlive_3DPosition_ver202.so
 vendor/lib/lib_SoundAlive_SRC384_ver320.so
-vendor/lib/lib_SoundBooster_ver950.so;DISABLE_CHECKELF
 vendor/lib/lib_soundaliveresampler.so
 vendor/lib/libsamsungVoipResampler.so
 vendor/lib/libsec_semRil.so
@@ -1264,7 +1251,6 @@ vendor/lib/libucm_tlc_comm.so
 vendor/lib/libucm_tlc_direct_comm.so
 vendor/lib/libucm_tlc_tz_esecomm.so
 vendor/lib/libxcv.camera.samsung.so;DISABLE_CHECKELF
-vendor/lib/soundfx/libsamsungSoundbooster_plus.so
 vendor/lib/vendor.samsung.camera.device@1.0-impl.so
 vendor/lib/vendor.samsung.camera.device@4.0-impl.so
 vendor/lib/vendor.samsung.hardware.camera.device@1.0.so
@@ -1486,11 +1472,6 @@ vendor/lib/libuniplugin.so
 vendor/lib/libvideobeauty_interface.so
 vendor/lib/libvndsecril-client.so
 vendor/lib/libwifi-hal.so
-vendor/lib/soundfx/libgearvr.so
-vendor/lib/soundfx/libmysound.so
-vendor/lib/soundfx/libmyspace.so
-vendor/lib/soundfx/libplaybackrecorder.so
-vendor/lib/soundfx/libswdap.so
 vendor/lib64/libMcClient.so
 vendor/lib64/libarac.so
 vendor/lib64/libbauthserver.so
@@ -1552,7 +1533,6 @@ vendor/lib64/libucsengine.so
 vendor/lib64/libuniplugin.so
 vendor/lib64/libvideobeauty_interface.so
 vendor/lib64/libvndsecril-client.so
-vendor/lib64/soundfx/libswdap.so
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so
 vendor/lib64/vendor.samsung.hardware.health@1.0.so
 vendor/lib64/vendor.trustonic.tee@1.0.so
@@ -1567,3 +1547,7 @@ vendor/firmware/a512_zap.b00
 vendor/firmware/a512_zap.b01
 vendor/firmware/a512_zap.b02
 vendor/firmware/a512_zap.mdt
+
+# Hotword enrollment
+system/priv-app/HotwordEnrollmentOKGoogleExTL3210/HotwordEnrollmentOKGoogleExTL3210.apk
+system/priv-app/HotwordEnrollmentXGoogleExTL3210/HotwordEnrollmentXGoogleExTL3210.apk
