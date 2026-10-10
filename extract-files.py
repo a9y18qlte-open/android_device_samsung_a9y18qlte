@@ -10,6 +10,7 @@ from extract_utils.main import (
 )
 
 from extract_utils.fixups_lib import (
+    lib_fixup_remove,
     lib_fixups_user_type,
 )
 
@@ -28,10 +29,15 @@ lib_fixups: lib_fixups_user_type = {
         'libsecnativefeature',
         'libsecure_storage',
     ): lib_fixup_vendor,
+    (
+        'vendor.samsung.frameworks.security.ucm.crypto@1.0',
+        'libucm_tlc_tz_esecomm',
+    ): lib_fixup_remove,
 }
 
 namespace_imports = [
     'device/samsung/a9y18qlte',
+    'hardware/qcom-caf/common/libqti-perfd-client',
     'hardware/qcom-caf/msm8998',
     'hardware/qcom-caf/wlan',
     'vendor/qcom/opensource/dataservices',

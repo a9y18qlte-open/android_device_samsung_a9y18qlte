@@ -1267,6 +1267,7 @@ vendor/lib/lib_SamsungRec_06005.so
 vendor/lib/lib_soundaliveresampler.so
 vendor/lib/lib_SoundAlive_3DPosition_ver202.so
 vendor/lib/lib_SoundAlive_SRC384_ver320.so
+vendor/lib/lib_SoundBooster_ver950.so
 vendor/lib/vendor.samsung.hardware.tlc.ucm@1.0.so
 vendor/lib/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
 vendor/lib/soundfx/libsamsungSoundbooster_plus.so
@@ -1286,6 +1287,7 @@ vendor/lib64/libOpenCv.camera.samsung.so
 vendor/lib64/libswldc_capture_core.camera.samsung.so
 vendor/lib64/libxcv.camera.samsung.so
 vendor/lib64/vendor.samsung.camera.device@1.0-impl.so
+vendor/lib64/lib_SoundBooster_ver950.so
 vendor/lib64/vendor.samsung.camera.device@4.0-impl.so
 vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0.so
 vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
