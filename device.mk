@@ -515,6 +515,10 @@ PRODUCT_PACKAGES += \
     android.hardware.light-service.samsung \
     android.hardware.vibrator-service.samsung
 
+# RIL
+PRODUCT_PACKAGES += \
+    secril_config_svc
+
 # Graphics
 # AOSP passthrough mapper 2.1, allocator and composer around the stock gralloc.sdm660
 # and hwcomposer.sdm660 modules, replacing their Android 10 builds. The composer
