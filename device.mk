@@ -70,7 +70,11 @@ PRODUCT_PACKAGES += \
     android.hardware.audio@6.0-impl.a9y18qlte \
     audio.r_submix.default \
     audio.usb.default \
-    libaudio-resampler
+    libaudio-resampler \
+    libqcompostprocbundle \
+    libqcomvisualizer \
+    libqcomvoiceprocessing \
+    libvolumelistener
 
 # IMS
 PRODUCT_COPY_FILES += \
