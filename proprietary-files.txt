@@ -33,16 +33,16 @@ vendor/lib/rfsa/adsp/libscveT2T_skel.so
 vendor/lib/rfsa/adsp/libsns_low_lat_stream_skel.so
 
 # ANT
-lib/com.qualcomm.qti.ant@1.0.so
-lib64/com.qualcomm.qti.ant@1.0.so
+system/lib/com.qualcomm.qti.ant@1.0.so
+system/lib64/com.qualcomm.qti.ant@1.0.so
 vendor/lib/com.qualcomm.qti.ant@1.0.so
 vendor/lib/hw/com.qualcomm.qti.ant@1.0-impl.so
 vendor/lib64/com.qualcomm.qti.ant@1.0.so
 vendor/lib64/hw/com.qualcomm.qti.ant@1.0-impl.so
 
 # Audio
-etc/permissions/audiosphere.xml
-framework/audiosphere.jar
+system/etc/permissions/audiosphere.xml
+system/framework/audiosphere.jar
 vendor/bin/audioflacapp
 vendor/firmware/dbmd4_va_fw.bin
 vendor/lib/libacdb-fts.so
@@ -141,7 +141,7 @@ vendor/lib64/libbt-hidlclient.so
 vendor/lib64/vendor.samsung.hardware.bluetooth@2.0.so
 
 # Bluetooth-AptX
-lib64/libaptX_encoder.so
+system/lib64/libaptX_encoder.so
 
 # CDSP
 vendor/bin/cdsprpcd
@@ -564,7 +564,7 @@ vendor/bin/hvdcp_opti
 # DPM
 -product/framework/com.qti.dpmframework.jar
 -product/framework/dpmapi.jar
--framework/tcmclient.jar
+-system/framework/tcmclient.jar
 vendor/lib/com.qualcomm.qti.dpm.api@1.0.so
 vendor/lib64/com.qualcomm.qti.dpm.api@1.0.so
 
@@ -615,8 +615,8 @@ vendor/lib/libwvhidl.so
 vendor/lib/mediadrm/libwvdrmengine.so
 
 # Display-Hardware
--lib/libsdm-disp-apis.so
--lib64/libsdm-disp-apis.so
+-system/lib/libsdm-disp-apis.so
+-system/lib64/libsdm-disp-apis.so
 vendor/lib/hw/gralloc.sdm660.so
 vendor/lib/hw/hwcomposer.sdm660.so
 vendor/lib/hw/memtrack.sdm660.so
@@ -647,12 +647,12 @@ vendor/etc/dolby/dax-default.xml
 vendor/etc/media_codecs_dolby_audio.xml
 
 # FM
-lib/fm_helium.so
-lib/libfm-hci.so
--lib/vendor.qti.hardware.fm@1.0.so
-lib64/fm_helium.so
-lib64/libfm-hci.so
--lib64/vendor.qti.hardware.fm@1.0.so
+system/lib/fm_helium.so
+system/lib/libfm-hci.so
+-system/lib/vendor.qti.hardware.fm@1.0.so
+system/lib64/fm_helium.so
+system/lib64/libfm-hci.so
+-system/lib64/vendor.qti.hardware.fm@1.0.so
 vendor/lib/hw/vendor.qti.hardware.fm@1.0-impl.so
 vendor/lib/vendor.qti.hardware.fm@1.0.so
 vendor/lib64/hw/vendor.qti.hardware.fm@1.0-impl.so
@@ -678,16 +678,16 @@ vendor/lib64/libqfp_sensortest.so
 vendor/lib64/vendor.samsung.hardware.biometrics.fingerprint@3.0.so
 
 # Firmware
-etc/firmware/nvm_tlv.bin
-etc/firmware/nvm_tlv_1.3.bin
-etc/firmware/nvm_tlv_2.1.bin
-etc/firmware/nvm_tlv_3.0.bin
-etc/firmware/nvm_tlv_3.2.bin
-etc/firmware/rampatch_tlv.img
-etc/firmware/rampatch_tlv_1.3.tlv
-etc/firmware/rampatch_tlv_2.1.tlv
-etc/firmware/rampatch_tlv_3.0.tlv
-etc/firmware/rampatch_tlv_3.2.tlv
+system/etc/firmware/nvm_tlv.bin
+system/etc/firmware/nvm_tlv_1.3.bin
+system/etc/firmware/nvm_tlv_2.1.bin
+system/etc/firmware/nvm_tlv_3.0.bin
+system/etc/firmware/nvm_tlv_3.2.bin
+system/etc/firmware/rampatch_tlv.img
+system/etc/firmware/rampatch_tlv_1.3.tlv
+system/etc/firmware/rampatch_tlv_2.1.tlv
+system/etc/firmware/rampatch_tlv_3.0.tlv
+system/etc/firmware/rampatch_tlv_3.2.tlv
 vendor/firmware/a225p5_pm4.fw
 vendor/firmware/a225_pfp.fw
 vendor/firmware/a225_pm4.fw
@@ -730,12 +730,12 @@ vendor/etc/hostapd/hostapd_default.conf
 vendor/firmware/wlanmdsp.mbn
 
 # GPS
-etc/permissions/com.qti.location.sdk.xml
-etc/permissions/com.qualcomm.location.xml
-etc/permissions/izat.xt.srv.xml
-etc/permissions/privapp-permissions-com.qualcomm.location.xml
--framework/com.qti.location.sdk.jar
--framework/izat.xt.srv.jar
+system/etc/permissions/com.qti.location.sdk.xml
+system/etc/permissions/com.qualcomm.location.xml
+system/etc/permissions/izat.xt.srv.xml
+system/etc/permissions/privapp-permissions-com.qualcomm.location.xml
+-system/framework/com.qti.location.sdk.jar
+-system/framework/izat.xt.srv.jar
 vendor/lib/libbatching.so
 vendor/lib/libgeofencing.so
 vendor/lib/vendor.qti.gnss@1.0.so
@@ -744,8 +744,8 @@ vendor/lib/vendor.qti.gnss@1.2.so
 vendor/lib/vendor.qti.gnss@2.0.so
 vendor/lib/vendor.qti.gnss@2.1.so
 vendor/lib/vendor.qti.gnss@3.0.so
-lib64/liblocationservice_jni.so
-lib64/libxt_native.so
+system/lib64/liblocationservice_jni.so
+system/lib64/libxt_native.so
 vendor/lib64/libbatching.so
 vendor/lib64/libgeofencing.so
 vendor/lib64/vendor.qti.gnss@1.0.so
@@ -873,7 +873,7 @@ vendor/lib64/libsdm-diag.so
 vendor/lib64/libtinyxml2_1.so
 
 # HotwordEnrollment
--priv-app/HotwordEnrollmentOKGoogleExTL3210/HotwordEnrollmentOKGoogleExTL3210.apk
+-system/priv-app/HotwordEnrollmentOKGoogleExTL3210/HotwordEnrollmentOKGoogleExTL3210.apk
 
 # IOP
 vendor/lib/hw/vendor.qti.hardware.iop@2.0-impl.so
@@ -911,18 +911,18 @@ vendor/lib64/libgcs-osal.so
 vendor/lib64/libgcs.so
 
 # Media
-lib/libFileMux.so
-lib/libmmosal.so
-lib/libmmparser_lite.so
-lib/libmmrtpdecoder.so
-lib/libmmrtpencoder.so
+system/lib/libFileMux.so
+system/lib/libmmosal.so
+system/lib/libmmparser_lite.so
+system/lib/libmmrtpdecoder.so
+system/lib/libmmrtpencoder.so
 vendor/lib/vendor.qti.hardware.vpp@1.1.so
 vendor/lib/vendor.qti.hardware.vpp@1.2.so
-lib64/libFileMux.so
-lib64/libmmosal.so
-lib64/libmmparser_lite.so
-lib64/libmmrtpdecoder.so
-lib64/libmmrtpencoder.so
+system/lib64/libFileMux.so
+system/lib64/libmmosal.so
+system/lib64/libmmparser_lite.so
+system/lib64/libmmrtpdecoder.so
+system/lib64/libmmrtpencoder.so
 vendor/lib64/vendor.qti.hardware.vpp@1.1.so
 vendor/lib64/vendor.qti.hardware.vpp@1.2.so
 vendor/lib/libAlacSwDec.so
@@ -979,7 +979,7 @@ vendor/etc/media_codecs_sec_video_primary.xml
 # Media-Hardware
 
 # NFC
-etc/nfcee_access.xml
+system/etc/nfcee_access.xml
 vendor/bin/hw/nxp.android.hardware.nfc@1.1-service
 vendor/etc/init/nxp.android.hardware.nfc@1.1-service.rc
 -vendor/etc/libnfc-nci.conf
@@ -1071,12 +1071,12 @@ vendor/lib/vendor.qti.hardware.qdutils_disp@1.0.so
 vendor/lib64/vendor.qti.hardware.qdutils_disp@1.0.so
 
 # Radio
-etc/permissions/embms.xml
--etc/permissions/privapp-permissions-qti.xml
-etc/permissions/qcrilhook.xml
--etc/sysconfig/qti_whitelist.xml
-framework/embmslibrary.jar
-framework/qcrilhook.jar
+system/etc/permissions/embms.xml
+-system/etc/permissions/privapp-permissions-qti.xml
+system/etc/permissions/qcrilhook.xml
+-system/etc/sysconfig/qti_whitelist.xml
+system/framework/embmslibrary.jar
+system/framework/qcrilhook.jar
 vendor/bin/ATFWD-daemon
 vendor/bin/ipacm
 vendor/bin/netmgrd
@@ -1138,91 +1138,91 @@ vendor/lib64/librmnetctl.so|3bc9f0e140370fd4e95d8e262c30be515883cc10
 vendor/lib64/libvkmanager_vendor.so
 
 # Radio-IMS
-bin/imsd
-bin/charon
-bin/connfwexe
-bin/eris
-bin/multiclientd
-bin/smdexe
-etc/epdg_apns_conf.xml
-etc/eris.conf
-etc/strongswan.conf
-etc/init/imsd.rc
-etc/init/init.rilepdg.rc
-etc/init/multiclientd.rc
-etc/permissions/epdgmanager_library.xml
-etc/permissions/com.qualcomm.qti.imscmservice.xml
-etc/permissions/privapp-permissions-com.sec.ims.xml
-etc/permissions/privapp-permissions-com.sec.imsservice.xml
-etc/permissions/rcsopenapi_library.xml
-etc/permissions/svemanager_library.xml
-etc/permissions/vsimservice_library.xml
--app/ImsSettings/ImsSettings.apk
--priv-app/ImsTelephonyService/ImsTelephonyService.apk
--priv-app/imsservice/imsservice.apk
+system/bin/imsd
+system/bin/charon
+system/bin/connfwexe
+system/bin/eris
+system/bin/multiclientd
+system/bin/smdexe
+system/etc/epdg_apns_conf.xml
+system/etc/eris.conf
+system/etc/strongswan.conf
+system/etc/init/imsd.rc
+system/etc/init/init.rilepdg.rc
+system/etc/init/multiclientd.rc
+system/etc/permissions/epdgmanager_library.xml
+system/etc/permissions/com.qualcomm.qti.imscmservice.xml
+system/etc/permissions/privapp-permissions-com.sec.ims.xml
+system/etc/permissions/privapp-permissions-com.sec.imsservice.xml
+system/etc/permissions/rcsopenapi_library.xml
+system/etc/permissions/svemanager_library.xml
+system/etc/permissions/vsimservice_library.xml
+-system/app/ImsSettings/ImsSettings.apk
+-system/priv-app/ImsTelephonyService/ImsTelephonyService.apk
+-system/priv-app/imsservice/imsservice.apk
 # imsmanager.jar is patched by vendor/samsung/a9y18qlte/tools/imsservice.
-etc/permissions/imsmanager_library.xml
-framework/imsmanager.jar
-framework/EpdgManager.jar
-framework/rcsopenapi.jar
-framework/svemanager.jar
-framework/vsimmanager.jar
-lib/libfloatingfeature.so
-lib/libfactoryutil.so
-lib/libmdf.so
-lib/libomission_avoidance.so
-lib/libpacm_client.so
-lib/libsecaudiocoreutils.so
-lib/libsecaudioeventutils.so
-lib/libsecnativefeature.so
-lib/libsecure_storage.so
-lib/libsemnativecarrierfeature.so
-lib/libsecril-client.so
-lib64/libaresdns.so
-lib64/libevs_float.so
-lib64/libAudioTranscoder.so
-lib64/libcharon.so
-lib64/libcurl2.so
-lib64/liberis_charon.so
-lib64/liberis_simaka.so
-lib64/liberis_strongswan.so
-lib64/libfloatingfeature.so
-lib64/libfactoryutil.so
-lib64/libmdf.so
-lib64/libomission_avoidance.so
-lib64/libpacm_client.so
-lib64/libmediarelayengine.so
-lib64/libresampler_ims.so
-lib64/libSRTP.so
-lib64/libsec-ims.so
-lib64/libsecaudiocoreutils.so
-lib64/libsecaudioeventutils.so
-lib64/libsecnativefeature.so
-lib64/libsecure_storage.so
-lib64/libsemnativecarrierfeature.so
-lib64/libsecril-client.so
-lib64/libstrongswan.so
-lib64/vendor.samsung.hardware.radio.bridge@2.0.so
+system/etc/permissions/imsmanager_library.xml
+system/framework/imsmanager.jar
+system/framework/EpdgManager.jar
+system/framework/rcsopenapi.jar
+system/framework/svemanager.jar
+system/framework/vsimmanager.jar
+system/lib/libfloatingfeature.so
+system/lib/libfactoryutil.so
+system/lib/libmdf.so
+system/lib/libomission_avoidance.so
+system/lib/libpacm_client.so
+system/lib/libsecaudiocoreutils.so
+system/lib/libsecaudioeventutils.so
+system/lib/libsecnativefeature.so
+system/lib/libsecure_storage.so
+system/lib/libsemnativecarrierfeature.so
+system/lib/libsecril-client.so
+system/lib64/libaresdns.so
+system/lib64/libevs_float.so
+system/lib64/libAudioTranscoder.so
+system/lib64/libcharon.so
+system/lib64/libcurl2.so
+system/lib64/liberis_charon.so
+system/lib64/liberis_simaka.so
+system/lib64/liberis_strongswan.so
+system/lib64/libfloatingfeature.so
+system/lib64/libfactoryutil.so
+system/lib64/libmdf.so
+system/lib64/libomission_avoidance.so
+system/lib64/libpacm_client.so
+system/lib64/libmediarelayengine.so
+system/lib64/libresampler_ims.so
+system/lib64/libSRTP.so
+system/lib64/libsec-ims.so
+system/lib64/libsecaudiocoreutils.so
+system/lib64/libsecaudioeventutils.so
+system/lib64/libsecnativefeature.so
+system/lib64/libsecure_storage.so
+system/lib64/libsemnativecarrierfeature.so
+system/lib64/libsecril-client.so
+system/lib64/libstrongswan.so
+system/lib64/vendor.samsung.hardware.radio.bridge@2.0.so
 
 # Radio-IMS - VoWiFi: EpdgService (ePDG tunnel) and sveservice (AP voice engine)
 # EpdgService.apk is patched by vendor/samsung/a9y18qlte/tools/epdg.
--app/sveservice/sveservice.apk
--priv-app/EpdgService/EpdgService.apk
-etc/mapconprovider.xml
-etc/permissions/privapp-permissions-com.sec.epdg.xml
-lib64/libAudioFWInterface.so
-lib64/libnativecfms.so
-lib64/libPSI.so
-lib64/libRecorder.so
-lib64/librtp.so
-lib64/librtppayload.so
-lib64/libSamsungAPVoiceEngine.so
-lib64/libsamsung_videoengine_9_0.so
-lib64/libsavscmn.so
-lib64/libSTE.so
-lib64/libsvejni.so
-lib64/libsveservice.so
-lib64/libvad.so
+-system/app/sveservice/sveservice.apk
+-system/priv-app/EpdgService/EpdgService.apk
+system/etc/mapconprovider.xml
+system/etc/permissions/privapp-permissions-com.sec.epdg.xml
+system/lib64/libAudioFWInterface.so
+system/lib64/libnativecfms.so
+system/lib64/libPSI.so
+system/lib64/libRecorder.so
+system/lib64/librtp.so
+system/lib64/librtppayload.so
+system/lib64/libSamsungAPVoiceEngine.so
+system/lib64/libsamsung_videoengine_9_0.so
+system/lib64/libsavscmn.so
+system/lib64/libSTE.so
+system/lib64/libsvejni.so
+system/lib64/libsveservice.so
+system/lib64/libvad.so
 
 product/lib/libdiag_system.so
 product/lib64/libdiag_system.so
