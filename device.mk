@@ -446,8 +446,8 @@ PRODUCT_COPY_FILES += \
     prebuilts/vndk/v33/arm64/arch-arm64-armv8-a/shared/vndk-sp/libutils.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libutils-v33.so
 
 PRODUCT_PACKAGES += \
-    libprotobuf-cpp-full.vendor \
-    libprotobuf-cpp-lite.vendor
+    libprotobuf-cpp-full-vendorcompat \
+    libprotobuf-cpp-lite-vendorcompat
 
 # 19.1 bring-up: adb without authorization, so boot loops can be debugged after
 
