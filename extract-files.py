@@ -17,6 +17,9 @@ from extract_utils.fixups_lib import (
 def lib_fixup_vendor(lib: str, partition: str, *args, **kwargs):
     return f'{lib}_vendor' if partition in ['odm', 'vendor'] else lib
 
+def lib_fixup_product_hidl(lib: str, partition: str, *args, **kwargs):
+    return '' if partition == 'product' else lib
+
 lib_fixups: lib_fixups_user_type = {
     (
         'com.qualcomm.qti.ant@1.0',
@@ -33,6 +36,10 @@ lib_fixups: lib_fixups_user_type = {
         'vendor.samsung.frameworks.security.ucm.crypto@1.0',
         'libucm_tlc_tz_esecomm',
     ): lib_fixup_remove,
+    (
+        'libhwbinder',
+        'libhidltransport',
+    ): lib_fixup_product_hidl,
 }
 
 namespace_imports = [
