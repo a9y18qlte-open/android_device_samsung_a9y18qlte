@@ -331,6 +331,9 @@ PRODUCT_COPY_FILES += \
 # on every start, so init restart-loops it forever - visible as repeated
 # "ipa ipa2_nat_del_cmd:799 Nat table not initialized". Ship the matching QCOM
 # config for this IPA generation (v2, same as the ipa2_* call in the error).
+PRODUCT_PACKAGES += \
+    ipacm
+
 PRODUCT_COPY_FILES += \
     vendor/qcom/opensource/data-ipa-cfg-mgr-legacy-um/ipacm/src/IPACM_cfg.xml:$(TARGET_COPY_OUT_VENDOR)/etc/IPACM_cfg.xml
 

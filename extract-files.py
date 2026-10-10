@@ -38,9 +38,7 @@ lib_fixups: lib_fixups_user_type = {
     (
         'com.qualcomm.qti.ant@1.0',
         'libfloatingfeature',
-        'libipanat',
         'libmdf',
-        'liboffloadhal',
         'librmnetctl',
         'libsavscmn',
         'libsecaudiocoreutils',

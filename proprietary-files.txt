@@ -1031,14 +1031,12 @@ system/etc/permissions/qcrilhook.xml
 system/framework/embmslibrary.jar
 system/framework/qcrilhook.jar
 vendor/bin/ATFWD-daemon
-vendor/bin/ipacm;MODULE_SUFFIX=_vendor
 vendor/bin/netmgrd
 vendor/bin/rmt_storage
 vendor/bin/tftp_server
 vendor/etc/data/dsi_config.xml
 vendor/etc/data/netmgr_config.xml
 vendor/etc/init/ipacm-diag.rc
-vendor/etc/init/ipacm.rc
 vendor/etc/init/netmgrd.rc
 vendor/etc/init/vendor.qti.rmt_storage.rc
 vendor/etc/init/vendor.qti.tftp.rc
@@ -1063,7 +1061,6 @@ vendor/lib/libsystem_health_mon.so
 vendor/lib/vendor.qti.hardware.radio.atcmdfwd@1.0.so
 vendor/lib64/libconfigdb.so
 vendor/lib64/libdsi_netctrl.so
-vendor/lib64/libipanat.so;MODULE_SUFFIX=_vendor
 vendor/lib64/liblqe.so
 vendor/lib64/libmdmdetect.so
 vendor/lib64/libnetmgr.so
@@ -1072,7 +1069,6 @@ vendor/lib64/libnetmgr_nr_fusion.so
 vendor/lib64/libnetmgr_rmnet_ext.so
 vendor/lib64/libnlnetmgr.so
 vendor/lib64/liboemaids_vendor.so
-vendor/lib64/liboffloadhal.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libpdmapper.so
 vendor/lib64/libpdnotifier.so
 vendor/lib64/libqcmaputils.so
