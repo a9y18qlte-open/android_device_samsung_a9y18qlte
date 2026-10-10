@@ -658,12 +658,6 @@ vendor/lib/vendor.qti.hardware.fm@1.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/hw/vendor.qti.hardware.fm@1.0-impl.so
 vendor/lib64/vendor.qti.hardware.fm@1.0.so;MODULE_SUFFIX=_vendor
 
-# Factory
-product/framework/vendor.qti.data.factory-V1.0-java.jar
-product/framework/vendor.qti.data.factory-V2.0-java.jar
-product/framework/vendor.qti.data.factory-V2.1-java.jar
-product/lib/vendor.qti.data.factory@1.0.so
-product/lib64/vendor.qti.data.factory@1.0.so
 
 
 # Fingerprint
@@ -1265,6 +1259,7 @@ vendor/lib/libswldc_capture_core.camera.samsung.so
 vendor/lib/libxcv.camera.samsung.so
 vendor/lib/lib_SamsungRec_06005.so
 vendor/lib/lib_soundaliveresampler.so
+vendor/lib/lib_SoundAlive_AlbumArt_ver105.so
 vendor/lib/lib_SoundAlive_3DPosition_ver202.so
 vendor/lib/lib_SoundAlive_SRC384_ver320.so
 vendor/lib/lib_SoundBooster_ver950.so
@@ -1288,6 +1283,7 @@ vendor/lib64/libswldc_capture_core.camera.samsung.so
 vendor/lib64/libxcv.camera.samsung.so
 vendor/lib64/vendor.samsung.camera.device@1.0-impl.so
 vendor/lib64/lib_SoundBooster_ver950.so
+vendor/lib64/lib_SoundAlive_AlbumArt_ver105.so
 vendor/lib64/vendor.samsung.camera.device@4.0-impl.so
 vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0.so
 vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
