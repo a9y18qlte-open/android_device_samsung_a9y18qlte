@@ -1263,6 +1263,7 @@ vendor/lib/lib_SoundAlive_AlbumArt_ver105.so
 vendor/lib/lib_SoundAlive_3DPosition_ver202.so
 vendor/lib/lib_SoundAlive_SRC384_ver320.so
 vendor/lib/lib_SoundBooster_ver950.so
+vendor/lib/lib_SoundAlive_play_plus_ver210.so
 vendor/lib/vendor.samsung.hardware.tlc.ucm@1.0.so
 vendor/lib/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
 vendor/lib/soundfx/libsamsungSoundbooster_plus.so
@@ -1275,6 +1276,7 @@ vendor/lib/vendor.samsung.hardware.radio.channel@2.0.so
 vendor/lib/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
 vendor/lib/vendor.samsung.hardware.radio@2.0.so
 vendor/lib/vendor.samsung.hardware.security.proca@2.0.so
+vendor/lib/vendor.samsung.hardware.security.securestorage@3.0.so
 vendor/lib64/hw/vendor.samsung.hardware.camera.provider@3.0-impl.so
 vendor/lib64/libDLInterface.camera.samsung.so
 vendor/lib64/libhal.wsm.samsung.so
@@ -1284,6 +1286,7 @@ vendor/lib64/libxcv.camera.samsung.so
 vendor/lib64/vendor.samsung.camera.device@1.0-impl.so
 vendor/lib64/lib_SoundBooster_ver950.so
 vendor/lib64/lib_SoundAlive_AlbumArt_ver105.so
+vendor/lib64/lib_SoundAlive_play_plus_ver210.so
 vendor/lib64/vendor.samsung.camera.device@4.0-impl.so
 vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0.so
 vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
