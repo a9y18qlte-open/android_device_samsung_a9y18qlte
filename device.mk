@@ -261,7 +261,8 @@ PRODUCT_COPY_FILES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power-service-qti
+    android.hardware.power-service-qti \
+    libqti-perfd-client
 
 # Public Libraries
 PRODUCT_COPY_FILES += \
@@ -337,7 +338,8 @@ PRODUCT_COPY_FILES += \
 # Soong
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
-    hardware/samsung
+    hardware/samsung \
+    hardware/qcom-caf/common/libqti-perfd-client
 
 # SP-NDK
 PRODUCT_PACKAGES += \
