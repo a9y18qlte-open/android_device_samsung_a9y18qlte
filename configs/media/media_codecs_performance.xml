@@ -42,12 +42,6 @@
             <Limit name="measured-frame-rate-352x288" range="100-200" />
             <Limit name="measured-frame-rate-640x480" range="70-140" />
         </MediaCodec>
-        <MediaCodec name="OMX.qcom.video.encoder.vp8" type="video/x-vnd.on2.vp8" update="true">
-            <Limit name="measured-frame-rate-320x180" range="100-200" />
-            <Limit name="measured-frame-rate-640x360" range="80-160" />
-            <Limit name="measured-frame-rate-1280x720" range="25-50" />
-            <Limit name="measured-frame-rate-1920x1080" range="20-40" />
-        </MediaCodec>
 		<MediaCodec name="c2.android.avc.encoder" type="video/avc" update="true">
             <Limit name="measured-frame-rate-320x240" range="150-300" />
             <Limit name="measured-frame-rate-720x480" range="70-140" />
@@ -109,19 +103,6 @@
         <MediaCodec name="OMX.qcom.video.decoder.mpeg4" type="video/mp4v-es" update="true">
             <Limit name="measured-frame-rate-176x144" range="380-760" />
             <Limit name="measured-frame-rate-480x360" range="400-800" />
-        </MediaCodec>
-        <MediaCodec name="OMX.qcom.video.decoder.vp8" type="video/x-vnd.on2.vp8" update="true">
-            <Limit name="measured-frame-rate-320x180" range="350-700" />
-            <Limit name="measured-frame-rate-640x360" range="250-500" />
-            <Limit name="measured-frame-rate-1280x720" range="250-500" />
-            <Limit name="measured-frame-rate-1920x1080" range="100-200" />
-        </MediaCodec>
-        <MediaCodec name="OMX.qcom.video.decoder.vp9" type="video/x-vnd.on2.vp9" update="true">
-            <Limit name="measured-frame-rate-320x180" range="250-500" />
-            <Limit name="measured-frame-rate-640x360" range="200-400" />
-            <Limit name="measured-frame-rate-1280x720" range="210-420" />
-            <Limit name="measured-frame-rate-1920x1080" range="120-240" />
-            <Limit name="measured-frame-rate-3840x2160" range="28-56" />
         </MediaCodec>
 		<MediaCodec name="c2.android.avc.decoder" type="video/avc" update="true">
             <Limit name="measured-frame-rate-320x240" range="110-220" />

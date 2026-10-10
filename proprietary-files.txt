@@ -1016,19 +1016,6 @@ vendor/lib/libmmsw_math.so
 vendor/lib/libmmsw_opencl.so
 vendor/lib/libmmsw_platform.so
 vendor/lib/libmulawdec.so
-vendor/lib/libOmxAacDec.so
-vendor/lib/libOmxAlacDec.so
-vendor/lib/libOmxAlacDecSw.so
-vendor/lib/libOmxAmrDec.so
-vendor/lib/libOmxAmrwbplusDec.so
-vendor/lib/libOmxApeDec.so
-vendor/lib/libOmxApeDecSw.so
-vendor/lib/libOmxDsdDec.so
-vendor/lib/libOmxEvrcDec.so
-vendor/lib/libOmxG711Dec.so
-vendor/lib/libOmxQcelp13Dec.so
-vendor/lib/libOmxVpp.so
-vendor/lib/libOmxWmaDec.so
 # vendor/lib/vndk/libstagefright_foundation.so - dropped: stock blob exports only
 # DIVX/DIVX3, but source-built libstagefright_omx.so is compiled with
 # -D__ANDROID_VNDK_EXT__ and needs DIVX4/DIVX311. Built libstagefright_foundation_ext
@@ -1054,18 +1041,6 @@ vendor/lib64/libmmsw_math.so
 vendor/lib64/libmmsw_opencl.so
 vendor/lib64/libmmsw_platform.so
 vendor/lib64/libmulawdec.so
-vendor/lib64/libOmxAacDec.so
-vendor/lib64/libOmxAlacDec.so
-vendor/lib64/libOmxAlacDecSw.so
-vendor/lib64/libOmxAmrDec.so
-vendor/lib64/libOmxAmrwbplusDec.so
-vendor/lib64/libOmxApeDec.so
-vendor/lib64/libOmxApeDecSw.so
-vendor/lib64/libOmxEvrcDec.so
-vendor/lib64/libOmxG711Dec.so
-vendor/lib64/libOmxQcelp13Dec.so
-vendor/lib64/libOmxVpp.so
-vendor/lib64/libOmxWmaDec.so
 vendor/lib64/libstagefright_soft_qtiflacdec.so
 vendor/lib64/libvpphvx.so
 vendor/lib64/libvpplibrary.so
@@ -1081,28 +1056,6 @@ vendor/etc/media_codecs_sec_secondary.xml
 vendor/etc/media_codecs_sec_video_primary.xml
 
 # Media-Hardware
-vendor/lib/libc2dcolorconvert.so
-vendor/lib/libmm-omxcore.so
-vendor/lib/libOmxAacEnc.so
-vendor/lib/libOmxAmrEnc.so
-vendor/lib/libOmxCore.so
-vendor/lib/libOmxEvrcEnc.so
-vendor/lib/libOmxG711Enc.so
-vendor/lib/libOmxQcelp13Enc.so
-vendor/lib/libOmxVdec.so
-vendor/lib/libOmxVenc.so
-vendor/lib/libstagefrighthw.so
-vendor/lib64/libc2dcolorconvert.so
-vendor/lib64/libmm-omxcore.so
-vendor/lib64/libOmxAacEnc.so
-vendor/lib64/libOmxAmrEnc.so
-vendor/lib64/libOmxCore.so
-vendor/lib64/libOmxEvrcEnc.so
-vendor/lib64/libOmxG711Enc.so
-vendor/lib64/libOmxQcelp13Enc.so
-vendor/lib64/libOmxVdec.so
-vendor/lib64/libOmxVenc.so
-vendor/lib64/libstagefrighthw.so
 
 # NFC
 etc/nfcee_access.xml
@@ -1592,7 +1545,6 @@ vendor/lib/libhypermotion_core.so
 vendor/lib/libhypermotion_interface.so
 vendor/lib/libMcClient.so
 vendor/lib/libmdf.so
-vendor/lib/libOmxBlackBar.so
 vendor/lib/libpa.so
 vendor/lib/libpadm.so
 vendor/lib/libprofileparamstorage.so
@@ -1668,7 +1620,6 @@ vendor/lib64/libhypermotion_core.so
 vendor/lib64/libhypermotion_interface.so
 vendor/lib64/libMcClient.so
 vendor/lib64/libmdf.so
-vendor/lib64/libOmxBlackBar.so
 vendor/lib64/libpa.so
 vendor/lib64/libpadm.so
 vendor/lib64/libprofileparamstorage.so
