@@ -610,21 +610,11 @@ system/lib64/libsdm-disp-apis.so
 vendor/lib/hw/gralloc.sdm660.so;MODULE_SUFFIX=_vendor
 vendor/lib/hw/hwcomposer.sdm660.so
 vendor/lib/hw/memtrack.sdm660.so
-vendor/lib/libdrmutils.so;MODULE_SUFFIX=_vendor
-vendor/lib/libgpu_tonemapper.so;MODULE_SUFFIX=_vendor
-vendor/lib/libgrallocutils.so;MODULE_SUFFIX=_vendor
-vendor/lib/libsdmcore.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsdmextension.so
-vendor/lib/libsdmutils.so;MODULE_SUFFIX=_vendor
 vendor/lib64/hw/gralloc.sdm660.so;MODULE_SUFFIX=_vendor
 vendor/lib64/hw/hwcomposer.sdm660.so
 vendor/lib64/hw/memtrack.sdm660.so
-vendor/lib64/libdrmutils.so;MODULE_SUFFIX=_vendor
-vendor/lib64/libgpu_tonemapper.so;MODULE_SUFFIX=_vendor
-vendor/lib64/libgrallocutils.so;MODULE_SUFFIX=_vendor
-vendor/lib64/libsdmcore.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libsdmextension.so
-vendor/lib64/libsdmutils.so;MODULE_SUFFIX=_vendor
 
 # Dolby
 vendor/etc/dolby/dax-default.xml
