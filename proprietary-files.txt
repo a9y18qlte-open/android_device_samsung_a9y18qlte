@@ -33,6 +33,8 @@ vendor/lib/rfsa/adsp/libscveT2T_skel.so
 vendor/lib/rfsa/adsp/libsns_low_lat_stream_skel.so
 
 # ANT
+lib/com.qualcomm.qti.ant@1.0.so
+lib64/com.qualcomm.qti.ant@1.0.so
 vendor/lib/com.qualcomm.qti.ant@1.0.so
 vendor/lib/hw/com.qualcomm.qti.ant@1.0-impl.so
 vendor/lib64/com.qualcomm.qti.ant@1.0.so
@@ -645,7 +647,11 @@ vendor/etc/dolby/dax-default.xml
 vendor/etc/media_codecs_dolby_audio.xml
 
 # FM
+lib/fm_helium.so
+lib/libfm-hci.so
 -lib/vendor.qti.hardware.fm@1.0.so
+lib64/fm_helium.so
+lib64/libfm-hci.so
 -lib64/vendor.qti.hardware.fm@1.0.so
 vendor/lib/hw/vendor.qti.hardware.fm@1.0-impl.so
 vendor/lib/vendor.qti.hardware.fm@1.0.so
@@ -656,6 +662,7 @@ vendor/lib64/vendor.qti.hardware.fm@1.0.so
 product/framework/vendor.qti.data.factory-V1.0-java.jar
 product/framework/vendor.qti.data.factory-V2.0-java.jar
 product/framework/vendor.qti.data.factory-V2.1-java.jar
+product/lib/vendor.qti.data.factory@1.0.so
 product/lib64/vendor.qti.data.factory@1.0.so
 
 
@@ -909,8 +916,18 @@ vendor/lib64/libgcs-osal.so
 vendor/lib64/libgcs.so
 
 # Media
+lib/libFileMux.so
+lib/libmmosal.so
+lib/libmmparser_lite.so
+lib/libmmrtpdecoder.so
+lib/libmmrtpencoder.so
 vendor/lib/vendor.qti.hardware.vpp@1.1.so
 vendor/lib/vendor.qti.hardware.vpp@1.2.so
+lib64/libFileMux.so
+lib64/libmmosal.so
+lib64/libmmparser_lite.so
+lib64/libmmrtpdecoder.so
+lib64/libmmrtpencoder.so
 vendor/lib64/vendor.qti.hardware.vpp@1.1.so
 vendor/lib64/vendor.qti.hardware.vpp@1.2.so
 vendor/lib/libAlacSwDec.so
@@ -1156,6 +1173,17 @@ framework/EpdgManager.jar
 framework/rcsopenapi.jar
 framework/svemanager.jar
 framework/vsimmanager.jar
+lib/libfloatingfeature.so
+lib/libfactoryutil.so
+lib/libmdf.so
+lib/libomission_avoidance.so
+lib/libpacm_client.so
+lib/libsecaudiocoreutils.so
+lib/libsecaudioeventutils.so
+lib/libsecnativefeature.so
+lib/libsecure_storage.so
+lib/libsemnativecarrierfeature.so
+lib/libsecril-client.so
 lib64/libaresdns.so
 lib64/libevs_float.so
 lib64/libAudioTranscoder.so
@@ -1165,11 +1193,19 @@ lib64/liberis_charon.so
 lib64/liberis_simaka.so
 lib64/liberis_strongswan.so
 lib64/libfloatingfeature.so
+lib64/libfactoryutil.so
+lib64/libmdf.so
+lib64/libomission_avoidance.so
+lib64/libpacm_client.so
 lib64/libmediarelayengine.so
 lib64/libresampler_ims.so
 lib64/libSRTP.so
 lib64/libsec-ims.so
+lib64/libsecaudiocoreutils.so
+lib64/libsecaudioeventutils.so
 lib64/libsecnativefeature.so
+lib64/libsecure_storage.so
+lib64/libsemnativecarrierfeature.so
 lib64/libsecril-client.so
 lib64/libstrongswan.so
 lib64/vendor.samsung.hardware.radio.bridge@2.0.so
@@ -1194,6 +1230,7 @@ lib64/libsvejni.so
 lib64/libsveservice.so
 lib64/libvad.so
 
+product/lib/libdiag_system.so
 product/lib64/libdiag_system.so
 product/etc/permissions/com.qualcomm.qti.imscmservice-V2.0-java.xml
 product/etc/permissions/com.qualcomm.qti.imscmservice-V2.1-java.xml
@@ -1201,6 +1238,10 @@ product/etc/permissions/com.qualcomm.qti.imscmservice-V2.2-java.xml
 product/framework/com.qualcomm.qti.imscmservice-V2.0-java.jar
 product/framework/com.qualcomm.qti.imscmservice-V2.1-java.jar
 product/framework/com.qualcomm.qti.imscmservice-V2.2-java.jar
+product/lib/com.qualcomm.qti.imscmservice@1.0.so
+product/lib/com.qualcomm.qti.imscmservice@2.0.so
+product/lib/com.qualcomm.qti.imscmservice@2.1.so
+product/lib/com.qualcomm.qti.imscmservice@2.2.so
 product/lib64/com.qualcomm.qti.imscmservice@1.0.so
 product/lib64/com.qualcomm.qti.imscmservice@2.0.so
 product/lib64/com.qualcomm.qti.imscmservice@2.1.so
