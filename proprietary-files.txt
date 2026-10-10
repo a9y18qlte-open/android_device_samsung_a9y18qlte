@@ -1236,7 +1236,6 @@ vendor/lib/vendor.samsung.hardware.camera.device@4.0.so
 vendor/lib/vendor.samsung.hardware.camera.provider@3.0.so
 vendor/lib/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
 vendor/lib/vendor.samsung.hardware.radio.channel@2.0.so
-vendor/lib/vendor.samsung.hardware.radio@2.0.so;MODULE_SUFFIX=_vendor
 vendor/lib/vendor.samsung.hardware.security.proca@2.0.so
 vendor/lib/vendor.samsung.hardware.security.securestorage@3.0.so;MODULE_SUFFIX=_vendor
 vendor/lib/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
@@ -1259,7 +1258,6 @@ vendor/lib64/vendor.samsung.hardware.camera.provider@3.0.so
 vendor/lib64/vendor.samsung.hardware.miscpower@2.0.so
 vendor/lib64/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.samsung.hardware.radio.channel@2.0.so
-vendor/lib64/vendor.samsung.hardware.radio@2.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.samsung.hardware.security.proca@2.0.so
 vendor/lib64/vendor.samsung.hardware.security.securestorage@3.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0-impl.so

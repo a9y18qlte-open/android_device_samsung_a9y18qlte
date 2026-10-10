@@ -22,6 +22,7 @@ from extract_utils.main import (
 )
 
 namespace_imports = [
+    'hardware/samsung',
     'device/samsung/a9y18qlte',
     'hardware/qcom-caf/common/libqti-perfd-client',
     'hardware/qcom-caf/msm8998',
@@ -53,7 +54,6 @@ lib_fixups: lib_fixups_user_type = {
         'android.hardware.camera.provider@2.5-legacy',
         'vendor.qti.hardware.fm@1.0',
         'vendor.samsung.hardware.radio.bridge@2.0',
-        'vendor.samsung.hardware.radio@2.0',
         'vendor.samsung.hardware.security.securestorage@3.0',
     ): lib_fixup_vendor_suffix,
     'libcamera_metadata_shim': lambda lib, partition, *args, **kwargs: (
