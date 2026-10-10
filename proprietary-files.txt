@@ -1465,6 +1465,7 @@ vendor/lib/libsaiv_BeautySolutionVideo.so
 vendor/lib/libsavsac.so
 vendor/lib/libsavscmn.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsavsvc.so
+vendor/lib/libseemore.so
 vendor/lib/libsec-ril-dsds.so
 vendor/lib/libsec-ril.so
 vendor/lib/libperfconfig.so
@@ -1539,6 +1540,7 @@ vendor/lib64/libsaiv_BeautySolutionVideo.so
 vendor/lib64/libsavsac.so
 vendor/lib64/libsavscmn.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libsavsvc.so
+vendor/lib64/libseemore.so
 vendor/lib64/libsec-ril-dsds.so
 vendor/lib64/libsec-ril.so
 vendor/lib64/libdsms_vendor.so
