@@ -35,9 +35,9 @@ vendor/lib/rfsa/adsp/libsns_low_lat_stream_skel.so
 # ANT
 system/lib/com.qualcomm.qti.ant@1.0.so
 system/lib64/com.qualcomm.qti.ant@1.0.so
-vendor/lib/com.qualcomm.qti.ant@1.0.so
+vendor/lib/com.qualcomm.qti.ant@1.0.so;MODULE_SUFFIX=_vendor
 vendor/lib/hw/com.qualcomm.qti.ant@1.0-impl.so
-vendor/lib64/com.qualcomm.qti.ant@1.0.so
+vendor/lib64/com.qualcomm.qti.ant@1.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/hw/com.qualcomm.qti.ant@1.0-impl.so
 
 # Audio
@@ -654,9 +654,9 @@ system/lib64/fm_helium.so
 system/lib64/libfm-hci.so
 -system/lib64/vendor.qti.hardware.fm@1.0.so
 vendor/lib/hw/vendor.qti.hardware.fm@1.0-impl.so
-vendor/lib/vendor.qti.hardware.fm@1.0.so
+vendor/lib/vendor.qti.hardware.fm@1.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/hw/vendor.qti.hardware.fm@1.0-impl.so
-vendor/lib64/vendor.qti.hardware.fm@1.0.so
+vendor/lib64/vendor.qti.hardware.fm@1.0.so;MODULE_SUFFIX=_vendor
 
 # Factory
 product/framework/vendor.qti.data.factory-V1.0-java.jar
@@ -1282,7 +1282,7 @@ vendor/lib/vendor.samsung.hardware.camera.device@1.0.so
 vendor/lib/vendor.samsung.hardware.camera.device@4.0.so
 vendor/lib/vendor.samsung.hardware.camera.provider@3.0.so
 vendor/lib/vendor.samsung.hardware.radio.channel@2.0.so
-vendor/lib/vendor.samsung.hardware.radio.bridge@2.0.so
+vendor/lib/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
 vendor/lib/vendor.samsung.hardware.radio@2.0.so
 vendor/lib/vendor.samsung.hardware.security.proca@2.0.so
 vendor/lib64/hw/vendor.samsung.hardware.camera.provider@3.0-impl.so
@@ -1300,7 +1300,7 @@ vendor/lib64/vendor.samsung.hardware.camera.device@4.0.so
 vendor/lib64/vendor.samsung.hardware.camera.provider@3.0.so
 vendor/lib64/vendor.samsung.hardware.miscpower@2.0.so
 vendor/lib64/vendor.samsung.hardware.radio.channel@2.0.so
-vendor/lib64/vendor.samsung.hardware.radio.bridge@2.0.so
+vendor/lib64/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.samsung.hardware.radio@2.0.so
 vendor/lib64/vendor.samsung.hardware.wifi.hostapd@2.0.so
 vendor/lib64/vendor.samsung.hardware.wifi.supplicant@2.0.so
@@ -1456,31 +1456,31 @@ vendor/lib/libbauthtzcommon.so
 vendor/lib/libdiagjni.so
 vendor/lib/libegis_fp_normal_sensor_test.so
 vendor/lib/libfastcrc.so
-vendor/lib/libfloatingfeature.so
+vendor/lib/libfloatingfeature.so;MODULE_SUFFIX=_vendor
 vendor/lib/libhifills.so
 vendor/lib/libhifills_interface.so
 vendor/lib/libHMT.so
 vendor/lib/libhypermotion_core.so
 vendor/lib/libhypermotion_interface.so
 vendor/lib/libMcClient.so
-vendor/lib/libmdf.so
+vendor/lib/libmdf.so;MODULE_SUFFIX=_vendor
 vendor/lib/libpa.so
 vendor/lib/libpadm.so
 vendor/lib/libprofileparamstorage.so
 vendor/lib/librecordalive.so
 vendor/lib/libsaiv_BeautySolutionVideo.so
 vendor/lib/libsavsac.so
-vendor/lib/libsavscmn.so
+vendor/lib/libsavscmn.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsavsvc.so
 vendor/lib/libsec-ril-dsds.so
 vendor/lib/libsec-ril.so
 vendor/lib/libperfconfig.so
 vendor/lib/android.hardware.camera.provider@2.4-legacy.so
 vendor/lib/android.hardware.camera.provider@2.5-legacy.so
-vendor/lib/libsecaudiocoreutils.so
+vendor/lib/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsecaudioinfo.so
-vendor/lib/libsecnativefeature.so
-vendor/lib/libsecure_storage.so
+vendor/lib/libsecnativefeature.so;MODULE_SUFFIX=_vendor
+vendor/lib/libsecure_storage.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsi.so
 vendor/lib/libsnaace.so
 vendor/lib/libsnamrnb.so
@@ -1532,19 +1532,19 @@ vendor/lib64/libbauthtzcommon.so
 vendor/lib64/libdiagjni.so
 vendor/lib64/libegis_fp_normal_sensor_test.so
 vendor/lib64/libfastcrc.so
-vendor/lib64/libfloatingfeature.so
+vendor/lib64/libfloatingfeature.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libhifills.so
 vendor/lib64/libhifills_interface.so
 vendor/lib64/libhypermotion_core.so
 vendor/lib64/libhypermotion_interface.so
 vendor/lib64/libMcClient.so
-vendor/lib64/libmdf.so
+vendor/lib64/libmdf.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libpa.so
 vendor/lib64/libpadm.so
 vendor/lib64/libprofileparamstorage.so
 vendor/lib64/libsaiv_BeautySolutionVideo.so
 vendor/lib64/libsavsac.so
-vendor/lib64/libsavscmn.so
+vendor/lib64/libsavscmn.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libsavsvc.so
 vendor/lib64/libsec-ril-dsds.so
 vendor/lib64/libsec-ril.so
@@ -1553,10 +1553,10 @@ vendor/lib64/libperfconfig.so
 vendor/lib64/android.hardware.camera.provider@2.4-legacy.so
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so
 vendor/lib64/vendor.samsung.hardware.health@1.0.so
-vendor/lib64/libsecaudiocoreutils.so
+vendor/lib64/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libsecaudioinfo.so
-vendor/lib64/libsecnativefeature.so
-vendor/lib64/libsecure_storage.so
+vendor/lib64/libsecnativefeature.so;MODULE_SUFFIX=_vendor
+vendor/lib64/libsecure_storage.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libsi.so
 vendor/lib64/libsnaace.so
 vendor/lib64/libsnamrnb.so
