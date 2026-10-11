@@ -290,3 +290,31 @@ dontaudit hal_nfc_default system_file:file read;
 
 # SurfaceFlinger proc search
 allow surfaceflinger hal_graphics_composer_default:dir search;
+
+
+##############################################################################
+# Android 15 sweep.
+
+# --- thermal HAL --------------------------------------------------------------
+# Listens for thermal uevents from the kernel.
+allow hal_thermal_default self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+
+# --- camera provider ----------------------------------------------------------
+# The AIDL camera provider looks up the AIDL graphics allocator before falling
+# back to the HIDL one.
+hal_client_domain(hal_camera_default, hal_graphics_allocator)
+# It reads the camera FMQ sizes too, which sepolicy/vendor/property_contexts
+# labels camera_config_prop for cameraserver.
+get_prop(hal_camera_default, camera_config_prop)
+
+# --- Bluetooth HAL ------------------------------------------------------------
+# Checks ro.factory.factory_binary, a Samsung factory-mode flag that is never
+# set here.
+dontaudit hal_bluetooth_qti default_prop:file read;
+
+# --- secril_config ------------------------------------------------------------
+# It tries to set the SIM slot count: ro.multisim.simslotcount,
+# ro.vendor.multisim.simslotcount and persist.radio.multisim.config.
+# vendor.prop already sets the last two (2, dsds), and ro.multisim.simslotcount
+# is a core property vendor code may not set.
+dontaudit secril_config { default_prop vendor_default_prop radio_control_prop }:property_service set;

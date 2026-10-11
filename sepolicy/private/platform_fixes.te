@@ -60,6 +60,9 @@ allow vold rootfs:dir setattr;
 allow migrate_legacy_obb_data self:capability sys_resource;
 allow adbd shell:unix_stream_socket shutdown;
 allow hwservicemanager multiclientd:binder transfer;
+# BootReceiver reads /proc/last_kmsg, the previous boot's kernel log, to add it
+# to DropBox after a crash.
+allow system_server proc_last_kmsg:file r_file_perms;
 
 # --- connfwexe ---------------------------------------------------------------
 # Samsung's connectivity daemon. It publishes a control socket at

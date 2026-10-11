@@ -30,12 +30,9 @@ persist.bluetooth.a2dp_offload.cap=sbc-aac-aptx-aptxhd-ldac
 vendor.audio.use.sw.alac.decoder=true
 vendor.audio.use.sw.ape.decoder=true
 vendor.audio.hw.aac.encoder=true
-audio.sys.noisy.broadcast.delay=600
-audio.sys.offload.pstimeout.secs=3
 persist.vendor.audio.hifi.int_codec=true
 ro.af.client_heap_size_kbyte=7168
 persist.vendor.audio.hw.binder.size_kbyte=1024
-audio.volume.headset.gain.depcal=true
 persist.vendor.bt.aac_frm_ctl.enabled=true
 
 vendor.audio.feature.compress_meta_data.enable=true
@@ -70,8 +67,6 @@ ro.telephony.default_network=10,10
 persist.radio.multisim.config=dsds
 ro.vendor.multisim.simslotcount=2
 
-# Samsung specific
-ro.product_ship=true
 # Set csc support in OMX
 # If not set or set to 0, OMX will only use BT.601 colorspace.
 ro.vendor.cscsupported=1

@@ -85,9 +85,7 @@ on fs
     restorecon_recursive /mnt/vendor/persist/hlos_rfs
 
     wait /dev/block/bootdevice/by-name/dsp
-    mount ext4 /dev/block/bootdevice/by-name/dsp /vendor/dsp nosuid nodev barrier=1
-    restorecon_recursive /vendor/dsp
-    mount ext4 /dev/block/bootdevice/by-name/dsp /vendor/dsp ro remount nosuid nodev barrier=1
+    mount ext4 /dev/block/bootdevice/by-name/dsp /vendor/dsp ro nosuid nodev barrier=1
 
     wait /dev/block/bootdevice/by-name/efs
     mkdir /mnt/vendor/efs

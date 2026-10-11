@@ -35,6 +35,12 @@ persist.camera.                  u:object_r:camera_prop:s0
 service.camera.                  u:object_r:camera_prop:s0
 vendor.camera.                   u:object_r:camera_prop:s0
 
+# cameraserver reads the FMQ sizes for camera requests and results. They are not
+# set on this device, so they fell through to vendor_default_prop, which core
+# domains may not read.
+ro.vendor.camera.req.fmq.size    u:object_r:camera_config_prop:s0
+ro.vendor.camera.res.fmq.size    u:object_r:camera_config_prop:s0
+
 # Extended Samsung RIL properties
 persist.ril.                     u:object_r:samsung_ril_prop:s0
 mdc.                             u:object_r:samsung_ril_prop:s0
