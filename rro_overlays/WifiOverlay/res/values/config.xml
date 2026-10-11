@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Values from the stock framework-res, which the Wi-Fi module no
+         longer reads from the framework. -->
+
+    <!-- The chipset supports 5 GHz. -->
+    <bool translatable="false" name="config_wifi5ghzSupport">true</bool>
+
+    <!-- The chipset supports background scans. -->
+    <bool translatable="false" name="config_wifi_background_scan_support">true</bool>
+
+    <!-- The chipset supports MAC randomization while connected. -->
+    <bool translatable="false" name="config_wifi_connected_mac_randomization_supported">true</bool>
+
+    <!-- Automatic channel selection for the hotspot. -->
+    <bool translatable="false" name="config_wifi_softap_acs_supported">true</bool>
+
+    <!-- 802.11ac for the hotspot. -->
+    <bool translatable="false" name="config_wifi_softap_ieee80211ac_supported">true</bool>
+</resources>
