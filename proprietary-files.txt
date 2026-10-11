@@ -140,11 +140,6 @@ vendor/lib64/libxml.so
 vendor/lib64/vendor.qti.hardware.data.dynamicdds@1.0.so
 
 # Camera
-vendor/lib/camera.device@1.0-impl.so;MODULE_SUFFIX=_vendor
-vendor/lib/camera.device@3.2-impl.so;MODULE_SUFFIX=_vendor
-vendor/lib/camera.device@3.3-impl.so;MODULE_SUFFIX=_vendor
-vendor/lib/camera.device@3.4-impl.so;MODULE_SUFFIX=_vendor
-vendor/lib/camera.device@3.5-impl.so;MODULE_SUFFIX=_vendor
 vendor/lib/hw/camera.sdm660.so
 vendor/lib/libbase64.so
 vendor/lib/libdepthmapwrapper.so
@@ -1204,17 +1199,14 @@ vendor/lib64/libsubsystem_control.so
 vendor/lib64/libwsmd_functions.so
 
 # Samsung
-vendor/bin/hw/vendor.samsung.hardware.camera.provider@3.0-service
 vendor/bin/hw/vendor.samsung.hardware.miscpower@2.0-service
 vendor/bin/hw/vendor.samsung.hardware.tlc.ucm@1.0-service
 vendor/bin/vendor.samsung.hardware.security.proca@2.0-service
 vendor/bin/vendor.samsung.hardware.security.wsm@1.0-service
 vendor/etc/floating_feature.xml
-vendor/etc/init/vendor.samsung.hardware.camera.provider@3.0-service.rc
 vendor/etc/init/vendor.samsung.hardware.miscpower@2.0-service.rc
 vendor/etc/init/vendor.samsung.hardware.tlc.ucm@1.0-service.rc
 vendor/etc/init/vendor.samsung.hardware.wifi@2.0-service.rc
-vendor/lib/hw/vendor.samsung.hardware.camera.provider@3.0-impl.so
 vendor/lib/libDLInterface.camera.samsung.so
 vendor/lib/libOpenCv.camera.samsung.so;DISABLE_CHECKELF
 vendor/lib/lib_SamsungRec_06005.so;DISABLE_CHECKELF
@@ -1229,11 +1221,6 @@ vendor/lib/libucm_tlc_comm.so
 vendor/lib/libucm_tlc_direct_comm.so
 vendor/lib/libucm_tlc_tz_esecomm.so
 vendor/lib/libxcv.camera.samsung.so;DISABLE_CHECKELF
-vendor/lib/vendor.samsung.camera.device@1.0-impl.so
-vendor/lib/vendor.samsung.camera.device@4.0-impl.so
-vendor/lib/vendor.samsung.hardware.camera.device@1.0.so
-vendor/lib/vendor.samsung.hardware.camera.device@4.0.so
-vendor/lib/vendor.samsung.hardware.camera.provider@3.0.so
 vendor/lib/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
 vendor/lib/vendor.samsung.hardware.radio.channel@2.0.so
 vendor/lib/vendor.samsung.hardware.security.proca@2.0.so
@@ -1252,9 +1239,6 @@ vendor/lib64/libucm_tlc_tz_esecomm.so
 vendor/lib64/libxcv.camera.samsung.so
 vendor/lib64/vendor.samsung.frameworks.security.dsms@1.0_vendor.so
 vendor/lib64/vendor.samsung.frameworks.security.ucm.crypto@1.0.so
-vendor/lib64/vendor.samsung.hardware.camera.device@1.0.so
-vendor/lib64/vendor.samsung.hardware.camera.device@4.0.so
-vendor/lib64/vendor.samsung.hardware.camera.provider@3.0.so
 vendor/lib64/vendor.samsung.hardware.miscpower@2.0.so
 vendor/lib64/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.samsung.hardware.radio.channel@2.0.so
@@ -1379,8 +1363,6 @@ vendor/etc/snap_gpu_kernel_64.bin
 vendor/etc/somxreg.conf
 vendor/etc/wlan_common_rc
 vendor/etc/wlan_vendor_rc
-vendor/lib/android.hardware.camera.provider@2.4-legacy.so;MODULE_SUFFIX=_vendor
-vendor/lib/android.hardware.camera.provider@2.5-legacy.so;MODULE_SUFFIX=_vendor
 vendor/lib/libHMT.so
 vendor/lib/libMcClient.so
 vendor/lib/libarac.so

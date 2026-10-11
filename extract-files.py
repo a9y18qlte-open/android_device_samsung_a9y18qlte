@@ -45,20 +45,10 @@ lib_fixups: lib_fixups_user_type = {
         'libsecaudiocoreutils',
         'libsecnativefeature',
         'libsecure_storage',
-        'android.hardware.camera.provider@2.4-legacy',
-        'camera.device@1.0-impl',
-        'camera.device@3.2-impl',
-        'camera.device@3.3-impl',
-        'camera.device@3.4-impl',
-        'camera.device@3.5-impl',
-        'android.hardware.camera.provider@2.5-legacy',
         'vendor.qti.hardware.fm@1.0',
         'vendor.samsung.hardware.radio.bridge@2.0',
         'vendor.samsung.hardware.security.securestorage@3.0',
     ): lib_fixup_vendor_suffix,
-    'libcamera_metadata_shim': lambda lib, partition, *args, **kwargs: (
-        'libcamera_metadata_shim.a9y18qlte' if partition == 'vendor' else None
-    ),
 }
 
 
@@ -267,15 +257,6 @@ blob_fixups: blob_fixups_user_type = {
             (0x1ed10, '83185242013b03ea0205', 0x1ed10, '00f1030323f0030500bf'),
             (0x1ed1a, '0beb01024942013a02ea0103', 0x1ed1a, '0bf11f0222f01f0300bf00bf'),
         ]),
-    # SehCameraProvider::getCameraIdList() drops every camera id > 19; only
-    # Samsung's sehGetCameraIdList() returns them. That hides the telephoto
-    # (50), ultra-wide (52) and depth (54) sensors from AOSP cameraserver. Hide
-    # only id 20 (a second instance of the main sensor used for Samsung dual
-    # modes) instead:
-    # cmp r0, #19; bgt (13 28 16 dc) -> cmp r0, #20; beq (14 28 16 d0).
-    'vendor/lib/hw/vendor.samsung.hardware.camera.provider@3.0-impl.so': blob_fixup()
-        .call(patch_bytes, [(0x12ed8, '0ff082ed132816dc', 0x12edc, '142816d0')])
-        .add_needed('libcamera_metadata_shim.so'),
     # The depth sensor (s5k5e9yx) is mounted like the other rear modules, but is
     # configured with MountAngle 270 (Samsung only uses it for depth data).
     # Exposed as camera 54 it renders upside down.

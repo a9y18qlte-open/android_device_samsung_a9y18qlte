@@ -411,7 +411,6 @@ PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint@2.1.vendor \
     android.hardware.bluetooth@1.0.vendor \
     android.hardware.camera.provider@2.5.vendor \
-    libcamera_metadata_shim.a9y18qlte \
     android.hardware.drm@1.1.vendor \
     android.hardware.drm@1.2.vendor \
     android.hardware.gatekeeper@1.0.vendor \
@@ -515,6 +514,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.light-service.samsung \
     android.hardware.vibrator-service.samsung
+
+# Camera
+PRODUCT_PACKAGES += \
+    android.hardware.camera.provider-service_32.samsung \
+    camera.unihal.default
 
 # LiveDisplay
 PRODUCT_PACKAGES += \

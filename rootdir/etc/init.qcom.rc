@@ -329,8 +329,8 @@ on boot
     chown system system /sys/class/camera/rear/supported_cameraIds
 
     chown system system /sys/class/camera/rear/ssrm_camera_info
-    chown system system /sys/class/camera/flash/rear_flash
-    chown system system /sys/class/camera/flash/rear_flash_2
+    chown system camera /sys/class/camera/flash/rear_flash
+    chown system camera /sys/class/camera/flash/rear_flash_2
     chown system system /sys/class/camera/flash/rear_vendorid
     chown system system /sys/class/camera/front/front_camfw
     chown system system /sys/class/camera/front/front_camtype
