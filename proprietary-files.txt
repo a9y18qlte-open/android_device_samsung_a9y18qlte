@@ -918,11 +918,6 @@ vendor/lib64/libvpplibrary.so
 # Media Codecs
 vendor/etc/media_codecs_ac4.xml
 vendor/etc/media_codecs_ddp.xml
-vendor/etc/media_codecs_sec_ape.xml
-vendor/etc/media_codecs_sec_primary.xml
-vendor/etc/media_codecs_sec_qcp.xml
-vendor/etc/media_codecs_sec_secondary.xml
-vendor/etc/media_codecs_sec_video_primary.xml
 
 # Media-Hardware
 
