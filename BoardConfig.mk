@@ -242,10 +242,12 @@ BOARD_SECCOMP_POLICY := $(DEVICE_PATH)/seccomp_policy
 # SELinux
 include device/qcom/sepolicy-legacy-um/SEPolicy.mk
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/FlashControl/sepolicy/private
 # multiclientd and smdexe are declared public so vendor policy can name them -
 # rild has to binder into multiclientd, and neither plat nor vendor could
 # express that while the type was private. See sepolicy/public.
 SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public
+SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/FlashControl/sepolicy/public
 # Domains for the Samsung binaries under /vendor. These must live in vendor
 # policy, not plat_private: declaring a vendor_file_type there trips Treble
 # neverallows.

@@ -520,6 +520,10 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.provider-service_32.samsung \
     camera.unihal.default
 
+# Flashlight brightness
+PRODUCT_PACKAGES += \
+    FlashControl
+
 # LiveDisplay
 PRODUCT_PACKAGES += \
     vendor.lineage.livedisplay@2.0-service.samsung-qcom

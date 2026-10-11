@@ -1,0 +1,8 @@
+# FlashControl/ sets the torch brightness through rear_flash.
+allow hal_samsung_camera_flashlight_server sysfs_camera:dir search;
+
+# The camera HAL drives the same node for its flash.
+allow hal_camera_default sysfs_samsung_flashlight:file rw_file_perms;
+
+# The camera HAL turns the torch on at the level picked in FlashControl.
+get_prop(hal_camera_default, ext_flashlight_prop)

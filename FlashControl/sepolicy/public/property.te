@@ -1,0 +1,2 @@
+# Torch brightness level, also read by the camera HAL
+system_public_prop(ext_flashlight_prop)

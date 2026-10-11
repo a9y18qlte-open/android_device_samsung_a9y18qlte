@@ -26,6 +26,8 @@
 #include <errno.h>
 #include <pthread.h>
 
+#include <android-base/file.h>
+#include <cutils/properties.h>
 #include <hardware/camera_common.h>
 #include <hardware/hardware.h>
 #include <log/log.h>
@@ -33,10 +35,17 @@
 
 #define STOCK_HAL_PATH "/vendor/lib/hw/camera.sdm660.so"
 
+// Set by the FlashControl flashlight HAL (FlashControl/).
+#define TORCH_LEVEL_PROP "persist.ext.flashlight.last_brightness"
+#define TORCH_MAX_LEVEL 5
+#define TORCH_NODE "/sys/class/camera/flash/rear_flash"
+
 typedef int (*set_torch_mode_strength_t)(const char* camera_id, bool enabled, int32_t strength);
 
 static camera_module_t* gStock = nullptr;
 static pthread_once_t gLoadOnce = PTHREAD_ONCE_INIT;
+static bool gTorchByStrength = false;
+static const camera_module_callbacks_t* gCallbacks = nullptr;
 
 static void load_stock_hal() {
     void* handle = dlopen(STOCK_HAL_PATH, RTLD_NOW);
@@ -110,6 +119,7 @@ static int camera_get_camera_info(int camera_id, struct camera_info* info) {
 
 static int camera_set_callbacks(const camera_module_callbacks_t* callbacks) {
     if (!stock() || !gStock->set_callbacks) return -ENOSYS;
+    gCallbacks = callbacks;
     return gStock->set_callbacks(callbacks);
 }
 
@@ -125,6 +135,32 @@ static int camera_open_legacy(const struct hw_module_t* /* module */, const char
 
 static int camera_set_torch_mode(const char* camera_id, bool enabled) {
     if (!stock() || !gStock->set_torch_mode) return -ENOSYS;
+
+    // Turn the torch on at the brightness picked in FlashControl: the plain
+    // set_torch_mode() lights it at the default current first, which shows as
+    // a flash before FlashControl lowers it.
+    auto set_strength = reinterpret_cast<set_torch_mode_strength_t>(gStock->reserved[0]);
+    if (set_strength) {
+        if (enabled) {
+            int32_t level = property_get_int32(TORCH_LEVEL_PROP, 0);
+            if (level >= 1 && level <= TORCH_MAX_LEVEL) {
+                int res = set_strength(camera_id, true, level);
+                if (res == 0) gTorchByStrength = true;
+                return res;
+            }
+        } else if (gTorchByStrength) {
+            // Neither set_torch_mode_strength(false) nor set_torch_mode(false)
+            // turn off a torch lit by strength: switch the LED off directly and
+            // report it like the stock HAL does for its own torch.
+            gTorchByStrength = false;
+            if (!android::base::WriteStringToFile("0", TORCH_NODE)) return -errno;
+            if (gCallbacks && gCallbacks->torch_mode_status_change) {
+                gCallbacks->torch_mode_status_change(gCallbacks, camera_id,
+                                                     TORCH_MODE_STATUS_AVAILABLE_OFF);
+            }
+            return 0;
+        }
+    }
     return gStock->set_torch_mode(camera_id, enabled);
 }
 

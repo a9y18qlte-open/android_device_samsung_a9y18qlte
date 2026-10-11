@@ -5,6 +5,7 @@
 # device names while enumerating sensors at startup. Without labels these fall
 # back to generic sysfs, which hal_camera_default is not permitted to touch.
 genfscon sysfs /devices/virtual/camera                        u:object_r:sysfs_camera:s0
+genfscon sysfs /devices/virtual/camera/flash/rear_flash       u:object_r:sysfs_samsung_flashlight:s0
 genfscon sysfs /devices/soc/ca00000.qcom,msm-cam/video4linux  u:object_r:sysfs_camera:s0
 genfscon sysfs /devices/soc/caa0000.qcom,jpeg/video4linux     u:object_r:sysfs_camera:s0
 genfscon sysfs /devices/soc/ca0c000.qcom,cci                  u:object_r:sysfs_camera:s0

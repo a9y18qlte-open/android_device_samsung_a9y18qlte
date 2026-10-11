@@ -11,7 +11,9 @@ cc_library_shared {
     srcs: ["camera_wrapper.cpp"],
     header_libs: ["libhardware_headers"],
     shared_libs: [
+        "libbase",
         "libcamera_metadata",
+        "libcutils",
         "libdl",
         "liblog",
     ],
