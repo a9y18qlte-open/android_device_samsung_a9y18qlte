@@ -1,0 +1,5 @@
+# /sys/class/camera/flash/rear_flash: Samsung's SM5705 torch node. The camera
+# HAL sets the torch strength level there and clears it when the torch turns
+# off.
+type sysfs_samsung_flashlight, sysfs_type, fs_type;
+allow hal_camera_default sysfs_samsung_flashlight:file rw_file_perms;

@@ -22,8 +22,6 @@ import android.hardware.camera2.CameraManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.ServiceManager
-import android.os.SystemProperties
 import android.util.Log
 import android.widget.CompoundButton
 import android.widget.CompoundButton.OnCheckedChangeListener
@@ -32,23 +30,15 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.android.settingslib.widget.MainSwitchPreference
 import com.android.settingslib.widget.SelectorWithWidgetPreference
-import vendor.samsung_ext.hardware.camera.flashlight.IFlashlight
 
 /*
- * The torch is switched through the camera service, like the Quick Settings
- * flashlight tile, so the tile and this switch always show the same state.
- * The flashlight HAL only sets the brightness; FlashService applies the saved
- * level whenever the torch turns on.
+ * The torch is switched and dimmed through the camera service's torch strength
+ * API, like any other app. The switch turns it on at the saved level, and
+ * picking a level while it is on changes it in place.
  */
 class FlashFragment : PreferenceFragmentCompat(), OnCheckedChangeListener {
 
   private lateinit var switchBar: MainSwitchPreference
-  private val mService: IFlashlight? =
-    IFlashlight.Stub.asInterface(
-      ServiceManager.waitForDeclaredService(
-        "vendor.samsung_ext.hardware.camera.flashlight.IFlashlight/default"
-      )
-    )
   private lateinit var mSharedPreferences: SharedPreferences
   private lateinit var mCurrentIntensity: Preference
   private lateinit var mCurrentOn: Preference
@@ -70,26 +60,26 @@ class FlashFragment : PreferenceFragmentCompat(), OnCheckedChangeListener {
     switchBar = findPreference<MainSwitchPreference>(PREF_FLASH_ENABLE)!!
     switchBar.addOnSwitchChangeListener(this)
 
-    val mSavedIntensity = getSavedIntensity()
     for ((key, value) in PREF_FLASH_MODES) {
-      val preference = findPreference<SelectorWithWidgetPreference>(key)!!
-      preference.isChecked = value == mSavedIntensity
-      preference.setOnPreferenceClickListener {
+      findPreference<SelectorWithWidgetPreference>(key)!!.setOnPreferenceClickListener {
         setIntensity(value)
         true
       }
     }
     mCurrentOn = findPreference<Preference>(PREF_FLASH_CURRENT_ON)!!
     mCurrentIntensity = findPreference<Preference>(PREF_FLASH_CURRENT_INTENSITY)!!
-    changeIntensityView(mSavedIntensity)
+    showIntensity(getSavedIntensity())
     updateTorchViews()
   }
 
   private fun getSavedIntensity() = mSharedPreferences.getInt(PREF_FLASH_INTENSITY, 1)
 
-  private fun changeIntensityView(b: Int) {
+  private fun showIntensity(intensity: Int) {
+    for ((key, value) in PREF_FLASH_MODES) {
+      findPreference<SelectorWithWidgetPreference>(key)!!.isChecked = value == intensity
+    }
     mCurrentIntensity.title =
-      String.format(requireContext().getString(R.string.flash_current_intensity), b)
+      String.format(requireContext().getString(R.string.flash_current_intensity), intensity)
   }
 
   private fun changeOnOffView(b: Boolean) {
@@ -114,7 +104,10 @@ class FlashFragment : PreferenceFragmentCompat(), OnCheckedChangeListener {
         if (cameraId != REAR_CAMERA_ID) return
         mTorchOn = enabled
         mTorchAvailable = true
-        if (context != null) updateTorchViews()
+        if (context == null) return
+        updateTorchViews()
+        // Another app or the Quick Settings tile may have lit it at its own level.
+        showIntensity(if (enabled) getTorchLevel() else getSavedIntensity())
       }
 
       override fun onTorchModeUnavailable(cameraId: String) {
@@ -124,6 +117,20 @@ class FlashFragment : PreferenceFragmentCompat(), OnCheckedChangeListener {
         mTorchAvailable = false
         if (context != null) updateTorchViews()
       }
+
+      override fun onTorchStrengthLevelChanged(cameraId: String, newStrengthLevel: Int) {
+        if (cameraId != REAR_CAMERA_ID || !mTorchOn) return
+        if (context != null) showIntensity(newStrengthLevel)
+      }
+    }
+
+  private fun getTorchLevel(): Int =
+    try {
+      mCameraManager.getTorchStrengthLevel(REAR_CAMERA_ID)
+    } catch (e: CameraAccessException) {
+      getSavedIntensity()
+    } catch (e: IllegalArgumentException) {
+      getSavedIntensity()
     }
 
   override fun onResume() {
@@ -139,39 +146,39 @@ class FlashFragment : PreferenceFragmentCompat(), OnCheckedChangeListener {
   override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
     if (mUpdatingSwitch) return
     try {
-      mCameraManager.setTorchMode(REAR_CAMERA_ID, isChecked)
+      if (isChecked) {
+        mCameraManager.turnOnTorchWithStrengthLevel(REAR_CAMERA_ID, getSavedIntensity())
+      } else {
+        mCameraManager.setTorchMode(REAR_CAMERA_ID, false)
+      }
     } catch (e: CameraAccessException) {
-      Log.w(TAG, "setTorchMode($isChecked) failed", e)
+      Log.w(TAG, "Switching the torch ${if (isChecked) "on" else "off"} failed", e)
       updateTorchViews()
     } catch (e: IllegalArgumentException) {
-      Log.w(TAG, "setTorchMode($isChecked) failed", e)
+      Log.w(TAG, "Switching the torch ${if (isChecked) "on" else "off"} failed", e)
       updateTorchViews()
     }
   }
 
   private fun setIntensity(intensity: Int) {
-    if (intensity < 1 || intensity > 5) {
-      Log.e(TAG, "Invalid intensity $intensity")
-      return
-    }
-    for ((key, value) in PREF_FLASH_MODES) {
-      val preference = findPreference<SelectorWithWidgetPreference>(key)!!
-      preference.isChecked = value == intensity
-    }
     mSharedPreferences.edit().putInt(PREF_FLASH_INTENSITY, intensity).apply()
-    changeIntensityView(intensity)
-    // Writing a level switches the torch on, so only apply it while it is on.
-    // Otherwise save it for the camera HAL, which turns the torch on at it.
-    if (mTorchOn) mService?.setBrightness(intensity)
-    else SystemProperties.set(TORCH_LEVEL_PROP, intensity.toString())
+    showIntensity(intensity)
+    if (!mTorchOn) return
+    try {
+      mCameraManager.turnOnTorchWithStrengthLevel(REAR_CAMERA_ID, intensity)
+    } catch (e: CameraAccessException) {
+      Log.w(TAG, "Setting torch strength level $intensity failed", e)
+    } catch (e: IllegalArgumentException) {
+      Log.w(TAG, "Setting torch strength level $intensity failed", e)
+    }
   }
 
   companion object {
     private const val PREF_FLASH_ENABLE = "flash_enable"
-    const val PREF_FLASH_INTENSITY = "flash_intensity"
+    private const val PREF_FLASH_INTENSITY = "flash_intensity"
     private const val PREF_FLASH_CURRENT_ON = "flash_current_on"
     private const val PREF_FLASH_CURRENT_INTENSITY = "flash_current_intensity"
-    val PREF_FLASH_MODES =
+    private val PREF_FLASH_MODES =
       mapOf(
         "flash_intensity_1" to 1,
         "flash_intensity_2" to 2,
@@ -181,6 +188,5 @@ class FlashFragment : PreferenceFragmentCompat(), OnCheckedChangeListener {
       )
     private const val TAG = "FlashCtrl"
     private const val REAR_CAMERA_ID = "0"
-    private const val TORCH_LEVEL_PROP = "persist.ext.flashlight.last_brightness"
   }
 }

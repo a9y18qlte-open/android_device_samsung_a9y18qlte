@@ -1,2 +1,0 @@
-# /sys/class/camera/flash/rear_flash
-type sysfs_samsung_flashlight, sysfs_type, fs_type;

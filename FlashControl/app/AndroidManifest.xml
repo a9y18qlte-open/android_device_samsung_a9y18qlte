@@ -3,8 +3,6 @@
     package="com.royna.flashcontrol"
     android:sharedUserId="android.uid.system">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <application
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -12,7 +10,6 @@
         android:directBootAware="true"
         android:label="FlashController"
         android:supportsRtl="true"
-        android:persistent="true"
         android:theme="@style/Theme.SubSettingsBase">
 
         <activity
@@ -34,18 +31,5 @@
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_flash"/>
         </activity>
-
-        <receiver
-            android:name=".BootCompletedReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
-
-	<service 
-	     android:name=".FlashService"
-	     android:exported="true"/>
     </application>
 </manifest>

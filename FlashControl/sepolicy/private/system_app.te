@@ -1,5 +1,0 @@
-binder_call(system_app, hal_samsung_camera_flashlight)
-hal_client_domain(system_app, hal_samsung_camera_flashlight)
-
-# FlashFragment saves the torch level while the torch is off.
-set_prop(system_app, ext_flashlight_prop)
