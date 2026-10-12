@@ -257,6 +257,13 @@ blob_fixups: blob_fixups_user_type = {
             (0x1ed10, '83185242013b03ea0205', 0x1ed10, '00f1030323f0030500bf'),
             (0x1ed1a, '0beb01024942013a02ea0103', 0x1ed1a, '0bf11f0222f01f0300bf00bf'),
         ]),
+    # At 240 fps the backend picks imx576's res 5 tuning only for Samsung's
+    # SLOW_MOTION special mode, which only Samsung's camera app sets. Without
+    # it the preview 3A runs and lengthens exposure, dropping the frame rate.
+    # Add a default res 5 entry using the slow-motion 3A, from
+    # camera/tools/chromatix/imx576_e24qs_chromatix-slowmotion.diff.
+    'vendor/etc/camera/imx576_e24qs_chromatix.xml': blob_fixup()
+        .patch_file('blob-patches/imx576_e24qs_chromatix.xml.patch'),
     # The depth sensor (s5k5e9yx) is mounted like the other rear modules, but is
     # configured with MountAngle 270 (Samsung only uses it for depth data).
     # Exposed as camera 54 it renders upside down.
