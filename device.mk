@@ -353,7 +353,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
     hardware/samsung \
-    hardware/qcom-caf/common/libqti-perfd-client
+    hardware/qcom-caf/common/libqti-perfd-client \
+    $(LOCAL_PATH)/camera
 
 # SP-NDK
 PRODUCT_PACKAGES += \
@@ -518,7 +519,11 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    android.hardware.camera.provider-service_32.samsung
+    android.hardware.camera.provider-service_32.lineage \
+    camera.sdm660 \
+    libmmcamera_interface \
+    libmmjpeg_interface \
+    libqomx_core
 
 # Flashlight brightness
 PRODUCT_PACKAGES += \

@@ -23,6 +23,7 @@ from extract_utils.main import (
 
 namespace_imports = [
     'hardware/samsung',
+    'device/samsung/a9y18qlte/camera',
     'device/samsung/a9y18qlte',
     'hardware/qcom-caf/common/libqti-perfd-client',
     'hardware/qcom-caf/msm8998',
@@ -234,29 +235,6 @@ blob_fixups: blob_fixups_user_type = {
     ): blob_fixup()
         .add_needed('libcutils_shim.so')
         .binary_regex_replace(b'ril.dds.call.slotid', b'vendor.calls.slotid'),
-    # mm_stream_streamon() iterates buf_status[] with an int8_t index. HAL3
-    # gralloc streams register 128 buffer slots, so the index wraps to -128,
-    # reads garbage before the array and waits for a buffer "mapping" that
-    # never happens -> stream-on timeout, no HAL3 preview. Make the index
-    # unsigned: sxtb r2, r0 (42 b2) -> uxtb r2, r0 (c2 b2).
-    # mm_stream_calc_offset_snapshot() pads scanline with the backend's
-    # height_padding (1). When height / 2 is odd (e.g. 5664x3186 16:9 snapshot,
-    # height / 2 = 1593), Qualcomm CPP DMA writes Chroma in pairs of rows (1594
-    # rows), crossing the page boundary and triggering SMMU fault / crash.
-    # Always pad scanline to a multiple of 4:
-    # scanline = (h + p - 1) & -p  ->  scanline = (h + 3) & ~3 at 0x1ed10.
-    # mm_stream_calc_offset_snapshot() pads the snapshot stride with the
-    # backend's width_padding (1), so e.g. the telephoto's 3672-wide snapshot
-    # gets a stride that is not 16-byte aligned; the VFE write master rounds
-    # each line up and overruns the buffer (SMMU page fault, "camera daemon
-    # died"). Always pad the stride to 32:
-    # stride = (w + p - 1) & -p  ->  stride = (w + 31) & ~31 at 0x1ed1a.
-    'vendor/lib/libmmcamera_interface.so': blob_fixup()
-        .call(patch_bytes, [
-            (0x1bf7c, '013042b29142eddc', 0x1bf7e, 'c2'),
-            (0x1ed10, '83185242013b03ea0205', 0x1ed10, '00f1030323f0030500bf'),
-            (0x1ed1a, '0beb01024942013a02ea0103', 0x1ed1a, '0bf11f0222f01f0300bf00bf'),
-        ]),
     # At 240 fps the backend picks imx576's res 5 tuning only for Samsung's
     # SLOW_MOTION special mode, which only Samsung's camera app sets. Without
     # it the preview 3A runs and lengthens exposure, dropping the frame rate.
@@ -266,7 +244,7 @@ blob_fixups: blob_fixups_user_type = {
         .patch_file('blob-patches/imx576_e24qs_chromatix.xml.patch'),
     # The depth sensor (s5k5e9yx) is mounted like the other rear modules, but is
     # configured with MountAngle 270 (Samsung only uses it for depth data).
-    # Exposed as camera 54 it renders upside down.
+    # Exposed as camera 4 it renders upside down.
     'vendor/etc/camera/camera_config.xml': blob_fixup()
         .call(fix_depth_mount_angle),
     # The sensor sub-module reports ISO as
@@ -276,14 +254,6 @@ blob_fixups: blob_fixups_user_type = {
     # vmul.f32 s0, s0, s4 -> nop.w at 0x63ad8.
     'vendor/lib/libmmcamera2_sensor_modules.so': blob_fixup()
         .call(patch_bytes, [(0x63ad4, '21ee000a20ee020a80ee030abdeec00a', 0x63ad8, 'aff30080')]),
-    # Video recordings were green: the HAL writes UBWC video because it cannot
-    # read vendor.video.disable.ubwc, but the stock encoder only takes linear
-    # NV12. Keep video linear (NV12_VENUS) while preview stays UBWC - making
-    # both linear enables CPP output duplication, which page-faults with this
-    # kernel. In QCamera3Channel::getStreamDefaultFormat() replace the
-    # isVideoUBWCEnabled() call with "movs r0, #0; nop" (0xb50d4).
-    'vendor/lib/hw/camera.sdm660.so': blob_fixup()
-        .call(patch_bytes, [(0xb50d4, '8cf06cee0028', 0xb50d4, '002000bf')]),
 }  # fmt: skip
 
 module = ExtractUtilsModule(

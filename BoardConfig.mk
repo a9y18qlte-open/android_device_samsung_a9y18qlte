@@ -273,7 +273,3 @@ TARGET_TAP_TO_WAKE_NODE := /sys/class/sec/tsp/dt2w_enable
 
 # Non-A/B device configuration
 AB_OTA_UPDATER := false
-
-# Camera
-$(call soong_config_set,samsungCameraVars,needs_sec_reserved_field,true)
-$(call soong_config_set,samsungCameraVars,extra_ids,50$(comma)52$(comma)54)
