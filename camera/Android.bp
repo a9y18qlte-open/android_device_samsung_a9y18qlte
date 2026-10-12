@@ -1,0 +1,35 @@
+//
+// Copyright (C) 2026 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+soong_namespace {
+    imports: [
+        "hardware/qcom-caf/msm8998",
+    ],
+}
+
+cc_library_headers {
+    name: "qcamera_qexif_headers",
+    vendor: true,
+    export_include_dirs: ["mm-image-codec/qexif"],
+}
+
+cc_library_headers {
+    name: "qcamera_qomx_core_headers",
+    vendor: true,
+    export_include_dirs: ["mm-image-codec/qomx_core"],
+}
+
+cc_library_headers {
+    name: "qcamera_mm_camera_interface_headers",
+    vendor: true,
+    export_include_dirs: ["QCamera2/stack/mm-camera-interface/inc"],
+}
+
+cc_library_headers {
+    name: "qcamera_hal3_headers",
+    vendor: true,
+    export_include_dirs: ["QCamera2/HAL3"],
+}

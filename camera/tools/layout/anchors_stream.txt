@@ -1,0 +1,14 @@
+# Samsung cam_stream_info_t anchors (QCamera3Stream::init)
+stream_type 4 init
+fmt 8 init
+dim 12 init
+num_bufs 412 init
+streaming_mode 420 init
+num_of_burst 424 init
+user_buf_info 428 init
+pp_config 440 init feature_mask
+reprocess_config 560 init memcpy 0x218
+is_type 50176 init
+cache_ops 50248 init property
+bNoBundling 50260 init
+SIZEOF 50264 init allocate 0xc458
