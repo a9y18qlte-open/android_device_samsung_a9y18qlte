@@ -46,6 +46,11 @@ extern "C" {
 // where FlashControl sets the torch level, and CFG_FLASH_OFF does not clear it.
 #define SEC_REAR_FLASH_NODE "/sys/class/camera/flash/rear_flash"
 
+// rear_flash keys of the calibrated torch levels 1-5.
+static const int kSecTorchLevelKeys[QCAMERA_TORCH_STRENGTH_MAX_LEVEL] = {
+    1001, 1002, 1004, 1006, 1009,
+};
+
 volatile uint32_t gCamHal3LogLevel = 1;
 
 namespace qcamera {
@@ -263,6 +268,64 @@ int32_t QCameraFlash::setFlashMode(const int camera_id, const bool mode)
         }
     }
     return retVal;
+}
+
+/*===========================================================================
+ * FUNCTION   : setFlashLevel
+ *
+ * DESCRIPTION: Light the torch at one of the calibrated strength levels, or
+ *              change the level while it is lit. Writing the level first also
+ *              makes the driver ignore the following CFG_FLASH_LOW, so the
+ *              LED never flashes at the default torch current.
+ *
+ * PARAMETERS :
+ *   @camera_id : Camera id of the flash
+ *   @level     : 1 to QCAMERA_TORCH_STRENGTH_MAX_LEVEL
+ *
+ * RETURN     :
+ *   0        : success
+ *   -EINVAL  : Invalid camera id or level, or flash not inited.
+ *==========================================================================*/
+int32_t QCameraFlash::setFlashLevel(const int camera_id, const int32_t level)
+{
+    if (camera_id < 0 || camera_id >= MM_CAMERA_MAX_NUM_SENSORS) {
+        LOGE("Invalid camera id: %d", camera_id);
+        return -EINVAL;
+    }
+    if (level < 1 || level > QCAMERA_TORCH_STRENGTH_MAX_LEVEL) {
+        LOGE("Invalid torch strength level: %d", level);
+        return -EINVAL;
+    }
+    if (m_flashFds[camera_id] < 0) {
+        LOGE("called for uninited flash: %d", camera_id);
+        return -EINVAL;
+    }
+
+    int fd = open(SEC_REAR_FLASH_NODE, O_WRONLY | O_CLOEXEC);
+    if (fd < 0) {
+        LOGE("Unable to open %s", SEC_REAR_FLASH_NODE);
+        return -errno;
+    }
+    char key[8];
+    int len = snprintf(key, sizeof(key), "%d", kSecTorchLevelKeys[level - 1]);
+    int32_t retVal = 0;
+    if (write(fd, key, len) != len) {
+        LOGE("Unable to set torch strength level %d", level);
+        retVal = -EIO;
+    }
+    close(fd);
+    return retVal;
+}
+
+/*===========================================================================
+ * FUNCTION   : isFlashOn
+ *
+ * DESCRIPTION: Whether the torch of a given camera id is lit.
+ *==========================================================================*/
+bool QCameraFlash::isFlashOn(const int camera_id) const
+{
+    return camera_id >= 0 && camera_id < MM_CAMERA_MAX_NUM_SENSORS &&
+            m_flashOn[camera_id];
 }
 
 /*===========================================================================

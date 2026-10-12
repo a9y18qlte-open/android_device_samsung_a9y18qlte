@@ -41,6 +41,13 @@ namespace qcamera {
 
 #define QCAMERA_TORCH_CURRENT_VALUE 200
 
+// Torch strength levels: Samsung's SM5705 flash driver calibrates five torch
+// currents (calibData in drivers/leds/leds-sm5705.c, 30-220 mA) selected by
+// writing a key to its rear_flash node. Level 3 (110 mA) is the default of
+// Samsung's own flashlight (Flashlight_brightness_level = 1004 in SystemUI).
+#define QCAMERA_TORCH_STRENGTH_MAX_LEVEL     5
+#define QCAMERA_TORCH_STRENGTH_DEFAULT_LEVEL 3
+
 class QCameraFlash {
 public:
     static QCameraFlash& getInstance();
@@ -48,6 +55,8 @@ public:
     int32_t registerCallbacks(const camera_module_callbacks_t* callbacks);
     int32_t initFlash(const int camera_id);
     int32_t setFlashMode(const int camera_id, const bool on);
+    int32_t setFlashLevel(const int camera_id, const int32_t level);
+    bool isFlashOn(const int camera_id) const;
     int32_t deinitFlash(const int camera_id);
     int32_t reserveFlashForCamera(const int camera_id);
     int32_t releaseFlashFromCamera(const int camera_id);

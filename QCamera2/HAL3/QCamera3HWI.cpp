@@ -12711,6 +12711,17 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     staticInfo.update(ANDROID_FLASH_INFO_AVAILABLE,
             &flashAvailable, 1);
 
+    // Torch strength control, only for cameras with a flash unit: without
+    // one, the keys must stay absent.
+    if (flashAvailable == ANDROID_FLASH_INFO_AVAILABLE_TRUE) {
+        int32_t torchStrengthMax = QCAMERA_TORCH_STRENGTH_MAX_LEVEL;
+        int32_t torchStrengthDefault = QCAMERA_TORCH_STRENGTH_DEFAULT_LEVEL;
+        staticInfo.update(ANDROID_FLASH_INFO_STRENGTH_MAXIMUM_LEVEL,
+                &torchStrengthMax, 1);
+        staticInfo.update(ANDROID_FLASH_INFO_STRENGTH_DEFAULT_LEVEL,
+                &torchStrengthDefault, 1);
+    }
+
     Vector<uint8_t> avail_ae_modes;
     count = CAM_AE_MODE_MAX;
     count = MIN(gCamCapability[cameraId]->supported_ae_modes_cnt, count);
@@ -13111,6 +13122,10 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     Vector<int32_t> available_characteristics_keys;
     available_characteristics_keys.appendArray(characteristics_keys_basic,
             sizeof(characteristics_keys_basic)/sizeof(int32_t));
+    if (gCamCapability[cameraId]->flash_available) {
+        available_characteristics_keys.add(ANDROID_FLASH_INFO_STRENGTH_MAXIMUM_LEVEL);
+        available_characteristics_keys.add(ANDROID_FLASH_INFO_STRENGTH_DEFAULT_LEVEL);
+    }
 #ifndef USE_HAL_3_3
     if (hasBlackRegions) {
         available_characteristics_keys.add(ANDROID_SENSOR_OPTICAL_BLACK_REGIONS);
