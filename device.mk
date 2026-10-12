@@ -518,8 +518,7 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    android.hardware.camera.provider-service_32.samsung \
-    camera.unihal.default
+    android.hardware.camera.provider-service_32.samsung
 
 # Flashlight brightness
 PRODUCT_PACKAGES += \
