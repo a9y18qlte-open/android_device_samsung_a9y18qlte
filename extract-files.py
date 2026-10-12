@@ -5,6 +5,8 @@
 #
 
 import re
+import subprocess
+from os import path
 
 from extract_utils.file import File
 from extract_utils.fixups_blob import (
@@ -115,6 +117,23 @@ def fix_depth_mount_angle(
     )
     with open(file_path, 'w', newline='', encoding='utf-8') as f:
         f.write(data)
+
+
+def apply_diff(
+    ctx: BlobFixupCtx,
+    file: File,
+    file_path: str,
+    diff: str,
+    *args,
+    **kwargs,
+):
+    # patch(1) takes the target file explicitly, so the diff can keep the
+    # paths of the tree it was made in.
+    subprocess.run(
+        ['patch', '--silent', '--no-backup-if-mismatch', file_path,
+         path.join(ctx.module_dir, diff)],
+        check=True,
+    )
 
 
 blob_fixups: blob_fixups_user_type = {
@@ -238,10 +257,9 @@ blob_fixups: blob_fixups_user_type = {
     # At 240 fps the backend picks imx576's res 5 tuning only for Samsung's
     # SLOW_MOTION special mode, which only Samsung's camera app sets. Without
     # it the preview 3A runs and lengthens exposure, dropping the frame rate.
-    # Add a default res 5 entry using the slow-motion 3A, from
-    # camera/tools/chromatix/imx576_e24qs_chromatix-slowmotion.diff.
+    # Add a default res 5 entry using the slow-motion 3A.
     'vendor/etc/camera/imx576_e24qs_chromatix.xml': blob_fixup()
-        .patch_file('blob-patches/imx576_e24qs_chromatix.xml.patch'),
+        .call(apply_diff, 'camera/tools/chromatix/imx576_e24qs_chromatix-slowmotion.diff'),
     # The depth sensor (s5k5e9yx) is mounted like the other rear modules, but is
     # configured with MountAngle 270 (Samsung only uses it for depth data).
     # Exposed as camera 4 it renders upside down.
