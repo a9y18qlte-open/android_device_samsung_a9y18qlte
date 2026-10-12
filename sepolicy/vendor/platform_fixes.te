@@ -124,6 +124,8 @@ get_prop(qseecomd_sh, vendor_tee_listener_prop)
 # /dev/pn547 (NXP PN547 controller) is left on the generic device type.
 # nfc_device is already declared in system/sepolicy/public/device.te.
 allow hal_nfc_default nfc_device:chr_file rw_file_perms;
+# The open source NXP HAL looks up NXP's eSE HAL, which this device has none of.
+dontaudit hal_nfc_default default_android_hwservice:hwservice_manager find;
 
 # --- block devices -----------------------------------------------------------
 # Names resolved through /dev/block/by-name.
