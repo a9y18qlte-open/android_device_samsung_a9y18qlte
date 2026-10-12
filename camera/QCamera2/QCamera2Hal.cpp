@@ -55,5 +55,9 @@ camera_module_t HAL_MODULE_INFO_SYM = {
                                     qcamera::QCamera2Factory::open_legacy : NULL,
     .set_torch_mode         = qcamera::QCamera2Factory::set_torch_mode,
     .init                   = NULL,
-    .reserved               = {0}
+    /* Samsung's camera provider reads set_torch_mode_strength from the
+     * first reserved slot of camera_module_t. */
+    .reserved               = {
+        reinterpret_cast<void*>(qcamera::QCamera2Factory::set_torch_mode_strength),
+    }
 };

@@ -295,6 +295,27 @@ int QCamera2Factory::set_torch_mode(const char* camera_id, bool on)
 }
 
 /*===========================================================================
+ * FUNCTION   : set_torch_mode_strength
+ *
+ * DESCRIPTION: Samsung's camera_module_t extension behind
+ *              ICameraDevice::turnOnTorchWithStrengthLevel(): turn the torch
+ *              on at a strength level, or change the level while it is on.
+ *
+ * PARAMETERS :
+ *   @camera_id : camera ID
+ *   @on        : indicates whether to turn the flash on or off
+ *   @strength  : 1 to QCAMERA_TORCH_STRENGTH_MAX_LEVEL
+ *
+ * RETURN     : 0  -- success
+ *              none-zero failure code
+ *==========================================================================*/
+int QCamera2Factory::set_torch_mode_strength(const char* camera_id, bool on,
+        int32_t strength)
+{
+    return gQCamera2Factory->setTorchModeStrength(camera_id, on, strength);
+}
+
+/*===========================================================================
  * FUNCTION   : getNumberOfCameras
  *
  * DESCRIPTION: query number of cameras detected
@@ -547,6 +568,27 @@ int QCamera2Factory::openLegacy(
  *==========================================================================*/
 int QCamera2Factory::setTorchMode(const char* camera_id, bool on)
 {
+    return setTorchModeStrength(camera_id, on,
+            QCAMERA_TORCH_STRENGTH_DEFAULT_LEVEL);
+}
+
+/*===========================================================================
+ * FUNCTION   : setTorchModeStrength
+ *
+ * DESCRIPTION: Turn the torch on at a strength level or off. Changing the
+ *              level while the torch is on adjusts it in place.
+ *
+ * PARAMETERS :
+ *   @camera_id : camera ID
+ *   @on        : indicates whether to turn the flash on or off
+ *   @strength  : 1 to QCAMERA_TORCH_STRENGTH_MAX_LEVEL, ignored when off
+ *
+ * RETURN     : 0  -- success
+ *              none-zero failure code
+ *==========================================================================*/
+int QCamera2Factory::setTorchModeStrength(const char* camera_id, bool on,
+        int32_t strength)
+{
     int retVal(0);
     long cameraIdLong(-1);
     int cameraIdInt(-1);
@@ -562,10 +604,16 @@ int QCamera2Factory::setTorchMode(const char* camera_id, bool on)
             (endPointer == camera_id) ||
             (*endPointer != '\0')) {
         retVal = -EINVAL;
+    } else if (on && (strength < 1 ||
+            strength > QCAMERA_TORCH_STRENGTH_MAX_LEVEL)) {
+        retVal = -EINVAL;
     } else if (on) {
         cameraIdInt = static_cast<int>(cameraIdLong);
         retVal = flash.initFlash(cameraIdInt);
 
+        if (retVal == 0) {
+            retVal = flash.setFlashLevel(cameraIdInt, strength);
+        }
         if (retVal == 0) {
             retVal = flash.setFlashMode(cameraIdInt, on);
             if ((retVal == 0) && (mCallbacks != NULL)) {
