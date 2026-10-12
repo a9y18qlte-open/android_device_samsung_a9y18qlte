@@ -519,7 +519,7 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    android.hardware.camera.provider-service_32.lineage \
+    android.hardware.camera.provider-service_32.samsung \
     camera.sdm660 \
     libmmcamera_interface \
     libmmjpeg_interface \
