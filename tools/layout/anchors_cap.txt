@@ -1,0 +1,92 @@
+# Samsung cam_capability_t anchors: field samsung_offset source
+position 4 initStaticMetadata(position|2)==2
+zoom_ratio_tbl_cnt 108 initStaticMetadata MAX_DIGITAL_ZOOM
+zoom_ratio_tbl 112 initStaticMetadata MAX_DIGITAL_ZOOM
+supported_scene_modes_cnt 3368 initStaticMetadata
+supported_scene_modes 3372 initStaticMetadata
+fps_ranges_tbl_cnt 3512 initStaticMetadata
+fps_ranges_tbl 3516 initStaticMetadata
+supported_white_balances_cnt 5596 initStaticMetadata
+supported_white_balances 5600 initStaticMetadata
+supported_focus_modes_cnt 5688 initStaticMetadata
+exposure_compensation_min 5772 initStaticMetadata
+exposure_compensation_max 5776 initStaticMetadata
+picture_sizes_tbl_cnt 5800 initCapabilities/calcMaxJpegSize
+picture_sizes_tbl 5804 calcMaxJpegSize
+picture_min_duration 6320 supportBurstCapture
+sensor_mount_angle 6836 initStaticMetadata
+focal_length 6840 initStaticMetadata
+supported_raw_dim_cnt 21416 initStaticMetadata
+raw_dim 21420 initStaticMetadata
+q3a_version 22984 get3AVersion
+hyper_focal_distance 23192 initStaticMetadata
+exposure_time_range 24128 initStaticMetadata
+max_frame_duration 24144 initStaticMetadata
+color_arrangement 24152 initStaticMetadata
+sensor_physical_size 24192 initStaticMetadata
+white_level 24224 initStaticMetadata
+black_level_pattern 24228 initStaticMetadata
+max_tone_map_curve_points 24316 initStaticMetadata
+max_depth_points 24320 initStaticMetadata
+max_sharpness_map_value 24888 initStaticMetadata
+max_analog_sensitivity 24912 initStaticMetadata
+scene_mode_overrides 24924 initStaticMetadata
+flash_available 25064 initStaticMetadata
+focus_dist_calibrated 25260 initStaticMetadata
+supported_test_pattern_modes_cnt 25261 initStaticMetadata
+supported_test_pattern_modes 25264 initStaticMetadata
+reference_illuminant1 25808 initStaticMetadata
+reference_illuminant2 25812 initStaticMetadata
+forward_matrix1 26840 initStaticMetadata
+forward_matrix2 26912 initStaticMetadata
+color_transform1 26984 initStaticMetadata
+color_transform2 27056 initStaticMetadata
+calibration_transform1 27128 initStaticMetadata
+calibration_transform2 27200 initStaticMetadata
+sensor_type 27284 initStaticMetadata
+no_per_frame_control_support 27476 initStaticMetadata
+optical_black_region_count 27728 initStaticMetadata
+is_depth_sensor 34981 initStaticMetadata
+SIZEOF 34984 initCapabilities malloc
+pixel_array_size 24200 initCapabilities
+active_array_size 24208 initCapabilities
+jpeg_stall_durations 25816 initCapabilities memcpy 0x200
+camera_index 34956 initCapabilities
+main_cam_cap 34960 initCapabilities
+aux_cam_cap 34964 initCapabilities
+hfr_tbl_cnt 8920 initStaticMetadata HIGH_SPEED stride 0x40c
+is_quadracfa_sensor 19800 initCapabilities/calcMaxJpegSize
+supported_preview_fmt_cnt 20332 QCameraParameters::initDefaultParameters
+supported_preview_fmts 20336 QCameraParameters::initDefaultParameters
+max_downscale_factor 21412 QCameraParameters::setSmallJpegSize
+min_focus_distance 23188 initStaticMetadata(reread)
+apertures 23204 initStaticMetadata(reread)
+apertures_count 23208 initStaticMetadata(reread)
+filter_densities 23212 initStaticMetadata(reread)
+filter_densities_count 23216 initStaticMetadata(reread)
+optical_stab_modes 23220 initStaticMetadata(reread)
+optical_stab_modes_count 23228 initStaticMetadata(reread)
+lens_shading_map_size 23232 initStaticMetadata(reread)
+padding_info 23152 initStaticMetadata mm_stream_calc_offset_raw
+min_num_pp_bufs 23180 initCapabilities =3
+rdi_mode_stream_fmt 23184 QCamera3 ctor
+histogram_size 24872 vendor 0x80150001
+max_histogram_count 24876 vendor 0x80150002
+sharpness_map_size 24880 initStaticMetadata
+supported_ae_modes_cnt 24892 initStaticMetadata
+sensitivity_range 24904 initStaticMetadata
+optical_black_regions 27648 initStaticMetadata
+supported_instant_aec_modes_cnt 31832 vendor 0x80130001
+related_cam_calibration 31848 vendor 0x800c0000 (0x1ba)
+supported_ir_mode_cnt 33496 vendor 0x80100001
+supported_binning_correction_mode_cnt 33512 vendor 0x80160001
+is_mono_stats_suport 34980 inferred
+raw_meta_dim 32976 QCameraParameters::getMetaRawInfo
+max_batch_bufs_supported 27528 QCameraParameters::setStreamConfigure
+buf_alignment 27532 setStreamConfigure
+min_stride 27536 setStreamConfigure
+min_scanline 27540 setStreamConfigure
+max_pixel_bandwidth 27640 QCamera3HardwareInterface::getCamInfo
+supported_quadra_cfa_dim_cnt 19804 live dump (=1) + calcMaxJpegSize
+quadra_cfa_dim 19808 live dump (5664x4248)
+is_remosaic_lib_present 20324 Samsung initCapabilities check
