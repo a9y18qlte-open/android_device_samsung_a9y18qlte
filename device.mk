@@ -546,14 +546,17 @@ PRODUCT_PACKAGES += \
     vendor.lineage.touch-service.samsung
 
 # Graphics
-# AOSP passthrough mapper 2.1, allocator and composer around the stock gralloc.sdm660
-# and hwcomposer.sdm660 modules, replacing their Android 10 builds. The composer
-# service keeps its stock options (see init.a9y18qlte.rc).
+# The gralloc and hwcomposer modules from hardware/qcom-caf/msm8998, behind the
+# AOSP passthrough mapper 2.1, allocator and composer. The composer service keeps
+# its stock options (see init.a9y18qlte.rc). The stock libsdmextension still
+# supplies the SDM composition strategy.
 PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.composer@2.1-service \
-    android.hardware.graphics.mapper@2.0-impl-2.1
+    android.hardware.graphics.mapper@2.0-impl-2.1 \
+    gralloc.sdm660 \
+    hwcomposer.qcom
 
 # AOSP libraries and modules
 # Source builds of generic AOSP code the stock Android 10 vendor shipped. Every

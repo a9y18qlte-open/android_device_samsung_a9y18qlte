@@ -641,12 +641,8 @@ vendor/lib/mediadrm/libwvdrmengine.so
 # Display-Hardware
 system/lib/libsdm-disp-apis.so
 system/lib64/libsdm-disp-apis.so
-vendor/lib/hw/gralloc.sdm660.so;MODULE_SUFFIX=_vendor
-vendor/lib/hw/hwcomposer.sdm660.so
 vendor/lib/hw/memtrack.sdm660.so
 vendor/lib/libsdmextension.so
-vendor/lib64/hw/gralloc.sdm660.so;MODULE_SUFFIX=_vendor
-vendor/lib64/hw/hwcomposer.sdm660.so
 vendor/lib64/hw/memtrack.sdm660.so
 vendor/lib64/libsdmextension.so
 

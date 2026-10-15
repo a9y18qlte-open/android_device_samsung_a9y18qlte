@@ -172,7 +172,7 @@ on boot
     chown system system /sys/class/lcd/panel/alpm
     chmod 0660 /sys/class/lcd/panel/alpm
 
-# The AOSP composer service, with the options of the stock one: hwcomposer.sdm660
+# The AOSP composer service, with the options of the stock one: the hwcomposer
 # serves display post-processing (pps) on a socket.
 service vendor.hwcomposer-2-1 /vendor/bin/hw/android.hardware.graphics.composer@2.1-service
     override
