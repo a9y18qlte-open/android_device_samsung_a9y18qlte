@@ -21,7 +21,7 @@
 # telephony with them. Each maps onto the stock domain for its interface.
 /vendor/bin/hw/vendor\.samsung\.hardware\.camera\.provider@3\.0-service u:object_r:hal_camera_default_exec:s0
 /vendor/bin/hw/nxp\.android\.hardware\.nfc@1\.1-service u:object_r:hal_nfc_default_exec:s0
-/vendor/bin/hw/android\.hardware\.usb@1\.1-service\.wahoo u:object_r:hal_usb_default_exec:s0
+/vendor/bin/hw/android\.hardware\.usb-service\.samsung u:object_r:hal_usb_default_exec:s0
 /vendor/bin/hw/android\.hardware\.health@2\.0-service\.samsung u:object_r:hal_health_default_exec:s0
 /vendor/bin/hw/android\.hardware\.vibrator-service\.samsung u:object_r:hal_vibrator_default_exec:s0
 /vendor/bin/hw/vendor\.samsung\.hardware\.miscpower@2\.0-service u:object_r:hal_power_default_exec:s0
