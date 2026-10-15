@@ -28,7 +28,6 @@ vendor.samsung.hardware.radio.channel::ISehChannel                        u:obje
 vendor.samsung.hardware.radio::ISehRadio                                  u:object_r:samsung_radio_hwservice:s0
 vendor.samsung.hardware.security.proca::ISehProca                         u:object_r:samsung_proca_hwservice:s0
 vendor.samsung.hardware.security.securestorage::ISehSecureStorage         u:object_r:samsung_securestorage_hwservice:s0
-vendor.samsung.hardware.security.vaultkeeper::ISehVaultKeeper             u:object_r:samsung_vaultkeeper_hwservice:s0
 vendor.samsung.hardware.security.widevine.keyprovisioning::ISehWidevineKeyProvisioning u:object_r:samsung_widevine_hwservice:s0
 vendor.samsung.hardware.security.wsm::ISehWsm                             u:object_r:samsung_wsm_hwservice:s0
 vendor.samsung.hardware.snap::ISehSnap                                    u:object_r:samsung_snap_hwservice:s0
