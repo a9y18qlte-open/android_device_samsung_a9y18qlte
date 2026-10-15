@@ -104,7 +104,7 @@ BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
 # no console registered the kernel log never reaches the pstore buffer and
 # /sys/fs/pstore stays empty - which is why the enforcing bootloop could not be
 # diagnosed at all. With console=ram the failed boot is readable from recovery.
-BOARD_KERNEL_CMDLINE := console=ram androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 sched_enable_hmp=1 sched_enable_power_aware=1 service_locator.enable=1 swiotlb=1 firmware_class.path=/vendor/firmware_mnt/image
+BOARD_KERNEL_CMDLINE := console=ram androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 sched_enable_hmp=1 sched_enable_power_aware=1 service_locator.enable=1 firmware_class.path=/vendor/firmware_mnt/image
 # 19.1 bring-up: boot permissive until the Android 12 policy is complete (remove for enforcing).
 # No androidboot.selinux here: the device boots enforcing. Getting there needed
 # four classes of fix, all of them invisible while permissive because a denial
@@ -121,13 +121,10 @@ BOARD_MKBOOTIMG_ARGS += --tags_offset $(BOARD_KERNEL_TAGS_OFFSET) --second_offse
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION) --pagesize $(BOARD_KERNEL_PAGESIZE)
 
 # Kernel config
-TARGET_KERNEL_CONFIG := a9y18qlte_eur_open_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/a9y18qlte
-TARGET_KERNEL_VERSION := 4.4
+TARGET_KERNEL_CONFIG := vendor/sdm660-perf_defconfig vendor/a9y18qlte.config
+TARGET_KERNEL_SOURCE := kernel/samsung/a9y18qlte-4.19
+TARGET_KERNEL_VERSION := 4.19
 TARGET_KERNEL_CLANG_COMPILE := true
-# 4.4 cannot link with ld.lld (empty built-in.o: "target emulation unknown");
-# link with the GNU binutils of the aarch64-linux-android-4.9 toolchain.
-TARGET_KERNEL_LLVM_BINUTILS := false
 #TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
 # Partitions
