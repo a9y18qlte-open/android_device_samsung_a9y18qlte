@@ -9,6 +9,10 @@ genfscon sysfs /devices/virtual/camera/flash/rear_flash       u:object_r:sysfs_s
 genfscon sysfs /devices/soc/ca00000.qcom,msm-cam/video4linux  u:object_r:sysfs_camera:s0
 genfscon sysfs /devices/soc/caa0000.qcom,jpeg/video4linux     u:object_r:sysfs_camera:s0
 genfscon sysfs /devices/soc/ca0c000.qcom,cci                  u:object_r:sysfs_camera:s0
+# 4.19 puts the soc devices under the platform bus.
+genfscon sysfs /devices/platform/soc/ca00000.qcom,msm-cam/video4linux u:object_r:sysfs_camera:s0
+genfscon sysfs /devices/platform/soc/caa0000.qcom,jpeg/video4linux    u:object_r:sysfs_camera:s0
+genfscon sysfs /devices/platform/soc/ca0c000.qcom,cci                 u:object_r:sysfs_camera:s0
 
 # Kernel memory-boost knob the camera provider writes while streaming. Under
 # /sys/kernel rather than /sys/devices, so no camera genfscon above covers it.
@@ -26,6 +30,14 @@ genfscon sysfs /devices/soc/soc:qcom,kgsl-hyp/subsys1         u:object_r:sysfs_s
 genfscon sysfs /devices/soc/15700000.qcom,lpass/subsys2       u:object_r:sysfs_subsys:s0
 genfscon sysfs /devices/soc/1a300000.qcom,turing/subsys3      u:object_r:sysfs_subsys:s0
 genfscon sysfs /devices/soc/4080000.qcom,mss/subsys4          u:object_r:sysfs_subsys:s0
+# 4.19: under the platform bus, and the subsystems register in another order.
+# There is no msm-core uio there.
+genfscon sysfs /devices/platform/soc/0.qcom,rmtfs_sharedmem/uio/uio0 u:object_r:sysfs_subsys:s0
+genfscon sysfs /devices/platform/soc/4080000.qcom,mss/subsys0        u:object_r:sysfs_subsys:s0
+genfscon sysfs /devices/platform/soc/cce0000.qcom,venus/subsys1      u:object_r:sysfs_subsys:s0
+genfscon sysfs /devices/platform/soc/15700000.qcom,lpass/subsys2     u:object_r:sysfs_subsys:s0
+genfscon sysfs /devices/platform/soc/1a300000.qcom,turing/subsys3    u:object_r:sysfs_subsys:s0
+genfscon sysfs /devices/platform/soc/soc:qcom,kgsl-hyp/subsys4       u:object_r:sysfs_subsys:s0
 
 # Samsung sensor nodes, e.g. /sys/devices/virtual/sensors/grip_sensor/name,
 # plus the input device the sensors HAL enumerates alongside them.
@@ -42,6 +54,14 @@ genfscon sysfs /power/volkey_wakeup                           u:object_r:sysfs_v
 # SPMI/PMIC tree, walked by hvdcp. The RTC sits underneath it, so it needs the
 # longer prefix to win - genfscon resolves by longest match.
 genfscon sysfs /devices/soc/800f000.qcom,spmi                 u:object_r:sysfs_spmi:s0
+genfscon sysfs /devices/platform/soc/800f000.qcom,spmi        u:object_r:sysfs_spmi:s0
+
+# Battery, charger and fuel gauge power supplies, read by the health HAL. On
+# 4.19 the battery node sits under the platform bus, and the SM5705 charger and
+# fuel gauge under their i2c-gpio buses.
+genfscon sysfs /devices/platform/battery/power_supply                                       u:object_r:sysfs_batteryinfo:s0
+genfscon sysfs /devices/platform/soc/soc:i2c@26/i2c-26/26-0049/sm5705-charger/power_supply  u:object_r:sysfs_batteryinfo:s0
+genfscon sysfs /devices/platform/soc/soc:i2c@24/i2c-24/24-0071/power_supply                 u:object_r:sysfs_batteryinfo:s0
 
 # Wi-Fi bring-up nodes, written by init and read back by macloader. Declared in
 # vendor policy because macloader is a vendor domain, so the genfscon has to
@@ -51,6 +71,7 @@ genfscon sysfs /wifi                                          u:object_r:sysfs_w
 
 # UFS host controller, read by hal_perf_default.
 genfscon sysfs /devices/soc/1da4000.ufshc                     u:object_r:sysfs_ufs:s0
+genfscon sysfs /devices/platform/soc/1da4000.ufshc            u:object_r:sysfs_ufs:s0
 
 # msm_core parameters, written by init and energyawareness.
 genfscon sysfs /module/msm_core/parameters                     u:object_r:sysfs_msm_core:s0
@@ -76,3 +97,4 @@ genfscon sysfs /devices/virtual/sec/tsp/cmd_result            u:object_r:sysfs_s
 genfscon sysfs /devices/virtual/lcd/panel                                 u:object_r:sysfs_lcd:s0
 
 genfscon sysfs /devices/soc/c900000.qcom,mdss_mdp/c900000.qcom,mdss_mdp:qcom,mdss_fb_primary/leds/lcd-backlight u:object_r:sysfs_leds:s0
+genfscon sysfs /devices/platform/soc/c900000.qcom,mdss_mdp/c900000.qcom,mdss_mdp:qcom,mdss_fb_primary/leds/lcd-backlight u:object_r:sysfs_leds:s0
