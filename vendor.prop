@@ -108,3 +108,8 @@ ro.vendor.extension_library=libqti-perfd-client.so
 # Android 14 no longer finds the Adreno drivers through ro.board.platform.
 ro.hardware.egl=adreno
 ro.hardware.vulkan=adreno
+
+# SoC
+# YouTube reports these as its "soc" and only offers VP9 above 1080p with them.
+ro.soc.manufacturer=QTI
+ro.soc.model=SDM660
