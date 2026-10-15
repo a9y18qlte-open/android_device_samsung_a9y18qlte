@@ -451,8 +451,6 @@ PRODUCT_PACKAGES += \
     android.hardware.radio@1.3.vendor \
     android.hardware.radio@1.4.vendor \
     android.hardware.soundtrigger@2.2.vendor \
-    android.hardware.usb@1.0.vendor \
-    android.hardware.usb@1.1.vendor \
     android.hardware.wifi@1.0.vendor \
     android.hardware.wifi@1.1.vendor \
     android.hardware.wifi@1.2.vendor \
@@ -540,6 +538,11 @@ PRODUCT_PACKAGES += \
 # fingerprint.default module wraps.
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint-service.samsung
+
+# USB
+# USB-C port and role control through /sys/class/typec (S2MM005 CCIC).
+PRODUCT_PACKAGES += \
+    android.hardware.usb-service.samsung
 
 # Camera
 PRODUCT_PACKAGES += \
