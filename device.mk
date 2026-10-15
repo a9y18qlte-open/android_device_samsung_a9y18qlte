@@ -158,6 +158,15 @@ PRODUCT_PACKAGES += \
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.sf.lcd_density=420
 
+# FM
+# The WCN3990 does FM over the Bluetooth HCI (vendor.qti.hardware.fm@1.0), not
+# V4L2, so the CAF FM2 app: its JNI drives the stock fm_helium.so.
+PRODUCT_PACKAGES += \
+    FM2 \
+    libqcomfm_jni \
+    qcom.fmradio \
+    qcom.fmradio.xml
+
 # GPS
 PRODUCT_PACKAGES += \
     libcurl
