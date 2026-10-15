@@ -211,10 +211,11 @@ PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey
 
 # Memory
+# The QTI memtrack reads the per-process KGSL nodes in
+# /sys/class/kgsl/kgsl/proc/<pid>/, as the stock memtrack.sdm660 did.
 PRODUCT_PACKAGES += \
-    android.hardware.memtrack@1.0-impl \
-    android.hardware.memtrack@1.0-service \
-    
+    vendor.qti.hardware.memtrack-service
+
 # Net
 PRODUCT_PACKAGES += \
     netutils-wrapper-1.0
