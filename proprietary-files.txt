@@ -43,7 +43,21 @@ vendor/lib64/hw/com.qualcomm.qti.ant@1.0-impl.so
 # Audio
 system/etc/permissions/audiosphere.xml
 system/framework/audiosphere.jar
+vendor/etc/SoundBoosterParam.txt
+vendor/etc/audio_configs.xml
+vendor/etc/audio_effects_sec.xml
+vendor/etc/audio_policy_configuration_sec.xml
+vendor/etc/audio_policy_volumes_sec.xml
+vendor/etc/playback_record_audio_policy_configuration.xml
+vendor/etc/playback_record_audio_policy_configuration.xml:vendor/etc/audio/playback_record_audio_policy_configuration.xml
+vendor/etc/sound_trigger_mixer_paths_wcd9330.xml
+vendor/etc/sound_trigger_mixer_paths_wcd9335.xml
+vendor/etc/sound_trigger_mixer_paths_wcd9340.xml
 vendor/firmware/dbmd4_va_fw.bin
+vendor/lib/lib_SamsungRec_06005.so;DISABLE_CHECKELF
+vendor/lib/lib_SoundAlive_3DPosition_ver202.so
+vendor/lib/lib_SoundAlive_SRC384_ver320.so
+vendor/lib/lib_soundaliveresampler.so
 vendor/lib/libacdb-fts.so
 vendor/lib/libacdbloader.so
 vendor/lib/libacdbrtac.so
@@ -56,6 +70,10 @@ vendor/lib/libaudioalsa.so
 vendor/lib/libaudioparsers.so
 vendor/lib/libdrc.so
 vendor/lib/libqtigef.so
+vendor/lib/librecordalive.so
+vendor/lib/libsamsungVoipResampler.so
+vendor/lib/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
+vendor/lib/libsecaudioinfo.so
 vendor/lib/libsurround_3mic_proc.so
 vendor/lib/vendor.qti.hardware.audiohalext@1.0.so
 vendor/lib64/libacdb-fts.so
@@ -66,15 +84,8 @@ vendor/lib64/libaudcal.so
 vendor/lib64/libaudioalsa.so
 vendor/lib64/libaudioparsers.so
 vendor/lib64/libqtigef.so
-
-vendor/etc/audio_configs.xml
-vendor/etc/audio_effects_sec.xml
-vendor/etc/audio_policy_configuration_sec.xml
-vendor/etc/audio_policy_volumes_sec.xml
-vendor/etc/sound_trigger_mixer_paths_wcd9330.xml
-vendor/etc/sound_trigger_mixer_paths_wcd9335.xml
-vendor/etc/sound_trigger_mixer_paths_wcd9340.xml
-
+vendor/lib64/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
+vendor/lib64/libsecaudioinfo.so
 
 # Audio FX Modules
 vendor/lib/soundfx/libasphere.so
@@ -120,6 +131,7 @@ vendor/lib/libbt-hidlclient.so
 vendor/lib/vendor.samsung.hardware.bluetooth@2.0.so
 vendor/lib64/hw/android.hardware.bluetooth@1.0-impl-qti.so
 vendor/lib64/libbt-hidlclient.so
+vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so
 vendor/lib64/vendor.samsung.hardware.bluetooth@2.0.so
 
 # Bluetooth-AptX
@@ -381,6 +393,46 @@ vendor/firmware/cpp_firmware_v1_8_0.fw
 vendor/lib/libois_bu63165.so
 vendor/lib/libois_lc898122.so
 
+# Camera-samsung
+vendor/etc/snap_gpu_kernel_32.bin
+vendor/etc/snap_gpu_kernel_64.bin
+vendor/lib/libDLInterface.camera.samsung.so
+vendor/lib/libOpenCv.camera.samsung.so;DISABLE_CHECKELF
+vendor/lib/libhifills.so;DISABLE_CHECKELF
+vendor/lib/libhifills_interface.so
+vendor/lib/libhypermotion_core.so
+vendor/lib/libhypermotion_interface.so
+vendor/lib/libsaiv_BeautySolutionVideo.so
+vendor/lib/libsnap_caffe.so
+vendor/lib/libsnap_caffe_wrapper.so
+vendor/lib/libsnap_compute.so
+vendor/lib/libsnap_compute_wrapper.so
+vendor/lib/libsnap_vndk.so
+vendor/lib/libswldc_capture_core.camera.samsung.so
+vendor/lib/libuniplugin.so
+vendor/lib/libvideobeauty_interface.so
+vendor/lib/libxcv.camera.samsung.so;DISABLE_CHECKELF
+vendor/lib64/libDLInterface.camera.samsung.so
+vendor/lib64/libOpenCv.camera.samsung.so;DISABLE_CHECKELF
+vendor/lib64/libhifills.so;DISABLE_CHECKELF
+vendor/lib64/libhifills_interface.so
+vendor/lib64/libhypermotion_core.so
+vendor/lib64/libhypermotion_interface.so
+vendor/lib64/libsaiv_BeautySolutionVideo.so
+vendor/lib64/libsnap_caffe.so
+vendor/lib64/libsnap_caffe_wrapper.so
+vendor/lib64/libsnap_compute.so
+vendor/lib64/libsnap_compute_wrapper.so
+vendor/lib64/libsnap_vndk.so
+vendor/lib64/libswldc_capture_core.camera.samsung.so
+vendor/lib64/libuniplugin.so
+vendor/lib64/libvideobeauty_interface.so
+vendor/lib64/libxcv.camera.samsung.so
+vendor/saiv/image_understanding/db/aic_classifier/aic_classifier_cnn.prototxt
+vendor/saiv/image_understanding/db/aic_classifier/aic_classifier_cnn_light.caffemodel
+vendor/saiv/image_understanding/db/aic_detector/aic_detector_cnn.prototxt
+vendor/saiv/image_understanding/db/aic_detector/aic_detector_cnn_light.caffemodel
+
 # Camera-sensors
 vendor/lib/libmmcamera2_c2d_module.so
 vendor/lib/libmmcamera2_cpp_module.so
@@ -609,23 +661,29 @@ system/lib/vendor.qti.hardware.fm@1.0.so
 system/lib64/fm_helium.so
 system/lib64/libfm-hci.so
 system/lib64/vendor.qti.hardware.fm@1.0.so
+vendor/bin/fmconfig
 vendor/lib/hw/vendor.qti.hardware.fm@1.0-impl.so
 vendor/lib/vendor.qti.hardware.fm@1.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/hw/vendor.qti.hardware.fm@1.0-impl.so
 vendor/lib64/vendor.qti.hardware.fm@1.0.so;MODULE_SUFFIX=_vendor
 
-# Factory
-
-
 # Fingerprint
 vendor/bin/hw/vendor.samsung.hardware.biometrics.fingerprint@3.0-service
 vendor/etc/init/vendor.samsung.hardware.biometrics.fingerprint@3.0-service.rc
 vendor/lib/hw/fingerprint.default.so
+vendor/lib/libbauthserver.so
+vendor/lib/libbauthtzcommon.so
+vendor/lib/libegis_fp_normal_sensor_test.so
 vendor/lib/libgf_in_system_lib.so
 vendor/lib/libqfp_sensortest.so
+vendor/lib/libsynaFpSensorTestNwd.so;DISABLE_CHECKELF
 vendor/lib64/hw/fingerprint.default.so
+vendor/lib64/libbauthserver.so
+vendor/lib64/libbauthtzcommon.so
+vendor/lib64/libegis_fp_normal_sensor_test.so
 vendor/lib64/libgf_in_system_lib.so
 vendor/lib64/libqfp_sensortest.so
+vendor/lib64/libsynaFpSensorTestNwd.so
 vendor/lib64/vendor.samsung.hardware.biometrics.fingerprint@3.0.so
 
 # Firmware
@@ -657,6 +715,11 @@ vendor/firmware/a508_zap.b01
 vendor/firmware/a508_zap.b02
 vendor/firmware/a508_zap.elf
 vendor/firmware/a508_zap.mdt
+# Adreno 512 zap shader - not in /vendor on stock, which loads it from the APNHLOS firmware partition
+vendor/firmware/a512_zap.b00
+vendor/firmware/a512_zap.b01
+vendor/firmware/a512_zap.b02
+vendor/firmware/a512_zap.mdt
 vendor/firmware/a530_gpmu.fw2
 vendor/firmware/a530_pfp.fw
 vendor/firmware/a530_pm4.fw
@@ -819,6 +882,9 @@ vendor/lib64/libsdm-diag.so
 vendor/lib64/libsdm-disp-vndapis.so
 vendor/lib64/libtinyxml2_1.so
 
+# Hotword enrollment
+system/priv-app/HotwordEnrollmentOKGoogleExTL3210/HotwordEnrollmentOKGoogleExTL3210.apk
+system/priv-app/HotwordEnrollmentXGoogleExTL3210/HotwordEnrollmentXGoogleExTL3210.apk
 
 # IOP
 vendor/lib/hw/vendor.qti.hardware.iop@2.0-impl.so
@@ -866,6 +932,7 @@ system/lib64/libmmosal.so
 system/lib64/libmmparser_lite.so
 system/lib64/libmmrtpdecoder.so
 system/lib64/libmmrtpencoder.so
+vendor/etc/somxreg.conf
 vendor/lib/libAlacSwDec.so
 vendor/lib/libApeSwDec.so
 vendor/lib/libFlacSwDec.so
@@ -879,14 +946,28 @@ vendor/lib/libmmsw_math.so
 vendor/lib/libmmsw_opencl.so
 vendor/lib/libmmsw_platform.so
 vendor/lib/libmulawdec.so
-vendor/lib/vendor.qti.hardware.vpp@1.1.so
-vendor/lib/vendor.qti.hardware.vpp@1.2.so
-vendor/lib64/vendor.qti.hardware.vpp@1.1.so
-vendor/lib64/vendor.qti.hardware.vpp@1.2.so
-# vendor/lib/vndk/libstagefright_foundation.so - dropped: stock blob exports only
-# DIVX/DIVX3, but source-built libstagefright_omx.so is compiled with
-# -D__ANDROID_VNDK_EXT__ and needs DIVX4/DIVX311. Built libstagefright_foundation_ext
-# supplies them instead (see device.mk).
+vendor/lib/libsnaace.so
+vendor/lib/libsnamrnb.so
+vendor/lib/libsnamrwb.so
+vendor/lib/libsomx263dsw.so
+vendor/lib/libsomx264dsw.so
+vendor/lib/libsomxaacd.so
+vendor/lib/libsomxadpcmd.so
+vendor/lib/libsomxamrd.so
+vendor/lib/libsomxcmn.so
+vendor/lib/libsomxcore_vendor.so
+vendor/lib/libsomxflacd.so
+vendor/lib/libsomxhevcdsw.so
+vendor/lib/libsomxmp3d.so
+vendor/lib/libsomxmp43d.so
+vendor/lib/libsomxmp4vdsw.so
+vendor/lib/libsomxnaace.so
+vendor/lib/libsomxvc1dsw.so
+vendor/lib/libsomxvp8d.so
+vendor/lib/libsomxwmad.so
+vendor/lib/libsomxwmv7d.so
+vendor/lib/libsomxwmv8d.so
+vendor/lib/libstagefright_bufferqueue_helper_vendor.so
 vendor/lib/libstagefright_soft_g711dec.so;MODULE_SUFFIX=_vendor
 vendor/lib/libstagefright_soft_qtiflacdec.so
 vendor/lib/libstagefright_soft_rawdec.so;MODULE_SUFFIX=_vendor
@@ -894,6 +975,16 @@ vendor/lib/libstagefright_soft_vorbisdec.so;MODULE_SUFFIX=_vendor
 vendor/lib/libvpphvx.so
 vendor/lib/libvpplibrary.so
 vendor/lib/libvqzip.so
+vendor/lib/vendor.qti.hardware.vpp@1.1.so
+vendor/lib/vendor.qti.hardware.vpp@1.2.so
+# vendor/lib/vndk/libstagefright_foundation.so - dropped: stock blob exports only
+# DIVX/DIVX3, but source-built libstagefright_omx.so is compiled with
+# -D__ANDROID_VNDK_EXT__ and needs DIVX4/DIVX311. Built libstagefright_foundation_ext
+# supplies them instead (see device.mk).
+# vendor/lib/vndk/libstagefright_omx_utils.so - dropped: stock blob needs Samsung-only
+# MediaDefs symbols (AUDIO_IMA, VIDEO_MP43, WMV1/2/3, WVC1) that the AOSP VNDK extension
+# does not export, so android.hardware.media.omx@1.0-service could not link and
+# crash-looped. AOSP builds libstagefright_omx_utils itself (vendor_available VNDK).
 vendor/lib64/libAlacSwDec.so
 vendor/lib64/libApeSwDec.so
 vendor/lib64/libFlacSwDec.so
@@ -906,15 +997,36 @@ vendor/lib64/libmmsw_math.so
 vendor/lib64/libmmsw_opencl.so
 vendor/lib64/libmmsw_platform.so
 vendor/lib64/libmulawdec.so
+vendor/lib64/libsnaace.so
+vendor/lib64/libsnamrnb.so
+vendor/lib64/libsnamrwb.so
+vendor/lib64/libsomx263dsw.so
+vendor/lib64/libsomx264dsw.so
+vendor/lib64/libsomxaacd.so
+vendor/lib64/libsomxadpcmd.so
+vendor/lib64/libsomxamrd.so
+vendor/lib64/libsomxcmn.so
+vendor/lib64/libsomxcore_vendor.so
+vendor/lib64/libsomxflacd.so
+vendor/lib64/libsomxhevcdsw.so
+vendor/lib64/libsomxmp3d.so
+vendor/lib64/libsomxmp43d.so
+vendor/lib64/libsomxmp4vdsw.so
+vendor/lib64/libsomxnaace.so
+vendor/lib64/libsomxvc1dsw.so
+vendor/lib64/libsomxvp8d.so
+vendor/lib64/libsomxwmad.so
+vendor/lib64/libsomxwmv7d.so
+vendor/lib64/libsomxwmv8d.so
 vendor/lib64/libstagefright_soft_qtiflacdec.so
 vendor/lib64/libvpphvx.so
 vendor/lib64/libvpplibrary.so
+vendor/lib64/vendor.qti.hardware.vpp@1.1.so
+vendor/lib64/vendor.qti.hardware.vpp@1.2.so
 
 # Media Codecs
 vendor/etc/media_codecs_ac4.xml
 vendor/etc/media_codecs_ddp.xml
-
-# Media-Hardware
 
 # NFC
 system/etc/nfcee_access.xml
@@ -931,10 +1043,12 @@ vendor/etc/perf/commonresourceconfigs.xml
 vendor/etc/perf/perfboostsconfig.xml
 vendor/etc/perf/targetconfig.xml
 vendor/etc/perf/targetresourceconfigs.xml
+vendor/lib/libperfconfig.so
 vendor/lib/libperfgluelayer.so
 vendor/lib/libqti-perfd.so
 vendor/lib/libqti-util.so
 vendor/lib/libqti-utils.so
+vendor/lib64/libperfconfig.so
 vendor/lib64/libperfgluelayer.so
 vendor/lib64/libqti-perfd.so
 vendor/lib64/libqti-util.so
@@ -1015,10 +1129,17 @@ vendor/bin/rmt_storage
 vendor/bin/tftp_server
 vendor/etc/data/dsi_config.xml
 vendor/etc/data/netmgr_config.xml
+vendor/etc/init/init.vendor.rilchip.rc
+vendor/etc/init/init.vendor.rilcommon.rc
 vendor/etc/init/ipacm-diag.rc
 vendor/etc/init/netmgrd.rc
 vendor/etc/init/vendor.qti.rmt_storage.rc
 vendor/etc/init/vendor.qti.tftp.rc
+vendor/etc/plmn_delta.bin
+vendor/etc/plmn_delta_attaio.bin
+vendor/etc/plmn_delta_usacdma.bin
+vendor/etc/plmn_delta_usagsm.bin
+vendor/etc/plmn_se13.bin
 vendor/lib/libconfigdb.so
 vendor/lib/libdsi_netctrl.so
 vendor/lib/liblqe.so
@@ -1036,8 +1157,17 @@ vendor/lib/libqsocket.so
 vendor/lib/libreference-ril.so
 vendor/lib/libril.so
 vendor/lib/librilutils.so
+# Not the stock build (same NEEDED, different code); pinned to keep it.
+vendor/lib/librmnetctl.so;MODULE_SUFFIX=_vendor|42cc2ad37f306f170c5df08e8681a51996293501
+vendor/lib/libsec-ril-dsds.so
+vendor/lib/libsec-ril.so
+vendor/lib/libsec_semRil.so
 vendor/lib/libsystem_health_mon.so
+vendor/lib/libvkmanager_vendor.so
+vendor/lib/libvndsecril-client.so
 vendor/lib/vendor.qti.hardware.radio.atcmdfwd@1.0.so
+vendor/lib/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
+vendor/lib/vendor.samsung.hardware.radio.channel@2.0.so
 vendor/lib64/libconfigdb.so
 vendor/lib64/libdsi_netctrl.so
 vendor/lib64/liblqe.so
@@ -1053,18 +1183,37 @@ vendor/lib64/libpdnotifier.so
 vendor/lib64/libqcmaputils.so
 vendor/lib64/libqrtr.so
 vendor/lib64/libqsocket.so
-vendor/lib64/libsystem_health_mon.so
-vendor/lib64/vendor.qti.hardware.radio.atcmdfwd@1.0.so
-# Not the stock build (same NEEDED, different code); pinned to keep it.
-vendor/lib/librmnetctl.so;MODULE_SUFFIX=_vendor|42cc2ad37f306f170c5df08e8681a51996293501
-vendor/lib/libvkmanager_vendor.so
 vendor/lib64/libreference-ril.so
 vendor/lib64/libril.so
 vendor/lib64/librilutils.so
 vendor/lib64/librmnetctl.so;MODULE_SUFFIX=_vendor|3bc9f0e140370fd4e95d8e262c30be515883cc10
+vendor/lib64/libsec-ril-dsds.so
+vendor/lib64/libsec-ril.so
+vendor/lib64/libsec_semRil.so
+vendor/lib64/libsystem_health_mon.so
 vendor/lib64/libvkmanager_vendor.so
+vendor/lib64/libvndsecril-client.so
+vendor/lib64/vendor.qti.hardware.radio.atcmdfwd@1.0.so
+vendor/lib64/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
+vendor/lib64/vendor.samsung.hardware.radio.channel@2.0.so
 
 # Radio-IMS
+product/etc/permissions/com.qualcomm.qti.imscmservice-V2.0-java.xml
+product/etc/permissions/com.qualcomm.qti.imscmservice-V2.1-java.xml
+product/etc/permissions/com.qualcomm.qti.imscmservice-V2.2-java.xml
+product/framework/com.qualcomm.qti.imscmservice-V2.0-java.jar
+product/framework/com.qualcomm.qti.imscmservice-V2.1-java.jar
+product/framework/com.qualcomm.qti.imscmservice-V2.2-java.jar
+product/lib/com.qualcomm.qti.imscmservice@1.0.so
+product/lib/com.qualcomm.qti.imscmservice@2.0.so
+product/lib/com.qualcomm.qti.imscmservice@2.1.so
+product/lib/com.qualcomm.qti.imscmservice@2.2.so
+product/lib/libdiag_system.so
+product/lib64/com.qualcomm.qti.imscmservice@1.0.so
+product/lib64/com.qualcomm.qti.imscmservice@2.0.so
+product/lib64/com.qualcomm.qti.imscmservice@2.1.so
+product/lib64/com.qualcomm.qti.imscmservice@2.2.so
+product/lib64/libdiag_system.so
 system/app/ImsSettings/ImsSettings.apk
 system/bin/charon
 system/bin/connfwexe
@@ -1079,17 +1228,15 @@ system/etc/init/init.rilepdg.rc
 system/etc/init/multiclientd.rc
 system/etc/permissions/com.qualcomm.qti.imscmservice.xml
 system/etc/permissions/epdgmanager_library.xml
+system/etc/permissions/imsmanager_library.xml
 system/etc/permissions/privapp-permissions-com.sec.ims.xml
 system/etc/permissions/privapp-permissions-com.sec.imsservice.xml
 system/etc/permissions/rcsopenapi_library.xml
 system/etc/permissions/svemanager_library.xml
 system/etc/permissions/vsimservice_library.xml
 system/etc/strongswan.conf
-system/priv-app/ImsTelephonyService/ImsTelephonyService.apk
-system/priv-app/imsservice/imsservice.apk
-# imsmanager.jar is patched by vendor/samsung/a9y18qlte/tools/imsservice.
-system/etc/permissions/imsmanager_library.xml
 system/framework/EpdgManager.jar
+# imsmanager.jar is patched by vendor/samsung/a9y18qlte/tools/imsservice.
 system/framework/imsmanager.jar
 system/framework/rcsopenapi.jar
 system/framework/svemanager.jar
@@ -1132,9 +1279,12 @@ system/lib64/libsemnativecarrierfeature.so
 system/lib64/libstrongswan.so;DISABLE_CHECKELF
 system/lib64/vendor.samsung.hardware.radio.bridge@2.0.so
 system/lib64/vendor.samsung.hardware.security.securestorage@3.0.so
+system/priv-app/ImsTelephonyService/ImsTelephonyService.apk
+system/priv-app/imsservice/imsservice.apk
+vendor/lib/com.qualcomm.qti.uceservice@2.0.so
+vendor/lib64/com.qualcomm.qti.uceservice@2.0.so
 
 # Radio-IMS - VoWiFi: EpdgService (ePDG tunnel) and sveservice (AP voice engine)
-# EpdgService.apk is patched by vendor/samsung/a9y18qlte/tools/epdg.
 system/app/sveservice/sveservice.apk
 system/etc/mapconprovider.xml
 system/etc/permissions/privapp-permissions-com.sec.epdg.xml
@@ -1151,26 +1301,8 @@ system/lib64/libsavscmn.so
 system/lib64/libsvejni.so
 system/lib64/libsveservice.so
 system/lib64/libvad.so
+# EpdgService.apk is patched by vendor/samsung/a9y18qlte/tools/epdg.
 system/priv-app/EpdgService/EpdgService.apk
-
-product/etc/permissions/com.qualcomm.qti.imscmservice-V2.0-java.xml
-product/etc/permissions/com.qualcomm.qti.imscmservice-V2.1-java.xml
-product/etc/permissions/com.qualcomm.qti.imscmservice-V2.2-java.xml
-product/framework/com.qualcomm.qti.imscmservice-V2.0-java.jar
-product/framework/com.qualcomm.qti.imscmservice-V2.1-java.jar
-product/framework/com.qualcomm.qti.imscmservice-V2.2-java.jar
-product/lib/com.qualcomm.qti.imscmservice@1.0.so
-product/lib/com.qualcomm.qti.imscmservice@2.0.so
-product/lib/com.qualcomm.qti.imscmservice@2.1.so
-product/lib/com.qualcomm.qti.imscmservice@2.2.so
-product/lib/libdiag_system.so
-product/lib64/com.qualcomm.qti.imscmservice@1.0.so
-product/lib64/com.qualcomm.qti.imscmservice@2.0.so
-product/lib64/com.qualcomm.qti.imscmservice@2.1.so
-product/lib64/com.qualcomm.qti.imscmservice@2.2.so
-product/lib64/libdiag_system.so
-vendor/lib/com.qualcomm.qti.uceservice@2.0.so
-vendor/lib64/com.qualcomm.qti.uceservice@2.0.so
 
 # SSR
 vendor/bin/ssr_diag
@@ -1185,58 +1317,54 @@ vendor/lib64/libwsmd_functions.so
 # Samsung
 vendor/bin/hw/vendor.samsung.hardware.miscpower@2.0-service
 vendor/bin/hw/vendor.samsung.hardware.tlc.ucm@1.0-service
+vendor/bin/secure_storage_daemon
 vendor/bin/vendor.samsung.hardware.security.proca@2.0-service
 vendor/bin/vendor.samsung.hardware.security.wsm@1.0-service
 vendor/etc/floating_feature.xml
+vendor/etc/init/pa_daemon_qsee.rc
+vendor/etc/init/secure_storage_daemon_qsee.rc
 vendor/etc/init/vendor.samsung.hardware.miscpower@2.0-service.rc
 vendor/etc/init/vendor.samsung.hardware.tlc.ucm@1.0-service.rc
-vendor/etc/init/vendor.samsung.hardware.wifi@2.0-service.rc
-vendor/lib/libDLInterface.camera.samsung.so
-vendor/lib/libOpenCv.camera.samsung.so;DISABLE_CHECKELF
-vendor/lib/lib_SamsungRec_06005.so;DISABLE_CHECKELF
-vendor/lib/lib_SoundAlive_3DPosition_ver202.so
-vendor/lib/lib_SoundAlive_SRC384_ver320.so
-vendor/lib/lib_soundaliveresampler.so
-vendor/lib/libsamsungVoipResampler.so
-vendor/lib/libsec_semRil.so
+vendor/etc/init/wsm-service.rc
+vendor/etc/process_authenticator/pa_config
+vendor/lib/libfloatingfeature.so;MODULE_SUFFIX=_vendor
+vendor/lib/libmdf.so;MODULE_SUFFIX=_vendor
+vendor/lib/libpa.so
+vendor/lib/libpadm.so
+vendor/lib/libsecnativefeature.so;MODULE_SUFFIX=_vendor
+vendor/lib/libsecure_storage.so;MODULE_SUFFIX=_vendor
 vendor/lib/libspictrl.so
-vendor/lib/libswldc_capture_core.camera.samsung.so
 vendor/lib/libucm_tlc_comm.so
 vendor/lib/libucm_tlc_direct_comm.so
 vendor/lib/libucm_tlc_tz_esecomm.so
-vendor/lib/libxcv.camera.samsung.so;DISABLE_CHECKELF
-vendor/lib/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
-vendor/lib/vendor.samsung.hardware.radio.channel@2.0.so
 vendor/lib/vendor.samsung.hardware.security.proca@2.0.so
 vendor/lib/vendor.samsung.hardware.security.securestorage@3.0.so;MODULE_SUFFIX=_vendor
 vendor/lib/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
 vendor/lib/vendor.samsung.hardware.tlc.ucm@1.0.so
-vendor/lib64/libDLInterface.camera.samsung.so
-vendor/lib64/libOpenCv.camera.samsung.so;DISABLE_CHECKELF
+vendor/lib64/libdsms_vendor.so
+vendor/lib64/libfloatingfeature.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libhal.wsm.samsung.so
-vendor/lib64/libsec_semRil.so
+vendor/lib64/libmdf.so;MODULE_SUFFIX=_vendor
+vendor/lib64/libpa.so
+vendor/lib64/libpadm.so
+vendor/lib64/libsecnativefeature.so;MODULE_SUFFIX=_vendor
+vendor/lib64/libsecure_storage.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libspictrl.so
-vendor/lib64/libswldc_capture_core.camera.samsung.so
 vendor/lib64/libucm_tlc_comm.so
 vendor/lib64/libucm_tlc_direct_comm.so
 vendor/lib64/libucm_tlc_tz_esecomm.so
-vendor/lib64/libxcv.camera.samsung.so
+vendor/lib64/libucsengine.so
 vendor/lib64/vendor.samsung.frameworks.security.dsms@1.0_vendor.so
 vendor/lib64/vendor.samsung.frameworks.security.ucm.crypto@1.0.so
+vendor/lib64/vendor.samsung.hardware.health@1.0.so
 vendor/lib64/vendor.samsung.hardware.miscpower@2.0.so
-vendor/lib64/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
-vendor/lib64/vendor.samsung.hardware.radio.channel@2.0.so
 vendor/lib64/vendor.samsung.hardware.security.proca@2.0.so
 vendor/lib64/vendor.samsung.hardware.security.securestorage@3.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
 vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0.so
-vendor/lib64/vendor.samsung.hardware.wifi.hostapd@2.0.so
-vendor/lib64/vendor.samsung.hardware.wifi.supplicant@2.0.so
-vendor/lib64/vendor.samsung.hardware.wifi@2.0.so
 
 # Sensors
 vendor/bin/hw/android.hardware.sensors@1.0-service
-vendor/bin/hw/vendor.samsung.hardware.wifi@2.0-service
 vendor/bin/sensors.qti
 vendor/etc/init/android.hardware.sensors@1.0-service.rc
 vendor/lib/hw/activity_recognition.sdm660.so
@@ -1281,6 +1409,19 @@ vendor/bin/time_daemon
 vendor/lib/libtime_genoff.so
 vendor/lib64/libtime_genoff.so
 
+# Trustonic
+vendor/app/mcRegistry/07010000000000000000000000000000.tlbin
+vendor/bin/hw/vendor.trustonic.tee@1.0-service
+vendor/bin/hw/vendor.trustonic.teeregistry@1.0-service
+vendor/bin/mcDriverDaemon
+vendor/bin/tbaseLoader
+vendor/etc/init/vendor.trustonic.tee@1.0-service.rc
+vendor/etc/init/vendor.trustonic.teeregistry@1.0-service.rc
+vendor/lib/libMcClient.so
+vendor/lib64/libMcClient.so
+vendor/lib64/vendor.trustonic.tee@1.0.so
+vendor/lib64/vendor.trustonic.teeregistry@1.0.so
+
 # UBWC
 vendor/lib/libUBWC.so
 vendor/lib/libstreamparser.so
@@ -1302,9 +1443,21 @@ vendor/lib64/libhdcpsrm.so
 # WiFi
 vendor/bin/cnss-daemon
 vendor/bin/fstman
+vendor/bin/hw/macloader
+vendor/bin/hw/mfgloader
+vendor/bin/hw/vendor.samsung.hardware.wifi@2.0-service
 # Not on stock; started by init.qcom.rc
 vendor/bin/qrtr-ns
 vendor/etc/init/vendor.qti.hardware.fstman@1.0-service.rc
+vendor/etc/init/vendor.samsung.hardware.wifi@2.0-service.rc
+vendor/etc/init/wifi.rc
+vendor/etc/init/wifi_qcom.rc
+vendor/etc/wlan_common_rc
+vendor/etc/wlan_vendor_rc
+vendor/lib/libwifi-hal.so
+vendor/lib64/vendor.samsung.hardware.wifi.hostapd@2.0.so
+vendor/lib64/vendor.samsung.hardware.wifi.supplicant@2.0.so
+vendor/lib64/vendor.samsung.hardware.wifi@2.0.so
 
 # rootdir
 vendor/bin/adpl
@@ -1313,183 +1466,24 @@ vendor/bin/hw/rild
 vendor/bin/ipacm-diag
 
 # Misc
-vendor/app/mcRegistry/07010000000000000000000000000000.tlbin
-vendor/bin/fmconfig
-vendor/bin/hw/macloader
-vendor/bin/hw/mfgloader
-vendor/bin/hw/vendor.trustonic.tee@1.0-service
-vendor/bin/hw/vendor.trustonic.teeregistry@1.0-service
-vendor/bin/mcDriverDaemon
-vendor/bin/secure_storage_daemon
-vendor/bin/tbaseLoader
-vendor/etc/SoundBoosterParam.txt
-vendor/etc/init/init.vendor.rilchip.rc
-vendor/etc/init/init.vendor.rilcommon.rc
-vendor/etc/init/pa_daemon_qsee.rc
-vendor/etc/init/secure_storage_daemon_qsee.rc
-vendor/etc/init/vendor.trustonic.tee@1.0-service.rc
-vendor/etc/init/vendor.trustonic.teeregistry@1.0-service.rc
-vendor/etc/init/wifi.rc
-vendor/etc/init/wifi_qcom.rc
-vendor/etc/init/wsm-service.rc
-vendor/etc/playback_record_audio_policy_configuration.xml
-vendor/etc/playback_record_audio_policy_configuration.xml:vendor/etc/audio/playback_record_audio_policy_configuration.xml
-vendor/etc/plmn_delta.bin
-vendor/etc/plmn_delta_attaio.bin
-vendor/etc/plmn_delta_usacdma.bin
-vendor/etc/plmn_delta_usagsm.bin
-vendor/etc/plmn_se13.bin
-vendor/etc/process_authenticator/pa_config
 vendor/etc/public.libraries.txt.backup
 vendor/etc/sec_config_oem
-vendor/etc/snap_gpu_kernel_32.bin
-vendor/etc/snap_gpu_kernel_64.bin
-vendor/etc/somxreg.conf
-vendor/etc/wlan_common_rc
-vendor/etc/wlan_vendor_rc
 vendor/lib/libHMT.so
-vendor/lib/libMcClient.so
 vendor/lib/libarac.so
-vendor/lib/libbauthserver.so
-vendor/lib/libbauthtzcommon.so
 vendor/lib/libdiagjni.so
-vendor/lib/libegis_fp_normal_sensor_test.so
 vendor/lib/libfastcrc.so
-vendor/lib/libfloatingfeature.so;MODULE_SUFFIX=_vendor
-vendor/lib/libhifills.so;DISABLE_CHECKELF
-vendor/lib/libhifills_interface.so
-vendor/lib/libhypermotion_core.so
-vendor/lib/libhypermotion_interface.so
-vendor/lib/libmdf.so;MODULE_SUFFIX=_vendor
-vendor/lib/libpa.so
-vendor/lib/libpadm.so
-vendor/lib/libperfconfig.so
 vendor/lib/libprofileparamstorage.so
-vendor/lib/librecordalive.so
-vendor/lib/libsaiv_BeautySolutionVideo.so
 vendor/lib/libsavsac.so
 vendor/lib/libsavscmn.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsavsvc.so
-vendor/lib/libsec-ril-dsds.so
-vendor/lib/libsec-ril.so
-vendor/lib/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
-vendor/lib/libsecaudioinfo.so
-vendor/lib/libsecnativefeature.so;MODULE_SUFFIX=_vendor
-vendor/lib/libsecure_storage.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsi.so
-vendor/lib/libsnaace.so
-vendor/lib/libsnamrnb.so
-vendor/lib/libsnamrwb.so
-vendor/lib/libsnap_caffe.so
-vendor/lib/libsnap_caffe_wrapper.so
-vendor/lib/libsnap_compute.so
-vendor/lib/libsnap_compute_wrapper.so
-vendor/lib/libsnap_vndk.so
-vendor/lib/libsomx263dsw.so
-vendor/lib/libsomx264dsw.so
-vendor/lib/libsomxaacd.so
-vendor/lib/libsomxadpcmd.so
-vendor/lib/libsomxamrd.so
-vendor/lib/libsomxcmn.so
-vendor/lib/libsomxcore_vendor.so
-vendor/lib/libsomxflacd.so
-vendor/lib/libsomxhevcdsw.so
-vendor/lib/libsomxmp3d.so
-vendor/lib/libsomxmp43d.so
-vendor/lib/libsomxmp4vdsw.so
-vendor/lib/libsomxnaace.so
-vendor/lib/libsomxvc1dsw.so
-vendor/lib/libsomxvp8d.so
-vendor/lib/libsomxwmad.so
-vendor/lib/libsomxwmv7d.so
-vendor/lib/libsomxwmv8d.so
-vendor/lib/libstagefright_bufferqueue_helper_vendor.so
-# vendor/lib/vndk/libstagefright_omx_utils.so - dropped: stock blob needs Samsung-only
-# MediaDefs symbols (AUDIO_IMA, VIDEO_MP43, WMV1/2/3, WVC1) that the AOSP VNDK extension
-# does not export, so android.hardware.media.omx@1.0-service could not link and
-# crash-looped. AOSP builds libstagefright_omx_utils itself (vendor_available VNDK).
 vendor/lib/libsxqk.so
-vendor/lib/libsynaFpSensorTestNwd.so;DISABLE_CHECKELF
-vendor/lib/libuniplugin.so
-vendor/lib/libvideobeauty_interface.so
-vendor/lib/libvndsecril-client.so
-vendor/lib/libwifi-hal.so
-vendor/lib64/libMcClient.so
 vendor/lib64/libarac.so
-vendor/lib64/libbauthserver.so
-vendor/lib64/libbauthtzcommon.so
 vendor/lib64/libdiagjni.so
-vendor/lib64/libdsms_vendor.so
-vendor/lib64/libegis_fp_normal_sensor_test.so
 vendor/lib64/libfastcrc.so
-vendor/lib64/libfloatingfeature.so;MODULE_SUFFIX=_vendor
-vendor/lib64/libhifills.so;DISABLE_CHECKELF
-vendor/lib64/libhifills_interface.so
-vendor/lib64/libhypermotion_core.so
-vendor/lib64/libhypermotion_interface.so
-vendor/lib64/libmdf.so;MODULE_SUFFIX=_vendor
-vendor/lib64/libpa.so
-vendor/lib64/libpadm.so
-vendor/lib64/libperfconfig.so
 vendor/lib64/libprofileparamstorage.so
-vendor/lib64/libsaiv_BeautySolutionVideo.so
 vendor/lib64/libsavsac.so
 vendor/lib64/libsavscmn.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libsavsvc.so
-vendor/lib64/libsec-ril-dsds.so
-vendor/lib64/libsec-ril.so
-vendor/lib64/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
-vendor/lib64/libsecaudioinfo.so
-vendor/lib64/libsecnativefeature.so;MODULE_SUFFIX=_vendor
-vendor/lib64/libsecure_storage.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libsi.so
-vendor/lib64/libsnaace.so
-vendor/lib64/libsnamrnb.so
-vendor/lib64/libsnamrwb.so
-vendor/lib64/libsnap_caffe.so
-vendor/lib64/libsnap_caffe_wrapper.so
-vendor/lib64/libsnap_compute.so
-vendor/lib64/libsnap_compute_wrapper.so
-vendor/lib64/libsnap_vndk.so
-vendor/lib64/libsomx263dsw.so
-vendor/lib64/libsomx264dsw.so
-vendor/lib64/libsomxaacd.so
-vendor/lib64/libsomxadpcmd.so
-vendor/lib64/libsomxamrd.so
-vendor/lib64/libsomxcmn.so
-vendor/lib64/libsomxcore_vendor.so
-vendor/lib64/libsomxflacd.so
-vendor/lib64/libsomxhevcdsw.so
-vendor/lib64/libsomxmp3d.so
-vendor/lib64/libsomxmp43d.so
-vendor/lib64/libsomxmp4vdsw.so
-vendor/lib64/libsomxnaace.so
-vendor/lib64/libsomxvc1dsw.so
-vendor/lib64/libsomxvp8d.so
-vendor/lib64/libsomxwmad.so
-vendor/lib64/libsomxwmv7d.so
-vendor/lib64/libsomxwmv8d.so
 vendor/lib64/libsxqk.so
-vendor/lib64/libsynaFpSensorTestNwd.so
-vendor/lib64/libucsengine.so
-vendor/lib64/libuniplugin.so
-vendor/lib64/libvideobeauty_interface.so
-vendor/lib64/libvndsecril-client.so
-vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so
-vendor/lib64/vendor.samsung.hardware.health@1.0.so
-vendor/lib64/vendor.trustonic.tee@1.0.so
-vendor/lib64/vendor.trustonic.teeregistry@1.0.so
-vendor/saiv/image_understanding/db/aic_classifier/aic_classifier_cnn.prototxt
-vendor/saiv/image_understanding/db/aic_classifier/aic_classifier_cnn_light.caffemodel
-vendor/saiv/image_understanding/db/aic_detector/aic_detector_cnn.prototxt
-vendor/saiv/image_understanding/db/aic_detector/aic_detector_cnn_light.caffemodel
-
-# Adreno 512 zap shader - not in /vendor on stock, which loads it from the APNHLOS firmware partition
-vendor/firmware/a512_zap.b00
-vendor/firmware/a512_zap.b01
-vendor/firmware/a512_zap.b02
-vendor/firmware/a512_zap.mdt
-
-# Hotword enrollment
-system/priv-app/HotwordEnrollmentOKGoogleExTL3210/HotwordEnrollmentOKGoogleExTL3210.apk
-system/priv-app/HotwordEnrollmentXGoogleExTL3210/HotwordEnrollmentXGoogleExTL3210.apk
