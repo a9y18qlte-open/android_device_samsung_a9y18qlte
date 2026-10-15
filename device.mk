@@ -429,7 +429,6 @@ PRODUCT_PACKAGES += \
 # vendor variants. Without these the stock HAL services fail to link at boot.
 PRODUCT_PACKAGES += \
     android.frameworks.displayservice@1.0.vendor \
-    android.hardware.biometrics.fingerprint@2.1.vendor \
     android.hardware.bluetooth@1.0.vendor \
     android.hardware.camera.provider@2.5.vendor \
     android.hardware.drm@1.1.vendor \
@@ -536,6 +535,12 @@ PRODUCT_PACKAGES += \
     android.hardware.light-service.samsung \
     android.hardware.vibrator-service.samsung
 
+# Fingerprint
+# AIDL HAL around Samsung's libbauthserver, the library the stock
+# fingerprint.default module wraps.
+PRODUCT_PACKAGES += \
+    android.hardware.biometrics.fingerprint-service.samsung
+
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider-service_32.samsung \
@@ -577,7 +582,6 @@ PRODUCT_PACKAGES += \
 # Source builds of generic AOSP code the stock Android 10 vendor shipped. Every
 # blob linking one of them still finds all the symbols it imports.
 # libsensorndkbridge stays stock: Samsung's exports camera ALooper variants.
-# fingerprint.default too: Samsung's is the real HAL module (libbauthserver).
 PRODUCT_PACKAGES += \
     audio.primary.default \
     audio.r_submix.default \

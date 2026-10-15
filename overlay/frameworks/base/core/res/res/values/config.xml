@@ -1193,11 +1193,6 @@
         <item>7,1</item>
     </string-array>
 
-    <!-- Biometric sensors (id:modality:strength): 0 = fingerprint HIDL HAL, 2 = fingerprint, 15 = strong -->
-    <string-array name="config_biometric_sensors" translatable="false">
-        <item>0:2:15</item>
-    </string-array>
-
     <!-- The vibrator is an on/off motor without amplitude control, which
          barely spins up within the default 100 ms fallback pulses. Use the
          350 ms pulses of config_defaultNotificationVibePattern instead. -->
