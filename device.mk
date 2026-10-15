@@ -76,6 +76,11 @@ PRODUCT_PACKAGES += \
     libqcomvoiceprocessing \
     libvolumelistener
 
+# Dolby Atmos
+# Settings for the stock libswdap effect.
+PRODUCT_PACKAGES += \
+    SamsungDAP
+
 # IMS
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/ims_samsung.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/ims_samsung.rc

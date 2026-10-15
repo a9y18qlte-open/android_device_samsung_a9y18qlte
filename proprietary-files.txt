@@ -57,6 +57,7 @@ vendor/firmware/dbmd4_va_fw.bin
 vendor/lib/lib_SamsungRec_06005.so;DISABLE_CHECKELF
 vendor/lib/lib_SoundAlive_3DPosition_ver202.so
 vendor/lib/lib_SoundAlive_SRC384_ver320.so
+vendor/lib/lib_SoundBooster_ver950.so;DISABLE_CHECKELF
 vendor/lib/lib_soundaliveresampler.so
 vendor/lib/libacdb-fts.so
 vendor/lib/libacdbloader.so
@@ -76,6 +77,7 @@ vendor/lib/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsecaudioinfo.so
 vendor/lib/libsurround_3mic_proc.so
 vendor/lib/vendor.qti.hardware.audiohalext@1.0.so
+vendor/lib64/lib_SoundBooster_ver950.so
 vendor/lib64/libacdb-fts.so
 vendor/lib64/libacdbloader.so
 vendor/lib64/libacdbrtac.so
@@ -89,7 +91,9 @@ vendor/lib64/libsecaudioinfo.so
 
 # Audio FX Modules
 vendor/lib/soundfx/libasphere.so
+vendor/lib/soundfx/libsamsungSoundbooster_plus.so
 vendor/lib64/soundfx/libasphere.so
+vendor/lib64/soundfx/libsamsungSoundbooster_plus.so
 
 # Audio-ACDB
 vendor/etc/audconf/ODM/Bluetooth_cal.acdb
@@ -647,6 +651,8 @@ vendor/lib64/libsdmextension.so
 # Dolby
 vendor/etc/dolby/dax-default.xml
 vendor/etc/media_codecs_dolby_audio.xml
+vendor/lib/soundfx/libswdap.so
+vendor/lib64/soundfx/libswdap.so
 
 # FM
 system/lib/fm_helium.so
