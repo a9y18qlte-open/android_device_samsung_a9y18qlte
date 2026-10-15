@@ -28,8 +28,9 @@ namespace_imports = [
     'device/samsung/a9y18qlte/camera',
     'device/samsung/a9y18qlte',
     'hardware/qcom-caf/common/libqti-perfd-client',
-    'hardware/qcom-caf/msm8998',
+    'hardware/qcom-caf/sdm660',
     'hardware/qcom-caf/wlan',
+    'vendor/qcom/opensource/display',
 ]
 
 

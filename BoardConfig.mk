@@ -183,6 +183,9 @@ TARGET_USES_MEDIA_EXTENSIONS := true
 # Qualcomm
 BOARD_USES_QCOM_HARDWARE := true
 BOARD_USES_QC_TIME_SERVICES := true
+# sdm660 on a 4.19 kernel: take audio, display and media from the sdm660 HAL
+# variant (4.19 vidc and ion ABIs) instead of the 4.4-era msm8998 one.
+TARGET_ENFORCES_QSSI := true
 
 # Recovery
 BOARD_HAS_DOWNLOAD_MODE := true
@@ -213,6 +216,7 @@ OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
 DEVICE_MATRIX_FILE := $(DEVICE_PATH)/compatibility_matrix.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DEVICE_PATH)/framework_compatibility_matrix.xml
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += vendor/lineage/config/device_framework_matrix.xml
 
 # Init
