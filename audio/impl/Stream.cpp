@@ -17,6 +17,7 @@
 #define LOG_TAG "StreamHAL"
 
 #include "SimSlot.h"
+#include "VoipRouting.h"
 #include "core/default/Stream.h"
 #include "common/all-versions/HidlSupport.h"
 #include "common/all-versions/default/EffectMap.h"
@@ -69,6 +70,7 @@ char* Stream::halGetParameters(const char* keys) {
 }
 
 int Stream::halSetParameters(const char* keysAndValues) {
+    samsung_voip_routing::beforeStreamParametersSet(mStream, mIsInput, keysAndValues);
     int status = mStream->set_parameters(mStream, keysAndValues);
     if (status == 0) samsung_sim_slot::onStreamParametersSet(mStream, keysAndValues);
     return status;

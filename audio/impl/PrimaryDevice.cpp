@@ -17,6 +17,7 @@
 #define LOG_TAG "PrimaryDeviceHAL"
 
 #include "SimSlot.h"
+#include "VoipRouting.h"
 #include "core/default/PrimaryDevice.h"
 #include "core/default/Util.h"
 
@@ -224,6 +225,7 @@ Return<Result> PrimaryDevice::setMode(AudioMode mode) {
             return Result::INVALID_ARGUMENTS;
     };
 
+    samsung_voip_routing::setMode(static_cast<audio_mode_t>(mode));
     return mDevice->analyzeStatus(
         "set_mode",
         samsung_sim_slot::setMode(mDevice->device(), static_cast<audio_mode_t>(mode)));
