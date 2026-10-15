@@ -26,7 +26,6 @@ type samsung_radio_hwservice, hwservice_manager_type;
 type samsung_securestorage_hwservice, hwservice_manager_type;
 type samsung_snap_hwservice, hwservice_manager_type;
 type samsung_tlc_hwservice, hwservice_manager_type;
-type samsung_vaultkeeper_hwservice, hwservice_manager_type;
 type samsung_vibrator_hwservice, hwservice_manager_type;
 type samsung_widevine_hwservice, hwservice_manager_type;
 type samsung_wifi_hwservice, hwservice_manager_type;
