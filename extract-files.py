@@ -320,9 +320,9 @@ blob_fixups: blob_fixups_user_type = {
     # SLOW_MOTION special mode, which only Samsung's camera app sets. Without
     # it the preview 3A runs and lengthens exposure, dropping the frame rate.
     # Add a default res 5 entry using the slow-motion 3A.
-    # Res 1 (60 fps, 4K) has a shorter line than its 3A tuning was made for,
-    # so the exposure tables stopped at 11.6 ms instead of 1/60 or 1/30 s.
-    # Point it at copies with scaled tables (scale_exposure_table).
+    # Res 1 (60 fps) has a shorter line than its 3A tuning was made for, so
+    # the exposure tables stopped at 11.6 ms instead of 1/60 s. Point it at
+    # copies with scaled tables (scale_exposure_table).
     'vendor/etc/camera/imx576_e24qs_chromatix.xml': blob_fixup()
         .call(apply_diff, 'camera/tools/chromatix/imx576_e24qs_chromatix-slowmotion.diff')
         .call(apply_diff, 'camera/tools/chromatix/imx576_e24qs_chromatix-res1-3a.diff'),
@@ -336,8 +336,6 @@ blob_fixups: blob_fixups_user_type = {
         .call(scale_exposure_table, 'libchromatix_imx576_e24qs_4k_preview_3a.so'),
     'vendor/lib/libchromatix_imx576_e24qs_60_video_3a.so': blob_fixup()
         .call(scale_exposure_table, 'libchromatix_imx576_e24qs_4k_video_3a.so'),
-    'vendor/lib/libchromatix_imx576_e24qs_uhd_video_3a.so': blob_fixup()
-        .call(scale_exposure_table, 'libchromatix_imx576_e24qs_zsl_video_3a.so'),
     'vendor/lib/libchromatix_imx576_d24qs_60_preview_3a.so': blob_fixup()
         .call(scale_exposure_table, 'libchromatix_imx576_d24qs_zsl_preview_3a.so'),
     'vendor/lib/libchromatix_imx576_d24qs_60_video_3a.so': blob_fixup()
