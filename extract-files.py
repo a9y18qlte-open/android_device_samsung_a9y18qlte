@@ -273,8 +273,42 @@ blob_fixups: blob_fixups_user_type = {
     # but Samsung's sensor path never fills digital_gain, so it holds garbage
     # and android.sensor.sensitivity comes out as INT32_MIN. Drop that multiply:
     # vmul.f32 s0, s0, s4 -> nop.w at 0x63ad8.
+    # Also: the mode picker had no check enabled for the regular preview/video
+    # use case (12), so the lowest mode (30 fps) always won. Enable its fps
+    # check (table at 0x287f0, check x use case) so [60,60] gets the 60 fps
+    # mode below.
     'vendor/lib/libmmcamera2_sensor_modules.so': blob_fixup()
-        .call(patch_bytes, [(0x63ad4, '21ee000a20ee020a80ee030abdeec00a', 0x63ad8, 'aff30080')]),
+        .call(patch_bytes, [
+            (0x63ad4, '21ee000a20ee020a80ee030abdeec00a', 0x63ad8, 'aff30080'),
+            (0x287f0, '01000000000000000000000001000000000000000000000001000000'
+                      '000000000100000000000000000000000000000000000000',
+             0x28820, '01000000'),
+        ]),
+    # 60 fps: make the binned 16:9 mode (res 1, 2832x1592) of the main and
+    # front IMX576 a 60 fps mode with the clocking of the high speed modes:
+    # VT clock divider 0x0303 4 -> 2, line length 6320 -> 4400, frame length
+    # 2177 -> 3128, 0x3f80/1 as res 5/6; mode table entry: line/frame length,
+    # op pixel clock 480 -> 540 MHz (one VFE; more splits the sensor over both
+    # and per-request preview outputs fail), max fps 30 -> 60.
+    (
+        'vendor/lib/libmmcamera_imx576.so',
+        'vendor/lib/libmmcamera_imx576_front.so',
+    ): blob_fixup()
+        .call(patch_bytes, [
+            (0x600ac, '42031800', 0x600ae, '1100'),
+            (0x600b4, '4303b000', 0x600b6, '3000'),
+            (0x600bc, '40030800', 0x600be, '0c00'),
+            (0x600c4, '41038100', 0x600c6, '3800'),
+            (0x601c4, '03030400', 0x601c6, '0200'),
+            (0x6022c, '803f0200', 0x6022e, '0300'),
+            (0x60234, '813f3000', 0x60236, 'e800'),
+            (0xac488, '100b3806b01881080000000000389c1c'
+                      '02000100000000000000000000001e40'
+                      '0000000000003e40',
+             0xac488, '100b38063011380c0000000000bf2f20'
+                      '02000100000000000000000000001e40'
+                      '0000000000004e40'),
+        ]),
 }  # fmt: skip
 
 module = ExtractUtilsModule(
