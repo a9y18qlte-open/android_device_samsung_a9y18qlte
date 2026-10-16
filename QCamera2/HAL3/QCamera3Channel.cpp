@@ -6794,6 +6794,11 @@ int32_t QCamera3PicChannel::queueJpegSetting(uint32_t index, uint32_t frame_numb
     if (hal_obj->m_bMultiRawRequest) {
         settings->raw_mfc_snapshot = 1;
     }
+    settings->bokeh = hal_obj->isBokehRequest();
+    settings->bokeh_focus_x = settings->bokeh_focus_y = -1.0f;
+    if (settings->bokeh) {
+        hal_obj->getBokehFocus(settings->bokeh_focus_x, settings->bokeh_focus_y);
+    }
 
     return m_postprocessor.processJpegSettingData(settings);
 }

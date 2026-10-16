@@ -97,6 +97,9 @@ class QCamera3ProcessingChannel;
         bool zsl_snapshot;
         uint32_t frame_number;
         bool raw_mfc_snapshot;
+        bool bokeh; // SEC: blur with the depth camera before encoding
+        float bokeh_focus_x; // focus point normalized to the active array,
+        float bokeh_focus_y; // < 0 for the frame centre
     } jpeg_settings_t;
 
     typedef struct {

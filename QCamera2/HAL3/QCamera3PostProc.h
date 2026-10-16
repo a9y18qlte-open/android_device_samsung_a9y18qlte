@@ -45,6 +45,7 @@ extern "C" {
 
 namespace qcamera {
 
+class QCamera3Bokeh;
 class QCamera3Exif;
 class QCamera3ProcessingChannel;
 class QCamera3ReprocessChannel;
@@ -198,6 +199,9 @@ private:
             jpeg_settings_t *jpeg_settings, bool needJpegExifRotation);
     int32_t encodeData(qcamera_hal3_jpeg_data_t *jpeg_job_data,
                        uint8_t &needNewSess);
+    void applyBokeh(QCamera3Bokeh *bokeh, QCamera3Stream *stream,
+            mm_camera_buf_def_t *frame, metadata_buffer_t *metadata,
+            float focusX, float focusY, const cam_capability_t *cap);
     int32_t encodeFWKData(qcamera_hal3_jpeg_data_t *jpeg_job_data,
             uint8_t &needNewSess);
     void releaseSuperBuf(mm_camera_super_buf_t *super_buf);
