@@ -51,6 +51,28 @@ lowest mode (res 0, 30 fps) always won. The device tree enables the fps
 check for it: a [60,60] request skips res 0 and gets res 1, 30 fps and
 below keep res 0 as before.
 
+The 3A tuning stores its AEC exposure table in sensor lines of the
+stock 6320 px line. Res 1's line is now 4400 px, so the tables' fixed
+frame rate limit of 2177 lines (1/30 s at 6320) gave at most 11.6 ms per
+frame, at 60 fps and at 4K. Res 1 uses copies of its 3A libraries with
+the table's line counts scaled by 6320/4400 (the device tree's
+`scale_exposure_table`): `60_preview_3a` and `60_video_3a` on both
+cameras and `uhd_video_3a` for the main camera's 4K entry.
+[tools/chromatix/imx576_e24qs_chromatix-res1-3a.diff](../tools/chromatix/imx576_e24qs_chromatix-res1-3a.diff)
+and
+[tools/chromatix/imx576_d24qs_chromatix-res1-3a.diff](../tools/chromatix/imx576_d24qs_chromatix-res1-3a.diff)
+point res 1 at them; the front one adds a res 1 entry with the front
+dimension mask, which its sessions always carry. A 60 fps frame then
+gets up to 16.66 ms (the frame stretches to 16.71 ms when it needs all
+of it), about 20% brighter pixel values in the dark than at 11.6 ms.
+
+Anti-banding still limits it: the HAL maps AUTO to 60 Hz
+(`persist.vendor.camera.set.afd`, default 5) and 16.67 ms does not fit
+in a 60 fps frame, so with anti-banding on a 60 fps frame gets 8.33 ms
+(10 ms at 50 Hz, `persist.vendor.camera.set.afd=4`). Apps that turn
+anti-banding off, or `persist.vendor.camera.set.afd=0`, get the full
+frame.
+
 Res 0 is left at 30 fps: as a 60 fps mode, auto exposure halves the
 exposure and doubles the gain at 30 fps too. So 60 fps always comes
 from the 16:9 mode, and 4:3 sizes at 60 fps are a crop of it.
@@ -69,6 +91,13 @@ kernel's msm_vidc then votes clocks, bus and rate control for 30 and the
 camera waits for encoder buffers (about 40 fps recorded). The kernel
 measures the encoder input rate from buffer timestamps and raises the
 session frame rate (lineage-20-ksu, `msm_venc_update_input_fps`).
+
+Previews with the preview capture intent use the preview 3A, whose
+table first lengthens the exposure past the frame (lower fps) in the
+dark. With a fixed frame rate (Open Camera's video preview, [30,30]) it
+stops at about ISO 268 at 30 fps; the video 3A used while recording (and
+by apps that preview with the record intent, e.g. CameraX) raises the
+gain to ISO 800 at a fixed frame time instead.
 
 ## Regular video (up to 30 fps)
 
