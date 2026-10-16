@@ -11957,6 +11957,25 @@ int QCamera3HardwareInterface::initCapabilities(uint32_t cameraId)
                 cap->picture_sizes_tbl[0].height >= 2160) {
             addPictureSize(3840, 2160);
         }
+
+        /* SEC: the 60 fps mode (binned 16:9, 2832x1592) fits 4:3 and 1:1 crops
+         * of up to 2122x1592 and 1592x1592, but the backend's largest sizes
+         * below the 60 fps limit are 1632x1224 and 1224x1224. Add 1920x1440
+         * and 1440x1440 to the main and front cameras. */
+        if (getRegularMaxFps(cameraId) >= 60 && cnt > 0 &&
+                cap->picture_sizes_tbl[0].width >= 2832) {
+            const cam_dimension_t sizes60[] = {{1920, 1440}, {1440, 1440}};
+            for (const cam_dimension_t &s : sizes60) {
+                bool has = false;
+                for (size_t i = 0; i < MIN(cap->picture_sizes_tbl_cnt, MAX_SIZES_CNT); i++) {
+                    has |= cap->picture_sizes_tbl[i].width == s.width &&
+                            cap->picture_sizes_tbl[i].height == s.height;
+                }
+                if (!has) {
+                    addPictureSize(s.width, s.height);
+                }
+            }
+        }
     }
 
 failed_op:
