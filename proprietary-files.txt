@@ -370,6 +370,13 @@ vendor/lib/libchromatix_s5k5e9yx_s05ql_video_isp.so
 vendor/lib/libchromatix_s5k5e9yx_s05ql_zsl_preview_3a.so
 vendor/lib/libchromatix_s5k5e9yx_s05ql_zsl_video_3a.so
 
+# Camera-chromatix - imx576 res 1 (60 fps, 4K) 3A with scaled exposure tables
+vendor/lib/libchromatix_imx576_d24qs_default_video_3a.so:vendor/lib/libchromatix_imx576_d24qs_60_video_3a.so
+vendor/lib/libchromatix_imx576_d24qs_zsl_preview_3a.so:vendor/lib/libchromatix_imx576_d24qs_60_preview_3a.so
+vendor/lib/libchromatix_imx576_e24qs_4k_preview_3a.so:vendor/lib/libchromatix_imx576_e24qs_60_preview_3a.so
+vendor/lib/libchromatix_imx576_e24qs_4k_video_3a.so:vendor/lib/libchromatix_imx576_e24qs_60_video_3a.so
+vendor/lib/libchromatix_imx576_e24qs_zsl_video_3a.so:vendor/lib/libchromatix_imx576_e24qs_uhd_video_3a.so
+
 # Camera-configs
 vendor/etc/camera/A08QL_s5k4hayx_module_info.xml
 vendor/etc/camera/C13QL_s5k3m3_module_info.xml
