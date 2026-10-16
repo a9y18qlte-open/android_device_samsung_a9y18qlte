@@ -1,0 +1,23 @@
+//
+// Copyright (C) 2026 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+// CameraX / Camera2 extensions vendor library (androidx.camera.extensions.impl),
+// based on frameworks/ex/camera2/extensions/sample. Only the bokeh extension is
+// offered; the camera HAL renders it.
+java_library {
+    name: "androidx.camera.extensions.impl.a9y18qlte",
+    installable: true,
+    srcs: ["src/**/*.java"],
+    sdk_version: "current",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "camera_extensions_a9y18qlte.xml",
+    src: "camera_extensions.xml",
+    sub_dir: "permissions",
+    vendor: true,
+}
