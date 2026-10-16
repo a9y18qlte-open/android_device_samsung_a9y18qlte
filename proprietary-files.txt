@@ -856,7 +856,6 @@ vendor/lib/libsdmextension.so|b97d77474f5991d3d038b9633c6ccfda67f3e1ec
 vendor/lib/libtinyxml2_1.so|dfe3efe3a6e5ad5beb6e4e9adb02eef475b421a7
 vendor/lib/vendor.display.color@1.0.so|5e90bac8dbb027c82f044b33d74e08c66be18691
 vendor/lib/vendor.display.color@1.1.so|80d8951b59e0ebd05dd1d4af821ef7824b331c2d
-vendor/lib/vendor.display.color@1.2.so|5e616097df2189f7196e7170d2543d599c3a26a2
 vendor/lib/vendor.display.postproc@1.0.so|43e373600ca7a6332e8273714c96568741beb840
 vendor/lib64/egl/eglSubDriverAndroid.so|52cc62010df3eabdd440fc756e2c4abee35dabeb
 vendor/lib64/egl/libEGL_adreno.so|ccb68f54eda4135c29b2cf059cc5d9cc2ed6b029
@@ -886,7 +885,6 @@ vendor/lib64/libsdmextension.so|9a4342e9417fd7cee2eb4d34c55762c4de6811ae
 vendor/lib64/libtinyxml2_1.so|5bdb5c7785f90ad4ebaa7085a4f83d86567331f9
 vendor/lib64/vendor.display.color@1.0.so|d4bef738354e70dd93196e1c6bc2e523d7b723f2
 vendor/lib64/vendor.display.color@1.1.so|027ec899c7e85b18cdc809d2e71a01fe088429fc
-vendor/lib64/vendor.display.color@1.2.so|f4279bde2b96ed2f3f77af45eb54bc1e8db6be30
 vendor/lib64/vendor.display.postproc@1.0.so|3f2dcc8a1169dd0f1981d2e5d33e3fe26719b7e8
 
 # Hotword enrollment
