@@ -1,4 +1,4 @@
-# Video on the main camera
+# Video on the main and front cameras
 
 ## Sensor modes
 
@@ -16,8 +16,10 @@ from 0xac428) has these modes:
 | 6 | 1920x1080 | 120 | high speed, crop of the sensor centre |
 
 The stock table has no 60 fps mode. The front camera's
-`libmmcamera_imx576_front.so` has the same table at the same offsets
-(res 6 is 1280x720 there).
+`libmmcamera_imx576_front.so` has the same table at the same offsets.
+Stock differs in the high speed modes there: res 5 runs on lower PLL
+multipliers (about 221.5 fps) and res 6 is 1280x720; the device tree
+patches both to the main camera's (see [Slow motion](#slow-motion-constrained-high-speed)).
 
 ## 60 fps (regular sessions)
 
@@ -98,6 +100,21 @@ use a constrained high speed session for 120 and 240 fps:
 Both modes read a smaller area of the sensor than the binned modes, so
 the picture is narrower (looks zoomed in) while recording.
 
+The front camera has the same sizes and rates after two device tree
+patches of `libmmcamera_imx576_front.so`:
+
+- Res 6 is 1280x720 at 120 fps in stock, a crop of the same binned
+  area the main camera's 1920x1080 res 6 reads. Its output size
+  (0x034c-0x034f), crop (0x0408-0x040f) and table entry take the main
+  camera's 1920x1080 values; the front's own PLL and frame length still
+  give 120 fps. The HAL then reports 1920x1080 at 120 fps for it.
+- Res 5 runs its VT and op PLL multipliers at 0x143/0x13c instead of
+  0x15d/0x157 and a frame length of 1107: about 221.5 fps. The HAL
+  derives the timestamps within a batch from the nominal 240 fps, so
+  each batch of 8 ended about 3 ms early and the video stuttered. It now
+  uses the main camera's multipliers and frame length 1104 (240 fps);
+  the front's res 6 already runs its link at the 0x157 op rate.
+
 In apps that select slow motion as a playback speed for 30 fps playback
 (Open Camera's "speed"), the capture rate is 30 fps / speed:
 
@@ -120,6 +137,16 @@ adds a default res 5 entry with `mode_slowmotion_3a` for preview and
 video; with it the frame rate stays at 240 and the gain stops at
 ISO 800, so the picture gets darker instead. Apply it to
 `vendor/etc/camera/imx576_e24qs_chromatix.xml` in the device tree.
+
+The front camera's XML has no res 5 entry and no slow motion 3A at all.
+Its sensor module adds front dimension flags to the special mode mask of
+every session (`PREVIEW_FRONT_DIM_HIGH,SNAPSHOT_FRONT_DIM_HIGH,VIDEO_FRONT_DIM_HIGH`
+at 1280x720), and an entry only matches with that mask, so the generic
+front entry with `zsl_preview_3a` won: about 111 fps indoors.
+[tools/chromatix/imx576_d24qs_chromatix-slowmotion.diff](../tools/chromatix/imx576_d24qs_chromatix-slowmotion.diff)
+adds a res 5 entry with that mask, the front's ISP/CPP tuning and the
+main camera's `imx576_e24qs_mode_slowmotion_3a`. Apply it to
+`vendor/etc/camera/imx576_d24qs_chromatix.xml` in the device tree.
 
 120 fps uses Samsung's `hfr_120_3a` tuning without changes.
 
