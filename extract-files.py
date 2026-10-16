@@ -153,6 +153,9 @@ blob_fixups: blob_fixups_user_type = {
         .remove_needed('libhwbinder.so'),
     'vendor/lib64/libgps.utils.so': blob_fixup()
         .add_needed('libprocessgroup_shim.so'),
+    # Uses no C++ runtime symbols; libstdc++ is not available to vendor
+    'vendor/lib/libdualcam_refocus.so': blob_fixup()
+        .remove_needed('libstdc++.so'),
     # Remove triggers setting vendor.vts.native_server.on
     'vendor/etc/init/init.vendor.rilcommon.rc': blob_fixup()
         .call(delete_rc_block),

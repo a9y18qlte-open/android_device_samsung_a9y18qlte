@@ -157,6 +157,9 @@ vendor/lib64/vendor.qti.hardware.data.dynamicdds@1.0.so
 
 # Camera
 vendor/lib/libbase64.so
+# Camera-bokeh: Samsung's ArcSoft dual camera refocus engine, from the stock system partition
+system/lib/libdualcam_refocus.so:vendor/lib/libdualcam_refocus.so
+system/lib/libmpbase.so:vendor/lib/libmpbase.so
 vendor/lib/libdepthmapwrapper.so
 vendor/lib/libflash_pmic.so
 vendor/lib/libjpegdhw.so
