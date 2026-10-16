@@ -379,6 +379,10 @@ PRODUCT_SOONG_NAMESPACES += \
 PRODUCT_PACKAGES += \
     libvulkan
 
+# Updater
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
+    lineage.updater.uri=https://raw.githubusercontent.com/a9y18qlte-open/OTA/main/lineage-22.2/{device}.json
+
 
 # Whitelisted app
 PRODUCT_COPY_FILES += \
