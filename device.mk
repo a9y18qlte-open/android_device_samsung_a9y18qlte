@@ -539,9 +539,10 @@ PRODUCT_PACKAGES += \
 
 # Fingerprint
 # AIDL HAL around Samsung's libbauthserver, the library the stock
-# fingerprint.default module wraps.
+# fingerprint.default module wraps. A copy of hardware/samsung's in
+# fingerprint/.
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint-service.samsung
+    android.hardware.biometrics.fingerprint-service.samsung-a9y18qlte
 
 # USB
 # USB-C port and role control through /sys/class/typec (S2MM005 CCIC).
