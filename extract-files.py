@@ -136,6 +136,42 @@ def apply_diff(
     )
 
 
+def scale_exposure_table(
+    ctx: BlobFixupCtx,
+    file: File,
+    file_path: str,
+    src_soname: str,
+    *args,
+    **kwargs,
+):
+    # A copy of an imx576 chromatix 3A library for sensor mode 1, whose line
+    # is 4400 pixels instead of the 6320 the tuning was made for: rename its
+    # SONAME to the copy's file name, and scale the line counts of the AEC
+    # exposure table (valid count at 0xcc04, then (gain Q8, lines) pairs from
+    # 0xcc10, starting at gain 1.0x) by 6320/4400, so every exposure index
+    # keeps its exposure time.
+    with open(file_path, 'rb') as f:
+        data = bytearray(f.read())
+    old = src_soname.encode() + b'\0'
+    new = path.basename(file_path).encode()
+    if data.count(old) != 1 or len(new) >= len(old):
+        return
+    offset = data.find(old)
+    data[offset:offset + len(old)] = new.ljust(len(old), b'\0')
+    table = 0xcc10
+    if int.from_bytes(data[table:table + 4], 'little') != 256:
+        return
+    for entry in range(table, table + 8 * 600, 8):
+        gain = int.from_bytes(data[entry:entry + 4], 'little')
+        lines = int.from_bytes(data[entry + 4:entry + 8], 'little')
+        if not (256 <= gain < 200000 and 0 < lines < 200000):
+            break
+        lines = min(65535, round(lines * 6320 / 4400))
+        data[entry + 4:entry + 8] = lines.to_bytes(4, 'little')
+    with open(file_path, 'wb') as f:
+        f.write(data)
+
+
 # 60 fps: make the binned 16:9 mode (res 1, 2832x1592) of the main and
 # front IMX576 a 60 fps mode with the clocking of the high speed modes:
 # VT clock divider 0x0303 4 -> 2, line length 6320 -> 4400, frame length
@@ -284,13 +320,28 @@ blob_fixups: blob_fixups_user_type = {
     # SLOW_MOTION special mode, which only Samsung's camera app sets. Without
     # it the preview 3A runs and lengthens exposure, dropping the frame rate.
     # Add a default res 5 entry using the slow-motion 3A.
+    # Res 1 (60 fps, 4K) has a shorter line than its 3A tuning was made for,
+    # so the exposure tables stopped at 11.6 ms instead of 1/60 or 1/30 s.
+    # Point it at copies with scaled tables (scale_exposure_table).
     'vendor/etc/camera/imx576_e24qs_chromatix.xml': blob_fixup()
-        .call(apply_diff, 'camera/tools/chromatix/imx576_e24qs_chromatix-slowmotion.diff'),
+        .call(apply_diff, 'camera/tools/chromatix/imx576_e24qs_chromatix-slowmotion.diff')
+        .call(apply_diff, 'camera/tools/chromatix/imx576_e24qs_chromatix-res1-3a.diff'),
     # The front imx576 has no res 5 entry and no slow-motion 3A. Its sensor
     # module adds front dimension flags to every session's special mode mask,
     # so add a res 5 entry with them, using the main camera's slow-motion 3A.
     'vendor/etc/camera/imx576_d24qs_chromatix.xml': blob_fixup()
-        .call(apply_diff, 'camera/tools/chromatix/imx576_d24qs_chromatix-slowmotion.diff'),
+        .call(apply_diff, 'camera/tools/chromatix/imx576_d24qs_chromatix-slowmotion.diff')
+        .call(apply_diff, 'camera/tools/chromatix/imx576_d24qs_chromatix-res1-3a.diff'),
+    'vendor/lib/libchromatix_imx576_e24qs_60_preview_3a.so': blob_fixup()
+        .call(scale_exposure_table, 'libchromatix_imx576_e24qs_4k_preview_3a.so'),
+    'vendor/lib/libchromatix_imx576_e24qs_60_video_3a.so': blob_fixup()
+        .call(scale_exposure_table, 'libchromatix_imx576_e24qs_4k_video_3a.so'),
+    'vendor/lib/libchromatix_imx576_e24qs_uhd_video_3a.so': blob_fixup()
+        .call(scale_exposure_table, 'libchromatix_imx576_e24qs_zsl_video_3a.so'),
+    'vendor/lib/libchromatix_imx576_d24qs_60_preview_3a.so': blob_fixup()
+        .call(scale_exposure_table, 'libchromatix_imx576_d24qs_zsl_preview_3a.so'),
+    'vendor/lib/libchromatix_imx576_d24qs_60_video_3a.so': blob_fixup()
+        .call(scale_exposure_table, 'libchromatix_imx576_d24qs_default_video_3a.so'),
     # The depth sensor (s5k5e9yx) is mounted like the other rear modules, but is
     # configured with MountAngle 270 (Samsung only uses it for depth data).
     # Exposed as camera 4 it renders upside down.
