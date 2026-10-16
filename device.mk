@@ -533,6 +533,11 @@ PRODUCT_PACKAGES += \
     libmmjpeg_interface \
     libqomx_core
 
+# Camera extensions (bokeh, rendered by the camera HAL)
+PRODUCT_PACKAGES += \
+    androidx.camera.extensions.impl.a9y18qlte \
+    camera_extensions_a9y18qlte.xml
+
 # Flashlight brightness
 PRODUCT_PACKAGES += \
     FlashControl
