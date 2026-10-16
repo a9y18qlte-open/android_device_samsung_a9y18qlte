@@ -11,6 +11,8 @@
 
 #include <hardware/fingerprint.h>
 
+#include <atomic>
+
 #include "LegacyHAL.h"
 #include "LockoutTracker.h"
 
@@ -82,6 +84,7 @@ private:
     Error VendorErrorFilter(int32_t error, int32_t* vendorCode);
     AcquiredInfo VendorAcquiredFilter(int32_t info, int32_t* vendorCode);
     bool checkSensorLockout();
+    void stopDetection();
     void clearLockout(bool clearAttemptCounter);
     void startLockoutTimer(int64_t timeout);
     void lockoutTimerExpired();
@@ -89,6 +92,13 @@ private:
     // lockout timer
     bool mIsLockoutTimerStarted = false;
     bool mIsLockoutTimerAborted = false;
+
+    // detectInteraction() runs an authentication in the vendor library,
+    // whose result is reported as an interaction instead.
+    std::atomic<bool> mDetecting = false;
+    // The cancel that stops such an authentication: its CANCELED error is
+    // not reported.
+    std::atomic<bool> mIgnoreCancel = false;
 
     // The user ID for which this session was created.
     int32_t mUserId;

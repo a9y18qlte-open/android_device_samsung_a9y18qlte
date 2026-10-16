@@ -69,6 +69,7 @@ ndk::ScopedAStatus Session::enroll(const HardwareAuthToken& hat,
                                    std::shared_ptr<ICancellationSignal>* out) {
     LOG(INFO) << "enroll";
 
+    mDetecting = false;
     if (FingerprintHalProperties::force_calibrate().value_or(false)) {
         mCaptureReady = false;
         mHal.request(SEM_REQUEST_FORCE_CBGE, 1);
@@ -97,6 +98,7 @@ ndk::ScopedAStatus Session::authenticate(int64_t operationId,
                                          std::shared_ptr<ICancellationSignal>* out) {
     LOG(INFO) << "authenticate";
 
+    mDetecting = false;
     int32_t error = mHal.ss_fingerprint_authenticate(operationId, mUserId);
     if (error) {
         LOG(ERROR) << "ss_fingerprint_authenticate failed: " << error;
@@ -110,8 +112,16 @@ ndk::ScopedAStatus Session::authenticate(int64_t operationId,
 ndk::ScopedAStatus Session::detectInteraction(std::shared_ptr<ICancellationSignal>* out) {
     LOG(INFO) << "detectInteraction";
 
-    LOG(DEBUG) << "Detect interaction is not supported";
-    mCb->onError(Error::UNABLE_TO_PROCESS, 0 /* vendorCode */);
+    // The vendor library has no detect-only mode: authenticate, and report
+    // the result, match or not, as an interaction (see notify()). This is
+    // how the framework detects a finger on HIDL HALs.
+    mDetecting = true;
+    int32_t error = mHal.ss_fingerprint_authenticate(0 /* operationId */, mUserId);
+    if (error) {
+        LOG(ERROR) << "ss_fingerprint_authenticate failed: " << error;
+        mDetecting = false;
+        mCb->onError(Error::UNABLE_TO_PROCESS, error);
+    }
 
     *out = SharedRefBase::make<CancellationSignal>(this);
     return ndk::ScopedAStatus::ok();
@@ -263,6 +273,7 @@ ndk::ScopedAStatus Session::setIgnoreDisplayTouches(bool /*shouldIgnore*/) {
 }
 
 ndk::ScopedAStatus Session::cancel() {
+    mDetecting = false;
     int32_t ret = mHal.ss_fingerprint_cancel();
 
     if (ret == 0) {
@@ -361,6 +372,19 @@ bool Session::checkSensorLockout() {
     return false;
 }
 
+void Session::stopDetection() {
+    // The detection ended with the interaction, but the vendor library
+    // keeps authenticating. Cancel it from another thread than the one
+    // notify() runs on, and drop the CANCELED error it may report.
+    mIgnoreCancel = true;
+    std::shared_ptr<Session> self = ref<Session>();
+    std::thread([self]() {
+        self->mHal.ss_fingerprint_cancel();
+        std::this_thread::sleep_for(500ms);
+        self->mIgnoreCancel = false;
+    }).detach();
+}
+
 void Session::clearLockout(bool clearAttemptCounter) {
     mLockoutTracker.reset(clearAttemptCounter);
     mCb->onLockoutCleared();
@@ -389,12 +413,19 @@ void Session::lockoutTimerExpired() {
 void Session::notify(const fingerprint_msg_t* msg) {
     switch (msg->type) {
         case FINGERPRINT_ERROR: {
+            if (mIgnoreCancel && msg->data.error == FINGERPRINT_ERROR_CANCELED) {
+                mIgnoreCancel = false;
+                break;
+            }
+            mDetecting = false;
             int32_t vendorCode = 0;
             Error result = VendorErrorFilter(msg->data.error, &vendorCode);
             LOG(DEBUG) << "onError(" << static_cast<int>(result) << ")";
             mCb->onError(result, vendorCode);
         } break;
         case FINGERPRINT_ACQUIRED: {
+            // A detection only reports the interaction.
+            if (mDetecting) break;
             int32_t vendorCode = 0;
             AcquiredInfo result =
                 VendorAcquiredFilter(msg->data.acquired.acquired_info, &vendorCode);
@@ -427,7 +458,13 @@ void Session::notify(const fingerprint_msg_t* msg) {
         case FINGERPRINT_AUTHENTICATED: {
             LOG(DEBUG) << "onAuthenticated(fid=" << msg->data.authenticated.finger.fid
                        << ", gid=" << msg->data.authenticated.finger.gid << ")";
-            if (msg->data.authenticated.finger.fid != 0) {
+            if (mDetecting.exchange(false)) {
+                // Only report that a finger is on the sensor: no auth token
+                // for a match, and no failed attempt for a mismatch.
+                LOG(DEBUG) << "onInteractionDetected()";
+                mCb->onInteractionDetected();
+                stopDetection();
+            } else if (msg->data.authenticated.finger.fid != 0) {
                 const hw_auth_token_t hat = msg->data.authenticated.hat;
                 HardwareAuthToken authToken;
                 translate(hat, authToken);
