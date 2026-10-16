@@ -40,6 +40,7 @@
 // Camera dependencies
 #include "hardware/camera3.h"
 #include "QCamera3Channel.h"
+#include "QCamera3Bokeh.h"
 #include "QCamera3CropRegionMapper.h"
 #include "QCamera3HALHeader.h"
 #include "QCamera3Mem.h"
@@ -388,6 +389,11 @@ public:
     bool isHALZSLEnabled() {return mHALZSL;}
     bool isQuadraSizedDimension(cam_dimension_t &dim);
     QCamera3PicChannel* getPicChannel() {return mPictureChannel;};
+    // SEC: dual camera bokeh; valid while processCaptureRequest runs
+    bool isBokehRequest() {return mBokehRequest;}
+    QCamera3Bokeh *getBokeh() {return mBokeh;}
+    // focus point for bokeh, normalized to the active array; false if none
+    bool getBokehFocus(float &x, float &y);
     cam_dimension_t getMaxRawSize(uint32_t camera_id);
     int32_t updateFrameMetaWithParams(metadata_buffer_t *frameMeta);
 private:
@@ -500,7 +506,9 @@ private:
 
     bool isOnEncoder(const cam_dimension_t max_viewfinder_size,
             uint32_t width, uint32_t height);
-    camera_metadata_t* restoreHdrScene(uint8_t sceneMode, const camera_metadata_t *result);
+    camera_metadata_t* restoreHdrScene(uint8_t sceneMode, uint8_t controlMode,
+            uint8_t extSceneMode, const camera_metadata_t *result);
+    void updateBokeh(const camera3_capture_request_t *request);
     void hdrPlusPerfLock(mm_camera_super_buf_t *metadata_buf);
 
     static bool supportBurstCapture(uint32_t cameraId);
@@ -651,6 +659,8 @@ private:
         mm_camera_super_buf_t*aux_meta;
         bool enableZSL;
         uint8_t fwkFlashMode;
+        uint8_t fwkControlMode;
+        uint8_t fwkExtSceneMode;
     } PendingRequestInfo;
     typedef struct {
         uint32_t frame_number;
@@ -837,6 +847,17 @@ private:
 
     uint8_t mCurrentSceneMode;
     bool m_bOfflineIsp;
+
+    // SEC: dual camera bokeh (ANDROID_CONTROL_EXTENDED_SCENE_MODE)
+    bool mBokehSupported;
+    QCamera3Bokeh *mBokeh;
+    uint8_t mFwkControlMode;
+    uint8_t mFwkExtSceneMode;
+    bool mBokehRequest;
+    uint32_t mNonBokehRequests;
+    float mBokehAfX, mBokehAfY;        // AF region centre, < 0 if none
+    float mBokehFaceX, mBokehFaceY;    // largest reported face centre
+    nsecs_t mBokehFaceTime;
 
     //for multiframe process capture
     bool mbIsMultiFrameCapture;
