@@ -134,7 +134,7 @@ ndk::ScopedAStatus Fingerprint::getSensorProps(std::vector<SensorProps>* out) {
              mSensorType,
              {sensorLocation},
              mSupportsGestures,
-             false,
+             true /* supportsDetectInteraction */,
              false,
              false,
              std::nullopt}};

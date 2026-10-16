@@ -540,7 +540,8 @@ PRODUCT_PACKAGES += \
 # Fingerprint
 # AIDL HAL around Samsung's libbauthserver, the library the stock
 # fingerprint.default module wraps. A copy of hardware/samsung's in
-# fingerprint/.
+# fingerprint/, which also detects a finger while unlocking with it is
+# not allowed, so a touch after boot brings up the PIN screen.
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint-service.samsung-a9y18qlte
 
