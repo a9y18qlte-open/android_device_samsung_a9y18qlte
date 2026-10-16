@@ -95,6 +95,13 @@ namespace qcamera {
 #define PREVIEW_FPS_FOR_HFR    (30)
 #define DEFAULT_VIDEO_FPS      (30.0)
 #define TEMPLATE_MAX_PREVIEW_FPS (30.0)
+/* SEC: the IMX576 16:9 binned mode (res 1, 2832x1592) runs at up to 60 fps
+ * with the device tree's sensor library patch; it covers sizes up to 1440p
+ * (2560x1440 at 60 fps is 864000 macroblocks/s, within the encoder's 972000) */
+#define REGULAR_60FPS_MAX_WIDTH  (2560)
+#define REGULAR_60FPS_MAX_HEIGHT (1440)
+/* extra preview/video buffers and requests in flight for 60 fps sessions */
+#define REGULAR_60FPS_EXTRA_BUFFERS (4)
 #define MAX_HFR_BATCH_SIZE     (8)
 #define REGIONS_TUPLE_COUNT    5
 #define HDR_PLUS_PERF_TIME_OUT  (7000) // milliseconds
@@ -3272,6 +3279,9 @@ int QCamera3HardwareInterface::configureStreamsPerfLocked(
                         if (streamList->operation_mode ==
                                 CAMERA3_STREAM_CONFIGURATION_CONSTRAINED_HIGH_SPEED_MODE) {
                             bufferCount += MAX_INFLIGHT_HFR_REQUESTS / 4;
+                        } else if (getRegularMaxFps(mCameraId) >= 60) {
+                            /* SEC: room for the deeper 60 fps pipeline */
+                            bufferCount += REGULAR_60FPS_EXTRA_BUFFERS;
                         }
                         if (mStreamConfigInfo[index].type[stream_index] ==
                                 CAM_STREAM_TYPE_VIDEO) {
@@ -7376,6 +7386,13 @@ int QCamera3HardwareInterface::processCaptureRequest(
                         (int32_t) l_meta.find(ANDROID_CONTROL_AE_TARGET_FPS_RANGE).data.i32[1];
                     if (max_fps == 60) {
                         mMinInFlightRequests = MIN_INFLIGHT_60FPS_REQUESTS;
+                        /* SEC: the 60 fps pipeline needs more requests (and the
+                         * extra stream buffers from configureStreams) in flight,
+                         * else sensor frames find no buffer and are dropped */
+                        if (!mBatchSize && getRegularMaxFps(mCameraId) >= 60) {
+                            mMaxInFlightRequests = MAX_INFLIGHT_REQUESTS +
+                                    REGULAR_60FPS_EXTRA_BUFFERS;
+                        }
                     }
                     /* For HFR, more buffers are dequeued upfront to improve the performance */
                     if (mBatchSize) {
@@ -11931,9 +11948,11 @@ int QCamera3HardwareInterface::initCapabilities(uint32_t cameraId)
         }
 
         /* SEC: the backend lists no 3840x2160 size, but has UHD video tuning
-         * (scaled from the binned mode, like stock). Add it to back cameras
-         * that are large enough. */
-        if (!hasUhd && cnt > 0 && cap->position == CAM_POSITION_BACK &&
+         * (scaled from the binned mode, like stock). Add it to the main and
+         * front cameras when they are large enough; the front IMX576 has no
+         * UHD tuning of its own and records 4K with its regular video tuning. */
+        if (!hasUhd && cnt > 0 && (cap->position == CAM_POSITION_BACK ||
+                cap->position == CAM_POSITION_FRONT) &&
                 cap->picture_sizes_tbl[0].width >= 3840 &&
                 cap->picture_sizes_tbl[0].height >= 2160) {
             addPictureSize(3840, 2160);
@@ -12176,6 +12195,31 @@ void QCamera3HardwareInterface::addStreamConfig(Vector<int32_t> &available_strea
     available_stream_configs.add(dim.width);
     available_stream_configs.add(dim.height);
     available_stream_configs.add(config_type);
+}
+
+/*===========================================================================
+ * FUNCTION   : getRegularMaxFps
+ *
+ * DESCRIPTION: SEC: highest frame rate of regular (not high speed) sessions.
+ *              The two IMX576 cameras (main and front) get a 60 fps binned
+ *              16:9 mode from the device tree's sensor library patch; the
+ *              others run at up to 30 fps.
+ *              persist.vendor.camera.regular_60fps=0 turns 60 fps off.
+ *
+ * PARAMETERS :
+ *   @cameraId  : camera Id
+ *
+ * RETURN     : 60 or 30
+ *==========================================================================*/
+int32_t QCamera3HardwareInterface::getRegularMaxFps(uint32_t cameraId)
+{
+    char prop[PROPERTY_VALUE_MAX];
+    property_get("persist.vendor.camera.regular_60fps", prop, "1");
+    if (atoi(prop) && (gCamCapability[cameraId]->position == CAM_POSITION_BACK ||
+            gCamCapability[cameraId]->position == CAM_POSITION_FRONT)) {
+        return 60;
+    }
+    return (int32_t)TEMPLATE_MAX_PREVIEW_FPS;
 }
 
 /*===========================================================================
@@ -12442,12 +12486,18 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     makeFPSTable(gCamCapability[cameraId]->fps_ranges_tbl,
             count, MAX_SIZES_CNT, available_fps_ranges);
     /* SEC: the backend also lists the high frame rate modes (60 to 240 fps),
-     * but regular sessions run at up to 30 fps; apps asking for more in a
-     * regular session silently get 30. High frame rates are advertised
-     * through the constrained high speed configurations instead. */
+     * but regular sessions run at up to 30 fps (60 on the main camera); apps
+     * asking for more in a regular session silently get less. Higher frame
+     * rates are advertised through the constrained high speed configurations
+     * instead. */
+    const int32_t regularMaxFps = getRegularMaxFps(cameraId);
     size_t fps_cnt = 0;
     for (size_t i = 0; i < count; i++) {
-        if (available_fps_ranges[2 * i + 1] <= TEMPLATE_MAX_PREVIEW_FPS) {
+        /* above 30 fps the sensor switches to the 16:9 mode, which crops 4:3
+         * previews: offer only fixed ranges there, which apps pick for video */
+        if (available_fps_ranges[2 * i + 1] <= TEMPLATE_MAX_PREVIEW_FPS ||
+                (available_fps_ranges[2 * i + 1] <= regularMaxFps &&
+                 available_fps_ranges[2 * i] == available_fps_ranges[2 * i + 1])) {
             available_fps_ranges[2 * fps_cnt] = available_fps_ranges[2 * i];
             available_fps_ranges[2 * fps_cnt + 1] = available_fps_ranges[2 * i + 1];
             fps_cnt++;
@@ -12645,9 +12695,14 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
                 available_min_durations.add(gCamCapability[cameraId]->picture_sizes_tbl[i].width);
                 available_min_durations.add(gCamCapability[cameraId]->picture_sizes_tbl[i].height);
                 /* SEC: the backend reports the high frame rate mode durations
-                 * (down to 1/240 s), but regular sessions run at up to 30 fps */
+                 * (down to 1/240 s), but regular sessions run at up to 30 fps,
+                 * or 60 fps up to 1080p on the main camera */
+                const cam_dimension_t &dim = gCamCapability[cameraId]->picture_sizes_tbl[i];
+                int32_t sizeMaxFps = (dim.width <= REGULAR_60FPS_MAX_WIDTH &&
+                        dim.height <= REGULAR_60FPS_MAX_HEIGHT) ?
+                        regularMaxFps : (int32_t)TEMPLATE_MAX_PREVIEW_FPS;
                 available_min_durations.add(MAX(gCamCapability[cameraId]->picture_min_duration[i],
-                        (int64_t)(NSEC_PER_SEC / TEMPLATE_MAX_PREVIEW_FPS)));
+                        (int64_t)(NSEC_PER_SEC / sizeMaxFps)));
             }
             break;
         }
