@@ -512,6 +512,7 @@ private:
     void hdrPlusPerfLock(mm_camera_super_buf_t *metadata_buf);
 
     static bool supportBurstCapture(uint32_t cameraId);
+    static int32_t getRegularMaxFps(uint32_t cameraId);
     int32_t setBundleInfo();
     int32_t setAuxBundleInfo();
     int32_t setInstantAEC(const CameraMetadata &meta);
