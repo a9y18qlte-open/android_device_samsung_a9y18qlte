@@ -137,6 +137,29 @@ def apply_diff(
     )
 
 
+# 60 fps: make the binned 16:9 mode (res 1, 2832x1592) of the main and
+# front IMX576 a 60 fps mode with the clocking of the high speed modes:
+# VT clock divider 0x0303 4 -> 2, line length 6320 -> 4400, frame length
+# 2177 -> 3128, 0x3f80/1 as res 5/6; mode table entry: line/frame length,
+# op pixel clock 480 -> 540 MHz (one VFE; more splits the sensor over both
+# and per-request preview outputs fail), max fps 30 -> 60.
+IMX576_60FPS_PATCHES = [
+    (0x600ac, '42031800', 0x600ae, '1100'),
+    (0x600b4, '4303b000', 0x600b6, '3000'),
+    (0x600bc, '40030800', 0x600be, '0c00'),
+    (0x600c4, '41038100', 0x600c6, '3800'),
+    (0x601c4, '03030400', 0x601c6, '0200'),
+    (0x6022c, '803f0200', 0x6022e, '0300'),
+    (0x60234, '813f3000', 0x60236, 'e800'),
+    (0xac488, '100b3806b01881080000000000389c1c'
+              '02000100000000000000000000001e40'
+              '0000000000003e40',
+     0xac488, '100b38063011380c0000000000bf2f20'
+              '02000100000000000000000000001e40'
+              '0000000000004e40'),
+]  # fmt: skip
+
+
 blob_fixups: blob_fixups_user_type = {
     # libhidltransport and libhwbinder were merged into libhidlbase in
     # Android 10; their stubs are not available to the product partition.
@@ -264,6 +287,11 @@ blob_fixups: blob_fixups_user_type = {
     # Add a default res 5 entry using the slow-motion 3A.
     'vendor/etc/camera/imx576_e24qs_chromatix.xml': blob_fixup()
         .call(apply_diff, 'camera/tools/chromatix/imx576_e24qs_chromatix-slowmotion.diff'),
+    # The front imx576 has no res 5 entry and no slow-motion 3A. Its sensor
+    # module adds front dimension flags to every session's special mode mask,
+    # so add a res 5 entry with them, using the main camera's slow-motion 3A.
+    'vendor/etc/camera/imx576_d24qs_chromatix.xml': blob_fixup()
+        .call(apply_diff, 'camera/tools/chromatix/imx576_d24qs_chromatix-slowmotion.diff'),
     # The depth sensor (s5k5e9yx) is mounted like the other rear modules, but is
     # configured with MountAngle 270 (Samsung only uses it for depth data).
     # Exposed as camera 4 it renders upside down.
@@ -285,30 +313,33 @@ blob_fixups: blob_fixups_user_type = {
                       '000000000100000000000000000000000000000000000000',
              0x28820, '01000000'),
         ]),
-    # 60 fps: make the binned 16:9 mode (res 1, 2832x1592) of the main and
-    # front IMX576 a 60 fps mode with the clocking of the high speed modes:
-    # VT clock divider 0x0303 4 -> 2, line length 6320 -> 4400, frame length
-    # 2177 -> 3128, 0x3f80/1 as res 5/6; mode table entry: line/frame length,
-    # op pixel clock 480 -> 540 MHz (one VFE; more splits the sensor over both
-    # and per-request preview outputs fail), max fps 30 -> 60.
-    (
-        'vendor/lib/libmmcamera_imx576.so',
-        'vendor/lib/libmmcamera_imx576_front.so',
-    ): blob_fixup()
-        .call(patch_bytes, [
-            (0x600ac, '42031800', 0x600ae, '1100'),
-            (0x600b4, '4303b000', 0x600b6, '3000'),
-            (0x600bc, '40030800', 0x600be, '0c00'),
-            (0x600c4, '41038100', 0x600c6, '3800'),
-            (0x601c4, '03030400', 0x601c6, '0200'),
-            (0x6022c, '803f0200', 0x6022e, '0300'),
-            (0x60234, '813f3000', 0x60236, 'e800'),
-            (0xac488, '100b3806b01881080000000000389c1c'
-                      '02000100000000000000000000001e40'
-                      '0000000000003e40',
-             0xac488, '100b38063011380c0000000000bf2f20'
-                      '02000100000000000000000000001e40'
-                      '0000000000004e40'),
+    'vendor/lib/libmmcamera_imx576.so': blob_fixup()
+        .call(patch_bytes, IMX576_60FPS_PATCHES),
+    # Front high speed modes as on the main camera:
+    # - res 5 (720p240) runs at lower VT/op PLL multipliers (0x143/0x13c)
+    #   and frame length 1107, about 221.5 fps; the HAL times a batch's
+    #   frames at 240, so the video stuttered. Use the main camera's
+    #   0x15d/0x157 and 1104.
+    # - res 6 is 1280x720 at 120 fps, a crop of the binned area the main
+    #   camera's 1920x1080 res 6 reads. Take its crop (0x0408-0x040f),
+    #   output size (0x034c-0x034f) and table entry size: 1080p120.
+    'vendor/lib/libmmcamera_imx576_front.so': blob_fixup()
+        .call(patch_bytes, IMX576_60FPS_PATCHES + [
+            (0x77804, '41035300', 0x77806, '5000'),
+            (0x7791c, '07034300', 0x7791e, '5d00'),
+            (0x7793c, '0f033c00', 0x7793e, '5700'),
+            (0x7d66c, '08040300', 0x7d66e, '0100'),
+            (0x7d674, '09042000', 0x7d676, 'e000'),
+            (0x7d684, '0b04be00', 0x7d686, '0a00'),
+            (0x7d68c, '0c040500', 0x7d68e, '0700'),
+            (0x7d694, '0d040000', 0x7d696, '8000'),
+            (0x7d69c, '0e040200', 0x7d69e, '0400'),
+            (0x7d6a4, '0f04d000', 0x7d6a6, '3800'),
+            (0x7d6ac, '4c030500', 0x7d6ae, '0700'),
+            (0x7d6b4, '4d030000', 0x7d6b6, '8000'),
+            (0x7d6bc, '4e030200', 0x7d6be, '0400'),
+            (0x7d6c4, '4f03d000', 0x7d6c6, '3800'),
+            (0xac668, '0005d002', 0xac668, '80073804'),
         ]),
 }  # fmt: skip
 
