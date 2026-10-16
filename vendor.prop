@@ -90,6 +90,8 @@ ro.hardware.keystore=mdfpp
 
 # Camera
 vendor.camera.aux.packageexcludelist=com.adobe.scan.android,com.tencent.mm,org.telegram.messenger,us.zoom.videomeetings
+# Camera2 extensions (bokeh) from the vendor extensions library
+ro.camerax.extensions.enabled=true
 
 # RIL: libsec-ril behind ril/secril-shim
 vendor.sec.rild.libpath=/vendor/lib64/libsec-ril-shim.so
