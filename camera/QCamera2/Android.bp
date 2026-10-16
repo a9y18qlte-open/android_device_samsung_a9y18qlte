@@ -108,6 +108,7 @@ cc_library_shared {
         "util/QCameraPerfTranslator.cpp",
         "QCamera2Hal.cpp",
         "QCamera2Factory.cpp",
+        "HAL3/QCamera3Bokeh.cpp",
         "HAL3/QCamera3HWI.cpp",
         "HAL3/QCamera3Mem.cpp",
         "HAL3/QCamera3Stream.cpp",

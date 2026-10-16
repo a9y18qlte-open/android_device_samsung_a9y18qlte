@@ -95,6 +95,13 @@ namespace qcamera {
 #define PREVIEW_FPS_FOR_HFR    (30)
 #define DEFAULT_VIDEO_FPS      (30.0)
 #define TEMPLATE_MAX_PREVIEW_FPS (30.0)
+/* SEC: the IMX576 16:9 binned mode (res 1, 2832x1592) runs at up to 60 fps
+ * with the device tree's sensor library patch; it covers sizes up to 1440p
+ * (2560x1440 at 60 fps is 864000 macroblocks/s, within the encoder's 972000) */
+#define REGULAR_60FPS_MAX_WIDTH  (2560)
+#define REGULAR_60FPS_MAX_HEIGHT (1440)
+/* extra preview/video buffers and requests in flight for 60 fps sessions */
+#define REGULAR_60FPS_EXTRA_BUFFERS (4)
 #define MAX_HFR_BATCH_SIZE     (8)
 #define REGIONS_TUPLE_COUNT    5
 #define HDR_PLUS_PERF_TIME_OUT  (7000) // milliseconds
@@ -615,6 +622,15 @@ QCamera3HardwareInterface::QCamera3HardwareInterface(uint32_t cameraId,
     m_bQuadraCfaRequest = false;
     m_bPreSnapQuadraCfaRequest = false;
     m_bQuadraSizeConfigured = false;
+    mBokehSupported = QCamera3Bokeh::isSupported(cameraId);
+    mBokeh = NULL;
+    mFwkControlMode = ANDROID_CONTROL_MODE_AUTO;
+    mFwkExtSceneMode = ANDROID_CONTROL_EXTENDED_SCENE_MODE_DISABLED;
+    mBokehRequest = false;
+    mNonBokehRequests = 0;
+    mBokehAfX = mBokehAfY = -1.0f;
+    mBokehFaceX = mBokehFaceY = -1.0f;
+    mBokehFaceTime = 0;
     memset(&mStreamList, 0, sizeof(stream_configuration_t));
     m_bLPMEnabled = false;
     mbIsSWMFNRCapture = false;
@@ -1220,6 +1236,11 @@ int QCamera3HardwareInterface::closeCamera()
 #endif
     LOGI("[KPI Perf]: E PROFILE_CLOSE_CAMERA camera id %d",
              mCameraId);
+
+    if (mBokeh != NULL) {
+        delete mBokeh;
+        mBokeh = NULL;
+    }
 
     // unmap memory for related cam sync buffer
     mCameraHandle->ops->unmap_buf(mCameraHandle->camera_handle,
@@ -2026,10 +2047,41 @@ int QCamera3HardwareInterface::configureStreams(
     ATRACE_CAMSCOPE_CALL(CAMSCOPE_HAL3_CFG_STRMS);
     int rc = 0;
 
+    /* SEC: the depth camera holds ISP resources the new configuration may need */
+    if (mBokeh != NULL) {
+        mBokeh->stop();
+    }
+
     // Acquire perfLock before configure streams
     mPerfLockMgr.acquirePerfLock(PERF_LOCK_START_PREVIEW);
     rc = configureStreamsPerfLocked(streamList);
     mPerfLockMgr.releasePerfLock(PERF_LOCK_START_PREVIEW);
+
+    /* SEC: a new session starts without bokeh unless its session parameters
+     * ask for it; requests start the depth camera on demand otherwise. */
+    if (mBokehSupported && rc == NO_ERROR) {
+        uint8_t extMode = ANDROID_CONTROL_EXTENDED_SCENE_MODE_DISABLED;
+        if (streamList->session_parameters != NULL) {
+            camera_metadata_ro_entry_t e;
+            if (find_camera_metadata_ro_entry(streamList->session_parameters,
+                    ANDROID_CONTROL_EXTENDED_SCENE_MODE, &e) == 0 && e.count > 0) {
+                extMode = e.data.u8[0];
+            }
+        }
+        mFwkControlMode = ANDROID_CONTROL_MODE_AUTO;
+        mFwkExtSceneMode = extMode;
+        mNonBokehRequests = 0;
+        if (extMode == ANDROID_CONTROL_EXTENDED_SCENE_MODE_DISABLED) {
+            if (mBokeh != NULL) {
+                mBokeh->stop();
+            }
+        } else {
+            if (mBokeh == NULL) {
+                mBokeh = new QCamera3Bokeh(mCameraId, mCallbacks);
+            }
+            mBokeh->start();
+        }
+    }
 
     return rc;
 }
@@ -3227,6 +3279,9 @@ int QCamera3HardwareInterface::configureStreamsPerfLocked(
                         if (streamList->operation_mode ==
                                 CAMERA3_STREAM_CONFIGURATION_CONSTRAINED_HIGH_SPEED_MODE) {
                             bufferCount += MAX_INFLIGHT_HFR_REQUESTS / 4;
+                        } else if (getRegularMaxFps(mCameraId) >= 60) {
+                            /* SEC: room for the deeper 60 fps pipeline */
+                            bufferCount += REGULAR_60FPS_EXTRA_BUFFERS;
                         }
                         if (mStreamConfigInfo[index].type[stream_index] ==
                                 CAM_STREAM_TYPE_VIDEO) {
@@ -5141,7 +5196,8 @@ void QCamera3HardwareInterface::handleMetadataWithLock(
                         i->timestamp, i->request_id, i->jpegMetadata, i->pipeline_depth,
                         i->capture_intent, internalPproc, i->fwkCacMode,
                         firstMetadataInBatch, i->enableZSL, i->fwkFlashMode);
-                result.result = restoreHdrScene(i->scene_mode, result.result);
+                result.result = restoreHdrScene(i->scene_mode, i->fwkControlMode,
+                        i->fwkExtSceneMode, result.result);
             }
 
             if (i->blob_request) {
@@ -5306,7 +5362,8 @@ cached_metadata:
  *
  *==========================================================================*/
 camera_metadata_t* QCamera3HardwareInterface::restoreHdrScene(
-        uint8_t sceneMode, const camera_metadata_t *result)
+        uint8_t sceneMode, uint8_t controlMode, uint8_t extSceneMode,
+        const camera_metadata_t *result)
 {
     CameraMetadata resultWrapper;
 
@@ -5318,7 +5375,102 @@ camera_metadata_t* QCamera3HardwareInterface::restoreHdrScene(
         resultWrapper.update(ANDROID_CONTROL_SCENE_MODE, &sceneMode, 1);
     }
 
+    /* SEC: the backend runs extended scene modes as AUTO */
+    if (mBokehSupported) {
+        if (controlMode == ANDROID_CONTROL_MODE_USE_EXTENDED_SCENE_MODE) {
+            resultWrapper.update(ANDROID_CONTROL_MODE, &controlMode, 1);
+        }
+        resultWrapper.update(ANDROID_CONTROL_EXTENDED_SCENE_MODE, &extSceneMode, 1);
+    }
+
     return resultWrapper.release();
+}
+
+/*===========================================================================
+ * FUNCTION   : updateBokeh
+ *
+ * DESCRIPTION: SEC: track the framework control/extended scene mode of a
+ *              request and run the depth camera while bokeh is in use
+ *
+ * PARAMETERS : @request: capture request
+ *
+ *==========================================================================*/
+void QCamera3HardwareInterface::updateBokeh(const camera3_capture_request_t *request)
+{
+    mBokehRequest = false;
+    if (!mBokehSupported) {
+        return;
+    }
+    if (request->settings != NULL) {
+        camera_metadata_ro_entry_t e;
+        if (find_camera_metadata_ro_entry(request->settings, ANDROID_CONTROL_MODE, &e) == 0 &&
+                e.count > 0) {
+            mFwkControlMode = e.data.u8[0];
+        }
+        if (find_camera_metadata_ro_entry(request->settings,
+                ANDROID_CONTROL_EXTENDED_SCENE_MODE, &e) == 0 && e.count > 0) {
+            mFwkExtSceneMode = e.data.u8[0];
+        }
+        /* a tapped AF region is the bokeh focus; the default full-array region
+         * (or weight 0) means none */
+        if (find_camera_metadata_ro_entry(request->settings, ANDROID_CONTROL_AF_REGIONS,
+                &e) == 0) {
+            const cam_rect_t &aa = gCamCapability[mCameraId]->active_array_size;
+            mBokehAfX = mBokehAfY = -1.0f;
+            for (size_t i = 0; i + 5 <= e.count && aa.width > 0 && aa.height > 0; i += 5) {
+                int32_t x0 = e.data.i32[i], y0 = e.data.i32[i + 1];
+                int32_t x1 = e.data.i32[i + 2], y1 = e.data.i32[i + 3];
+                int32_t weight = e.data.i32[i + 4];
+                if (weight <= 0 || x1 <= x0 || y1 <= y0 ||
+                        (int64_t)(x1 - x0) * (y1 - y0) * 10 >=
+                        (int64_t)aa.width * aa.height * 9) {
+                    continue;
+                }
+                mBokehAfX = ((x0 + x1) / 2.0f - aa.left) / aa.width;
+                mBokehAfY = ((y0 + y1) / 2.0f - aa.top) / aa.height;
+                break;
+            }
+        }
+    }
+    mBokehRequest = (mFwkControlMode == ANDROID_CONTROL_MODE_USE_EXTENDED_SCENE_MODE) &&
+            (mFwkExtSceneMode == ANDROID_CONTROL_EXTENDED_SCENE_MODE_BOKEH_STILL_CAPTURE ||
+             mFwkExtSceneMode == ANDROID_CONTROL_EXTENDED_SCENE_MODE_BOKEH_CONTINUOUS);
+    if (mBokehRequest) {
+        mNonBokehRequests = 0;
+        if (mBokeh == NULL) {
+            mBokeh = new QCamera3Bokeh(mCameraId, mCallbacks);
+        }
+        mBokeh->start();
+    } else if (mBokeh != NULL && ++mNonBokehRequests == 90) {
+        /* about 3 s without bokeh: stop the depth camera */
+        mBokeh->stop();
+    }
+}
+
+/*===========================================================================
+ * FUNCTION   : getBokehFocus
+ *
+ * DESCRIPTION: SEC: bokeh focus point: the tapped AF region, else the largest
+ *              face reported within the last second
+ *
+ * PARAMETERS : @x, @y: focus point normalized to the active array
+ *
+ * RETURN     : true if there is a focus point, false for the frame centre
+ *==========================================================================*/
+bool QCamera3HardwareInterface::getBokehFocus(float &x, float &y)
+{
+    if (mBokehAfX >= 0.0f && mBokehAfY >= 0.0f) {
+        x = mBokehAfX;
+        y = mBokehAfY;
+        return true;
+    }
+    if (mBokehFaceX >= 0.0f && mBokehFaceY >= 0.0f &&
+            systemTime() - mBokehFaceTime < s2ns(1)) {
+        x = mBokehFaceX;
+        y = mBokehFaceY;
+        return true;
+    }
+    return false;
 }
 
 /*===========================================================================
@@ -5644,12 +5796,22 @@ bool QCamera3HardwareInterface::IsQCFASelected(camera3_capture_request *request)
     property_get("persist.vendor.camera.qcfa.select", property,
             m_bInSensorQCFA ? "2" : "1");
     int selected = atoi(property);
+    /* SEC: bokeh stills use the binned mode, the depth engine is slow enough */
+    if (mBokehRequest) {
+        selected = 0;
+    }
+    bool remosaic = qcfaReq && (selected > 0);
     if (qcfaReq && selected == 2) {
         LOGI("remosaic needed from 3A: %d", m_bSecRemosaicNeed);
-        return m_bSecRemosaicNeed;
+        remosaic = m_bSecRemosaicNeed;
+    }
+    /* SEC: the full-size remosaic mode needs both VFEs; the backend crashes in
+     * isp_resource_allocate if the depth camera still holds one */
+    if (remosaic && mBokeh != NULL) {
+        mBokeh->stop();
     }
     //ret: fasle for upscaling. true for remosaic
-    return (qcfaReq && (selected > 0));
+    return remosaic;
 }
 
 bool QCamera3HardwareInterface::isMFCRaw(__unused camera3_capture_request *request)
@@ -6828,6 +6990,8 @@ int QCamera3HardwareInterface::processCaptureRequest(
 
     logical_setting = request->settings;
 
+    updateBokeh(request);
+
     meta = request->settings;
     if(!m_bRecoveryDone){
         //updating saved params.
@@ -7222,6 +7386,13 @@ int QCamera3HardwareInterface::processCaptureRequest(
                         (int32_t) l_meta.find(ANDROID_CONTROL_AE_TARGET_FPS_RANGE).data.i32[1];
                     if (max_fps == 60) {
                         mMinInFlightRequests = MIN_INFLIGHT_60FPS_REQUESTS;
+                        /* SEC: the 60 fps pipeline needs more requests (and the
+                         * extra stream buffers from configureStreams) in flight,
+                         * else sensor frames find no buffer and are dropped */
+                        if (!mBatchSize && getRegularMaxFps(mCameraId) >= 60) {
+                            mMaxInFlightRequests = MAX_INFLIGHT_REQUESTS +
+                                    REGULAR_60FPS_EXTRA_BUFFERS;
+                        }
                     }
                     /* For HFR, more buffers are dequeued upfront to improve the performance */
                     if (mBatchSize) {
@@ -8287,6 +8458,8 @@ no_error:
     pendingRequest.settings = saveRequestSettings(mCurJpegMeta, request);
     pendingRequest.shutter_notified = false;
     pendingRequest.scene_mode = mCurrentSceneMode;
+    pendingRequest.fwkControlMode = mFwkControlMode;
+    pendingRequest.fwkExtSceneMode = mFwkExtSceneMode;
     pendingRequest.requested_on_main = is_requested_on_main;
     pendingRequest.requested_on_aux = is_requested_on_aux;
     pendingRequest.requested_logical = is_logical_request;
@@ -9988,6 +10161,24 @@ QCamera3HardwareInterface::translateFromHalMetadata(
                                 faceRectangles[j + FACE_RIGHT], faceRectangles[j + FACE_BOTTOM]);
 
                         j+= 4;
+                    }
+                    /* SEC: remember the largest face as the bokeh focus */
+                    if (mBokehSupported && numFaces > 0) {
+                        const cam_rect_t &aa = gCamCapability[mCameraId]->active_array_size;
+                        int64_t bestArea = 0;
+                        for (size_t i = 0; i < numFaces && aa.width > 0 && aa.height > 0; i++) {
+                            const int32_t *r = faceRectangles + i * 4;
+                            int64_t area = (int64_t)(r[FACE_RIGHT] - r[FACE_LEFT]) *
+                                    (r[FACE_BOTTOM] - r[FACE_TOP]);
+                            if (area > bestArea) {
+                                bestArea = area;
+                                mBokehFaceX = ((r[FACE_LEFT] + r[FACE_RIGHT]) / 2.0f - aa.left) /
+                                        aa.width;
+                                mBokehFaceY = ((r[FACE_TOP] + r[FACE_BOTTOM]) / 2.0f - aa.top) /
+                                        aa.height;
+                                mBokehFaceTime = systemTime();
+                            }
+                        }
                     }
                     if (numFaces <= 0) {
                         memset(faceIds, 0, sizeof(int32_t) * MAX_ROI);
@@ -11757,12 +11948,33 @@ int QCamera3HardwareInterface::initCapabilities(uint32_t cameraId)
         }
 
         /* SEC: the backend lists no 3840x2160 size, but has UHD video tuning
-         * (scaled from the binned mode, like stock). Add it to back cameras
-         * that are large enough. */
-        if (!hasUhd && cnt > 0 && cap->position == CAM_POSITION_BACK &&
+         * (scaled from the binned mode, like stock). Add it to the main and
+         * front cameras when they are large enough; the front IMX576 has no
+         * UHD tuning of its own and records 4K with its regular video tuning. */
+        if (!hasUhd && cnt > 0 && (cap->position == CAM_POSITION_BACK ||
+                cap->position == CAM_POSITION_FRONT) &&
                 cap->picture_sizes_tbl[0].width >= 3840 &&
                 cap->picture_sizes_tbl[0].height >= 2160) {
             addPictureSize(3840, 2160);
+        }
+
+        /* SEC: the 60 fps mode (binned 16:9, 2832x1592) fits 4:3 and 1:1 crops
+         * of up to 2122x1592 and 1592x1592, but the backend's largest sizes
+         * below the 60 fps limit are 1632x1224 and 1224x1224. Add 1920x1440
+         * and 1440x1440 to the main and front cameras. */
+        if (getRegularMaxFps(cameraId) >= 60 && cnt > 0 &&
+                cap->picture_sizes_tbl[0].width >= 2832) {
+            const cam_dimension_t sizes60[] = {{1920, 1440}, {1440, 1440}};
+            for (const cam_dimension_t &s : sizes60) {
+                bool has = false;
+                for (size_t i = 0; i < MIN(cap->picture_sizes_tbl_cnt, MAX_SIZES_CNT); i++) {
+                    has |= cap->picture_sizes_tbl[i].width == s.width &&
+                            cap->picture_sizes_tbl[i].height == s.height;
+                }
+                if (!has) {
+                    addPictureSize(s.width, s.height);
+                }
+            }
         }
     }
 
@@ -12002,6 +12214,31 @@ void QCamera3HardwareInterface::addStreamConfig(Vector<int32_t> &available_strea
     available_stream_configs.add(dim.width);
     available_stream_configs.add(dim.height);
     available_stream_configs.add(config_type);
+}
+
+/*===========================================================================
+ * FUNCTION   : getRegularMaxFps
+ *
+ * DESCRIPTION: SEC: highest frame rate of regular (not high speed) sessions.
+ *              The two IMX576 cameras (main and front) get a 60 fps binned
+ *              16:9 mode from the device tree's sensor library patch; the
+ *              others run at up to 30 fps.
+ *              persist.vendor.camera.regular_60fps=0 turns 60 fps off.
+ *
+ * PARAMETERS :
+ *   @cameraId  : camera Id
+ *
+ * RETURN     : 60 or 30
+ *==========================================================================*/
+int32_t QCamera3HardwareInterface::getRegularMaxFps(uint32_t cameraId)
+{
+    char prop[PROPERTY_VALUE_MAX];
+    property_get("persist.vendor.camera.regular_60fps", prop, "1");
+    if (atoi(prop) && (gCamCapability[cameraId]->position == CAM_POSITION_BACK ||
+            gCamCapability[cameraId]->position == CAM_POSITION_FRONT)) {
+        return 60;
+    }
+    return (int32_t)TEMPLATE_MAX_PREVIEW_FPS;
 }
 
 /*===========================================================================
@@ -12268,12 +12505,18 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     makeFPSTable(gCamCapability[cameraId]->fps_ranges_tbl,
             count, MAX_SIZES_CNT, available_fps_ranges);
     /* SEC: the backend also lists the high frame rate modes (60 to 240 fps),
-     * but regular sessions run at up to 30 fps; apps asking for more in a
-     * regular session silently get 30. High frame rates are advertised
-     * through the constrained high speed configurations instead. */
+     * but regular sessions run at up to 30 fps (60 on the main camera); apps
+     * asking for more in a regular session silently get less. Higher frame
+     * rates are advertised through the constrained high speed configurations
+     * instead. */
+    const int32_t regularMaxFps = getRegularMaxFps(cameraId);
     size_t fps_cnt = 0;
     for (size_t i = 0; i < count; i++) {
-        if (available_fps_ranges[2 * i + 1] <= TEMPLATE_MAX_PREVIEW_FPS) {
+        /* above 30 fps the sensor switches to the 16:9 mode, which crops 4:3
+         * previews: offer only fixed ranges there, which apps pick for video */
+        if (available_fps_ranges[2 * i + 1] <= TEMPLATE_MAX_PREVIEW_FPS ||
+                (available_fps_ranges[2 * i + 1] <= regularMaxFps &&
+                 available_fps_ranges[2 * i] == available_fps_ranges[2 * i + 1])) {
             available_fps_ranges[2 * fps_cnt] = available_fps_ranges[2 * i];
             available_fps_ranges[2 * fps_cnt + 1] = available_fps_ranges[2 * i + 1];
             fps_cnt++;
@@ -12471,9 +12714,14 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
                 available_min_durations.add(gCamCapability[cameraId]->picture_sizes_tbl[i].width);
                 available_min_durations.add(gCamCapability[cameraId]->picture_sizes_tbl[i].height);
                 /* SEC: the backend reports the high frame rate mode durations
-                 * (down to 1/240 s), but regular sessions run at up to 30 fps */
+                 * (down to 1/240 s), but regular sessions run at up to 30 fps,
+                 * or 60 fps up to 1080p on the main camera */
+                const cam_dimension_t &dim = gCamCapability[cameraId]->picture_sizes_tbl[i];
+                int32_t sizeMaxFps = (dim.width <= REGULAR_60FPS_MAX_WIDTH &&
+                        dim.height <= REGULAR_60FPS_MAX_HEIGHT) ?
+                        regularMaxFps : (int32_t)TEMPLATE_MAX_PREVIEW_FPS;
                 available_min_durations.add(MAX(gCamCapability[cameraId]->picture_min_duration[i],
-                        (int64_t)(NSEC_PER_SEC / TEMPLATE_MAX_PREVIEW_FPS)));
+                        (int64_t)(NSEC_PER_SEC / sizeMaxFps)));
             }
             break;
         }
@@ -12616,12 +12864,38 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     staticInfo.update(ANDROID_CONTROL_SCENE_MODE_OVERRIDES,
             scene_mode_overrides, supported_scene_modes_cnt * 3);
 
+    /* SEC: dual camera bokeh (depth sensor + ArcSoft refocus) on the main camera */
+    const bool bokehSupported = QCamera3Bokeh::isSupported(cameraId);
     uint8_t available_control_modes[] = {ANDROID_CONTROL_MODE_OFF,
                                          ANDROID_CONTROL_MODE_AUTO,
-                                         ANDROID_CONTROL_MODE_USE_SCENE_MODE};
+                                         ANDROID_CONTROL_MODE_USE_SCENE_MODE,
+                                         ANDROID_CONTROL_MODE_USE_EXTENDED_SCENE_MODE};
     staticInfo.update(ANDROID_CONTROL_AVAILABLE_MODES,
             available_control_modes,
-            3);
+            bokehSupported ? 4 : 3);
+
+    if (bokehSupported) {
+        /* bokeh is applied to stills only; streams up to this size may run alongside */
+        int32_t bokehW = 0, bokehH = 0;
+        for (size_t i = 0; i < gCamCapability[cameraId]->picture_sizes_tbl_cnt &&
+                i < MAX_SIZES_CNT; i++) {
+            const cam_dimension_t &d = gCamCapability[cameraId]->picture_sizes_tbl[i];
+            if (d.width <= 1920 && d.height <= 1440 &&
+                    (int64_t)d.width * d.height > (int64_t)bokehW * bokehH) {
+                bokehW = d.width;
+                bokehH = d.height;
+            }
+        }
+        int32_t ext_scene_max_sizes[] = {
+            ANDROID_CONTROL_EXTENDED_SCENE_MODE_DISABLED, 0, 0,
+            ANDROID_CONTROL_EXTENDED_SCENE_MODE_BOKEH_STILL_CAPTURE, bokehW, bokehH};
+        staticInfo.update(ANDROID_CONTROL_AVAILABLE_EXTENDED_SCENE_MODE_MAX_SIZES,
+                ext_scene_max_sizes, sizeof(ext_scene_max_sizes) / sizeof(int32_t));
+        /* one range per mode except DISABLED; no zoom in bokeh */
+        float ext_scene_zoom_ranges[] = {1.0f, 1.0f};
+        staticInfo.update(ANDROID_CONTROL_AVAILABLE_EXTENDED_SCENE_MODE_ZOOM_RATIO_RANGES,
+                ext_scene_zoom_ranges, sizeof(ext_scene_zoom_ranges) / sizeof(float));
+    }
 
     uint8_t avail_antibanding_modes[CAM_ANTIBANDING_MODE_MAX];
     size = 0;
@@ -13000,6 +13274,9 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     if (gCamCapability[cameraId]->supported_focus_modes_cnt > 1) {
         available_request_keys.add(ANDROID_CONTROL_AF_REGIONS);
     }
+    if (bokehSupported) {
+        available_request_keys.add(ANDROID_CONTROL_EXTENDED_SCENE_MODE);
+    }
 
     staticInfo.update(ANDROID_REQUEST_AVAILABLE_REQUEST_KEYS,
             available_request_keys.array(), available_request_keys.size());
@@ -13057,6 +13334,9 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
         available_result_keys.add(ANDROID_SENSOR_DYNAMIC_WHITE_LEVEL);
     }
 #endif
+    if (bokehSupported) {
+        available_result_keys.add(ANDROID_CONTROL_EXTENDED_SCENE_MODE);
+    }
     staticInfo.update(ANDROID_REQUEST_AVAILABLE_RESULT_KEYS,
             available_result_keys.array(), available_result_keys.size());
 
@@ -13131,6 +13411,12 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
         available_characteristics_keys.add(ANDROID_SENSOR_OPTICAL_BLACK_REGIONS);
     }
 #endif
+    if (bokehSupported) {
+        available_characteristics_keys.add(
+                ANDROID_CONTROL_AVAILABLE_EXTENDED_SCENE_MODE_MAX_SIZES);
+        available_characteristics_keys.add(
+                ANDROID_CONTROL_AVAILABLE_EXTENDED_SCENE_MODE_ZOOM_RATIO_RANGES);
+    }
     staticInfo.update(ANDROID_REQUEST_AVAILABLE_CHARACTERISTICS_KEYS,
                       available_characteristics_keys.array(),
                       available_characteristics_keys.size());
@@ -14020,6 +14306,11 @@ camera_metadata_t* QCamera3HardwareInterface::translateCapabilityToMetadata(int 
     static const uint8_t controlMode = ANDROID_CONTROL_MODE_AUTO;
     settings.update(ANDROID_CONTROL_MODE, &controlMode, 1);
 
+    if (mBokehSupported) {
+        static const uint8_t extSceneMode = ANDROID_CONTROL_EXTENDED_SCENE_MODE_DISABLED;
+        settings.update(ANDROID_CONTROL_EXTENDED_SCENE_MODE, &extSceneMode, 1);
+    }
+
     static const uint8_t effectMode = ANDROID_CONTROL_EFFECT_MODE_OFF;
     settings.update(ANDROID_CONTROL_EFFECT_MODE, &effectMode, 1);
 
@@ -14832,6 +15123,10 @@ int QCamera3HardwareInterface::translateToHalMetadata
      */
     if (frame_settings.exists(ANDROID_CONTROL_MODE)) {
         uint8_t metaMode = frame_settings.find(ANDROID_CONTROL_MODE).data.u8[0];
+        /* SEC: extended scene modes (bokeh) are post processing on top of AUTO */
+        if (metaMode == ANDROID_CONTROL_MODE_USE_EXTENDED_SCENE_MODE) {
+            metaMode = ANDROID_CONTROL_MODE_AUTO;
+        }
         if (ADD_SET_PARAM_ENTRY_TO_BATCH(hal_metadata, CAM_INTF_META_MODE, metaMode)) {
             rc = BAD_VALUE;
         }

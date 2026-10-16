@@ -15,7 +15,58 @@ from 0xac428) has these modes:
 | 5 | 1280x720 | 240 | high speed, crop of the sensor centre |
 | 6 | 1920x1080 | 120 | high speed, crop of the sensor centre |
 
-There is no 60 fps mode.
+The stock table has no 60 fps mode. The front camera's
+`libmmcamera_imx576_front.so` has the same table at the same offsets
+(res 6 is 1280x720 there).
+
+## 60 fps (regular sessions)
+
+The device tree patches res 1 (binned 16:9) of both IMX576 libraries
+into a 60 fps mode, with the clocking of the high speed modes:
+
+| Register | Stock res 1 | 60 fps res 1 | Note |
+|----------|-------------|--------------|------|
+| 0x0303 | 4 | 2 | VT clock divider, as res 4-6 |
+| 0x0342/3 | 6320 | 4400 | line length: a 2832 px line still fits the MIPI rate |
+| 0x0340/1 | 2177 | 3128 | frame length for 60 fps |
+| 0x3f80/1 | 0x0230 | 0x03e8 | as res 5/6 |
+
+and its table entry: line/frame length 4400/3128 (with the 826 MHz VT
+clock this gives 60.00 fps, measured), op pixel clock 540 MHz, max fps
+60. The MIPI rate and PLL multipliers are unchanged; 2832x1592 at 60 fps
+is about the pixel rate of stock's 1080p120 mode.
+
+The op pixel clock (table offset 0xc) is what the ISP sizes itself by.
+At 826 MHz it splits the sensor over both VFEs, and in that mode the
+per-request preview output fails (`MSM_ISP_UPDATE_STREAM` error on VFE1,
+then `OUTPUT_ERROR`): display previews drop frames or stall. 540 MHz
+covers the real line rate (2832 px per 5.3 us line, about 531 Mpx/s) on
+one VFE.
+
+`libmmcamera2_sensor_modules.so` picks a mode by checks per use case; for
+the regular video/preview use case (12) no check was enabled, so the
+lowest mode (res 0, 30 fps) always won. The device tree enables the fps
+check for it: a [60,60] request skips res 0 and gets res 1, 30 fps and
+below keep res 0 as before.
+
+Res 0 is left at 30 fps: as a 60 fps mode, auto exposure halves the
+exposure and doubles the gain at 30 fps too. So 60 fps always comes
+from the 16:9 mode, and 4:3 sizes at 60 fps are a crop of it.
+
+The HAL offers a fixed [60,60] range on the main and front cameras
+(persist.vendor.camera.regular_60fps=0 turns it off) for sizes up to
+2560x1440; 2560x1440 at 60 fps is 864000 macroblocks/s, within the H.264
+encoder's 972000. Variable ranges stay at most 30 fps, so previews never
+switch to the 16:9 mode by themselves. A 60 fps frame gets at most
+1/60 s of exposure. 60 fps sessions get 4 more preview/video buffers and
+up to 10 requests in flight (CAF's 6 left no slack at 60 fps).
+
+Apps that set [60,60] on the camera but not on the encoder (CameraX,
+e.g. Aperture) leave the H.264 encoder configured for 30 fps; the
+kernel's msm_vidc then votes clocks, bus and rate control for 30 and the
+camera waits for encoder buffers (about 40 fps recorded). The kernel
+measures the encoder input rate from buffer timestamps and raises the
+session frame rate (lineage-20-ksu, `msm_venc_update_input_fps`).
 
 ## Regular video (up to 30 fps)
 
@@ -23,9 +74,11 @@ Regular video comes from the binned mode, so 16:9 video holds at most
 2832x1592 of detail: 2560x1440 is the largest size without upscaling.
 
 3840x2160 is not in the backend's size table; the HAL adds it to the main
-camera. A 3840x2160 video stream makes the sensor module set
-`SENSOR_SPECIAL_MODE_RES_UHD`, which selects the `video_4k_cpp` tuning
-for the scaling from the binned mode, as on the stock firmware.
+and front cameras. On the main camera a 3840x2160 video stream makes the
+sensor module set `SENSOR_SPECIAL_MODE_RES_UHD`, which selects the
+`video_4k_cpp` tuning for the scaling from the binned mode, as on the
+stock firmware. The front camera has no UHD tuning and scales with its
+regular video tuning.
 
 Sizes wider than 3840 cannot be recorded: CAF rejects a JPEG (video
 snapshot) stream larger than 4K together with a large video stream.
@@ -33,7 +86,7 @@ snapshot) stream larger than 4K together with a large video stream.
 ## Slow motion (constrained high speed)
 
 The backend's fps table and size durations also contain the high speed
-rates; the HAL reports only up to 30 fps for regular sessions, so apps
+rates; the HAL reports only up to 60 fps for regular sessions, so apps
 use a constrained high speed session for 120 and 240 fps:
 
 | Size | Rates | Sensor mode | Batch |

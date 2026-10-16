@@ -2307,6 +2307,77 @@ int32_t QCamera3PostProcessor::encodeFWKData(qcamera_hal3_jpeg_data_t *jpeg_job_
 }
 
 /*===========================================================================
+ * FUNCTION   : applyBokeh
+ *
+ * DESCRIPTION: SEC: blur a YUV snapshot frame in place with the depth camera
+ *
+ * PARAMETERS :
+ *   @bokeh    : bokeh engine of the session
+ *   @stream   : snapshot stream of the frame
+ *   @frame    : snapshot frame, cache already invalidated
+ *   @metadata : metadata of the frame
+ *   @focusX/Y : focus point normalized to the active array, < 0 for the centre
+ *   @cap      : capabilities of the camera
+ *
+ *==========================================================================*/
+void QCamera3PostProcessor::applyBokeh(QCamera3Bokeh *bokeh, QCamera3Stream *stream,
+        mm_camera_buf_def_t *frame, metadata_buffer_t *metadata,
+        float focusX, float focusY, const cam_capability_t *cap)
+{
+    cam_stream_info_t *info = stream->getStreamInfo();
+    if (info == NULL || (info->fmt != CAM_FORMAT_YUV_420_NV21 &&
+            info->fmt != CAM_FORMAT_YUV_420_NV12)) {
+        LOGE("bokeh: unsupported snapshot format %d", info ? info->fmt : -1);
+        return;
+    }
+    cam_dimension_t dim;
+    cam_frame_len_offset_t offset;
+    memset(&dim, 0, sizeof(dim));
+    memset(&offset, 0, sizeof(offset));
+    stream->getFrameDimension(dim);
+    stream->getFrameOffset(offset);
+    if (offset.num_planes < 2 || frame->buffer == NULL) {
+        LOGE("bokeh: unexpected frame layout");
+        return;
+    }
+    uint8_t *base = (uint8_t *)frame->buffer;
+    uint8_t *y = base + offset.mp[0].offset;
+    uint8_t *uv = base + offset.mp[0].len + offset.mp[1].offset;
+
+    int64_t timestamp = 0;
+    if (metadata != NULL) {
+        IF_META_AVAILABLE(int64_t, ts, CAM_INTF_META_SENSOR_TIMESTAMP, metadata) {
+            timestamp = *ts;
+        }
+    }
+
+    /* The frame shows the centre crop of the active array with its aspect ratio. */
+    int32_t fx = -1, fy = -1;
+    if (focusX >= 0.0f && focusY >= 0.0f && cap != NULL &&
+            cap->active_array_size.width > 0 && cap->active_array_size.height > 0) {
+        float aw = cap->active_array_size.width, ah = cap->active_array_size.height;
+        float cw = aw, ch = ah;
+        if (aw * dim.height > ah * dim.width) {
+            cw = ah * dim.width / dim.height;
+        } else {
+            ch = aw * dim.height / dim.width;
+        }
+        float px = (focusX * aw - (aw - cw) / 2.0f) / cw;
+        float py = (focusY * ah - (ah - ch) / 2.0f) / ch;
+        if (px >= 0.0f && px < 1.0f && py >= 0.0f && py < 1.0f) {
+            fx = (int32_t)(px * dim.width);
+            fy = (int32_t)(py * dim.height);
+        }
+    }
+
+    int32_t rc = bokeh->process(y, uv, dim.width, dim.height, offset.mp[0].stride,
+            offset.mp[1].stride, info->fmt == CAM_FORMAT_YUV_420_NV12, timestamp, fx, fy);
+    if (rc != NO_ERROR) {
+        LOGE("bokeh failed (%d), saving the plain picture", rc);
+    }
+}
+
+/*===========================================================================
  * FUNCTION   : encodeData
  *
  * DESCRIPTION: function to prepare encoding job information and send to
@@ -2412,6 +2483,16 @@ int32_t QCamera3PostProcessor::encodeData(qcamera_hal3_jpeg_data_t *jpeg_job_dat
         if (NULL == memObj) {
             LOGE("Memeory Obj of main frame is NULL");
             return NO_MEMORY;
+        }
+
+        /* SEC: dual camera bokeh, blurs the frame in place */
+        if (jpeg_settings != NULL && jpeg_settings->bokeh && hal_obj->getBokeh() != NULL &&
+                jpeg_settings->image_type != CAM_HAL3_JPEG_TYPE_DEPTH &&
+                jpeg_settings->image_type != CAM_HAL3_JPEG_TYPE_AUX) {
+            memObj->invalidateCache(main_frame->buf_idx);
+            applyBokeh(hal_obj->getBokeh(), main_stream, main_frame, metadata,
+                    jpeg_settings->bokeh_focus_x, jpeg_settings->bokeh_focus_y,
+                    hal_obj->getCamHalCapabilities());
         }
 
         // clean and invalidate cache ops through mem obj of the frame
