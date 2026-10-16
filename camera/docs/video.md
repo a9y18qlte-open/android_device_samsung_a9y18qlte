@@ -54,10 +54,11 @@ below keep res 0 as before.
 The 3A tuning stores its AEC exposure table in sensor lines of the
 stock 6320 px line. Res 1's line is now 4400 px, so the tables' fixed
 frame rate limit of 2177 lines (1/30 s at 6320) gave at most 11.6 ms per
-frame, at 60 fps and at 4K. Res 1 uses copies of its 3A libraries with
-the table's line counts scaled by 6320/4400 (the device tree's
+60 fps frame. Res 1 uses copies of its 3A libraries with the table's
+line counts scaled by 6320/4400 (the device tree's
 `scale_exposure_table`): `60_preview_3a` and `60_video_3a` on both
-cameras and `uhd_video_3a` for the main camera's 4K entry.
+cameras. 4K at 30 fps is not affected: the mode picker gives every
+session at 30 fps or less res 0.
 [tools/chromatix/imx576_e24qs_chromatix-res1-3a.diff](../tools/chromatix/imx576_e24qs_chromatix-res1-3a.diff)
 and
 [tools/chromatix/imx576_d24qs_chromatix-res1-3a.diff](../tools/chromatix/imx576_d24qs_chromatix-res1-3a.diff)
@@ -109,7 +110,10 @@ and front cameras. On the main camera a 3840x2160 video stream makes the
 sensor module set `SENSOR_SPECIAL_MODE_RES_UHD`, which selects the
 `video_4k_cpp` tuning for the scaling from the binned mode, as on the
 stock firmware. The front camera has no UHD tuning and scales with its
-regular video tuning.
+regular video tuning. The device tree's media_profiles have 2160p
+camcorder profiles for both cameras, so CameraX apps (Aperture) offer
+4K too; media_profiles is read once by zygote, so a changed file needs a
+framework restart.
 
 Sizes wider than 3840 cannot be recorded: CAF rejects a JPEG (video
 snapshot) stream larger than 4K together with a large video stream.
