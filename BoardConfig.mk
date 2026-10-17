@@ -122,6 +122,10 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION) --pagesize
 
 # Kernel config
 TARGET_KERNEL_CONFIG := a9y18qlte_eur_open_defconfig
+# KernelSU-Next is off unless the build sets TARGET_KERNEL_KSU=true
+ifeq ($(TARGET_KERNEL_KSU),true)
+TARGET_KERNEL_CONFIG += vendor/ksu.config
+endif
 TARGET_KERNEL_SOURCE := kernel/samsung/a9y18qlte
 TARGET_KERNEL_VERSION := 4.4
 TARGET_KERNEL_CLANG_COMPILE := true
