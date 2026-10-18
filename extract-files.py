@@ -29,6 +29,7 @@ namespace_imports = [
     'hardware/qcom-caf/common/libqti-perfd-client',
     'hardware/qcom-caf/msm8998',
     'hardware/qcom-caf/wlan',
+    'vendor/qcom/opensource/dataservices',
 ]
 
 
@@ -42,7 +43,6 @@ lib_fixups: lib_fixups_user_type = {
         'com.qualcomm.qti.ant@1.0',
         'libfloatingfeature',
         'libmdf',
-        'librmnetctl',
         'libsavscmn',
         'libsecaudiocoreutils',
         'libsecnativefeature',
