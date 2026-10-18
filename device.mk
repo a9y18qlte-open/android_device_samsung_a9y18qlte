@@ -45,7 +45,7 @@ PRODUCT_SYSTEM_PROPERTIES += \
 # and system_server artifacts unusable at runtime: odrefresh recompiled all of
 # them into /data on every boot (~47 s at the splash screen), since odsign
 # cannot keep its keys with the Samsung keymaster.
-PRODUCT_ENABLE_UFFD_GC := false
+PRODUCT_ENABLE_UFFD_GC := true
 
 ENABLE_VENDOR_RIL_SERVICE := true
 
