@@ -60,9 +60,6 @@ PRODUCT_AAPT_PREF_CONFIG := xxxhdpi
 # A list of dpis to select prebuilt apk, in precedence order.
 PRODUCT_AAPT_PREBUILT_DPI := xxxhdpi xxhdpi xhdpi hdpi
 
-# ANT+
-PRODUCT_PACKAGES += \
-    AntHalService-Soong
 
 # Audio
 PRODUCT_PACKAGES += \
