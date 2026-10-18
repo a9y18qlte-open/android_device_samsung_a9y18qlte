@@ -39,6 +39,7 @@ using android::String16;
 using android::String8;
 using android::Surface;
 using android::content::AttributionSourceState;
+using android::content::res::CameraCompatibilityInfo;
 
 namespace {
 
@@ -156,7 +157,8 @@ sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int cl
     clientAttribution.packageName = std::string(String8(clientPackageName).c_str());
     clientAttribution.uid = clientUid;
     clientAttribution.pid = clientPid;
-    return Camera::connect(cameraId, 29 /* targetSdkVersion */, 0 /* rotationOverride */,
+    CameraCompatibilityInfo compatInfo;
+    return Camera::connect(cameraId, 29 /* targetSdkVersion */, compatInfo,
                            false /* forceSlowJpegMode */, clientAttribution, 0 /* devicePolicy */);
 }
 
@@ -165,7 +167,8 @@ android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInf
         __asm__("_ZN7android10CameraBaseINS_6CameraENS_12CameraTraitsIS1_EEE13getCameraInfoEiPNS_8hardware10CameraInfoE");
 android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInfo* cameraInfo) {
     AttributionSourceState clientAttribution;
-    return CameraBase<Camera>::getCameraInfo(cameraId, 0 /* rotationOverride */, clientAttribution, 0 /* devicePolicy */, cameraInfo);
+    CameraCompatibilityInfo compatInfo;
+    return CameraBase<Camera>::getCameraInfo(cameraId, compatInfo, clientAttribution, 0 /* deviceAolicy */, cameraInfo);
 }
 
 // static int32_t CameraBase<Camera>::getNumberOfCameras()
