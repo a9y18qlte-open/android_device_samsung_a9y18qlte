@@ -1155,8 +1155,6 @@ vendor/lib/libqsocket.so
 vendor/lib/libreference-ril.so
 vendor/lib/libril.so
 vendor/lib/librilutils.so
-# Not the stock build (same NEEDED, different code); pinned to keep it.
-vendor/lib/librmnetctl.so;MODULE_SUFFIX=_vendor|42cc2ad37f306f170c5df08e8681a51996293501
 vendor/lib/libsec-ril-dsds.so
 vendor/lib/libsec-ril.so
 vendor/lib/libsec_semRil.so
@@ -1183,7 +1181,6 @@ vendor/lib64/libqsocket.so
 vendor/lib64/libreference-ril.so
 vendor/lib64/libril.so
 vendor/lib64/librilutils.so
-vendor/lib64/librmnetctl.so;MODULE_SUFFIX=_vendor|3bc9f0e140370fd4e95d8e262c30be515883cc10
 vendor/lib64/libsec-ril-dsds.so
 vendor/lib64/libsec-ril.so
 vendor/lib64/libsec_semRil.so
