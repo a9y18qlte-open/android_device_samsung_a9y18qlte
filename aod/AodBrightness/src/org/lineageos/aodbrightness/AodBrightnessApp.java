@@ -164,6 +164,9 @@ public class AodBrightnessApp extends Application implements SensorEventListener
         if (mode.equals(mMode)) {
             return;
         }
+        if (mDrawWakeLock != null && mTicking) {
+            mDrawWakeLock.acquire(DRAW_WAKE_LOCK_MS);
+        }
         try (FileWriter writer = new FileWriter(ALPM_PATH)) {
             writer.write(mode);
             mMode = mode;
