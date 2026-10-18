@@ -73,6 +73,9 @@ PRODUCT_PACKAGES += \
     libqcomvoiceprocessing \
     libvolumelistener
 
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.hardware.audio.primary=sdm660-a9y18qlte
+
 # Dolby Atmos
 # Settings for the stock libswdap effect.
 PRODUCT_PACKAGES += \
