@@ -1,5 +1,5 @@
 <!-- HALs this device serves that no framework compatibility matrix for
-     target-level 5 declares; check_vintf rejects undeclared HALs. All optional. -->
+     target-level 6 declares; check_vintf rejects undeclared HALs. All optional. -->
 <compatibility-matrix version="1.0" type="framework">
     <hal format="hidl" optional="true">
         <name>android.hardware.configstore</name>
@@ -407,6 +407,29 @@
         <version>1.0</version>
         <interface>
             <name>ITeeRegistry</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl" optional="true">
+        <name>android.hardware.radio</name>
+        <version>1.2</version>
+        <version>1.4</version>
+        <interface>
+            <name>ISap</name>
+            <instance>slot1</instance>
+            <instance>slot2</instance>
+        </interface>
+        <interface>
+            <name>IRadio</name>
+            <instance>slot1</instance>
+            <instance>slot2</instance>
+        </interface>
+    </hal>
+    <hal format="hidl" optional="true">
+        <name>android.hardware.soundtrigger</name>
+        <version>2.1</version>
+        <interface>
+            <name>ISoundTriggerHw</name>
             <instance>default</instance>
         </interface>
     </hal>
