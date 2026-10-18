@@ -84,6 +84,37 @@ class LegacyCallbackWrapper : public AudioRecord::IAudioRecordCallback {
 std::mutex gCallbackWrappersLock;
 std::map<const AudioRecord*, sp<LegacyCallbackWrapper>> gCallbackWrappers;
 
+class LegacyTrackCallbackWrapper : public AudioTrack::IAudioTrackCallback {
+    const legacy_callback_t mCallback;
+    void* const mData;
+
+  public:
+    LegacyTrackCallbackWrapper(legacy_callback_t callback, void* user)
+        : mCallback(callback), mData(user) {}
+
+    size_t onMoreData(const AudioTrack::Buffer& buffer) override {
+        AudioTrack::Buffer copy = buffer;
+        mCallback(AudioTrack::EVENT_MORE_DATA, mData, &copy);
+        return copy.size();
+    }
+
+    void onUnderrun() override { mCallback(AudioTrack::EVENT_UNDERRUN, mData, nullptr); }
+    void onLoopEnd(int32_t loopsRemaining) override { mCallback(AudioTrack::EVENT_LOOP_END, mData, &loopsRemaining); }
+    void onMarker(uint32_t markerPosition) override { mCallback(AudioTrack::EVENT_MARKER, mData, &markerPosition); }
+    void onNewPos(uint32_t newPos) override { mCallback(AudioTrack::EVENT_NEW_POS, mData, &newPos); }
+    void onBufferEnd() override { mCallback(AudioTrack::EVENT_BUFFER_END, mData, nullptr); }
+    void onNewIAudioTrack() override { mCallback(AudioTrack::EVENT_NEW_IAUDIOTRACK, mData, nullptr); }
+    void onStreamEnd() override { mCallback(AudioTrack::EVENT_STREAM_END, mData, nullptr); }
+    size_t onCanWriteMoreData(const AudioTrack::Buffer& buffer) override {
+        AudioTrack::Buffer copy = buffer;
+        mCallback(AudioTrack::EVENT_CAN_WRITE_MORE_DATA, mData, &copy);
+        return copy.size();
+    }
+};
+
+std::mutex gTrackCallbackWrappersLock;
+std::map<const AudioTrack*, sp<LegacyTrackCallbackWrapper>> gTrackCallbackWrappers;
+
 }  // namespace
 
 extern "C" {
@@ -139,6 +170,37 @@ _ZN7android11AudioRecord3setE14audio_source_tj14audio_format_tjmPFviPvS3_ES3_jb1
                      notificationFrames, threadCanCallJava, sessionId, transferType, flags, uid,
                      pid, pAttributes, selectedDeviceId, selectedMicDirection,
                      microphoneFieldDimension, 0 /* maxSharedAudioHistoryMs */);
+}
+
+// status_t AudioTrack::set(...) legacy overload removed in Android 16
+android::status_t
+_ZN7android10AudioTrack3setE19audio_stream_type_tj14audio_format_tjm20audio_output_flags_tPFviPvS4_ES4_iRKNS_2spINS_7IMemoryEEEb15audio_session_tNS0_13transfer_typeEPK20audio_offload_info_tjiPK18audio_attributes_tbfi(
+        AudioTrack* self, audio_stream_type_t streamType, uint32_t sampleRate,
+        audio_format_t format, audio_channel_mask_t channelMask, size_t frameCount,
+        audio_output_flags_t flags, legacy_callback_t cbf, void* user,
+        int32_t notificationFrames, const sp<android::IMemory>& sharedBuffer,
+        bool threadCanCallJava, audio_session_t sessionId,
+        AudioTrack::transfer_type transferType, const audio_offload_info_t* offloadInfo,
+        uid_t uid, pid_t pid, const audio_attributes_t* pAttributes, bool doNotReconnect,
+        float maxRequiredSpeed, audio_port_handle_t selectedDeviceId) {
+    AttributionSourceState attributionSource;
+    attributionSource.uid = uid;
+    attributionSource.pid = pid;
+    attributionSource.token = sp<android::BBinder>::make();
+    sp<LegacyTrackCallbackWrapper> callback;
+    if (cbf != nullptr) callback = sp<LegacyTrackCallbackWrapper>::make(cbf, user);
+    {
+        std::lock_guard<std::mutex> lock(gTrackCallbackWrappersLock);
+        if (callback != nullptr) {
+            gTrackCallbackWrappers[self] = callback;
+        } else {
+            gTrackCallbackWrappers.erase(self);
+        }
+    }
+    return self->set(streamType, sampleRate, format, channelMask, frameCount, flags,
+                     callback, notificationFrames, sharedBuffer, threadCanCallJava,
+                     sessionId, transferType, offloadInfo, attributionSource,
+                     pAttributes, doNotReconnect, maxRequiredSpeed, selectedDeviceId);
 }
 
 // static bool Surface::isValid(const sp<Surface>&), inline until Android 11 removed it
