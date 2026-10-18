@@ -627,13 +627,13 @@
         <fqname>@1.2::ICryptoFactory/widevine</fqname>
         <fqname>@1.2::IDrmFactory/widevine</fqname>
     </hal>
-    <hal format="hidl">
+    <hal format="aidl">
         <name>vendor.lineage.livedisplay</name>
-        <transport>hwbinder</transport>
-        <fqname>@2.0::IAdaptiveBacklight/default</fqname>
-        <fqname>@2.0::IDisplayColorCalibration/default</fqname>
-        <fqname>@2.0::IDisplayModes/default</fqname>
-        <fqname>@2.0::ISunlightEnhancement/default</fqname>
+        <version>1</version>
+        <fqname>IAdaptiveBacklight/default</fqname>
+        <fqname>IDisplayColorCalibration/default</fqname>
+        <fqname>IDisplayModes/default</fqname>
+        <fqname>ISunlightEnhancement/default</fqname>
     </hal>
     <hal format="aidl">
         <name>vendor.lineage.touch</name>

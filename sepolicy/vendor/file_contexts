@@ -82,6 +82,6 @@
 /vendor/bin/init\.qcom\.crashdata\.sh                                     u:object_r:qti_init_shell_exec:s0
 
 # LiveDisplay and touch HALs from hardware/samsung
-/vendor/bin/hw/vendor\.lineage\.livedisplay@2\.0-service\.samsung-qcom    u:object_r:hal_lineage_livedisplay_sysfs_exec:s0
+/vendor/bin/hw/vendor\.lineage\.livedisplay-service\.samsung-qcom    u:object_r:hal_lineage_livedisplay_sysfs_exec:s0
 /vendor/bin/hw/vendor\.lineage\.touch-service\.samsung                    u:object_r:hal_lineage_touch_default_exec:s0
 /vendor/bin/hw/android\.hardware\.camera\.provider-service_32\.samsung     u:object_r:hal_camera_default_exec:s0
