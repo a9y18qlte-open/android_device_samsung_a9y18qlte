@@ -71,7 +71,11 @@ PRODUCT_PACKAGES += \
     libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing \
-    libvolumelistener
+    libvolumelistener \
+    libsamsungSoundbooster_plus \
+    SoundBoosterStage
+
+$(call soong_config_set,samsungAudioVars,soundbooster_dsp_library,//vendor/samsung/a9y18qlte:lib_SoundBooster_ver950)
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.hardware.audio.primary=sdm660-a9y18qlte
