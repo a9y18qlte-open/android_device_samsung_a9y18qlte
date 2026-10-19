@@ -1,2 +1,9 @@
 soong_namespace {
 }
+
+prebuilt_etc_xml {
+    name: "compat_framework_overrides.xml",
+    src: "configs/compat_framework_overrides.xml",
+    sub_dir: "appcompat",
+    product_specific: true,
+}

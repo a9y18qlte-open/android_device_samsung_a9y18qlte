@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<overrides>
+    <!-- Override DYNAMIC_RECEIVER_EXPLICIT_EXPORT_REQUIRED for Samsung IMS packages -->
+    <change-overrides changeId="161145287">
+        <validated>
+            <override-value packageName="com.sec.imsservice" enabled="false" />
+            <override-value packageName="com.sec.epdg" enabled="false" />
+            <override-value packageName="com.sec.ims" enabled="false" />
+            <override-value packageName="com.sec.sve" enabled="false" />
+        </validated>
+    </change-overrides>
+</overrides>
