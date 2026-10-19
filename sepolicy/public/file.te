@@ -1,1 +1,2 @@
 type proc_last_kmsg, fs_type, proc_type;
+type sysfs_sec_switch, sysfs_type, fs_type;

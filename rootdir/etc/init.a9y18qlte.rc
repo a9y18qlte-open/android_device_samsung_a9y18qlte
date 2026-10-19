@@ -172,6 +172,16 @@ on boot
     chown system system /sys/class/lcd/panel/alpm
     chmod 0660 /sys/class/lcd/panel/alpm
 
+    # Charging control and fast charge nodes for the Lineage Health HAL.
+    chown system system /sys/class/power_supply/battery/batt_slate_mode
+    chmod 0660 /sys/class/power_supply/battery/batt_slate_mode
+    chown system system /sys/class/sec/switch/afc_disable
+    chmod 0660 /sys/class/sec/switch/afc_disable
+
+    # Restore battery capacity and cycle count calibration from EFS.
+    copy /efs/Battery/batt_capacity_max /sys/class/power_supply/battery/batt_capacity_max
+    copy /efs/FactoryApp/batt_discharge_level /sys/class/power_supply/battery/battery_cycle
+
 # The AOSP composer service, with the options of the stock one: the hwcomposer
 # serves display post-processing (pps) on a socket.
 service vendor.hwcomposer-2-1 /vendor/bin/hw/android.hardware.graphics.composer@2.1-service

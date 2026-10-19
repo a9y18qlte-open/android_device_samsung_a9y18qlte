@@ -27,6 +27,11 @@ allow hal_health_default app_efs_file:file { write setattr };
 r_dir_file(hal_health_default, battery_efs_file)
 allow hal_health_default battery_efs_file:file { write setattr };
 
+r_dir_file(hal_lineage_health_default, sysfs_batteryinfo)
+allow hal_lineage_health_default sysfs_batteryinfo:file rw_file_perms;
+r_dir_file(hal_lineage_health_default, sysfs_sec_switch)
+allow hal_lineage_health_default sysfs_sec_switch:file rw_file_perms;
+
 # --- camera -----------------------------------------------------------------
 # Flash, firmware version and the v4l2 device names are all read out of sysfs,
 # and the provider writes the kernel's memory-boost knob while streaming.
