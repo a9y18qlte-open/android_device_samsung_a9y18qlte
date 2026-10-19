@@ -273,8 +273,6 @@ WIFI_DRIVER_FW_PATH_STA := "sta"
 WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 
-# Power
-TARGET_TAP_TO_WAKE_NODE := /sys/class/sec/tsp/dt2w_enable
 
 # Inherit from the proprietary version
 -include vendor/samsung/a9y18qlte/BoardConfigVendor.mk
