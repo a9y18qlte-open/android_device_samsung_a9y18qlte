@@ -91,9 +91,7 @@ vendor/lib64/libsecaudioinfo.so
 
 # Audio FX Modules
 vendor/lib/soundfx/libasphere.so
-vendor/lib/soundfx/libsamsungSoundbooster_plus.so
 vendor/lib64/soundfx/libasphere.so
-vendor/lib64/soundfx/libsamsungSoundbooster_plus.so
 
 # Audio-ACDB
 vendor/etc/audconf/ODM/Bluetooth_cal.acdb
