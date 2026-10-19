@@ -374,6 +374,8 @@ PRODUCT_COPY_FILES += \
 # Soong
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
+    hardware/google/interfaces \
+    hardware/google/pixel \
     hardware/lineage/interfaces/power-libperfmgr \
     hardware/samsung \
     hardware/qcom-caf/common/libqti-perfd-client \

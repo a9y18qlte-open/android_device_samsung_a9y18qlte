@@ -249,6 +249,7 @@ BOARD_SECCOMP_POLICY := $(DEVICE_PATH)/seccomp_policy
 
 # SELinux
 include device/qcom/sepolicy-legacy-um/SEPolicy.mk
+include device/lineage/sepolicy/libperfmgr/sepolicy.mk
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
 # multiclientd and smdexe are declared public so vendor policy can name them -
 # rild has to binder into multiclientd, and neither plat nor vendor could
