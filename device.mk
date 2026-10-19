@@ -635,3 +635,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libexpat.vendor \
     libprocessgroup_shim
+
+# Storage
+PRODUCT_VENDOR_PROPERTIES += \
+    external_storage.sdcardfs.enabled=0
