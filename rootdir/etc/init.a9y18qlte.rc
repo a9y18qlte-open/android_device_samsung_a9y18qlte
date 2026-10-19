@@ -167,6 +167,7 @@ on boot
 
     chown system system /sys/class/sec/tsp/dt2w_enable
     chmod 0660 /sys/class/sec/tsp/dt2w_enable
+    setprop vendor.powerhal.init 1
 
     # AOD low-power brightness, picked by AodBrightness.
     chown system system /sys/class/lcd/panel/alpm
