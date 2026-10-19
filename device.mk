@@ -493,12 +493,19 @@ PRODUCT_PACKAGES += \
 # 19.1 bring-up: adb without authorization, so boot loops can be debugged after
 
 # Health / audio effects
-# The stock Android 10 health service and audio effect impls cannot link against
-# Android 12 libraries; use the AOSP implementations.
 PRODUCT_PACKAGES += \
     android.hardware.audio.effect@6.0-impl \
-    android.hardware.health@2.1-impl \
-    android.hardware.health@2.1-service
+    android.hardware.health-service.samsung \
+    android.hardware.health-service.samsung-recovery \
+    vendor.lineage.health-service.default
+
+$(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class/power_supply/battery/batt_slate_mode)
+$(call soong_config_set,lineage_health,charging_control_charging_enabled,0)
+$(call soong_config_set,lineage_health,charging_control_charging_disabled,1)
+$(call soong_config_set_bool,lineage_health,charging_control_supports_bypass,false)
+$(call soong_config_set,lineage_health,fast_charge_node,/sys/class/sec/switch/afc_disable)
+$(call soong_config_set,lineage_health,fast_charge_value_none,1)
+$(call soong_config_set,lineage_health,fast_charge_value_fast_charge,0)
 
 # Samsung system blobs (multiclientd) still link libhidltransport/libhwbinder.
 PRODUCT_PACKAGES += libhidltransport libhwbinder
