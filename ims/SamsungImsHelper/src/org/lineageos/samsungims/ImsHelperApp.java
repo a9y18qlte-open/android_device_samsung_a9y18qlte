@@ -107,6 +107,7 @@ public class ImsHelperApp extends Application {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_SIM_STATE_CHANGED);
         filter.addAction(ACTION_IMS_ON_SIMLOADED);
+        filter.addAction(CarrierConfigManager.ACTION_CARRIER_CONFIG_CHANGED);
         registerReceiver(mReceiver, filter);
 
         ContentObserver observer = new ContentObserver(mHandler) {
@@ -130,6 +131,10 @@ public class ImsHelperApp extends Application {
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            if (CarrierConfigManager.ACTION_CARRIER_CONFIG_CHANGED.equals(intent.getAction())) {
+                updateVolteAvailability();
+                return;
+            }
             if (ACTION_SIM_STATE_CHANGED.equals(intent.getAction())
                     && !"LOADED".equals(intent.getStringExtra("ss"))) {
                 return;
@@ -176,8 +181,9 @@ public class ImsHelperApp extends Application {
             boolean available = readImsSwitch(slot, IMS_SWITCH_MMTEL);
 
             PersistableBundle config = ccm.getConfigForSubId(sub.getSubscriptionId());
-            if (config != null && config.getBoolean(
-                    CarrierConfigManager.KEY_CARRIER_VOLTE_AVAILABLE_BOOL) == available) {
+            if (config == null || !CarrierConfigManager.isConfigForIdentifiedCarrier(config)
+                    || config.getBoolean(
+                            CarrierConfigManager.KEY_CARRIER_VOLTE_AVAILABLE_BOOL) == available) {
                 continue;
             }
             // Held per slot by the phone process until it restarts, so set it
