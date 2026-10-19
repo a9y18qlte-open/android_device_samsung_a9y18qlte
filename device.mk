@@ -389,6 +389,10 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/qcom-caf/common/libqti-perfd-client \
     $(LOCAL_PATH)/camera
 
+# Doze
+PRODUCT_PACKAGES += \
+    SamsungDoze
+
 # SP-NDK
 PRODUCT_PACKAGES += \
     libvulkan
