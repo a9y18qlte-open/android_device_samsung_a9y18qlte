@@ -32,6 +32,8 @@ TARGET_BOOT_ANIMATION_RES := 1080
 # Must be set before common_full_phone.mk, which is what reads it.
 # TARGET_APERTURE_OPTOUT := true
 
+TARGET_EXCLUDES_AUDIOFX := true
+
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
 
