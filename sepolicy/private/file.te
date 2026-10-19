@@ -1,7 +1,6 @@
 type sysfs_sec_key, sysfs_type, fs_type;
 # Samsung USB path switch. smdexe reads usb_sel from here, and coredomain.te
 # forbids a core domain from touching unlabelled kernel interfaces.
-type sysfs_sec_switch, sysfs_type, fs_type;
 
 # sysfs_wlan_boot moved to sepolicy/vendor: macloader needs it too and is a
 # vendor domain, while init is plat-public and can be named from either side.

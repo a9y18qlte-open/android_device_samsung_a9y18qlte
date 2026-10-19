@@ -1,2 +1,10 @@
 # Allow vendor_init to set camera properties during early boot
 set_prop(vendor_init, camera_prop)
+
+allow { init vendor_init } efs_file:dir search;
+r_dir_file({ init vendor_init }, app_efs_file)
+r_dir_file({ init vendor_init }, battery_efs_file)
+allow { init vendor_init } sysfs_batteryinfo:dir search;
+allow { init vendor_init } sysfs_batteryinfo:file { rw_file_perms setattr };
+allow { init vendor_init } sysfs_sec_switch:dir search;
+allow { init vendor_init } sysfs_sec_switch:file { getattr setattr };
