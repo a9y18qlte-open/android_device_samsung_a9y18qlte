@@ -1,0 +1,94 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: schr-0dinger <kmkailasnath@gmail.com>
+Date: Sun, 16 Aug 2026 14:20:18 +0530
+Subject: [PATCH 05/15] imsservice: Turn the EVS codec off
+
+imsservice has its own copy of ImsProfile. Its getEnableEvsCodec()
+checks SEC_FLOATING_FEATURE_COMMON_SUPPORT_EVS through
+SemFloatingFeature, which is Samsung framework only; it crashed at
+createUserAgent, killing every registration attempt. Report EVS as
+disabled, as imsmanager.jar does.
+
+From schr-0dinger's "IMS AOSP-compat fixes - VoLTE registers" (vendor
+253002c), verified on a live network: REGISTER -> 401 -> REGISTER ->
+200 OK, registered[true], SUBSCRIBE/NOTIFY exchanged, incoming call
+received.
+
+Assisted-by: LLM
+---
+ smali/com/sec/ims/settings/ImsProfile.smali | 61 +--------------------
+ 1 file changed, 2 insertions(+), 59 deletions(-)
+
+diff --git a/smali/com/sec/ims/settings/ImsProfile.smali b/smali/com/sec/ims/settings/ImsProfile.smali
+index 3114d3d..83725a2 100644
+--- a/smali/com/sec/ims/settings/ImsProfile.smali
++++ b/smali/com/sec/ims/settings/ImsProfile.smali
+@@ -5985,66 +5985,9 @@
+ .method public getEnableEvsCodec()I
+     .locals 3
+ 
+-    .line 2414
+-    invoke-virtual {p0}, Lcom/sec/ims/settings/ImsProfile;->getSimMobility()Z
+-
+-    move-result v0
+-
+-    const/4 v1, 0x0
+-
+-    if-eqz v0, :cond_0
+-
+-    sget-object v0, Landroid/os/Build;->MODEL:Ljava/lang/String;
+-
+-    const-string v2, "SM-A505"
+-
+-    invoke-virtual {v0, v2}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+-
+-    move-result v0
+-
+-    if-eqz v0, :cond_0
+-
+-    .line 2415
+-    return v1
+-
+-    .line 2417
+-    :cond_0
+-    invoke-static {}, Lcom/samsung/android/feature/SemFloatingFeature;->getInstance()Lcom/samsung/android/feature/SemFloatingFeature;
+-
+-    move-result-object v0
+-
+-    .line 2418
+-    const-string v2, "SEC_FLOATING_FEATURE_COMMON_SUPPORT_EVS"
+-
+-    invoke-virtual {v0, v2}, Lcom/samsung/android/feature/SemFloatingFeature;->getBoolean(Ljava/lang/String;)Z
+-
+-    move-result v0
+-
+-    if-eqz v0, :cond_1
+-
+-    .line 2419
+-    const-string v0, "enable_evs_codec"
+-
+-    invoke-virtual {p0, v0}, Lcom/sec/ims/settings/ImsProfile;->getAsBoolean(Ljava/lang/String;)Ljava/lang/Boolean;
+-
+-    move-result-object v0
+-
+-    invoke-virtual {v0}, Ljava/lang/Boolean;->booleanValue()Z
+-
+-    move-result v0
+-
+-    if-eqz v0, :cond_1
+-
+-    const/4 v1, 0x1
+-
+-    goto :goto_0
+-
+-    :cond_1
+-    nop
++    const/4 v0, 0x0
+ 
+-    .line 2417
+-    :goto_0
+-    return v1
++    return v0
+ .end method
+ 
+ .method public getEnableMwi()I

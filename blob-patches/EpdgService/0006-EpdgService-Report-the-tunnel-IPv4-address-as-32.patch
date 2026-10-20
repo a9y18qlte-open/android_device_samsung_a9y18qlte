@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: thongass000 <tienthong2004@gmail.com>
+Date: Thu, 15 Oct 2026 02:54:18 +0700
+Subject: [PATCH 6/7] EpdgService: Report the tunnel IPv4 address as /32
+
+Samsung's ePDG gives the tunnel's IPv4 address a prefix length of 0.
+Tethering's PrivateAddressCoordinator then sees 0.0.0.0/0 in use and
+finds no free IPv4 prefix, so hotspot and USB tethering failed while
+Wi-Fi Calling was up. Report a prefix length of 0 as 32.
+
+Assisted-by: LLM
+---
+ .../com/sec/epdg/EpdgRilInterface$IWlanLinkProperties.smali  | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/smali/com/sec/epdg/EpdgRilInterface$IWlanLinkProperties.smali b/smali/com/sec/epdg/EpdgRilInterface$IWlanLinkProperties.smali
+index 44dc1fd..0850751 100644
+--- a/smali/com/sec/epdg/EpdgRilInterface$IWlanLinkProperties.smali
++++ b/smali/com/sec/epdg/EpdgRilInterface$IWlanLinkProperties.smali
+@@ -306,6 +306,11 @@
+     .line 229
+     iget v0, p0, Lcom/sec/epdg/EpdgRilInterface$IWlanLinkProperties;->mIpv4PrefixLen:I
+ 
++    if-nez v0, :cond_0
++
++    const/16 v0, 0x20
++
++    :cond_0
+     return v0
+ .end method
+ 

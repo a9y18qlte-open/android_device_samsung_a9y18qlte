@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: James Nguyen <tienthong2004@gmail.com>
+Date: Fri, 2 Oct 2026 10:07:39 +0000
+Subject: [PATCH 11/15] imsservice: Make Samsung IMS work on Android 12
+
+Answer the listener in ImsConfigImpl.setFeatureValue(); the compat
+adapter waits for it on the phone process main thread and the phone
+process ANRed in a loop.
+
+Assisted-by: LLM
+---
+ smali/com/google/ims/ImsConfigImpl.smali               | 7 +++++++
+ smali/com/sec/ims/extensions/TelephonyManagerExt.smali | 5 +++++
+ 2 files changed, 12 insertions(+)
+
+diff --git a/smali/com/google/ims/ImsConfigImpl.smali b/smali/com/google/ims/ImsConfigImpl.smali
+index ab0305b..0f0fd3b 100644
+--- a/smali/com/google/ims/ImsConfigImpl.smali
++++ b/smali/com/google/ims/ImsConfigImpl.smali
+@@ -684,6 +684,13 @@
+     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 508
++    if-eqz p4, :cond_0
++
++    const/4 v0, 0x0
++
++    invoke-interface {p4, p1, p2, p3, v0}, Lcom/android/ims/ImsConfigListener;->onSetFeatureResponse(IIII)V
++
++    :cond_0
+     return-void
+ .end method
+ 
+diff --git a/smali/com/sec/ims/extensions/TelephonyManagerExt.smali b/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
+index 1082662..2fbc7dd 100644
+--- a/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
++++ b/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
+@@ -80,6 +80,11 @@
+ 
+     check-cast v0, Ljava/lang/String;
+ 
++    if-nez v0, :cond_0
++
++    const-string v0, "android.intent.action.PRECISE_DATA_CONNECTION_STATE_CHANGED"
++
++    :cond_0
+     sput-object v0, Lcom/sec/ims/extensions/TelephonyManagerExt;->ACTION_PRECISE_DATA_CONNECTION_STATE_CHANGED:Ljava/lang/String;
+ 
+     .line 82

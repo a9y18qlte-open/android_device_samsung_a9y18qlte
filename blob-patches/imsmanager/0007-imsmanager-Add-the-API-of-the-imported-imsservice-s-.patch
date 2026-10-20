@@ -1,0 +1,97 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: thongass000 <tienthong2004@gmail.com>
+Date: Tue, 20 Oct 2026 05:25:11 +0700
+Subject: [PATCH 7/9] imsmanager: Add the API of the imported imsservice's
+ imsmanager
+
+imsservice.apk is still the 2022-09-05 build (CL 56000433) imported from
+another release, not this firmware's. Its RegistrationManagerBase calls
+ImsProfile.isRcsUp24Profile(), which this firmware's imsmanager.jar does
+not have, and its profiles use the "gls" chat service. Add what that
+build's imsmanager.jar has on top of this one: RCS_PROFILE_UP20,
+RCS_PROFILE_UP2_4, isRcsUp24Profile() and "gls" in chatServices, and
+VolteConstants.ErrorCode.CMC_PD_CALL_EXISTS_ON_THE_OTHER_SLOT.
+
+Drop this once imsservice.apk is this firmware's.
+
+Assisted-by: LLM
+---
+ smali/com/sec/ims/settings/ImsProfile.smali   | 37 ++++++++++++++++++-
+ .../data/VolteConstants$ErrorCode.smali       |  2 +
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+
+diff --git a/smali/com/sec/ims/settings/ImsProfile.smali b/smali/com/sec/ims/settings/ImsProfile.smali
+index e2a64ad..c9ec340 100644
+--- a/smali/com/sec/ims/settings/ImsProfile.smali
++++ b/smali/com/sec/ims/settings/ImsProfile.smali
+@@ -123,6 +123,10 @@
+ 
+ .field public static final RCS_PROFILE_UP10:Ljava/lang/String; = "UP_1.0"
+ 
++.field public static final RCS_PROFILE_UP20:Ljava/lang/String; = "UP_2.0"
++
++.field public static final RCS_PROFILE_UP2_4:Ljava/lang/String; = "UP_2.4"
++
+ .field public static final RCS_PROFILE_UP2_PREFIX:Ljava/lang/String; = "UP_2"
+ 
+ .field public static final RCS_PROFILE_UP_T:Ljava/lang/String; = "UP_T"
+@@ -372,7 +376,9 @@
+ 
+     const-string v6, "plug-in"
+ 
+-    filled-new-array/range {v1 .. v6}, [Ljava/lang/String;
++    const-string v7, "gls"
++
++    filled-new-array/range {v1 .. v7}, [Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -1041,6 +1047,35 @@
+     return v2
+ .end method
+ 
++.method public static isRcsUp24Profile(Ljava/lang/String;)Z
++    .locals 1
++    .param p0, "rcsProfile"    # Ljava/lang/String;
++
++    invoke-static {p0}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
++
++    move-result v0
++
++    if-nez v0, :cond_0
++
++    const-string v0, "UP_2.4"
++
++    invoke-virtual {p0, v0}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
++
++    move-result v0
++
++    if-eqz v0, :cond_0
++
++    const/4 v0, 0x1
++
++    goto :goto_0
++
++    :cond_0
++    const/4 v0, 0x0
++
++    :goto_0
++    return v0
++.end method
++
+ .method public static isRcsUp2Profile(Ljava/lang/String;)Z
+     .locals 1
+     .param p0, "rcsProfile"    # Ljava/lang/String;
+diff --git a/smali/com/sec/ims/volte2/data/VolteConstants$ErrorCode.smali b/smali/com/sec/ims/volte2/data/VolteConstants$ErrorCode.smali
+index 175bd78..1c74891 100644
+--- a/smali/com/sec/ims/volte2/data/VolteConstants$ErrorCode.smali
++++ b/smali/com/sec/ims/volte2/data/VolteConstants$ErrorCode.smali
+@@ -137,6 +137,8 @@
+ 
+ .field public static final CMC_ERROR_CODE_MAX:I = 0x1b57
+ 
++.field public static final CMC_PD_CALL_EXISTS_ON_THE_OTHER_SLOT:I = 0x177b
++
+ .field public static final CMC_PD_NOT_REGISTERED:I = 0x1771
+ 
+ .field public static final CMC_PD_UNREACHABLE:I = 0x1772

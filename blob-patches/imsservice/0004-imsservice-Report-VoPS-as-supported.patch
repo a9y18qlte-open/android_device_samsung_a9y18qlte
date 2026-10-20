@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: schr-0dinger <kmkailasnath@gmail.com>
+Date: Sun, 16 Aug 2026 13:12:33 +0530
+Subject: [PATCH 04/15] imsservice: Report VoPS as supported
+
+Applies samsung-ims-patches stage 07: ServiceStateWrapper.getLteImsVoiceAvail()
+returned 1 (UNKNOWN on AOSP) instead of 2 (SUPPORT), so PdnController never
+brought up the IMS PDN.
+
+From schr-0dinger's "imsservice with VoPS indication fix" (vendor
+cee7cec).
+
+Assisted-by: LLM
+---
+ smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali b/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali
+index 1d091ff..ed2a308 100644
+--- a/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali
++++ b/smali/com/sec/internal/ims/util/os/ServiceStateWrapper.smali
+@@ -313,7 +313,7 @@
+ .method public getLteImsVoiceAvail()I
+     .locals 1
+ 
+-    const/4 v0, 0x1
++    const/4 v0, 0x2
+ 
+     return v0
+ .end method

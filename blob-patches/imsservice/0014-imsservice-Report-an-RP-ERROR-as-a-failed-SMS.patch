@@ -1,0 +1,170 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: James Nguyen <tienthong2004@gmail.com>
+Date: Thu, 8 Oct 2026 21:51:28 +0700
+Subject: [PATCH 14/15] imsservice: Report an RP-ERROR as a failed SMS
+
+ImsSmsImpl only recognises SIP failure codes. When the network accepts
+the MESSAGE (202) and then answers with an RP-ERROR, SmsServiceModule
+reports reason code GsmSmsUtil.RIL_CODE_RP_ERROR (0x8000) + RP-Cause,
+which ImsSmsImpl treats as success: the SMS showed as sent but never
+arrived.
+
+Route SmsServiceModule's onReceiveSMSAck calls through
+SmsListenerCompat, remember the RP-Cause per TP-MR, and turn the
+following "sent" result into SEND_STATUS_ERROR with that cause.
+
+SmsListenerCompat is part of the SMS bridge classes (bridge/src).
+
+Assisted-by: LLM
+---
+ .../internal/ims/sms/SmsServiceModule.smali   | 32 +++++++++----------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/smali/com/sec/internal/ims/sms/SmsServiceModule.smali b/smali/com/sec/internal/ims/sms/SmsServiceModule.smali
+index cc95000..8a352bd 100644
+--- a/smali/com/sec/internal/ims/sms/SmsServiceModule.smali
++++ b/smali/com/sec/internal/ims/sms/SmsServiceModule.smali
+@@ -2172,7 +2172,7 @@
+ 
+     invoke-direct {v6}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v7, "notify to listeners "
++    const-string/jumbo v7, "notify to listeners "
+ 
+     invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -2412,7 +2412,7 @@
+     .line 1311
+     move v2, v6
+ 
+-    invoke-interface/range {v0 .. v5}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v0 .. v5}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     move v0, v11
+ 
+@@ -3092,7 +3092,7 @@
+ 
+     invoke-direct {v9}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v10, "notify to listeners "
++    const-string/jumbo v10, "notify to listeners "
+ 
+     invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -3614,7 +3614,7 @@
+     move-result v21
+ 
+     .line 1265
+-    invoke-interface/range {v16 .. v21}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v16 .. v21}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     goto :goto_3
+ 
+@@ -4337,7 +4337,7 @@
+ 
+     move-object v4, v9
+ 
+-    invoke-interface/range {v1 .. v6}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v1 .. v6}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     move v1, v7
+ 
+@@ -4480,7 +4480,7 @@
+ 
+     move v8, p6
+ 
+-    invoke-interface/range {v3 .. v8}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v3 .. v8}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     goto :goto_0
+ 
+@@ -5336,7 +5336,7 @@
+     move-result v25
+ 
+     .line 1035
+-    invoke-interface/range {v20 .. v25}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v20 .. v25}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     goto :goto_8
+ 
+@@ -5740,7 +5740,7 @@
+ 
+     move/from16 v23, v6
+ 
+-    invoke-interface/range {v21 .. v26}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v21 .. v26}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     goto :goto_d
+ 
+@@ -6545,7 +6545,7 @@
+     move-result v22
+ 
+     .line 782
+-    invoke-interface/range {v17 .. v22}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v17 .. v22}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     goto :goto_4
+ 
+@@ -8447,7 +8447,7 @@
+     move-result v18
+ 
+     .line 584
+-    invoke-interface/range {v13 .. v18}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v13 .. v18}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     goto :goto_1
+ 
+@@ -8577,7 +8577,7 @@
+ 
+     const/4 v15, -0x1
+ 
+-    invoke-interface/range {v10 .. v15}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v10 .. v15}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     goto :goto_3
+ 
+@@ -9576,7 +9576,7 @@
+     move-result v13
+ 
+     .line 1527
+-    invoke-interface/range {v8 .. v13}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v8 .. v13}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+     :try_end_0
+     .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_0
+ 
+@@ -9734,7 +9734,7 @@
+ 
+     const/4 v10, -0x1
+ 
+-    invoke-interface/range {v5 .. v10}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v5 .. v10}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+     :try_end_1
+     .catch Landroid/os/RemoteException; {:try_start_1 .. :try_end_1} :catch_1
+ 
+@@ -12000,7 +12000,7 @@
+ 
+     move-object/from16 v4, p4
+ 
+-    invoke-interface/range {v1 .. v6}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v1 .. v6}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     move v1, v7
+ 
+@@ -12428,7 +12428,7 @@
+ 
+     move-object/from16 v4, p4
+ 
+-    invoke-interface/range {v1 .. v6}, Lcom/sec/ims/sms/ISmsServiceEventListener;->onReceiveSMSAck(IILjava/lang/String;[BI)V
++    invoke-static/range {v1 .. v6}, Lcom/sec/internal/google/SmsListenerCompat;->onReceiveSMSAck(Lcom/sec/ims/sms/ISmsServiceEventListener;IILjava/lang/String;[BI)V
+ 
+     move v1, v10
+ 
+@@ -12470,7 +12470,7 @@
+     .line 1897
+     sget-object v0, Lcom/sec/internal/ims/sms/SmsServiceModule;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v1, "not support sendSMSResponse"
++    const-string/jumbo v1, "not support sendSMSResponse"
+ 
+     invoke-static {v0, v1}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+ 

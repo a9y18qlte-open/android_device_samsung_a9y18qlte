@@ -1,0 +1,57 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: schr-0dinger <kmkailasnath@gmail.com>
+Date: Tue, 20 Oct 2026 05:22:55 +0700
+Subject: [PATCH 1/9] imsmanager: Read properties through SystemProperties
+
+SemSystemProperties is Samsung framework only. ImsRegistration's static
+initializer, Capabilities' static initializer and
+TelephonyManagerExt.isPsRoaming() read properties through it, so they
+crashed with NoClassDefFoundError. ImsRegistration crashed when entering
+RegisteredState, i.e. after the network accepted REGISTER.
+
+Assisted-by: LLM
+---
+ smali/com/sec/ims/ImsRegistration.smali                | 2 +-
+ smali/com/sec/ims/extensions/TelephonyManagerExt.smali | 2 +-
+ smali/com/sec/ims/options/Capabilities.smali           | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/smali/com/sec/ims/ImsRegistration.smali b/smali/com/sec/ims/ImsRegistration.smali
+index 3090855..6ded32f 100644
+--- a/smali/com/sec/ims/ImsRegistration.smali
++++ b/smali/com/sec/ims/ImsRegistration.smali
+@@ -124,7 +124,7 @@
+ 
+     const-string v1, "false"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/ims/extensions/TelephonyManagerExt.smali b/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
+index 5ad7a36..29d52d2 100644
+--- a/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
++++ b/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
+@@ -710,7 +710,7 @@
+     .line 205
+     const-string v0, "gsm.operator.ispsroaming"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/ims/options/Capabilities.smali b/smali/com/sec/ims/options/Capabilities.smali
+index 75235e8..35897e6 100644
+--- a/smali/com/sec/ims/options/Capabilities.smali
++++ b/smali/com/sec/ims/options/Capabilities.smali
+@@ -353,7 +353,7 @@
+ 
+     const-string v1, "false"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 

@@ -141,6 +141,7 @@ PRODUCT_PACKAGES += \
     libsec-ril-dsds-shim \
     qosd \
     SamsungImsHelper \
+    SamsungImsPhonePermissions \
     libsecims_shim
 
 # VoWiFi
@@ -352,6 +353,11 @@ PRODUCT_PACKAGES += \
 # phone's stock CSC.
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ims/csc/customer.xml:$(TARGET_COPY_OUT_SYSTEM)/csc/customer.xml
+
+# EpdgService's per-carrier ePDG data, from Samsung's S26 by
+# vendor/samsung/a9y18qlte/tools/epdg.
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/ims/epdg/epdg_apns_conf.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/epdg_apns_conf.xml
 
 # IPA (IP accelerator)
 #

@@ -1,0 +1,174 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: thongass000 <tienthong2004@gmail.com>
+Date: Wed, 7 Oct 2026 00:53:45 +0700
+Subject: [PATCH 2/7] EpdgService: Call the framework through EpdgCompat
+
+EpdgService calls framework methods that only Samsung's framework or
+Android 10 have: the cellular-only ServiceState getters, the
+per-subscription TelephonyManager getters, WifiManager.callSECApi(),
+the ePDG and route methods of INetworkManagementService, and
+ConnectivityManager.removeRouteToHostAddress(). Call EpdgCompat's
+stand-ins for them instead.
+
+Assisted-by: LLM
+---
+ smali/com/sec/epdg/EpdgServerSelection.smali |  4 ++--
+ smali/com/sec/epdg/EpdgSubScription.smali    | 22 ++++++++++----------
+ smali/com/sec/epdg/IPSecDataConnSM.smali     |  6 +++---
+ 3 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/smali/com/sec/epdg/EpdgServerSelection.smali b/smali/com/sec/epdg/EpdgServerSelection.smali
+index 30353f8..d12668c 100644
+--- a/smali/com/sec/epdg/EpdgServerSelection.smali
++++ b/smali/com/sec/epdg/EpdgServerSelection.smali
+@@ -336,7 +336,7 @@
+     .line 913
+     .local v7, "uid":I
+     :try_start_0
+-    invoke-interface {v0, v6, v5, v7}, Landroid/os/INetworkManagementService;->addLegacyRouteForNetId(ILandroid/net/RouteInfo;I)V
++    invoke-static {v0, v6, v5, v7}, Lcom/sec/epdg/compat/EpdgCompat;->addLegacyRouteForNetId(Landroid/os/INetworkManagementService;ILandroid/net/RouteInfo;I)V
+     :try_end_0
+     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+ 
+@@ -778,7 +778,7 @@
+ 
+     aget-object v4, v4, v5
+ 
+-    invoke-virtual {v2, v3, v4}, Landroid/net/ConnectivityManager;->removeRouteToHostAddress(ILjava/net/InetAddress;)Z
++    invoke-static {v2, v3, v4}, Lcom/sec/epdg/compat/EpdgCompat;->removeRouteToHostAddress(Landroid/net/ConnectivityManager;ILjava/net/InetAddress;)Z
+ 
+     move-result v4
+ 
+diff --git a/smali/com/sec/epdg/EpdgSubScription.smali b/smali/com/sec/epdg/EpdgSubScription.smali
+index 11b1183..3d2b9ed 100644
+--- a/smali/com/sec/epdg/EpdgSubScription.smali
++++ b/smali/com/sec/epdg/EpdgSubScription.smali
+@@ -10981,7 +10981,7 @@
+     iput v2, v1, Landroid/os/Message;->what:I
+ 
+     .line 9984
+-    invoke-virtual {v0, v1}, Landroid/net/wifi/WifiManager;->callSECApi(Landroid/os/Message;)I
++    invoke-static {v0, v1}, Lcom/sec/epdg/compat/EpdgCompat;->callSECApi(Landroid/net/wifi/WifiManager;Landroid/os/Message;)I
+ 
+     move-result v2
+ 
+@@ -12193,7 +12193,7 @@
+     move-result-object v10
+ 
+     .line 2231
+-    invoke-interface {v0, v7, v10}, Landroid/os/INetworkManagementService;->disableEpdg(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v0, v7, v10}, Lcom/sec/epdg/compat/EpdgCompat;->disableEpdg(Landroid/os/INetworkManagementService;Ljava/lang/String;Ljava/lang/String;)V
+     :try_end_2
+     .catch Ljava/lang/IllegalStateException; {:try_start_2 .. :try_end_2} :catch_4
+     .catch Ljava/lang/IllegalArgumentException; {:try_start_2 .. :try_end_2} :catch_3
+@@ -17752,14 +17752,14 @@
+     iput v0, p0, Lcom/sec/epdg/EpdgSubScription;->mCheckForRoamingVops:I
+ 
+     .line 9026
+-    invoke-virtual {p1}, Landroid/telephony/ServiceState;->isPsOnlyReg()Z
++    invoke-static {p1}, Lcom/sec/epdg/compat/EpdgCompat;->isPsOnlyReg(Landroid/telephony/ServiceState;)Z
+ 
+     move-result v0
+ 
+     sput-boolean v0, Lcom/sec/epdg/EpdgSubScription;->mIsPsOnlyReg:Z
+ 
+     .line 9027
+-    invoke-virtual {p1}, Landroid/telephony/ServiceState;->getRilMobileDataRadioTechnology()I
++    invoke-static {p1}, Lcom/sec/epdg/compat/EpdgCompat;->getRilMobileDataRadioTechnology(Landroid/telephony/ServiceState;)I
+ 
+     move-result v0
+ 
+@@ -17770,7 +17770,7 @@
+     iput v0, p0, Lcom/sec/epdg/EpdgSubScription;->mMobileDataRat:I
+ 
+     .line 9028
+-    invoke-virtual {p1}, Landroid/telephony/ServiceState;->getMobileDataRegState()I
++    invoke-static {p1}, Lcom/sec/epdg/compat/EpdgCompat;->getMobileDataRegState(Landroid/telephony/ServiceState;)I
+ 
+     move-result v0
+ 
+@@ -17784,7 +17784,7 @@
+     iput v0, p0, Lcom/sec/epdg/EpdgSubScription;->mVoiceRoamingType:I
+ 
+     .line 9030
+-    invoke-virtual {p1}, Landroid/telephony/ServiceState;->getMobileDataRoaming()Z
++    invoke-static {p1}, Lcom/sec/epdg/compat/EpdgCompat;->getMobileDataRoaming(Landroid/telephony/ServiceState;)Z
+ 
+     move-result v0
+ 
+@@ -22204,7 +22204,7 @@
+ 
+     .line 8527
+     :goto_0
+-    invoke-virtual {v1, v2}, Landroid/net/wifi/WifiManager;->callSECApi(Landroid/os/Message;)I
++    invoke-static {v1, v2}, Lcom/sec/epdg/compat/EpdgCompat;->callSECApi(Landroid/net/wifi/WifiManager;Landroid/os/Message;)I
+ 
+     .line 8528
+     return-void
+@@ -24149,7 +24149,7 @@
+     iput-object v1, v2, Landroid/os/Message;->obj:Ljava/lang/Object;
+ 
+     .line 9970
+-    invoke-virtual {v0, v2}, Landroid/net/wifi/WifiManager;->callSECApi(Landroid/os/Message;)I
++    invoke-static {v0, v2}, Lcom/sec/epdg/compat/EpdgCompat;->callSECApi(Landroid/net/wifi/WifiManager;Landroid/os/Message;)I
+ 
+     move-result v3
+ 
+@@ -31567,7 +31567,7 @@
+ 
+     iget v1, p0, Lcom/sec/epdg/EpdgSubScription;->mSubId:I
+ 
+-    invoke-virtual {v0, v1}, Landroid/telephony/TelephonyManager;->getGroupIdLevel2(I)Ljava/lang/String;
++    invoke-static {v0, v1}, Lcom/sec/epdg/compat/EpdgCompat;->getGroupIdLevel2(Landroid/telephony/TelephonyManager;I)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -31657,7 +31657,7 @@
+ 
+     const/4 v3, 0x2
+ 
+-    invoke-virtual {v1, v2, v3}, Landroid/telephony/TelephonyManager;->getSubscriberIdForUiccAppType(II)Ljava/lang/String;
++    invoke-static {v1, v2, v3}, Lcom/sec/epdg/compat/EpdgCompat;->getSubscriberIdForUiccAppType(Landroid/telephony/TelephonyManager;II)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -33527,7 +33527,7 @@
+     if-eqz v2, :cond_2
+ 
+     .line 9008
+-    invoke-virtual {v2}, Landroid/telephony/ServiceState;->getMobileVoiceRegState()I
++    invoke-static {v2}, Lcom/sec/epdg/compat/EpdgCompat;->getMobileVoiceRegState(Landroid/telephony/ServiceState;)I
+ 
+     move-result v3
+ 
+diff --git a/smali/com/sec/epdg/IPSecDataConnSM.smali b/smali/com/sec/epdg/IPSecDataConnSM.smali
+index 8a5894f..365cb5d 100644
+--- a/smali/com/sec/epdg/IPSecDataConnSM.smali
++++ b/smali/com/sec/epdg/IPSecDataConnSM.smali
+@@ -2612,7 +2612,7 @@
+     move-result-object v3
+ 
+     .line 2142
+-    invoke-interface {v1, v2, v3}, Landroid/os/INetworkManagementService;->enableEpdg(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v1, v2, v3}, Lcom/sec/epdg/compat/EpdgCompat;->enableEpdg(Landroid/os/INetworkManagementService;Ljava/lang/String;Ljava/lang/String;)V
+     :try_end_0
+     .catch Ljava/lang/IllegalStateException; {:try_start_0 .. :try_end_0} :catch_2
+     .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_1
+@@ -2759,7 +2759,7 @@
+     move-result-object v3
+ 
+     .line 2171
+-    invoke-interface {v1, v2, v3}, Landroid/os/INetworkManagementService;->disableEpdg(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v1, v2, v3}, Lcom/sec/epdg/compat/EpdgCompat;->disableEpdg(Landroid/os/INetworkManagementService;Ljava/lang/String;Ljava/lang/String;)V
+     :try_end_1
+     .catch Ljava/lang/IllegalStateException; {:try_start_1 .. :try_end_1} :catch_5
+     .catch Landroid/os/RemoteException; {:try_start_1 .. :try_end_1} :catch_4
+@@ -3520,7 +3520,7 @@
+ 
+     move-result-object v1
+ 
+-    invoke-interface {v0, v1, p1}, Landroid/os/INetworkManagementService;->setEpdgInterfaceDropRule(Ljava/lang/String;Z)V
++    invoke-static {v0, v1, p1}, Lcom/sec/epdg/compat/EpdgCompat;->setEpdgInterfaceDropRule(Landroid/os/INetworkManagementService;Ljava/lang/String;Z)V
+     :try_end_0
+     .catch Ljava/lang/IllegalStateException; {:try_start_0 .. :try_end_0} :catch_2
+     .catch Landroid/os/RemoteException; {:try_start_0 .. :try_end_0} :catch_1

@@ -1189,61 +1189,29 @@ vendor/lib64/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.samsung.hardware.radio.channel@2.0.so
 
 # Radio-IMS
-product/etc/permissions/com.qualcomm.qti.imscmservice-V2.0-java.xml
-product/etc/permissions/com.qualcomm.qti.imscmservice-V2.1-java.xml
-product/etc/permissions/com.qualcomm.qti.imscmservice-V2.2-java.xml
-product/framework/com.qualcomm.qti.imscmservice-V2.0-java.jar
-product/framework/com.qualcomm.qti.imscmservice-V2.1-java.jar
-product/framework/com.qualcomm.qti.imscmservice-V2.2-java.jar
-product/lib/com.qualcomm.qti.imscmservice@1.0.so
-product/lib/com.qualcomm.qti.imscmservice@2.0.so
-product/lib/com.qualcomm.qti.imscmservice@2.1.so
-product/lib/com.qualcomm.qti.imscmservice@2.2.so
-product/lib/libdiag_system.so
-product/lib64/com.qualcomm.qti.imscmservice@1.0.so
-product/lib64/com.qualcomm.qti.imscmservice@2.0.so
-product/lib64/com.qualcomm.qti.imscmservice@2.1.so
-product/lib64/com.qualcomm.qti.imscmservice@2.2.so
-product/lib64/libdiag_system.so
-system/app/ImsSettings/ImsSettings.apk
 system/bin/charon
 system/bin/connfwexe
 system/bin/eris
 system/bin/imsd
 system/bin/multiclientd
 system/bin/smdexe
-system/etc/epdg_apns_conf.xml
 system/etc/eris.conf
 system/etc/init/imsd.rc
 system/etc/init/init.rilepdg.rc
 system/etc/init/multiclientd.rc
-system/etc/permissions/com.qualcomm.qti.imscmservice.xml
 system/etc/permissions/epdgmanager_library.xml
 system/etc/permissions/imsmanager_library.xml
-system/etc/permissions/privapp-permissions-com.sec.ims.xml
 system/etc/permissions/privapp-permissions-com.sec.imsservice.xml
 system/etc/permissions/rcsopenapi_library.xml
 system/etc/permissions/svemanager_library.xml
 system/etc/permissions/vsimservice_library.xml
 system/etc/strongswan.conf
 system/framework/EpdgManager.jar
-# imsmanager.jar is patched by vendor/samsung/a9y18qlte/tools/imsservice.
+# imsmanager.jar is patched on extraction by blob-patches/imsmanager.
 system/framework/imsmanager.jar
 system/framework/rcsopenapi.jar
 system/framework/svemanager.jar
 system/framework/vsimmanager.jar
-system/lib/libfactoryutil.so
-system/lib/libfloatingfeature.so
-system/lib/libmdf.so
-system/lib/libomission_avoidance.so
-system/lib/libpacm_client.so
-system/lib/libsecaudiocoreutils.so
-system/lib/libsecaudioeventutils.so
-system/lib/libsecnativefeature.so
-system/lib/libsecril-client.so
-system/lib/libsecure_storage.so
-system/lib/libsemnativecarrierfeature.so
-system/lib/vendor.samsung.hardware.security.securestorage@3.0.so
 system/lib64/libAudioTranscoder.so
 system/lib64/libSRTP.so
 system/lib64/libaresdns.so
@@ -1253,27 +1221,21 @@ system/lib64/liberis_charon.so
 system/lib64/liberis_simaka.so
 system/lib64/liberis_strongswan.so
 system/lib64/libevs_float.so
-system/lib64/libfactoryutil.so
 system/lib64/libfloatingfeature.so
-system/lib64/libmdf.so
 system/lib64/libmediarelayengine.so
-system/lib64/libomission_avoidance.so
-system/lib64/libpacm_client.so
 system/lib64/libresampler_ims.so
-system/lib64/libsec-ims.so
-system/lib64/libsecaudiocoreutils.so
-system/lib64/libsecaudioeventutils.so
+# libsec-ims.so and imsservice.apk are a 2022-09-05 build (imsservice CL
+# 56000433) that AP_A920FXXS7CVH1 does not have: the originals are in
+# vendor/samsung/a9y18qlte history, 41f7025:proprietary/lib64/libsec-ims.so and
+# 2ef7aaa:proprietary/priv-app/imsservice/imsservice.apk. To regenerate them,
+# extract from a dump with those at system/lib64 and system/priv-app/imsservice.
+system/lib64/libsec-ims.so|b42c70656c5a5075c525732c666f7295ea1a118d|6f885190e6638daff7f7cd8356bc9afdb87ee9bc
 system/lib64/libsecnativefeature.so
 system/lib64/libsecril-client.so
-system/lib64/libsecure_storage.so
-system/lib64/libsemnativecarrierfeature.so
 system/lib64/libstrongswan.so;DISABLE_CHECKELF
 system/lib64/vendor.samsung.hardware.radio.bridge@2.0.so
-system/lib64/vendor.samsung.hardware.security.securestorage@3.0.so
-system/priv-app/ImsTelephonyService/ImsTelephonyService.apk
-system/priv-app/imsservice/imsservice.apk
-vendor/lib/com.qualcomm.qti.uceservice@2.0.so
-vendor/lib64/com.qualcomm.qti.uceservice@2.0.so
+# imsservice.apk is patched on extraction by blob-patches/imsservice.
+system/priv-app/imsservice/imsservice.apk|9a3e35ee3a516176b557b0d8c71f7a8f1c628b6c|c56673b37342373a6051d728551c16b7718200d7
 
 # Radio-IMS - VoWiFi: EpdgService (ePDG tunnel) and sveservice (AP voice engine)
 system/app/sveservice/sveservice.apk
@@ -1284,7 +1246,6 @@ system/lib64/libPSI.so
 system/lib64/libRecorder.so
 system/lib64/libSTE.so
 system/lib64/libSamsungAPVoiceEngine.so
-system/lib64/libnativecfms.so
 system/lib64/librtp.so
 system/lib64/librtppayload.so
 system/lib64/libsamsung_videoengine_9_0.so
@@ -1292,7 +1253,7 @@ system/lib64/libsavscmn.so
 system/lib64/libsvejni.so
 system/lib64/libsveservice.so
 system/lib64/libvad.so
-# EpdgService.apk is patched by vendor/samsung/a9y18qlte/tools/epdg.
+# EpdgService.apk is patched on extraction by blob-patches/EpdgService.
 system/priv-app/EpdgService/EpdgService.apk
 
 # SSR

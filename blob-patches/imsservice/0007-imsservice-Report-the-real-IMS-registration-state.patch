@@ -1,0 +1,128 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: James Nguyen <tienthong2004@gmail.com>
+Date: Thu, 1 Oct 2026 10:25:16 +0000
+Subject: [PATCH 07/15] imsservice: Report the real IMS registration state
+
+The AOSP-compat hooks in ImsMmtelFeature.addRegistrationListener and
+GoogleImsService.setRegistrationListener told Android IMS was registered
+on LTE as soon as it attached, on every slot, even without a SIM. A call
+placed before the real registration (e.g. right after a SIM is
+inserted) then went to IMS, which refused it, and hung at "calling".
+
+Keep the capability report, drop the forced registration from
+addRegistrationListener, and in setRegistrationListener report
+registered only if the phone has a VoLTE registration, as open() does.
+Real registration events reach Android as before.
+
+Assisted-by: LLM
+---
+ smali/com/google/ims/GoogleImsService.smali   | 52 ++++++++++++++++---
+ .../sec/internal/google/ImsMmtelFeature.smali |  6 +--
+ 2 files changed, 48 insertions(+), 10 deletions(-)
+
+diff --git a/smali/com/google/ims/GoogleImsService.smali b/smali/com/google/ims/GoogleImsService.smali
+index 7a7c7e1..469239b 100644
+--- a/smali/com/google/ims/GoogleImsService.smali
++++ b/smali/com/google/ims/GoogleImsService.smali
+@@ -5735,7 +5735,7 @@
+ 
+     move-result v0
+ 
+-    if-eqz v0, :cond_0
++    if-eqz v0, :cond_2
+ 
+     .line 293
+     sget-object v0, Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+@@ -5782,11 +5782,53 @@
+ 
+     invoke-interface {p2, v4, v2, v5}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationFeatureCapabilityChanged(I[I[I)V
+ 
+-    const/16 v4, 0xe
++    invoke-virtual {v0}, Lcom/google/ims/internal/ServiceProfile;->getPhoneId()I
++
++    move-result v4
++
++    invoke-static {}, Lcom/sec/internal/ims/imsservice/ImsServiceStub;->getInstance()Lcom/sec/internal/ims/imsservice/ImsServiceStub;
++
++    move-result-object v5
++
++    invoke-virtual {v5}, Lcom/sec/internal/ims/imsservice/ImsServiceStub;->getRegistrationManager()Lcom/sec/internal/ims/imsservice/RegistrationManagerBase;
++
++    move-result-object v5
++
++    if-eqz v5, :cond_1
++
++    invoke-virtual {v5}, Lcom/sec/internal/ims/imsservice/RegistrationManagerBase;->getRegistrationInfo()[Lcom/sec/ims/ImsRegistration;
++
++    move-result-object v5
++
++    if-eqz v5, :cond_1
++
++    array-length v3, v5
++
++    :cond_0
++    if-eqz v3, :cond_1
++
++    add-int/lit8 v3, v3, -0x1
++
++    aget-object v2, v5, v3
++
++    invoke-virtual {v2}, Lcom/sec/ims/ImsRegistration;->getPhoneId()I
+ 
+-    invoke-interface {p2, v4}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationConnectedWithRadioTech(I)V
++    move-result v1
++
++    if-ne v1, v4, :cond_0
++
++    invoke-virtual {v2}, Lcom/sec/ims/ImsRegistration;->hasVolteService()Z
++
++    move-result v1
++
++    if-eqz v1, :cond_0
++
++    const/16 v1, 0xe
++
++    invoke-interface {p2, v1}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationConnectedWithRadioTech(I)V
+ 
+     .line 295
++    :cond_1
+     sget-object v1, Lcom/google/ims/GoogleImsService;->mServiceList:Ljava/util/Map;
+ 
+     invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+@@ -5797,11 +5839,9 @@
+ 
+     .line 297
+     .end local v0    # "service":Lcom/google/ims/internal/ServiceProfile;
+-    :cond_0
++    :cond_2
+     return-void
+ 
+-    nop
+-
+     :array_0
+     .array-data 4
+         -0x1
+diff --git a/smali/com/sec/internal/google/ImsMmtelFeature.smali b/smali/com/sec/internal/google/ImsMmtelFeature.smali
+index 1fad624..5ef81fd 100644
+--- a/smali/com/sec/internal/google/ImsMmtelFeature.smali
++++ b/smali/com/sec/internal/google/ImsMmtelFeature.smali
+@@ -79,10 +79,6 @@
+ 
+     invoke-interface {p1, v2, v3, v4}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationFeatureCapabilityChanged(I[I[I)V
+ 
+-    const/16 v4, 0xe
+-
+-    invoke-interface {p1, v4}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationConnectedWithRadioTech(I)V
+-
+     .line 135
+     iget v0, p0, Lcom/sec/internal/google/ImsMmtelFeature;->mServiceId:I
+ 
+@@ -99,6 +95,8 @@
+     :cond_0
+     return-void
+ 
++    nop
++
+     :array_0
+     .array-data 4
+         -0x1

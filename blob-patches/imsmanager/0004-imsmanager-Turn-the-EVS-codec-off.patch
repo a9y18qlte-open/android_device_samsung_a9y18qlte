@@ -1,0 +1,88 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: schr-0dinger <kmkailasnath@gmail.com>
+Date: Tue, 20 Oct 2026 05:24:16 +0700
+Subject: [PATCH 4/9] imsmanager: Turn the EVS codec off
+
+getEnableEvsCodec() checks SEC_FLOATING_FEATURE_COMMON_SUPPORT_EVS
+through SemFloatingFeature, which is Samsung framework only. It crashed
+in createUserAgent, killing every registration attempt. Report EVS as
+disabled.
+
+Assisted-by: LLM
+---
+ smali/com/sec/ims/settings/ImsProfile.smali | 61 +--------------------
+ 1 file changed, 2 insertions(+), 59 deletions(-)
+
+diff --git a/smali/com/sec/ims/settings/ImsProfile.smali b/smali/com/sec/ims/settings/ImsProfile.smali
+index c5461c2..e2a64ad 100644
+--- a/smali/com/sec/ims/settings/ImsProfile.smali
++++ b/smali/com/sec/ims/settings/ImsProfile.smali
+@@ -5949,66 +5949,9 @@
+ .method public getEnableEvsCodec()I
+     .locals 3
+ 
+-    .line 2404
+-    invoke-virtual {p0}, Lcom/sec/ims/settings/ImsProfile;->getSimMobility()Z
+-
+-    move-result v0
+-
+-    const/4 v1, 0x0
+-
+-    if-eqz v0, :cond_0
+-
+-    sget-object v0, Landroid/os/Build;->MODEL:Ljava/lang/String;
+-
+-    const-string v2, "SM-A505"
+-
+-    invoke-virtual {v0, v2}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+-
+-    move-result v0
+-
+-    if-eqz v0, :cond_0
+-
+-    .line 2405
+-    return v1
+-
+-    .line 2407
+-    :cond_0
+-    invoke-static {}, Lcom/samsung/android/feature/SemFloatingFeature;->getInstance()Lcom/samsung/android/feature/SemFloatingFeature;
+-
+-    move-result-object v0
+-
+-    .line 2408
+-    const-string v2, "SEC_FLOATING_FEATURE_COMMON_SUPPORT_EVS"
+-
+-    invoke-virtual {v0, v2}, Lcom/samsung/android/feature/SemFloatingFeature;->getBoolean(Ljava/lang/String;)Z
+-
+-    move-result v0
+-
+-    if-eqz v0, :cond_1
+-
+-    .line 2409
+-    const-string v0, "enable_evs_codec"
+-
+-    invoke-virtual {p0, v0}, Lcom/sec/ims/settings/ImsProfile;->getAsBoolean(Ljava/lang/String;)Ljava/lang/Boolean;
+-
+-    move-result-object v0
+-
+-    invoke-virtual {v0}, Ljava/lang/Boolean;->booleanValue()Z
+-
+-    move-result v0
+-
+-    if-eqz v0, :cond_1
+-
+-    const/4 v1, 0x1
+-
+-    goto :goto_0
+-
+-    :cond_1
+-    nop
++    const/4 v0, 0x0
+ 
+-    .line 2407
+-    :goto_0
+-    return v1
++    return v0
+ .end method
+ 
+ .method public getEnableMwi()I

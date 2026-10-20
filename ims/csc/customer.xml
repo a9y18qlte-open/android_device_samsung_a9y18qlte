@@ -3,6 +3,10 @@
 <CustomerData>
   <GeneralInfo>
     <NetworkInfo>
+      <MCCMNC>20201</MCCMNC>
+      <NetworkName>TMobile_GR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>20205</MCCMNC>
       <NetworkName>Vodafone_GR</NetworkName>
     </NetworkInfo>
@@ -27,16 +31,68 @@
       <NetworkName>Vodafone_NL</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>20408</MCCMNC>
+      <NetworkName>KPN_NL</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20410</MCCMNC>
+      <NetworkName>KPN_NL</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>20416</MCCMNC>
       <NetworkName>TMobile_NL</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
-      <MCCMNC>20420</MCCMNC>
-      <NetworkName>TMobile_NL</NetworkName>
+      <MCCMNC>20469</MCCMNC>
+      <NetworkName>KPN_NL</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20601</MCCMNC>
+      <NetworkName>Proximus_BE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20605</MCCMNC>
+      <NetworkName>Telenet_BE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20610</MCCMNC>
+      <NetworkName>Orange_BE</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>20614</MCCMNC>
       <NetworkName>Telavox_BE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20620</MCCMNC>
+      <NetworkName>Telenet_BE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20801</MCCMNC>
+      <NetworkName>Orange_FR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20802</MCCMNC>
+      <NetworkName>Orange_FR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20809</MCCMNC>
+      <NetworkName>SFR_FR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20810</MCCMNC>
+      <NetworkName>SFR_FR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20811</MCCMNC>
+      <NetworkName>SFR_FR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20815</MCCMNC>
+      <NetworkName>Free_FR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20816</MCCMNC>
+      <NetworkName>Free_FR</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>208183</MCCMNC>
@@ -49,6 +105,18 @@
     <NetworkInfo>
       <MCCMNC>208187</MCCMNC>
       <NetworkName>ACMOSS_FR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20820</MCCMNC>
+      <NetworkName>Bouygues_FR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20821</MCCMNC>
+      <NetworkName>Bouygues_FR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>20844</MCCMNC>
+      <NetworkName>SFR_FR</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>208500</MCCMNC>
@@ -67,8 +135,24 @@
       <NetworkName>Vodafone_ES</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>21403</MCCMNC>
+      <NetworkName>Orange_ES</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>21404</MCCMNC>
+      <NetworkName>Yoigo_ES</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>21405</MCCMNC>
+      <NetworkName>Telefonica_ES</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>21406</MCCMNC>
       <NetworkName>Vodafone_ES</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>21407</MCCMNC>
+      <NetworkName>Telefonica_ES</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>21415</MCCMNC>
@@ -77,6 +161,10 @@
     <NetworkInfo>
       <MCCMNC>21422</MCCMNC>
       <NetworkName>Digi_ES</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>21438</MCCMNC>
+      <NetworkName>Telefonica_ES</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>214703</MCCMNC>
@@ -89,6 +177,10 @@
     <NetworkInfo>
       <MCCMNC>21603</MCCMNC>
       <NetworkName>DIGI_HU</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>21630</MCCMNC>
+      <NetworkName>TMobile_HU</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>21670</MCCMNC>
@@ -113,6 +205,10 @@
     <NetworkInfo>
       <MCCMNC>21910</MCCMNC>
       <NetworkName>Vodafone_HR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>21920</MCCMNC>
+      <NetworkName>TMobile_HR</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>22001</MCCMNC>
@@ -187,8 +283,20 @@
       <NetworkName>Vodafone_RO</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>22603</MCCMNC>
+      <NetworkName>TMobile_RO</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>22605</MCCMNC>
       <NetworkName>RDS_RO</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>22610</MCCMNC>
+      <NetworkName>Orange_RO</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>22801</MCCMNC>
+      <NetworkName>Swisscom_CH</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>22802</MCCMNC>
@@ -221,6 +329,14 @@
     <NetworkInfo>
       <MCCMNC>23007</MCCMNC>
       <NetworkName>Tele2_SE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>23101</MCCMNC>
+      <NetworkName>Orange_SK</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>23102</MCCMNC>
+      <NetworkName>TMobile_SK</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>23103</MCCMNC>
@@ -307,6 +423,22 @@
       <NetworkName>Vodafone_GB</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>23420</MCCMNC>
+      <NetworkName>Hutchison_GB</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>23430</MCCMNC>
+      <NetworkName>EE_GB</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>23433</MCCMNC>
+      <NetworkName>EE_GB</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>23438</MCCMNC>
+      <NetworkName>Virgin_GB</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>23440</MCCMNC>
       <NetworkName>Spusu_GB</NetworkName>
     </NetworkInfo>
@@ -319,12 +451,24 @@
       <NetworkName>Sure_GB</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>23457</MCCMNC>
+      <NetworkName>Sky_GB</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>23458</MCCMNC>
       <NetworkName>Manx_GB</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>23594</MCCMNC>
+      <NetworkName>Hutchison_GB</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>23801</MCCMNC>
       <NetworkName>TDC_DK</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>23802</MCCMNC>
+      <NetworkName>Telenor_DK</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>23806</MCCMNC>
@@ -343,6 +487,10 @@
       <NetworkName>Telia_DK</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>23877</MCCMNC>
+      <NetworkName>Telenor_DK</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>24001</MCCMNC>
       <NetworkName>Telia_SE</NetworkName>
     </NetworkInfo>
@@ -351,8 +499,16 @@
       <NetworkName>3_SE</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>24006</MCCMNC>
+      <NetworkName>Vimla_SE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>24007</MCCMNC>
       <NetworkName>Tele2_SE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>24008</MCCMNC>
+      <NetworkName>Telenor_SE</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>24012</MCCMNC>
@@ -361,6 +517,10 @@
     <NetworkInfo>
       <MCCMNC>24060</MCCMNC>
       <NetworkName>VGR_SE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>24201</MCCMNC>
+      <NetworkName>Telenor_NO</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>24202</MCCMNC>
@@ -379,8 +539,24 @@
       <NetworkName>Erate_NO</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>24403</MCCMNC>
+      <NetworkName>DNA_FI</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>24404</MCCMNC>
+      <NetworkName>DNA_FI</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>24405</MCCMNC>
       <NetworkName>Elisa_FI</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>24412</MCCMNC>
+      <NetworkName>DNA_FI</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>24413</MCCMNC>
+      <NetworkName>DNA_FI</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>24414</MCCMNC>
@@ -427,8 +603,32 @@
       <NetworkName>Tele2_EE</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>25001</MCCMNC>
+      <NetworkName>MTS_RU</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>25002</MCCMNC>
+      <NetworkName>Megafon_RU</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>25011</MCCMNC>
+      <NetworkName>Megafon_RU</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>25019</MCCMNC>
       <NetworkName>Alfa_RU</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>25020</MCCMNC>
+      <NetworkName>TELE2_RU</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>25035</MCCMNC>
+      <NetworkName>Motiv_RU</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>25099</MCCMNC>
+      <NetworkName>Beeline_RU</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>25701</MCCMNC>
@@ -439,12 +639,20 @@
       <NetworkName>MTS_BY</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>25851</MCCMNC>
+      <NetworkName>ATT_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>25901</MCCMNC>
       <NetworkName>Orange_MD</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>25902</MCCMNC>
       <NetworkName>Moldcell_MD</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>26001</MCCMNC>
+      <NetworkName>Plus_PL</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>26002</MCCMNC>
@@ -455,16 +663,52 @@
       <NetworkName>Orange_PL</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>26006</MCCMNC>
+      <NetworkName>Play_PL</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>26098</MCCMNC>
+      <NetworkName>Play_PL</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>26201</MCCMNC>
+      <NetworkName>TMobile_DE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>26202</MCCMNC>
       <NetworkName>Vodafone_DE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>26203</MCCMNC>
+      <NetworkName>Telefonica_DE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>26206</MCCMNC>
+      <NetworkName>TMobile_DE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>26207</MCCMNC>
+      <NetworkName>Telefonica_DE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>26208</MCCMNC>
+      <NetworkName>Telefonica_DE</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>26209</MCCMNC>
       <NetworkName>Vodafone_DE</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>26211</MCCMNC>
+      <NetworkName>Telefonica_DE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>26223</MCCMNC>
       <NetworkName>1n1_DE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>26277</MCCMNC>
+      <NetworkName>Telefonica_DE</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>26801</MCCMNC>
@@ -575,6 +819,10 @@
       <NetworkName>Telenor_BG</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>28601</MCCMNC>
+      <NetworkName>Turkcell_TR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>28602</MCCMNC>
       <NetworkName>Vodafone_TR</NetworkName>
     </NetworkInfo>
@@ -607,8 +855,16 @@
       <NetworkName>Telemach_SI</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>29401</MCCMNC>
+      <NetworkName>TMobile_MK</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>29403</MCCMNC>
       <NetworkName>VIP_MK</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>29501</MCCMNC>
+      <NetworkName>Swisscom_CH</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>29701</MCCMNC>
@@ -631,12 +887,72 @@
       <NetworkName>ESK_CA</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>302370</MCCMNC>
+      <NetworkName>RWC_CA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>302490</MCCMNC>
+      <NetworkName>Wind_CA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>302500</MCCMNC>
+      <NetworkName>VideoTron_CA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>302510</MCCMNC>
+      <NetworkName>VideoTron_CA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>302512</MCCMNC>
+      <NetworkName>VideoTron_CA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>302520</MCCMNC>
+      <NetworkName>VideoTron_CA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>302610</MCCMNC>
+      <NetworkName>Bell_CA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>30272</MCCMNC>
+      <NetworkName>RWC_CA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>302720</MCCMNC>
+      <NetworkName>RWC_CA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>302780</MCCMNC>
+      <NetworkName>SaskTel_CA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>302990</MCCMNC>
       <NetworkName>ESK_CA</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>30803</MCCMNC>
       <NetworkName>SPM_FR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310000</MCCMNC>
+      <NetworkName>Sprint_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310004</MCCMNC>
+      <NetworkName>VZW_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310030</MCCMNC>
+      <NetworkName>ATT_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310090</MCCMNC>
+      <NetworkName>ATT_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310120</MCCMNC>
+      <NetworkName>Sprint_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>310130</MCCMNC>
@@ -647,8 +963,52 @@
       <NetworkName>ATT_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>310160</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310170</MCCMNC>
+      <NetworkName>ATT_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>310180</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310200</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310210</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310220</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310230</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310240</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310250</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310260</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310270</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310280</MCCMNC>
+      <NetworkName>ATT_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>310300</MCCMNC>
@@ -667,24 +1027,72 @@
       <NetworkName>TMobile_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>310370</MCCMNC>
+      <NetworkName>DPAC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310380</MCCMNC>
+      <NetworkName>ATT_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310410</MCCMNC>
+      <NetworkName>ATT_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>310450</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310470</MCCMNC>
+      <NetworkName>DPAC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310490</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310560</MCCMNC>
+      <NetworkName>ATT_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>310580</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>310590</MCCMNC>
+      <NetworkName>VZW_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310599</MCCMNC>
+      <NetworkName>VZW_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310660</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>310690</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310800</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>310886</MCCMNC>
       <NetworkName>TMobile_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>310890</MCCMNC>
+      <NetworkName>VZW_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>310920</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>310950</MCCMNC>
+      <NetworkName>ATT_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>310999</MCCMNC>
@@ -699,12 +1107,72 @@
       <NetworkName>GenericIR92_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>311180</MCCMNC>
+      <NetworkName>ATT_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311220</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311221</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311222</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311223</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311224</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311225</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311226</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311227</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311228</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311229</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>311230</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>311240</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311270</MCCMNC>
+      <NetworkName>VZW_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311278</MCCMNC>
+      <NetworkName>VZW_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311279</MCCMNC>
+      <NetworkName>VZW_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311280</MCCMNC>
+      <NetworkName>VZW_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>311320</MCCMNC>
@@ -715,12 +1183,64 @@
       <NetworkName>GenericIR92_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>311370</MCCMNC>
+      <NetworkName>GCI_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>311450</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>311480</MCCMNC>
+      <NetworkName>VZW_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311490</MCCMNC>
+      <NetworkName>Sprint_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>311560</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311580</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311581</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311582</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311583</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311584</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311585</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311586</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311587</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311588</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311589</MCCMNC>
+      <NetworkName>USCC_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>311630</MCCMNC>
@@ -729,6 +1249,10 @@
     <NetworkInfo>
       <MCCMNC>311650</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311660</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>311670</MCCMNC>
@@ -743,12 +1267,24 @@
       <NetworkName>GenericIR92_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>311870</MCCMNC>
+      <NetworkName>Sprint_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>311882</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>311990</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>312130</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>312250</MCCMNC>
+      <NetworkName>TMobile_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>312280</MCCMNC>
@@ -767,12 +1303,12 @@
       <NetworkName>GenericIR92_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
-      <MCCMNC>312430</MCCMNC>
+      <MCCMNC>312480</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
-      <MCCMNC>312480</MCCMNC>
-      <NetworkName>GenericIR92_US</NetworkName>
+      <MCCMNC>312530</MCCMNC>
+      <NetworkName>Sprint_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>312670</MCCMNC>
@@ -781,6 +1317,10 @@
     <NetworkInfo>
       <MCCMNC>312720</MCCMNC>
       <NetworkName>GenericIR92_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>312770</MCCMNC>
+      <NetworkName>VZW_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>313010</MCCMNC>
@@ -795,12 +1335,20 @@
       <NetworkName>DPAC_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>313120</MCCMNC>
+      <NetworkName>ASTCA_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>313130</MCCMNC>
       <NetworkName>ATT_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>313140</MCCMNC>
       <NetworkName>ATT_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>313340</MCCMNC>
+      <NetworkName>Dish_US</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>313380</MCCMNC>
@@ -813,6 +1361,22 @@
     <NetworkInfo>
       <MCCMNC>314240</MCCMNC>
       <NetworkName>VZW_US</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>330110</MCCMNC>
+      <NetworkName>Claro_PR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>334020</MCCMNC>
+      <NetworkName>Telcel_MX</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>33403</MCCMNC>
+      <NetworkName>Movistar_MX</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>334030</MCCMNC>
+      <NetworkName>Movistar_MX</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>33405</MCCMNC>
@@ -859,6 +1423,10 @@
       <NetworkName>Orange_DO</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>37002</MCCMNC>
+      <NetworkName>Claro_DO</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>40001</MCCMNC>
       <NetworkName>Azercell_AZ</NetworkName>
     </NetworkInfo>
@@ -883,6 +1451,86 @@
       <NetworkName>Tele2_KZ</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>40401</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40402</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40403</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40404</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40405</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40407</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40410</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40411</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40412</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40413</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40414</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40415</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40416</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40419</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40420</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40422</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40424</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40427</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40430</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40431</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>40434</MCCMNC>
       <NetworkName>BSNL_IN</NetworkName>
     </NetworkInfo>
@@ -893,6 +1541,30 @@
     <NetworkInfo>
       <MCCMNC>40439</MCCMNC>
       <NetworkName>BSNL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40440</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40443</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40444</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40445</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40446</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40449</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>40451</MCCMNC>
@@ -911,6 +1583,10 @@
       <NetworkName>BSNL_IN</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>40456</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>40457</MCCMNC>
       <NetworkName>BSNL_IN</NetworkName>
     </NetworkInfo>
@@ -921,6 +1597,10 @@
     <NetworkInfo>
       <MCCMNC>40459</MCCMNC>
       <NetworkName>BSNL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40460</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>40462</MCCMNC>
@@ -937,6 +1617,10 @@
     <NetworkInfo>
       <MCCMNC>40466</MCCMNC>
       <NetworkName>BSNL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40470</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>40471</MCCMNC>
@@ -967,6 +1651,10 @@
       <NetworkName>BSNL_IN</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>40478</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>40479</MCCMNC>
       <NetworkName>BSNL_IN</NetworkName>
     </NetworkInfo>
@@ -977,6 +1665,246 @@
     <NetworkInfo>
       <MCCMNC>40481</MCCMNC>
       <NetworkName>BSNL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40482</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40484</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40486</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40487</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40488</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40489</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40490</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40492</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40493</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40494</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40495</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40496</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40497</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40498</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40551</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40552</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40553</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40554</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40555</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40556</MCCMNC>
+      <NetworkName>AIRTEL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40566</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40567</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>40570</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405750</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405751</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405752</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405753</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405754</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405755</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405756</MCCMNC>
+      <NetworkName>Vodafone_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405799</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405840</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405845</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405846</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405848</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405849</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405850</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405852</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405853</MCCMNC>
+      <NetworkName>IDEA_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405854</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405855</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405856</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405857</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405858</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405859</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405860</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405861</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405862</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405863</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405864</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405865</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405866</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405867</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405868</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405869</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405870</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405871</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405872</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405873</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>405874</MCCMNC>
+      <NetworkName>RJIL_IN</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>41001</MCCMNC>
@@ -1103,6 +2031,10 @@
       <NetworkName>Vodafone_OM</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>42402</MCCMNC>
+      <NetworkName>Etisalat_AE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>42403</MCCMNC>
       <NetworkName>DU_AE</NetworkName>
     </NetworkInfo>
@@ -1173,6 +2105,14 @@
     <NetworkInfo>
       <MCCMNC>42706</MCCMNC>
       <NetworkName>MOI_QA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>43211</MCCMNC>
+      <NetworkName>Mcci_IR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>43235</MCCMNC>
+      <NetworkName>MTN_IR</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>44007</MCCMNC>
@@ -1273,6 +2213,22 @@
     <NetworkInfo>
       <MCCMNC>44170</MCCMNC>
       <NetworkName>KDDI_JP</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>45003</MCCMNC>
+      <NetworkName>SKT_KR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>45005</MCCMNC>
+      <NetworkName>SKT_KR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>45006</MCCMNC>
+      <NetworkName>LGU+_KR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>45008</MCCMNC>
+      <NetworkName>KT_KR</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>45030</MCCMNC>
@@ -1431,6 +2387,74 @@
       <NetworkName>Best_LA</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>46000</MCCMNC>
+      <NetworkName>CMCC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46001</MCCMNC>
+      <NetworkName>CU_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46002</MCCMNC>
+      <NetworkName>CMCC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46003</MCCMNC>
+      <NetworkName>CTC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46004</MCCMNC>
+      <NetworkName>CMCC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46006</MCCMNC>
+      <NetworkName>CU_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46007</MCCMNC>
+      <NetworkName>CMCC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46008</MCCMNC>
+      <NetworkName>CMCC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46009</MCCMNC>
+      <NetworkName>CU_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46010</MCCMNC>
+      <NetworkName>CMCC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46011</MCCMNC>
+      <NetworkName>CTC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46012</MCCMNC>
+      <NetworkName>CTC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46013</MCCMNC>
+      <NetworkName>CMCC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46015</MCCMNC>
+      <NetworkName>CBN_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46020</MCCMNC>
+      <NetworkName>CMCC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46030</MCCMNC>
+      <NetworkName>CMCC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>46059</MCCMNC>
+      <NetworkName>CTC_CN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>46601</MCCMNC>
       <NetworkName>FET_TW</NetworkName>
     </NetworkInfo>
@@ -1583,6 +2607,10 @@
       <NetworkName>3_ID</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>51502</MCCMNC>
+      <NetworkName>Globe_PH</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>51503</MCCMNC>
       <NetworkName>Smart_PH</NetworkName>
     </NetworkInfo>
@@ -1683,6 +2711,10 @@
       <NetworkName>We_EG</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>60400</MCCMNC>
+      <NetworkName>Orange_MA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>60401</MCCMNC>
       <NetworkName>Maroc_MA</NetworkName>
     </NetworkInfo>
@@ -1695,8 +2727,16 @@
       <NetworkName>INWI_MA</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>60801</MCCMNC>
+      <NetworkName>Orange_SN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>62001</MCCMNC>
       <NetworkName>MTN_GH</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>62120</MCCMNC>
+      <NetworkName>AIRTEL_NG</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>62124</MCCMNC>
@@ -1783,8 +2823,24 @@
       <NetworkName>Rain_ZA</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>70401</MCCMNC>
+      <NetworkName>Claro_GT</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>70402</MCCMNC>
       <NetworkName>Tigo_GT</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>70601</MCCMNC>
+      <NetworkName>Claro_SV</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>708001</MCCMNC>
+      <NetworkName>Claro_HN</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>71021</MCCMNC>
+      <NetworkName>Claro_NI</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>71201</MCCMNC>
@@ -1795,6 +2851,10 @@
       <NetworkName>KOLBI_CR</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>71203</MCCMNC>
+      <NetworkName>Claro_CR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>71401</MCCMNC>
       <NetworkName>Cable_PA</NetworkName>
     </NetworkInfo>
@@ -1803,8 +2863,16 @@
       <NetworkName>Tigo_PA</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>71403</MCCMNC>
+      <NetworkName>Claro_PA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>71606</MCCMNC>
       <NetworkName>Movistar_PE</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>71610</MCCMNC>
+      <NetworkName>Claro_PE</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>71615</MCCMNC>
@@ -1831,8 +2899,64 @@
       <NetworkName>Movistar_AR</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>72231</MCCMNC>
+      <NetworkName>Claro_AR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>722310</MCCMNC>
+      <NetworkName>Claro_AR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72234</MCCMNC>
+      <NetworkName>Personal_AR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>722341</MCCMNC>
+      <NetworkName>Personal_AR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72400</MCCMNC>
+      <NetworkName>Claro_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72402</MCCMNC>
+      <NetworkName>Tim_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72403</MCCMNC>
+      <NetworkName>Tim_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72404</MCCMNC>
+      <NetworkName>Tim_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72405</MCCMNC>
+      <NetworkName>Claro_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72406</MCCMNC>
+      <NetworkName>Vivo_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72410</MCCMNC>
+      <NetworkName>Vivo_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72411</MCCMNC>
+      <NetworkName>Vivo_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>72418</MCCMNC>
       <NetworkName>Arqia_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72423</MCCMNC>
+      <NetworkName>Vivo_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>72426</MCCMNC>
+      <NetworkName>Americanet_BR</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>72429</MCCMNC>
@@ -1855,6 +2979,10 @@
       <NetworkName>Brisanet_BR</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>72489</MCCMNC>
+      <NetworkName>Vivo_BR</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>73001</MCCMNC>
       <NetworkName>Entel_CL</NetworkName>
     </NetworkInfo>
@@ -1863,12 +2991,24 @@
       <NetworkName>Movistar_CL</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>73003</MCCMNC>
+      <NetworkName>Claro_CL</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>73009</MCCMNC>
       <NetworkName>Wom_CL</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>73010</MCCMNC>
       <NetworkName>Entel_CL</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>73023</MCCMNC>
+      <NetworkName>Claro_CL</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>732101</MCCMNC>
+      <NetworkName>Claro_CO</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>732103</MCCMNC>
@@ -1907,8 +3047,16 @@
       <NetworkName>Movistar_EC</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>74001</MCCMNC>
+      <NetworkName>Claro_EC</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>74002</MCCMNC>
       <NetworkName>ALE_EC</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>74402</MCCMNC>
+      <NetworkName>Claro_PY</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>74404</MCCMNC>
@@ -1923,12 +3071,20 @@
       <NetworkName>Movistar_UY</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
+      <MCCMNC>74810</MCCMNC>
+      <NetworkName>Claro_UY</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
       <MCCMNC>96654</MCCMNC>
       <NetworkName>MOBILY_SA</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>96656</MCCMNC>
       <NetworkName>MOBILY_SA</NetworkName>
+    </NetworkInfo>
+    <NetworkInfo>
+      <MCCMNC>99940</MCCMNC>
+      <NetworkName>Free_FR</NetworkName>
     </NetworkInfo>
     <NetworkInfo>
       <MCCMNC>999480</MCCMNC>
@@ -2056,7 +3212,25 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>AIRTEL_IN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>AIRTEL_LK</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>AIRTEL_NG</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -2088,6 +3262,15 @@
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>ASTCA_US</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -2201,6 +3384,15 @@
         </Setting>
         <Setting>
           <NetworkName>Altel_KZ</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Americanet_BR</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -2326,6 +3518,24 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Beeline_RU</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Bell_CA</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Best_LA</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -2353,6 +3563,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Bouygues_FR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Brisanet_BR</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -2362,11 +3581,29 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>CBN_CN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>CHT_TW</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>CMCC_CN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -2385,6 +3622,15 @@
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>CTC_CN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -2421,6 +3667,15 @@
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>CU_CN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -2488,6 +3743,150 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Claro_AR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_BR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_CL</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_CO</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_CR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_DO</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_EC</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_GT</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_HN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_NI</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_PA</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_PE</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_PR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_PY</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_SV</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Claro_UY</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Cogeco_CA</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -2525,6 +3924,15 @@
         </Setting>
         <Setting>
           <NetworkName>DITO_PH</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>DNA_FI</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -2605,6 +4013,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Dish_US</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Docomo_JP</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -2619,6 +4036,15 @@
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>EE_GB</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -2704,6 +4130,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Etisalat_AE</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Etisalat_EG</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -2731,6 +4166,24 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Free_FR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>GCI_US</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>GRAMEENPHONE_BD</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -2745,6 +4198,15 @@
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Globe_PH</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -2772,6 +4234,24 @@
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Hutchison_GB</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>IDEA_IN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -2857,7 +4337,25 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>KPN_NL</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>KT_KR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>LGU+_KR</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -2965,6 +4463,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>MTN_IR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>MTN_NG</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3010,6 +4517,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>MTS_RU</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Magticom_GE</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3038,6 +4554,24 @@
         </Setting>
         <Setting>
           <NetworkName>Maxis_MY</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Mcci_IR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Megafon_RU</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -3100,6 +4634,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Motiv_RU</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Movistar_AR</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3128,6 +4671,15 @@
         </Setting>
         <Setting>
           <NetworkName>Movistar_EC</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Movistar_MX</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -3271,6 +4823,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Orange_BE</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Orange_CH</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3290,6 +4851,15 @@
         </Setting>
         <Setting>
           <NetworkName>Orange_EG</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Orange_ES</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -3325,6 +4895,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Orange_MA</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Orange_MD</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3339,6 +4918,33 @@
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Orange_RO</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Orange_SK</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Orange_SN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -3388,11 +4994,29 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Personal_AR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Personal_PY</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Play_PL</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -3406,7 +5030,25 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Plus_PL</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Post_LU</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Proximus_BE</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -3424,11 +5066,29 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>RJIL_IN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>ROBI_BD</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>RWC_CA</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -3461,6 +5121,24 @@
         </Setting>
         <Setting>
           <NetworkName>SBB_CH</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>SFR_FR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>SKT_KR</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -3505,6 +5183,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>SaskTel_CA</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Seatel_KH</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3524,6 +5211,15 @@
         </Setting>
         <Setting>
           <NetworkName>Singtel_SG</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Sky_GB</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -3595,6 +5291,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Sprint_US</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Spusu_AT</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3649,6 +5354,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Swisscom_CH</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>T2_SI</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3659,6 +5373,15 @@
         </Setting>
         <Setting>
           <NetworkName>TDC_DK</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>TELE2_RU</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -3685,7 +5408,34 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>TMobile_DE</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>TMobile_GR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>TMobile_HR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>TMobile_HU</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -3703,6 +5453,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>TMobile_MK</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>TMobile_NL</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3713,6 +5472,24 @@
         </Setting>
         <Setting>
           <NetworkName>TMobile_PL</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>TMobile_RO</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>TMobile_SK</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -3767,6 +5544,15 @@
         </Setting>
         <Setting>
           <NetworkName>Telavox_BE</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Telcel_MX</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -3874,6 +5660,24 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Telefonica_DE</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Telefonica_ES</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Telefonica_GB</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3937,11 +5741,29 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Telenet_BE</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Telenor_BG</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Telenor_DK</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -3973,6 +5795,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Telenor_NO</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Telenor_PK</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -3987,6 +5818,15 @@
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Telenor_SE</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -4135,6 +5975,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Tim_BR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Truemove_TH</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -4145,6 +5994,15 @@
         </Setting>
         <Setting>
           <NetworkName>Tuenti_AR</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Turkcell_TR</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -4172,6 +6030,15 @@
         </Setting>
         <Setting>
           <NetworkName>UPC_CH</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>USCC_US</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -4270,6 +6137,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>VideoTron_CA</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Vietnamobile_VN</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -4280,6 +6156,15 @@
         </Setting>
         <Setting>
           <NetworkName>Viettel_VN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Vimla_SE</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -4302,6 +6187,15 @@
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Virgin_GB</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
@@ -4334,6 +6228,15 @@
         </Setting>
         <Setting>
           <NetworkName>Vivacom_BG</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Vivo_BR</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
@@ -4468,6 +6371,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Vodafone_IN</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Vodafone_IS</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -4567,6 +6479,15 @@
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>
         <Setting>
+          <NetworkName>Wind_CA</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
           <NetworkName>Wind_GR</NetworkName>
           <EnableIMS>true</EnableIMS>
           <EnableVoLTE>true</EnableVoLTE>
@@ -4626,6 +6547,15 @@
           <EnableVoLTE>true</EnableVoLTE>
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
+          <EnableVideocall>false</EnableVideocall>
+          <EnableSMSoverIP>false</EnableSMSoverIP>
+        </Setting>
+        <Setting>
+          <NetworkName>Yoigo_ES</NetworkName>
+          <EnableIMS>true</EnableIMS>
+          <EnableVoLTE>true</EnableVoLTE>
+          <EnableVoLTEindicator>true</EnableVoLTEindicator>
+          <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
           <EnableSMSoverIP>false</EnableSMSoverIP>
         </Setting>

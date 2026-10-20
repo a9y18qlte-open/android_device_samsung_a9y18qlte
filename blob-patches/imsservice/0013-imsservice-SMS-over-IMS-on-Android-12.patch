@@ -1,0 +1,425 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: thongass000 <tienthong2004@gmail.com>
+Date: Tue, 6 Oct 2026 15:00:06 +0700
+Subject: [PATCH 13/15] imsservice: SMS over IMS on Android 12
+
+Android 12 wraps the compat ImsService in MmTelFeatureCompatAdapter, which has
+no SMS, and the SMS side of Samsung's GoogleImsService is only reachable
+in-process. Incoming SMS over IMS were never handed to the framework and the
+network kept them queued.
+
+- Replace GoogleImsServiceAdapter with an Android 12 ImsService that wraps the
+  compat MMTelFeature in-process and adds an ImsSmsImplBase backed by
+  GoogleImsService (the SMS bridge classes, bridge/src)
+- Redirect ImsSmsImpl's Android 10 IImsSmsListener calls and the Samsung and
+  Android 10 framework methods it uses to compat helpers
+- Pass the SIM's SMSC as an international SC address when the framework leaves
+  it out; ImsSmsImpl rejects a PDU without one and Samsung's RIL drops the "+"
+- Ack incoming SMS and status reports with the message id ImsSmsImpl expects
+- Fall back to CS when ImsSmsImpl never reports a send result
+
+Assisted-by: LLM
+---
+ AndroidManifest.xml                           |   2 +-
+ smali/com/google/ims/GoogleImsService.smali   |   2 +-
+ .../ims/ImsSmsImpl$SmsEventListener.smali     |  10 +-
+ smali/com/google/ims/ImsSmsImpl.smali         |  40 +++---
+ .../google/GoogleImsServiceAdapter.smali      | 130 ------------------
+ 5 files changed, 27 insertions(+), 157 deletions(-)
+ delete mode 100644 smali/com/sec/internal/google/GoogleImsServiceAdapter.smali
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 9dd7d35..c34c875 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -268,7 +268,7 @@
+         <service android:enabled="true" android:exported="true" android:name="com.sec.internal.google.GoogleImsServiceAdapter" android:permission="android.permission.BIND_IMS_SERVICE" android:singleUser="true">
+             <meta-data android:name="android.telephony.ims.MMTEL_FEATURE" android:value="true"/>
+             <intent-filter>
+-                <action android:name="android.telephony.ims.compat.ImsService"/>
++                <action android:name="android.telephony.ims.ImsService"/>
+             </intent-filter>
+         </service>
+         <service android:enabled="true" android:exported="true" android:name="com.sec.internal.ims.imsservice.ImsService" android:permission="com.sec.imsservice.PERMISSION" android:singleUser="true">
+diff --git a/smali/com/google/ims/GoogleImsService.smali b/smali/com/google/ims/GoogleImsService.smali
+index 469239b..f9ee52b 100644
+--- a/smali/com/google/ims/GoogleImsService.smali
++++ b/smali/com/google/ims/GoogleImsService.smali
+@@ -1089,7 +1089,7 @@
+ 
+     .line 1151
+     :cond_0
+-    invoke-static {p0}, Landroid/telephony/TelephonyManager;->getNetworkClass(I)I
++    invoke-static {p0}, Lcom/sec/internal/google/TelephonyCompat;->getNetworkClass(I)I
+ 
+     move-result v0
+ 
+diff --git a/smali/com/google/ims/ImsSmsImpl$SmsEventListener.smali b/smali/com/google/ims/ImsSmsImpl$SmsEventListener.smali
+index e33e43f..904ed59 100644
+--- a/smali/com/google/ims/ImsSmsImpl$SmsEventListener.smali
++++ b/smali/com/google/ims/ImsSmsImpl$SmsEventListener.smali
+@@ -70,7 +70,7 @@
+ 
+     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v2, "onReceiveIncomingSMS messageId = "
++    const-string/jumbo v2, "onReceiveIncomingSMS messageId = "
+ 
+     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -261,7 +261,7 @@
+ 
+     move-result-object v3
+ 
+-    invoke-interface {v3, v2, p1, v0, p3}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSmsStatusReportReceived(IILjava/lang/String;[B)V
++    invoke-static {v3, v2, p1, v0, p3}, Lcom/sec/internal/google/SmsListenerCompat;->onSmsStatusReportReceived(Landroid/telephony/ims/aidl/IImsSmsListener;IILjava/lang/String;[B)V
+ 
+     .line 294
+     iget-object v3, p0, Lcom/google/ims/ImsSmsImpl$SmsEventListener;->this$0:Lcom/google/ims/ImsSmsImpl;
+@@ -377,7 +377,7 @@
+ 
+     move-result v5
+ 
+-    invoke-interface {v4, v3, v5, v0, v2}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSmsStatusReportReceived(IILjava/lang/String;[B)V
++    invoke-static {v4, v3, v5, v0, v2}, Lcom/sec/internal/google/SmsListenerCompat;->onSmsStatusReportReceived(Landroid/telephony/ims/aidl/IImsSmsListener;IILjava/lang/String;[B)V
+ 
+     goto :goto_0
+ 
+@@ -483,7 +483,7 @@
+ 
+     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v2, "onReceiveSMSAck: messageId = "
++    const-string/jumbo v2, "onReceiveSMSAck: messageId = "
+ 
+     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -631,7 +631,7 @@
+ 
+     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v2, "onReceiveSMSDeliveryReportAck : messageId "
++    const-string/jumbo v2, "onReceiveSMSDeliveryReportAck : messageId "
+ 
+     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+diff --git a/smali/com/google/ims/ImsSmsImpl.smali b/smali/com/google/ims/ImsSmsImpl.smali
+index e69fd08..58d3f59 100644
+--- a/smali/com/google/ims/ImsSmsImpl.smali
++++ b/smali/com/google/ims/ImsSmsImpl.smali
+@@ -559,7 +559,7 @@
+     .local v2, "simOperator":Ljava/lang/String;
+     iget v3, p0, Lcom/google/ims/ImsSmsImpl;->mPhoneId:I
+ 
+-    invoke-static {v3}, Lcom/android/internal/telephony/uicc/IccUtils;->getIccType(I)I
++    invoke-static {v3}, Lcom/sec/internal/google/TelephonyCompat;->getIccType(I)I
+ 
+     move-result v3
+ 
+@@ -1357,7 +1357,7 @@
+ 
+     move v7, v13
+ 
+-    invoke-interface/range {v1 .. v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResponse(IIIIII)V
++    invoke-static/range {v1 .. v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResponse(Landroid/telephony/ims/aidl/IImsSmsListener;IIIIII)V
+ 
+     goto/16 :goto_0
+ 
+@@ -1380,7 +1380,7 @@
+ 
+     move v7, v13
+ 
+-    invoke-interface/range {v1 .. v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResponse(IIIIII)V
++    invoke-static/range {v1 .. v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResponse(Landroid/telephony/ims/aidl/IImsSmsListener;IIIIII)V
+ 
+     goto :goto_0
+ 
+@@ -1403,7 +1403,7 @@
+ 
+     move v7, v13
+ 
+-    invoke-interface/range {v1 .. v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResponse(IIIIII)V
++    invoke-static/range {v1 .. v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResponse(Landroid/telephony/ims/aidl/IImsSmsListener;IIIIII)V
+ 
+     goto :goto_0
+ 
+@@ -1442,7 +1442,7 @@
+ 
+     move v7, v13
+ 
+-    invoke-interface/range {v1 .. v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResponse(IIIIII)V
++    invoke-static/range {v1 .. v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResponse(Landroid/telephony/ims/aidl/IImsSmsListener;IIIIII)V
+ 
+     goto :goto_0
+ 
+@@ -1462,7 +1462,7 @@
+ 
+     move v7, v13
+ 
+-    invoke-interface/range {v1 .. v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResponse(IIIIII)V
++    invoke-static/range {v1 .. v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResponse(Landroid/telephony/ims/aidl/IImsSmsListener;IIIIII)V
+ 
+     goto :goto_0
+ 
+@@ -1482,7 +1482,7 @@
+ 
+     move v7, v13
+ 
+-    invoke-interface/range {v1 .. v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResponse(IIIIII)V
++    invoke-static/range {v1 .. v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResponse(Landroid/telephony/ims/aidl/IImsSmsListener;IIIIII)V
+ 
+     .line 1108
+     .end local v12    # "errorCause":I
+@@ -1710,7 +1710,7 @@
+     .line 1147
+     iget-object v4, v0, Lcom/google/ims/ImsSmsImpl;->mSmsListener:Landroid/telephony/ims/aidl/IImsSmsListener;
+ 
+-    invoke-interface {v4, v8, v9, v3, v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResult(IIII)V
++    invoke-static {v4, v8, v9, v3, v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResult(Landroid/telephony/ims/aidl/IImsSmsListener;IIII)V
+ 
+     goto :goto_3
+ 
+@@ -1720,7 +1720,7 @@
+ 
+     const/4 v4, 0x2
+ 
+-    invoke-interface {v3, v8, v9, v4, v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResult(IIII)V
++    invoke-static {v3, v8, v9, v4, v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResult(Landroid/telephony/ims/aidl/IImsSmsListener;IIII)V
+ 
+     goto :goto_3
+ 
+@@ -1740,7 +1740,7 @@
+     .line 1153
+     iget-object v4, v0, Lcom/google/ims/ImsSmsImpl;->mSmsListener:Landroid/telephony/ims/aidl/IImsSmsListener;
+ 
+-    invoke-interface {v4, v8, v9, v3, v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResult(IIII)V
++    invoke-static {v4, v8, v9, v3, v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResult(Landroid/telephony/ims/aidl/IImsSmsListener;IIII)V
+ 
+     goto :goto_3
+ 
+@@ -1766,7 +1766,7 @@
+     .line 1156
+     iget-object v4, v0, Lcom/google/ims/ImsSmsImpl;->mSmsListener:Landroid/telephony/ims/aidl/IImsSmsListener;
+ 
+-    invoke-interface {v4, v8, v9, v3, v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResult(IIII)V
++    invoke-static {v4, v8, v9, v3, v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResult(Landroid/telephony/ims/aidl/IImsSmsListener;IIII)V
+ 
+     goto :goto_3
+ 
+@@ -1774,7 +1774,7 @@
+     :cond_11
+     iget-object v3, v0, Lcom/google/ims/ImsSmsImpl;->mSmsListener:Landroid/telephony/ims/aidl/IImsSmsListener;
+ 
+-    invoke-interface {v3, v8, v9, v2, v7}, Landroid/telephony/ims/aidl/IImsSmsListener;->onSendSmsResult(IIII)V
++    invoke-static {v3, v8, v9, v2, v7}, Lcom/sec/internal/google/SmsListenerCompat;->onSendSmsResult(Landroid/telephony/ims/aidl/IImsSmsListener;IIII)V
+ 
+     .line 1161
+     .end local v1    # "pdu":[B
+@@ -1897,7 +1897,7 @@
+ 
+     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v2, "onReceiveSMSDeliveryReportAck: Reason "
++    const-string/jumbo v2, "onReceiveSMSDeliveryReportAck: Reason "
+ 
+     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -1979,7 +1979,7 @@
+ 
+     invoke-direct {v8}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v9, "onReceiveSMSSuccssAcknowledgment: token = "
++    const-string/jumbo v9, "onReceiveSMSSuccssAcknowledgment: token = "
+ 
+     invoke-virtual {v8, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -2149,7 +2149,7 @@
+ 
+     invoke-direct {v12}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v15, "onReceiveSMSSuccssAcknowledgment nReasonCode = "
++    const-string/jumbo v15, "onReceiveSMSSuccssAcknowledgment nReasonCode = "
+ 
+     invoke-virtual {v12, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -2479,7 +2479,7 @@
+ 
+     invoke-direct {v15}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v12, "onReceiveSMSSuccssAcknowledgment nRetryAfter = "
++    const-string/jumbo v12, "onReceiveSMSSuccssAcknowledgment nRetryAfter = "
+ 
+     invoke-virtual {v15, v12}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -2498,7 +2498,7 @@
+ 
+     invoke-direct {v12}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v15, "onReceiveSMSSuccssAcknowledgment getReasonCode = "
++    const-string/jumbo v15, "onReceiveSMSSuccssAcknowledgment getReasonCode = "
+ 
+     invoke-virtual {v12, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -2725,7 +2725,7 @@
+ 
+     invoke-direct {v12}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v14, "onReceiveSMSSuccssAcknowledgment nRetryAfter = "
++    const-string/jumbo v14, "onReceiveSMSSuccssAcknowledgment nRetryAfter = "
+ 
+     invoke-virtual {v12, v14}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -3354,7 +3354,7 @@
+ 
+     invoke-direct {v11}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v12, "onReceiveSMSSuccssAcknowledgment retrying SMS for Swisscom_CH, getReasonCode = "
++    const-string/jumbo v12, "onReceiveSMSSuccssAcknowledgment retrying SMS for Swisscom_CH, getReasonCode = "
+ 
+     invoke-virtual {v11, v12}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -3960,7 +3960,7 @@
+ 
+     const-string/jumbo v3, "persist.radio.tpmr_sms"
+ 
+-    invoke-static {p2, v3, v2}, Landroid/telephony/TelephonyManager;->setTelephonyProperty(ILjava/lang/String;Ljava/lang/String;)V
++    invoke-static {p2, v3, v2}, Lcom/sec/internal/google/TelephonyCompat;->setTelephonyProperty(ILjava/lang/String;Ljava/lang/String;)V
+ 
+     .line 706
+     add-int/lit8 v2, v1, 0x2
+diff --git a/smali/com/sec/internal/google/GoogleImsServiceAdapter.smali b/smali/com/sec/internal/google/GoogleImsServiceAdapter.smali
+deleted file mode 100644
+index 963dad3..0000000
+--- a/smali/com/sec/internal/google/GoogleImsServiceAdapter.smali
++++ /dev/null
+@@ -1,130 +0,0 @@
+-.class public Lcom/sec/internal/google/GoogleImsServiceAdapter;
+-.super Landroid/telephony/ims/compat/ImsService;
+-.source "GoogleImsServiceAdapter.java"
+-
+-
+-# instance fields
+-.field private final LOG_TAG:Ljava/lang/String;
+-
+-.field private final mFeatureList:Ljava/util/concurrent/ConcurrentHashMap;
+-    .annotation system Ldalvik/annotation/Signature;
+-        value = {
+-            "Ljava/util/concurrent/ConcurrentHashMap<",
+-            "Ljava/lang/Integer;",
+-            "Lcom/sec/internal/google/ImsMmtelFeature;",
+-            ">;"
+-        }
+-    .end annotation
+-.end field
+-
+-
+-# direct methods
+-.method public constructor <init>()V
+-    .locals 1
+-
+-    .line 22
+-    invoke-direct {p0}, Landroid/telephony/ims/compat/ImsService;-><init>()V
+-
+-    .line 14
+-    const-string v0, "GoogleImsServiceAdapter"
+-
+-    iput-object v0, p0, Lcom/sec/internal/google/GoogleImsServiceAdapter;->LOG_TAG:Ljava/lang/String;
+-
+-    .line 23
+-    new-instance v0, Ljava/util/concurrent/ConcurrentHashMap;
+-
+-    invoke-direct {v0}, Ljava/util/concurrent/ConcurrentHashMap;-><init>()V
+-
+-    iput-object v0, p0, Lcom/sec/internal/google/GoogleImsServiceAdapter;->mFeatureList:Ljava/util/concurrent/ConcurrentHashMap;
+-
+-    .line 24
+-    return-void
+-.end method
+-
+-
+-# virtual methods
+-.method public onBind(Landroid/content/Intent;)Landroid/os/IBinder;
+-    .locals 2
+-    .param p1, "intent"    # Landroid/content/Intent;
+-
+-    .line 18
+-    const-string v0, "GoogleImsServiceAdapter"
+-
+-    const-string/jumbo v1, "onBind:"
+-
+-    invoke-static {v0, v1}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+-
+-    .line 19
+-    invoke-super {p0, p1}, Landroid/telephony/ims/compat/ImsService;->onBind(Landroid/content/Intent;)Landroid/os/IBinder;
+-
+-    move-result-object v0
+-
+-    return-object v0
+-.end method
+-
+-.method public onCreateEmergencyMMTelImsFeature(I)Landroid/telephony/ims/compat/feature/MMTelFeature;
+-    .locals 1
+-    .param p1, "slotId"    # I
+-
+-    invoke-virtual {p0, p1}, Lcom/sec/internal/google/GoogleImsServiceAdapter;->onCreateMMTelImsFeature(I)Landroid/telephony/ims/compat/feature/MMTelFeature;
+-
+-    move-result-object v0
+-
+-    return-object v0
+-.end method
+-
+-.method public onCreateMMTelImsFeature(I)Landroid/telephony/ims/compat/feature/MMTelFeature;
+-    .locals 4
+-    .param p1, "slotId"    # I
+-
+-    iget-object v0, p0, Lcom/sec/internal/google/GoogleImsServiceAdapter;->mFeatureList:Ljava/util/concurrent/ConcurrentHashMap;
+-
+-    invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+-
+-    move-result-object v1
+-
+-    invoke-virtual {v0, v1}, Ljava/util/concurrent/ConcurrentHashMap;->containsKey(Ljava/lang/Object;)Z
+-
+-    move-result v0
+-
+-    if-eqz v0, :cond_0
+-
+-    .line 30
+-    iget-object v0, p0, Lcom/sec/internal/google/GoogleImsServiceAdapter;->mFeatureList:Ljava/util/concurrent/ConcurrentHashMap;
+-
+-    invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+-
+-    move-result-object v1
+-
+-    invoke-virtual {v0, v1}, Ljava/util/concurrent/ConcurrentHashMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    move-result-object v0
+-
+-    check-cast v0, Landroid/telephony/ims/compat/feature/MMTelFeature;
+-
+-    return-object v0
+-
+-    :cond_0
+-    new-instance v0, Lcom/sec/internal/google/ImsMmtelFeature;
+-
+-    invoke-virtual {p0}, Lcom/sec/internal/google/GoogleImsServiceAdapter;->getApplicationContext()Landroid/content/Context;
+-
+-    move-result-object v1
+-
+-    invoke-static {v1}, Lcom/google/ims/GoogleImsService;->getInstance(Landroid/content/Context;)Lcom/google/ims/GoogleImsService;
+-
+-    move-result-object v1
+-
+-    invoke-direct {v0, v1, p1}, Lcom/sec/internal/google/ImsMmtelFeature;-><init>(Lcom/google/ims/GoogleImsService;I)V
+-
+-    .local v0, "m":Lcom/sec/internal/google/ImsMmtelFeature;
+-    iget-object v2, p0, Lcom/sec/internal/google/GoogleImsServiceAdapter;->mFeatureList:Ljava/util/concurrent/ConcurrentHashMap;
+-
+-    invoke-static {p1}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+-
+-    move-result-object v3
+-
+-    invoke-virtual {v2, v3, v0}, Ljava/util/concurrent/ConcurrentHashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    return-object v0
+-.end method

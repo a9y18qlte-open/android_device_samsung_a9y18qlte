@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: thongass000 <tienthong2004@gmail.com>
+Date: Wed, 7 Oct 2026 00:53:45 +0700
+Subject: [PATCH 3/7] EpdgService: Sync the Wi-Fi Calling switch from the
+ framework
+
+Start WfcSync when the service is created. It copies the framework's
+Wi-Fi Calling switch and mode into EpdgService's provider, which
+EpdgService and imsservice read; on AOSP nothing else writes them.
+
+Assisted-by: LLM
+---
+ smali/com/sec/epdg/EpdgService.smali | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/smali/com/sec/epdg/EpdgService.smali b/smali/com/sec/epdg/EpdgService.smali
+index 53f1ba1..b406fc4 100644
+--- a/smali/com/sec/epdg/EpdgService.smali
++++ b/smali/com/sec/epdg/EpdgService.smali
+@@ -1072,6 +1072,8 @@
+     .line 66
+     invoke-direct {p0}, Lcom/sec/epdg/EpdgService;->initializeEpdgService()V
+ 
++    invoke-static {p0}, Lcom/sec/epdg/compat/EpdgCompat;->startWfcSync(Landroid/content/Context;)V
++
+     .line 67
+     return-void
+ .end method
