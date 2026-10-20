@@ -53,6 +53,9 @@ int main(void) {
                 if (nfds <= MAX_CLIENTS) {
                     fds[nfds].fd = c;
                     fds[nfds].events = POLLIN;
+                    // The slot may still hold the revents of a closed client;
+                    // reading the new one now would block until it writes.
+                    fds[nfds].revents = 0;
                     nfds++;
                 } else {
                     close(c);

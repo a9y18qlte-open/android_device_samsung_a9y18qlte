@@ -1,0 +1,72 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: schr-0dinger <kmkailasnath@gmail.com>
+Date: Tue, 20 Oct 2026 05:22:55 +0700
+Subject: [PATCH 2/9] imsmanager: Return the default from
+ SemEmergencyConstantsExt
+
+getStringFromField() reads Samsung's emergency mode constants
+(com.samsung.android.emergencymode.SemEmergencyConstants) by
+reflection. That class is Samsung framework only; return the given
+default value.
+
+Assisted-by: LLM
+---
+ .../extensions/SemEmergencyConstantsExt.smali | 43 +------------------
+ 1 file changed, 1 insertion(+), 42 deletions(-)
+
+diff --git a/smali/com/sec/ims/extensions/SemEmergencyConstantsExt.smali b/smali/com/sec/ims/extensions/SemEmergencyConstantsExt.smali
+index 7c6a921..eaeed22 100644
+--- a/smali/com/sec/ims/extensions/SemEmergencyConstantsExt.smali
++++ b/smali/com/sec/ims/extensions/SemEmergencyConstantsExt.smali
+@@ -35,50 +35,9 @@
+ .end method
+ 
+ .method static getStringFromField(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+-    .locals 2
++    .locals 0
+     .param p0, "name"    # Ljava/lang/String;
+     .param p1, "defaultValue"    # Ljava/lang/String;
+ 
+-    .line 26
+-    :try_start_0
+-    const-class v0, Lcom/samsung/android/emergencymode/SemEmergencyConstants;
+-
+-    invoke-static {v0, p0}, Lcom/sec/ims/extensions/ReflectionUtils;->getField(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/reflect/Field;
+-
+-    move-result-object v0
+-
+-    .line 27
+-    .local v0, "field":Ljava/lang/reflect/Field;
+-    if-eqz v0, :cond_0
+-
+-    .line 28
+-    const/4 v1, 0x0
+-
+-    invoke-virtual {v0, v1}, Ljava/lang/reflect/Field;->get(Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    move-result-object v1
+-
+-    check-cast v1, Ljava/lang/String;
+-    :try_end_0
+-    .catch Ljava/lang/IllegalAccessException; {:try_start_0 .. :try_end_0} :catch_0
+-
+-    return-object v1
+-
+-    .line 32
+-    .end local v0    # "field":Ljava/lang/reflect/Field;
+-    :cond_0
+-    goto :goto_0
+-
+-    .line 30
+-    :catch_0
+-    move-exception v0
+-
+-    .line 31
+-    .local v0, "e":Ljava/lang/IllegalAccessException;
+-    invoke-virtual {v0}, Ljava/lang/IllegalAccessException;->printStackTrace()V
+-
+-    .line 34
+-    .end local v0    # "e":Ljava/lang/IllegalAccessException;
+-    :goto_0
+     return-object p1
+ .end method

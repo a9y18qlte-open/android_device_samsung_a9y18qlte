@@ -1,0 +1,1813 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: schr-0dinger <kmkailasnath@gmail.com>
+Date: Tue, 20 Oct 2026 05:24:16 +0700
+Subject: [PATCH 5/9] imsmanager: Drop the RCS feature tags from Capabilities
+
+Capabilities' static initializer fills the feature <-> feature tag maps
+(sFeatures, sFeatureTags, sTagFeatures) for every RCS service. Only the
+MMTEL entries are kept.
+
+Carried over unchanged from the imsmanager.jar this was imported with
+(schr-0dinger, "update vendor blobs and permissions for Samsung IMS
+support"); its commit does not give the reason.
+
+Assisted-by: LLM
+---
+ smali/com/sec/ims/options/Capabilities.smali | 1722 +-----------------
+ 1 file changed, 21 insertions(+), 1701 deletions(-)
+
+diff --git a/smali/com/sec/ims/options/Capabilities.smali b/smali/com/sec/ims/options/Capabilities.smali
+index 35897e6..0db743f 100644
+--- a/smali/com/sec/ims/options/Capabilities.smali
++++ b/smali/com/sec/ims/options/Capabilities.smali
+@@ -823,7 +823,7 @@
+     .line 277
+     sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+ 
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_ISH:I
++    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL:I
+ 
+     int-to-long v3, v3
+ 
+@@ -831,14 +831,14 @@
+ 
+     move-result-object v3
+ 
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_ISH:Ljava/lang/String;
++    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_MMTEL:Ljava/lang/String;
+ 
+     invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 
+     .line 278
+     sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+ 
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_VSH:I
++    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL_VIDEO:I
+ 
+     int-to-long v3, v3
+ 
+@@ -846,177 +846,42 @@
+ 
+     move-result-object v3
+ 
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_VSH:Ljava/lang/String;
++    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_MMTEL_VIDEO:Ljava/lang/String;
+ 
+     invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 
+     .line 279
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
++    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+ 
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_CHAT_CPM:I
++    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_MMTEL:Ljava/lang/String;
+ 
+-    int-to-long v3, v3
++    sget v4, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL:I
+ 
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
++    int-to-long v4, v4
+ 
+-    move-result-object v3
++    invoke-static {v4, v5}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+ 
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_CHAT:Ljava/lang/String;
++    move-result-object v4
+ 
+     invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 
+     .line 280
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
++    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+ 
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_SF_GROUP_CHAT:I
++    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_MMTEL_VIDEO:Ljava/lang/String;
+ 
+-    int-to-long v3, v3
++    sget v4, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL_VIDEO:I
+ 
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
++    int-to-long v4, v4
+ 
+-    move-result-object v3
++    invoke-static {v4, v5}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+ 
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_SF_GROUP_CHAT:Ljava/lang/String;
++    move-result-object v4
+ 
+     invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 
+     .line 281
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 282
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_THUMBNAIL:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT_THUMBNAIL:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 283
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_STORE:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT_STORE:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 284
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_HTTP:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT_HTTP:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 285
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_STANDALONE_MSG:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_STANDALONE_MSG:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 286
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_STANDALONE_MSG_V1:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_STANDALONE_MSG:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 287
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_VSH_OUTSIDE_CALL:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_VSH_OUTSIDE_CALL:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 288
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_SOCIAL_PRESENCE:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_SOCIAL_PRESENCE:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 289
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_PRESENCE_DISCOVERY:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_PRESENCE_DISCOVERY:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 290
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
++    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+ 
+     sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL:I
+ 
+@@ -1026,12 +891,12 @@
+ 
+     move-result-object v3
+ 
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_MMTEL:Ljava/lang/String;
++    const-string v4, "mmtel"
+ 
+     invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 
+-    .line 291
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
++    .line 282
++    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+ 
+     sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL_VIDEO:I
+ 
+@@ -1041,1555 +906,10 @@
+ 
+     move-result-object v3
+ 
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_MMTEL_VIDEO:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 292
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL_CALL_COMPOSER:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_MMTEL_CALL_COMPOSER:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 293
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_IPCALL:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_IPCALL:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 294
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_IPCALL_VIDEO:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_IPCALL_VIDEO:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 295
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_IPCALL_VIDEO_ONLY:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_IPCALL_VIDEO_ONLY:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 296
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_GEOLOCATION_PULL:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_GEOLOCATION_PULL:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 297
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_GEOLOCATION_PULL_FT:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_GEOLOCATION_PULL_FT:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 298
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_GEOLOCATION_PUSH:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_GEOLOCATION_PUSH:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 299
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_INTEGRATED_MSG:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_INTEGRATED_MSG:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 300
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_CHAT_SIMPLE_IM:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_CHAT:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 301
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_NON_RCS_USER:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_NULL:Ljava/lang/String;
++    const-string v4, "mmtel-video"
+ 
+     invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+ 
+-    .line 304
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_NOT_UPDATED:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_NOT_UPDATED:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 305
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_STICKER:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_STICKER:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 306
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_THUMBNAIL_V1:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT_THUMBNAIL:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 307
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_HTTP_EXTRA:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v4, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT_HTTP_EXTRA:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 308
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_VIA_SMS:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "+g.3gpp.iari-ref=\"urn%3Aurn-7%3A3gpp-application.ims.iari.rcs.ftsms\""
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 309
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_GEO_VIA_SMS:I
+-
+-    int-to-long v5, v3
+-
+-    invoke-static {v5, v6}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v5, "+g.3gpp.iari-ref=\"urn%3Aurn-7%3A3gpp-application.ims.iari.rcs.geosms\""
+-
+-    invoke-interface {v2, v3, v5}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 310
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v6, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_CALL_COMPOSER:J
+-
+-    invoke-static {v6, v7}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v6, "+g.3gpp.icsi-ref=\"urn%3Aurn-7%3A3gpp-service.ims.icsi.gsma.callcomposer\""
+-
+-    invoke-interface {v2, v3, v6}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 311
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v7, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_SHARED_MAP:J
+-
+-    invoke-static {v7, v8}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v7, "+g.3gpp.icsi-ref=\"urn%3Aurn-7%3A3gpp-service.ims.icsi.gsma.sharedmap\""
+-
+-    invoke-interface {v2, v3, v7}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 312
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v8, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_SHARED_SKETCH:J
+-
+-    invoke-static {v8, v9}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v8, "+g.3gpp.icsi-ref=\"urn%3Aurn-7%3A3gpp-service.ims.icsi.gsma.sharedsketch\""
+-
+-    invoke-interface {v2, v3, v8}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 313
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v9, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_POST_CALL:J
+-
+-    invoke-static {v9, v10}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v9, "+g.3gpp.icsi-ref=\"urn%3Aurn-7%3A3gpp-service.ims.icsi.gsma.callunanswered\""
+-
+-    invoke-interface {v2, v3, v9}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 314
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v10, Lcom/sec/ims/options/Capabilities;->FEATURE_LAST_SEEN_ACTIVE:J
+-
+-    invoke-static {v10, v11}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v10, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_LAST_SEEN_ACTIVE:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v10}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 315
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v10, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_COMMUNICATION:J
+-
+-    invoke-static {v10, v11}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v10, "+g.3gpp.iari-ref=\"urn%3Aurn-7%3A3gpp-application.ims.iari.rcs.chatbot\""
+-
+-    invoke-interface {v2, v3, v10}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 316
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v11, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_STANDALONE_MSG:J
+-
+-    invoke-static {v11, v12}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v11, "+g.3gpp.iari-ref=\"urn%3Aurn-7%3A3gpp-application.ims.iari.rcs.chatbot.sa\""
+-
+-    invoke-interface {v2, v3, v11}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 317
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v12, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_EXTENDED_MSG:J
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v12, "+g.3gpp.iari-ref=\"urn%3Aurn-7%3A3gpp-application.ims.iari.rcs.xbotmessage\""
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 318
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v12, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_ROLE:J
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v12, "+g.gsma.rcs.isbot"
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 319
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v12, Lcom/sec/ims/options/Capabilities;->FEATURE_PLUG_IN:J
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v12, "+g.3gpp.iari-ref=\"urn%3Aurn-7%3A3gpp-application.ims.iari.rcs.plugin\""
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 320
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatureTags:Ljava/util/Map;
+-
+-    sget-wide v12, Lcom/sec/ims/options/Capabilities;->FEATURE_PUBLIC_MSG:J
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    sget-object v12, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_PUBLIC_MSG:Ljava/lang/String;
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 322
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_ISH:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_ISH:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 323
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_VSH:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_VSH:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 324
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_CHAT:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_CHAT_CPM:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 325
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_SF_GROUP_CHAT:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_SF_GROUP_CHAT:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 326
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_FT:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 327
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT_THUMBNAIL:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_THUMBNAIL:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 328
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT_STORE:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_STORE:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 329
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT_HTTP:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_HTTP:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 330
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_STANDALONE_MSG:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_STANDALONE_MSG:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 331
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_STANDALONE_MSG:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_STANDALONE_MSG_V1:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 332
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_VSH_OUTSIDE_CALL:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_VSH_OUTSIDE_CALL:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 333
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_SOCIAL_PRESENCE:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_SOCIAL_PRESENCE:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 334
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_PRESENCE_DISCOVERY:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_PRESENCE_DISCOVERY:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 335
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_MMTEL:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 336
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_MMTEL_VIDEO:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL_VIDEO:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 337
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_MMTEL_CALL_COMPOSER:Ljava/lang/String;
+-
+-    sget-wide v12, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL_CALL_COMPOSER:J
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 338
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_IPCALL:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_IPCALL:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 339
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_IPCALL_VIDEO:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_IPCALL_VIDEO:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 340
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_IPCALL_VIDEO_ONLY:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_IPCALL_VIDEO_ONLY:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 341
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_GEOLOCATION_PULL:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_GEOLOCATION_PULL:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 342
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_GEOLOCATION_PULL_FT:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_GEOLOCATION_PULL_FT:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 343
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_GEOLOCATION_PUSH:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_GEOLOCATION_PUSH:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 344
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_INTEGRATED_MSG:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_INTEGRATED_MSG:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 345
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_CHAT:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_CHAT_SIMPLE_IM:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 346
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_NULL:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_NON_RCS_USER:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 349
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_NOT_UPDATED:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_NOT_UPDATED:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 350
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_STICKER:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_STICKER:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 351
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_FT_HTTP_EXTRA:Ljava/lang/String;
+-
+-    sget v12, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_HTTP_EXTRA:I
+-
+-    int-to-long v12, v12
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v12
+-
+-    invoke-interface {v2, v3, v12}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 352
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_VIA_SMS:I
+-
+-    int-to-long v12, v3
+-
+-    invoke-static {v12, v13}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v2, v4, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 353
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_GEO_VIA_SMS:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v2, v5, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 354
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_CALL_COMPOSER:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v2, v6, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 355
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_SHARED_MAP:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v2, v7, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 356
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_SHARED_SKETCH:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v2, v8, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 357
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_POST_CALL:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v2, v9, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 358
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-object v3, Lcom/sec/ims/options/Capabilities;->FEATURE_TAG_LAST_SEEN_ACTIVE:Ljava/lang/String;
+-
+-    sget-wide v4, Lcom/sec/ims/options/Capabilities;->FEATURE_LAST_SEEN_ACTIVE:J
+-
+-    invoke-static {v4, v5}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v4
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 359
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_COMMUNICATION:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v2, v10, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 360
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_STANDALONE_MSG:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v2, v11, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 361
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_EXTENDED_MSG:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "+g.3gpp.iari-ref=\"urn%3Aurn-7%3A3gpp-application.ims.iari.rcs.xbotmessage\""
+-
+-    invoke-interface {v2, v4, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 362
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_ROLE:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "+g.gsma.rcs.isbot"
+-
+-    invoke-interface {v2, v4, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 363
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sTagFeatures:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_PLUG_IN:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "+g.3gpp.iari-ref=\"urn%3Aurn-7%3A3gpp-application.ims.iari.rcs.plugin\""
+-
+-    invoke-interface {v2, v4, v3}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 365
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_ISH:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "ish"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 366
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_VSH:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "vsh"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 367
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_CHAT_CPM:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "im"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 368
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_SF_GROUP_CHAT:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "fullsf_groupchat"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 369
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "ft"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 370
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_THUMBNAIL:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "ftthumb"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 371
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_STORE:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "ftstandfw"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 372
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_HTTP:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "fthttp"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 373
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_STANDALONE_MSG:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "standalone_msg"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 374
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_STANDALONE_MSG_V1:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "standalone_msg_v1"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 375
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_VSH_OUTSIDE_CALL:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "vsh_outside_call"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 376
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_SOCIAL_PRESENCE:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "sp"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 377
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_PRESENCE_DISCOVERY:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "dp"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 378
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "mmtel"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 379
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL_VIDEO:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "mmtel_video"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 380
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v3, Lcom/sec/ims/options/Capabilities;->FEATURE_MMTEL_CALL_COMPOSER:J
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "mmtel_call_composer"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 381
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_IPCALL:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "ipcall"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 382
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_IPCALL_VIDEO:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "ipcall_video"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 383
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_IPCALL_VIDEO_ONLY:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "ipcall_video_only"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 384
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_GEOLOCATION_PULL:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "geopush"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 385
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_GEOLOCATION_PULL_FT:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "geopullft"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 386
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_GEOLOCATION_PUSH:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "geopush"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 387
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_INTEGRATED_MSG:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "intergrated_msg"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 388
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_CHAT_SIMPLE_IM:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    const-string v4, "session_mode_msg"
+-
+-    invoke-interface {v2, v3, v4}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 389
+-    sget-object v2, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v3, Lcom/sec/ims/options/Capabilities;->FEATURE_NON_RCS_USER:I
+-
+-    int-to-long v3, v3
+-
+-    invoke-static {v3, v4}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v3
+-
+-    invoke-interface {v2, v3, v0}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 392
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v2, Lcom/sec/ims/options/Capabilities;->FEATURE_NOT_UPDATED:I
+-
+-    int-to-long v2, v2
+-
+-    invoke-static {v2, v3}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v2
+-
+-    invoke-interface {v0, v2, v1}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 393
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v1, Lcom/sec/ims/options/Capabilities;->FEATURE_STICKER:I
+-
+-    int-to-long v1, v1
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "sticker"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 394
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v1, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_THUMBNAIL_V1:I
+-
+-    int-to-long v1, v1
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "ftthumb_v1"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 395
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v1, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_HTTP_EXTRA:I
+-
+-    int-to-long v1, v1
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "fthttp_extra"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 396
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v1, Lcom/sec/ims/options/Capabilities;->FEATURE_FT_VIA_SMS:I
+-
+-    int-to-long v1, v1
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "ftsms"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 397
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget v1, Lcom/sec/ims/options/Capabilities;->FEATURE_GEO_VIA_SMS:I
+-
+-    int-to-long v1, v1
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "geosms"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 398
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_CALL_COMPOSER:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "callcomposer"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 399
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_SHARED_MAP:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "sharedmap"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 400
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_SHARED_SKETCH:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "sharedsketch"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 401
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_ENRICHED_POST_CALL:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "callunanswered"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 402
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_LAST_SEEN_ACTIVE:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "lastseenactive"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 403
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_COMMUNICATION:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "chatbot"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 404
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_STANDALONE_MSG:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "chatbot_standalone_msg"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 405
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_EXTENDED_MSG:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "extended_bot_msg"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 406
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_CHATBOT_ROLE:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "isbot"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 407
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_PLUG_IN:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "plugin"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+-    .line 408
+-    sget-object v0, Lcom/sec/ims/options/Capabilities;->sFeatures:Ljava/util/Map;
+-
+-    sget-wide v1, Lcom/sec/ims/options/Capabilities;->FEATURE_PUBLIC_MSG:J
+-
+-    invoke-static {v1, v2}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+-
+-    move-result-object v1
+-
+-    const-string v2, "publicmsg"
+-
+-    invoke-interface {v0, v1, v2}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+-
+     .line 1090
+     new-instance v0, Lcom/sec/ims/options/Capabilities$1;
+ 

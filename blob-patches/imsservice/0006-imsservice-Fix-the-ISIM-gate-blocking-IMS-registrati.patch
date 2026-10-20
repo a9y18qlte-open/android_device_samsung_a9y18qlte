@@ -1,0 +1,767 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: schr-0dinger <kmkailasnath@gmail.com>
+Date: Sun, 16 Aug 2026 15:11:31 +0530
+Subject: [PATCH 06/15] imsservice: Fix the ISIM gate blocking IMS registration
+ on boot
+
+From schr-0dinger's "fix ISIM gate blocking IMS registration on boot"
+(vendor 83e75d7):
+
+- SimManager: do not wait for an ISIM to load when deciding the SIM
+  is ready.
+- Replace Samsung-only framework members: UserHandle.SEM_CURRENT with
+  CURRENT (GeolocationController), ToneGenerator.semSetVolume() in
+  ResipMediaHandler's ring back tone handler.
+- Drop the HQM reporting of RcsHqmAgent and SmsServiceModule.
+
+Assisted-by: LLM
+---
+ .../emergencymode/SemEmergencyManager.smali   |  55 +++++++
+ ...olocationController$IntentListener$1.smali |   2 +-
+ .../imsservice/GeolocationController.smali    |  18 +--
+ .../internal/ims/imsservice/RcsHqmAgent.smali | 140 +-----------------
+ .../internal/ims/imsservice/SimManager.smali  |  39 ++---
+ ...esipMediaHandler$RingBackToneHandler.smali |   2 +-
+ .../internal/ims/sms/SmsServiceModule.smali   |  97 ++++--------
+ 7 files changed, 107 insertions(+), 246 deletions(-)
+ create mode 100644 smali/com/samsung/android/emergencymode/SemEmergencyManager.smali
+
+diff --git a/smali/com/samsung/android/emergencymode/SemEmergencyManager.smali b/smali/com/samsung/android/emergencymode/SemEmergencyManager.smali
+new file mode 100644
+index 0000000..d2ad665
+--- /dev/null
++++ b/smali/com/samsung/android/emergencymode/SemEmergencyManager.smali
+@@ -0,0 +1,55 @@
++.class public Lcom/samsung/android/emergencymode/SemEmergencyManager;
++.super Ljava/lang/Object;
++.source "SemEmergencyManager.java"
++
++
++# static fields
++.field private static final INSTANCE:Lcom/samsung/android/emergencymode/SemEmergencyManager;
++
++
++# direct methods
++.method static constructor <clinit>()V
++    .locals 1
++
++    new-instance v0, Lcom/samsung/android/emergencymode/SemEmergencyManager;
++
++    invoke-direct {v0}, Lcom/samsung/android/emergencymode/SemEmergencyManager;-><init>()V
++
++    sput-object v0, Lcom/samsung/android/emergencymode/SemEmergencyManager;->INSTANCE:Lcom/samsung/android/emergencymode/SemEmergencyManager;
++
++    return-void
++.end method
++
++.method private constructor <init>()V
++    .locals 0
++
++    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
++
++    return-void
++.end method
++
++.method public static getInstance(Landroid/content/Context;)Lcom/samsung/android/emergencymode/SemEmergencyManager;
++    .locals 1
++
++    sget-object v0, Lcom/samsung/android/emergencymode/SemEmergencyManager;->INSTANCE:Lcom/samsung/android/emergencymode/SemEmergencyManager;
++
++    return-object v0
++.end method
++
++.method public static isEmergencyMode(Landroid/content/Context;)Z
++    .locals 1
++
++    const/4 v0, 0x0
++
++    return v0
++.end method
++
++
++# virtual methods
++.method public checkModeType(I)Z
++    .locals 1
++
++    const/4 v0, 0x0
++
++    return v0
++.end method
+diff --git a/smali/com/sec/internal/ims/imsservice/GeolocationController$IntentListener$1.smali b/smali/com/sec/internal/ims/imsservice/GeolocationController$IntentListener$1.smali
+index ebcc727..8758f1f 100644
+--- a/smali/com/sec/internal/ims/imsservice/GeolocationController$IntentListener$1.smali
++++ b/smali/com/sec/internal/ims/imsservice/GeolocationController$IntentListener$1.smali
+@@ -199,7 +199,7 @@
+ 
+     move-result-object v1
+ 
+-    sget-object v2, Landroid/os/UserHandle;->SEM_CURRENT:Landroid/os/UserHandle;
++    sget-object v2, Landroid/os/UserHandle;->CURRENT:Landroid/os/UserHandle;
+ 
+     invoke-virtual {v1, v2}, Landroid/location/LocationManager;->isLocationEnabledForUser(Landroid/os/UserHandle;)Z
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/GeolocationController.smali b/smali/com/sec/internal/ims/imsservice/GeolocationController.smali
+index 3fddccc..887a345 100644
+--- a/smali/com/sec/internal/ims/imsservice/GeolocationController.smali
++++ b/smali/com/sec/internal/ims/imsservice/GeolocationController.smali
+@@ -396,7 +396,7 @@
+     .line 495
+     iget-object v0, p0, Lcom/sec/internal/ims/imsservice/GeolocationController;->mLocationManager:Landroid/location/LocationManager;
+ 
+-    sget-object v1, Landroid/os/UserHandle;->SEM_CURRENT:Landroid/os/UserHandle;
++    sget-object v1, Landroid/os/UserHandle;->CURRENT:Landroid/os/UserHandle;
+ 
+     invoke-virtual {v0, v1}, Landroid/location/LocationManager;->isLocationEnabledForUser(Landroid/os/UserHandle;)Z
+ 
+@@ -407,7 +407,7 @@
+     .line 498
+     iget-object v0, p0, Lcom/sec/internal/ims/imsservice/GeolocationController;->mLocationManager:Landroid/location/LocationManager;
+ 
+-    sget-object v1, Landroid/os/UserHandle;->SEM_CURRENT:Landroid/os/UserHandle;
++    sget-object v1, Landroid/os/UserHandle;->CURRENT:Landroid/os/UserHandle;
+ 
+     const/4 v2, 0x1
+ 
+@@ -416,7 +416,7 @@
+     .line 499
+     iget-object v0, p0, Lcom/sec/internal/ims/imsservice/GeolocationController;->mLocationManager:Landroid/location/LocationManager;
+ 
+-    sget-object v1, Landroid/os/UserHandle;->SEM_CURRENT:Landroid/os/UserHandle;
++    sget-object v1, Landroid/os/UserHandle;->CURRENT:Landroid/os/UserHandle;
+ 
+     invoke-virtual {v0, v1}, Landroid/location/LocationManager;->isLocationEnabledForUser(Landroid/os/UserHandle;)Z
+ 
+@@ -1237,14 +1237,14 @@
+ 
+     iget-boolean v1, p0, Lcom/sec/internal/ims/imsservice/GeolocationController;->mIsLocationEnabledToRestore:Z
+ 
+-    sget-object v2, Landroid/os/UserHandle;->SEM_CURRENT:Landroid/os/UserHandle;
++    sget-object v2, Landroid/os/UserHandle;->CURRENT:Landroid/os/UserHandle;
+ 
+     invoke-virtual {v0, v1, v2}, Landroid/location/LocationManager;->setLocationEnabledForUser(ZLandroid/os/UserHandle;)V
+ 
+     .line 507
+     iget-object v0, p0, Lcom/sec/internal/ims/imsservice/GeolocationController;->mLocationManager:Landroid/location/LocationManager;
+ 
+-    sget-object v1, Landroid/os/UserHandle;->SEM_CURRENT:Landroid/os/UserHandle;
++    sget-object v1, Landroid/os/UserHandle;->CURRENT:Landroid/os/UserHandle;
+ 
+     invoke-virtual {v0, v1}, Landroid/location/LocationManager;->isLocationEnabledForUser(Landroid/os/UserHandle;)Z
+ 
+@@ -2251,7 +2251,7 @@
+     .line 511
+     iget-object v0, p0, Lcom/sec/internal/ims/imsservice/GeolocationController;->mLocationManager:Landroid/location/LocationManager;
+ 
+-    sget-object v1, Landroid/os/UserHandle;->SEM_CURRENT:Landroid/os/UserHandle;
++    sget-object v1, Landroid/os/UserHandle;->CURRENT:Landroid/os/UserHandle;
+ 
+     invoke-virtual {v0, v1}, Landroid/location/LocationManager;->isLocationEnabledForUser(Landroid/os/UserHandle;)Z
+ 
+@@ -2525,7 +2525,7 @@
+ 
+     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v1, "onServiceStateChanged("
++    const-string/jumbo v1, "onServiceStateChanged("
+ 
+     invoke-virtual {v0, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -2577,7 +2577,7 @@
+ 
+     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v3, "onServiceStateChanged : "
++    const-string/jumbo v3, "onServiceStateChanged : "
+ 
+     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -2714,7 +2714,7 @@
+ 
+     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v4, "onServiceStateChanged["
++    const-string/jumbo v4, "onServiceStateChanged["
+ 
+     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/RcsHqmAgent.smali b/smali/com/sec/internal/ims/imsservice/RcsHqmAgent.smali
+index 1e318f6..ff32252 100644
+--- a/smali/com/sec/internal/ims/imsservice/RcsHqmAgent.smali
++++ b/smali/com/sec/internal/ims/imsservice/RcsHqmAgent.smali
+@@ -257,152 +257,14 @@
+ .end method
+ 
+ .method public static sendHWParamToHQM(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)Z
+-    .locals 12
++    .locals 1
+     .param p0, "context"    # Landroid/content/Context;
+     .param p1, "feature"    # Ljava/lang/String;
+     .param p2, "custom_dataset"    # Ljava/lang/String;
+ 
+     .line 166
+-    sget-object v0, Lcom/sec/internal/ims/imsservice/RcsHqmAgent;->LOG_TAG:Ljava/lang/String;
+-
+-    new-instance v1, Ljava/lang/StringBuilder;
+-
+-    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+-
+-    const-string/jumbo v2, "sendHWParamToHQM: feature - "
+-
+-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+-
+-    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+-
+-    const-string v2, ", custom_dataset - "
+-
+-    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+-
+-    invoke-virtual {v1, p2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+-
+-    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+-
+-    move-result-object v1
+-
+-    invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+-
+-    .line 168
+     const/4 v0, 0x0
+ 
+-    :try_start_0
+-    const-string v1, "HqmManagerService"
+-
+-    invoke-virtual {p0, v1}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+-
+-    move-result-object v1
+-
+-    move-object v2, v1
+-
+-    check-cast v2, Landroid/os/SemHqmManager;
+-
+-    .line 169
+-    .local v2, "hqm":Landroid/os/SemHqmManager;
+-    const/4 v3, 0x0
+-
+-    const-string v4, "Telephony"
+-
+-    const-string/jumbo v6, "sm"
+-
+-    const-string v7, "0.0"
+-
+-    const-string/jumbo v8, "sec"
+-
+-    const-string v9, ""
+-
+-    const-string v11, ""
+-
+-    move-object v5, p1
+-
+-    move-object v10, p2
+-
+-    invoke-virtual/range {v2 .. v11}, Landroid/os/SemHqmManager;->sendHWParamToHQM(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z
+-
+-    move-result v1
+-
+-    if-nez v1, :cond_0
+-
+-    .line 171
+-    sget-object v1, Lcom/sec/internal/ims/imsservice/RcsHqmAgent;->LOG_TAG:Ljava/lang/String;
+-
+-    const-string/jumbo v3, "sendHWParamToHQM: return false."
+-
+-    invoke-static {v1, v3}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+-    :try_end_0
+-    .catch Ljava/lang/NullPointerException; {:try_start_0 .. :try_end_0} :catch_1
+-    .catch Ljava/lang/ClassCastException; {:try_start_0 .. :try_end_0} :catch_0
+-
+-    .line 172
+-    return v0
+-
+-    .line 180
+-    .end local v2    # "hqm":Landroid/os/SemHqmManager;
+-    :cond_0
+-    nop
+-
+-    .line 181
+-    const/4 v0, 0x1
+-
+-    return v0
+-
+-    .line 177
+-    :catch_0
+-    move-exception v1
+-
+-    .line 178
+-    .local v1, "e":Ljava/lang/ClassCastException;
+-    sget-object v2, Lcom/sec/internal/ims/imsservice/RcsHqmAgent;->LOG_TAG:Ljava/lang/String;
+-
+-    new-instance v3, Ljava/lang/StringBuilder;
+-
+-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+-
+-    const-string/jumbo v4, "sendHWParamToHQM: ClassCastException. "
+-
+-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+-
+-    invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+-
+-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+-
+-    move-result-object v3
+-
+-    invoke-static {v2, v3}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+-
+-    .line 179
+-    return v0
+-
+-    .line 174
+-    .end local v1    # "e":Ljava/lang/ClassCastException;
+-    :catch_1
+-    move-exception v1
+-
+-    .line 175
+-    .local v1, "e":Ljava/lang/NullPointerException;
+-    sget-object v2, Lcom/sec/internal/ims/imsservice/RcsHqmAgent;->LOG_TAG:Ljava/lang/String;
+-
+-    new-instance v3, Ljava/lang/StringBuilder;
+-
+-    invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+-
+-    const-string/jumbo v4, "sendHWParamToHQM: NullPointerException. "
+-
+-    invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+-
+-    invoke-virtual {v3, v1}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+-
+-    invoke-virtual {v3}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+-
+-    move-result-object v3
+-
+-    invoke-static {v2, v3}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I
+-
+-    .line 176
+     return v0
+ .end method
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/SimManager.smali b/smali/com/sec/internal/ims/imsservice/SimManager.smali
+index b4c7be9..e7570b1 100644
+--- a/smali/com/sec/internal/ims/imsservice/SimManager.smali
++++ b/smali/com/sec/internal/ims/imsservice/SimManager.smali
+@@ -2669,7 +2669,7 @@
+ 
+     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v3, "notifySimReady: state ["
++    const-string/jumbo v3, "notifySimReady: state ["
+ 
+     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -2999,7 +2999,7 @@
+ 
+     const-string v1, "SimManager"
+ 
+-    const-string v2, "onSimNotReady"
++    const-string/jumbo v2, "onSimNotReady"
+ 
+     invoke-static {v1, v0, v2}, Lcom/sec/internal/ims/util/IMSLog;->d(Ljava/lang/String;ILjava/lang/String;)V
+ 
+@@ -3066,7 +3066,7 @@
+ 
+     const-string v1, "SimManager"
+ 
+-    const-string v2, "onSimRefresh"
++    const-string/jumbo v2, "onSimRefresh"
+ 
+     invoke-static {v1, v0, v2}, Lcom/sec/internal/ims/util/IMSLog;->d(Ljava/lang/String;ILjava/lang/String;)V
+ 
+@@ -3165,7 +3165,7 @@
+ 
+     const-string v1, "SimManager"
+ 
+-    const-string v2, "onSimRemoved:"
++    const-string/jumbo v2, "onSimRemoved:"
+ 
+     invoke-static {v1, v0, v2}, Lcom/sec/internal/ims/util/IMSLog;->d(Ljava/lang/String;ILjava/lang/String;)V
+ 
+@@ -3242,7 +3242,7 @@
+ 
+     invoke-direct {v10}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v11, "onSimStateChange: ["
++    const-string/jumbo v11, "onSimStateChange: ["
+ 
+     invoke-virtual {v10, v11}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -3581,7 +3581,7 @@
+     .line 923
+     iget v1, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mSimSlot:I
+ 
+-    const-string v2, "onSimStateChange:[LOADED] subInfo is not created yet. retry in 1 sec."
++    const-string/jumbo v2, "onSimStateChange:[LOADED] subInfo is not created yet. retry in 1 sec."
+ 
+     invoke-static {v11, v1, v2}, Lcom/sec/internal/ims/util/IMSLog;->e(Ljava/lang/String;ILjava/lang/String;)V
+ 
+@@ -3973,7 +3973,7 @@
+     .line 980
+     iget v1, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mSimSlot:I
+ 
+-    const-string v7, "onSimStateChanged, cscFeature is absent."
++    const-string/jumbo v7, "onSimStateChanged, cscFeature is absent."
+ 
+     move-object/from16 v8, v35
+ 
+@@ -5336,7 +5336,7 @@
+     :goto_10
+     iget v1, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mSimSlot:I
+ 
+-    const-string v2, "onSimStateChange: [LOADED] but imsi is invalid. retry in 1 sec."
++    const-string/jumbo v2, "onSimStateChange: [LOADED] but imsi is invalid. retry in 1 sec."
+ 
+     invoke-static {v8, v1, v2}, Lcom/sec/internal/ims/util/IMSLog;->e(Ljava/lang/String;ILjava/lang/String;)V
+ 
+@@ -5418,7 +5418,7 @@
+     :goto_11
+     iget v1, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mSimSlot:I
+ 
+-    const-string v2, "onSimStateChange: [LOADED] but operator is invalid. retry in 1 sec."
++    const-string/jumbo v2, "onSimStateChange: [LOADED] but operator is invalid. retry in 1 sec."
+ 
+     invoke-static {v8, v1, v2}, Lcom/sec/internal/ims/util/IMSLog;->e(Ljava/lang/String;ILjava/lang/String;)V
+ 
+@@ -6968,7 +6968,7 @@
+     .line 1388
+     iget v11, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mSimSlot:I
+ 
+-    const-string v13, "onSimStateChange: invalid ISIM!"
++    const-string/jumbo v13, "onSimStateChange: invalid ISIM!"
+ 
+     invoke-static {v8, v11, v13}, Lcom/sec/internal/ims/util/IMSLog;->e(Ljava/lang/String;ILjava/lang/String;)V
+ 
+@@ -7209,7 +7209,7 @@
+     .line 821
+     const-string v0, "SimManager"
+ 
+-    const-string v1, "onSoftphoneAuthFailed"
++    const-string/jumbo v1, "onSoftphoneAuthFailed"
+ 
+     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -9758,7 +9758,7 @@
+ 
+     const v8, 0x10000021
+ 
+-    const-string v9, "null"
++    const-string/jumbo v9, "null"
+ 
+     if-eqz v7, :cond_3
+ 
+@@ -11376,24 +11376,13 @@
+ 
+     sget-object v1, Lcom/sec/internal/ims/imsservice/SimManager$SIM_STATE;->LOADED:Lcom/sec/internal/ims/imsservice/SimManager$SIM_STATE;
+ 
+-    if-ne v0, v1, :cond_1
+-
+-    iget-boolean v0, p0, Lcom/sec/internal/ims/imsservice/SimManager;->mIsimLoaded:Z
+-
+-    if-nez v0, :cond_0
+-
+-    invoke-virtual {p0}, Lcom/sec/internal/ims/imsservice/SimManager;->hasIsim()Z
+-
+-    move-result v0
+-
+-    if-nez v0, :cond_1
++    if-ne v0, v1, :cond_0
+ 
+-    :cond_0
+     const/4 v0, 0x1
+ 
+     goto :goto_0
+ 
+-    :cond_1
++    :cond_0
+     const/4 v0, 0x0
+ 
+     :goto_0
+diff --git a/smali/com/sec/internal/ims/imsservice/handler/secims/ResipMediaHandler$RingBackToneHandler.smali b/smali/com/sec/internal/ims/imsservice/handler/secims/ResipMediaHandler$RingBackToneHandler.smali
+index 2894615..54a17b3 100644
+--- a/smali/com/sec/internal/ims/imsservice/handler/secims/ResipMediaHandler$RingBackToneHandler.smali
++++ b/smali/com/sec/internal/ims/imsservice/handler/secims/ResipMediaHandler$RingBackToneHandler.smali
+@@ -62,7 +62,7 @@
+     .line 1308
+     const/4 v1, 0x0
+ 
+-    invoke-virtual {v0, v1}, Landroid/media/ToneGenerator;->semSetVolume(F)V
++    invoke-virtual {v0}, Landroid/media/ToneGenerator;->stopTone()V
+ 
+     .line 1309
+     const/4 v0, 0x0
+diff --git a/smali/com/sec/internal/ims/sms/SmsServiceModule.smali b/smali/com/sec/internal/ims/sms/SmsServiceModule.smali
+index 308dd17..cc95000 100644
+--- a/smali/com/sec/internal/ims/sms/SmsServiceModule.smali
++++ b/smali/com/sec/internal/ims/sms/SmsServiceModule.smali
+@@ -752,7 +752,7 @@
+ 
+     iget v1, p0, Lcom/sec/internal/ims/sms/SmsServiceModule;->mDefaultPhoneId:I
+ 
+-    const-string v2, "omadm/./3GPP_IMS/DCN_NUMBER"
++    const-string/jumbo v2, "omadm/./3GPP_IMS/DCN_NUMBER"
+ 
+     const-string v3, ""
+ 
+@@ -2018,7 +2018,7 @@
+ 
+     invoke-direct {v5}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v6, "onReceive3GPP2IncomingSms: "
++    const-string/jumbo v6, "onReceive3GPP2IncomingSms: "
+ 
+     invoke-virtual {v5, v6}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -2049,7 +2049,7 @@
+ 
+     move-result-object v2
+ 
+-    const-string v3, "onReceive3GPP2IncomingSms"
++    const-string/jumbo v3, "onReceive3GPP2IncomingSms"
+ 
+     invoke-static {v2, v3}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -2266,7 +2266,7 @@
+     .line 1292
+     sget-object v0, Lcom/sec/internal/ims/sms/SmsServiceModule;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v1, "onReceive3GPP2SmsAck skip 100 Trying SIP message."
++    const-string/jumbo v1, "onReceive3GPP2SmsAck skip 100 Trying SIP message."
+ 
+     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -2338,7 +2338,7 @@
+ 
+     move-result-object v0
+ 
+-    const-string v1, "onReceive3GPP2SmsAck"
++    const-string/jumbo v1, "onReceive3GPP2SmsAck"
+ 
+     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -2938,7 +2938,7 @@
+ 
+     invoke-direct {v8}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v9, "onReceive3GPPIncomingSms: "
++    const-string/jumbo v9, "onReceive3GPPIncomingSms: "
+ 
+     invoke-virtual {v8, v9}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -2969,7 +2969,7 @@
+ 
+     move-result-object v0
+ 
+-    const-string v7, "onReceive3GPPIncomingSms"
++    const-string/jumbo v7, "onReceive3GPPIncomingSms"
+ 
+     invoke-static {v0, v7}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -3460,7 +3460,7 @@
+ 
+     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v3, "onReceive3GPPSmsAck: "
++    const-string/jumbo v3, "onReceive3GPPSmsAck: "
+ 
+     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -3537,7 +3537,7 @@
+ 
+     move-result-object v0
+ 
+-    const-string v2, "onReceive3GPPSmsAck"
++    const-string/jumbo v2, "onReceive3GPPSmsAck"
+ 
+     invoke-static {v0, v2}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -3858,7 +3858,7 @@
+ 
+     invoke-direct {v7}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v8, "onReceive3GPPSmsRpError: "
++    const-string/jumbo v8, "onReceive3GPPSmsRpError: "
+ 
+     invoke-virtual {v7, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -3977,7 +3977,7 @@
+     .line 1324
+     sget-object v0, Lcom/sec/internal/ims/sms/SmsServiceModule;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v1, "onReceiveNotiInfo"
++    const-string/jumbo v1, "onReceiveNotiInfo"
+ 
+     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -4106,7 +4106,7 @@
+     .line 1356
+     sget-object v0, Lcom/sec/internal/ims/sms/SmsServiceModule;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v7, "onReceiveOtherInfo"
++    const-string/jumbo v7, "onReceiveOtherInfo"
+ 
+     invoke-static {v0, v7}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -4408,7 +4408,7 @@
+ 
+     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v2, "onReceiveSMSAckInternal: "
++    const-string/jumbo v2, "onReceiveSMSAckInternal: "
+ 
+     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -4578,7 +4578,7 @@
+ 
+     invoke-direct {v3}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v4, "onReceiveSipResponse: "
++    const-string/jumbo v4, "onReceiveSipResponse: "
+ 
+     invoke-virtual {v3, v4}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -4641,9 +4641,9 @@
+     .end local v0    # "pending":I
+     .local v15, "pending":I
+     :goto_1
+-    const-string v0, "onReceiveSipResponse skip 100 Trying SIP message."
++    const-string/jumbo v0, "onReceiveSipResponse skip 100 Trying SIP message."
+ 
+-    const-string v6, "onReceiveSipResponse"
++    const-string/jumbo v6, "onReceiveSipResponse"
+ 
+     const-string/jumbo v4, "smsip"
+ 
+@@ -5153,7 +5153,7 @@
+     .local v0, "e":Ljavax/xml/xpath/XPathExpressionException;
+     sget-object v2, Lcom/sec/internal/ims/sms/SmsServiceModule;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v3, "onReceiveSipResponse: error parsing AlternativeService xml"
++    const-string/jumbo v3, "onReceiveSipResponse: error parsing AlternativeService xml"
+ 
+     invoke-static {v2, v3, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+ 
+@@ -5448,7 +5448,7 @@
+     .line 1104
+     sget-object v0, Lcom/sec/internal/ims/sms/SmsServiceModule;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v2, "onReceiveSipResponse skip success SIP message of 3GPP."
++    const-string/jumbo v2, "onReceiveSipResponse skip success SIP message of 3GPP."
+ 
+     invoke-static {v0, v2}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -5946,7 +5946,7 @@
+ 
+     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v2, "onReceiveSmsMessage: errorCode="
++    const-string/jumbo v2, "onReceiveSmsMessage: errorCode="
+ 
+     invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -6010,7 +6010,7 @@
+     .line 695
+     sget-object v5, Lcom/sec/internal/ims/sms/SmsServiceModule;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v6, "onReceiveSmsMessage: isLimitedRegi = true"
++    const-string/jumbo v6, "onReceiveSmsMessage: isLimitedRegi = true"
+ 
+     invoke-static {v5, v6}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -6469,7 +6469,7 @@
+ 
+     move-result-object v0
+ 
+-    const-string v1, "onReceiveSmsMessage"
++    const-string/jumbo v1, "onReceiveSmsMessage"
+ 
+     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -7841,7 +7841,7 @@
+ 
+     invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+ 
+-    const-string v3, "onChange["
++    const-string/jumbo v3, "onChange["
+ 
+     invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+ 
+@@ -9103,7 +9103,7 @@
+     .line 476
+     sget-object v0, Lcom/sec/internal/ims/sms/SmsServiceModule;->LOG_TAG:Ljava/lang/String;
+ 
+-    const-string v1, "onConfigured:"
++    const-string/jumbo v1, "onConfigured:"
+ 
+     invoke-static {v0, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+@@ -10472,7 +10472,7 @@
+ .end method
+ 
+ .method public sendHWParamToHQM(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z
+-    .locals 12
++    .locals 1
+     .param p1, "type"    # I
+     .param p2, "id"    # Ljava/lang/String;
+     .param p3, "feature"    # Ljava/lang/String;
+@@ -10489,54 +10489,9 @@
+     .end annotation
+ 
+     .line 2262
+-    move-object v0, p0
+-
+-    iget-object v1, v0, Lcom/sec/internal/ims/sms/SmsServiceModule;->mContext:Landroid/content/Context;
+-
+-    const-string v2, "HqmManagerService"
+-
+-    invoke-virtual {v1, v2}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+-
+-    move-result-object v1
+-
+-    check-cast v1, Landroid/os/SemHqmManager;
+-
+-    .line 2263
+-    .local v1, "hqm":Landroid/os/SemHqmManager;
+-    if-nez v1, :cond_0
+-
+-    .line 2264
+-    const/4 v2, 0x0
+-
+-    return v2
+-
+-    .line 2266
+-    :cond_0
+-    move-object v2, v1
+-
+-    move v3, p1
+-
+-    move-object v4, p2
+-
+-    move-object v5, p3
+-
+-    move-object/from16 v6, p4
+-
+-    move-object/from16 v7, p5
+-
+-    move-object/from16 v8, p6
+-
+-    move-object/from16 v9, p7
+-
+-    move-object/from16 v10, p8
+-
+-    move-object/from16 v11, p9
+-
+-    invoke-virtual/range {v2 .. v11}, Landroid/os/SemHqmManager;->sendHWParamToHQM(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z
+-
+-    move-result v2
++    const/4 v0, 0x0
+ 
+-    return v2
++    return v0
+ .end method
+ 
+ .method public sendSMSOverIMS(I[BLjava/lang/String;Ljava/lang/String;IZ)V

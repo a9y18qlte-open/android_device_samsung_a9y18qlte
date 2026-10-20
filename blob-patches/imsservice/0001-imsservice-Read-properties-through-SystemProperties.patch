@@ -1,0 +1,1951 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: schr-0dinger <kmkailasnath@gmail.com>
+Date: Fri, 20 Mar 2026 15:04:19 +0530
+Subject: [PATCH 01/15] imsservice: Read properties through SystemProperties
+
+SemSystemProperties is Samsung framework only. Call
+android.os.SystemProperties' get(), getInt(), getBoolean() and set()
+instead, at all 171 call sites.
+
+Imported from schr-0dinger's "IMS apk" (vendor a695cb0).
+
+Assisted-by: LLM
+---
+ .../ims/GoogleImsService$ImsNotifier.smali    |  2 +-
+ .../ims/internal/DataTypeConvertor.smali      |  4 +-
+ .../cmcsetting/CmcSettingManager.smali        |  4 +-
+ .../sec/internal/ims/aec/util/AECLog.smali    |  4 +-
+ .../ims/aec/workflow/WorkflowBaseImpl.smali   |  2 +-
+ ...ariables$ProvisionApiHeaderAttribute.smali |  4 +-
+ .../com/sec/internal/ims/config/ImsUtil.smali | 22 ++++-----
+ .../ims/config/adapters/DialogAdapter.smali   |  6 +--
+ .../ims/config/interfaces/IHttpAdapter.smali  |  2 +-
+ .../ims/config/workflow/WorkflowBase.smali    |  2 +-
+ .../WorkflowPrimaryDevice$FetchHttps.smali    |  2 +-
+ .../workflow/WorkflowRjil$FetchHttps.smali    |  2 +-
+ .../workflow/WorkflowUp$FetchHttps.smali      |  2 +-
+ .../fcm/data/ericssonnsds/PushMessage.smali   |  2 +-
+ .../nsds/ericssonnsds/NSDSModule.smali        |  2 +-
+ .../util/ConfigElementExtractor.smali         |  2 +-
+ .../ims/im/strategy/VzwStrategy.smali         |  2 +-
+ .../ims/im/strategy/VzwUPStrategy.smali       |  2 +-
+ .../ims/imsservice/CscNetParser.smali         |  8 ++--
+ .../ims/imsservice/DeviceConfigManager.smali  | 12 ++---
+ .../ims/imsservice/GlobalSettingsRepo.smali   |  2 +-
+ .../imsservice/GlobalSettingsRepoBase.smali   |  8 ++--
+ .../GlobalSettingsRepoKorChnx.smali           |  4 +-
+ .../ims/imsservice/ImsIconManager.smali       |  2 +-
+ .../internal/ims/imsservice/ImsLogAgent.smali |  2 +-
+ .../ImsServiceStub$BootCompleteReceiver.smali |  2 +-
+ .../ims/imsservice/ImsServiceStub.smali       |  2 +-
+ .../PaniGenerator$PaniGeneratorBase.smali     |  2 +-
+ .../PdnController$NetworkCallback.smali       |  2 +-
+ .../internal/ims/imsservice/RcsHqmAgent.smali |  2 +-
+ .../imsservice/RegistrationManagerBase.smali  | 16 +++----
+ .../RegistrationObserverManager.smali         |  2 +-
+ .../ims/imsservice/SettingsProvider.smali     |  2 +-
+ .../internal/ims/imsservice/SimManager.smali  | 46 +++++++++----------
+ .../internal/ims/imsservice/UserAgent.smali   |  2 +-
+ .../governor/RegistrationGovernorHkTw.smali   |  2 +-
+ .../governor/RegistrationGovernorImpl.smali   |  2 +-
+ .../governor/RegistrationGovernorKor.smali    | 12 ++---
+ .../RegistrationGovernorMeAfrica.smali        |  2 +-
+ .../governor/RegistrationGovernorOce.smali    |  2 +-
+ .../governor/RegistrationGovernorSwa.smali    |  2 +-
+ .../governor/RegistrationGovernorVzw.smali    |  6 +--
+ .../imslogger/ISignallingNotifier.smali       |  2 +-
+ .../ims/mdec/MdecAccountManager.smali         |  6 +--
+ .../internal/ims/options/ContactCache.smali   |  2 +-
+ .../ims/presence/PresenceModule.smali         |  2 +-
+ .../ims/rcs/util/RcsUtils$UiUtils.smali       |  2 +-
+ .../ims/rcscore/RcsPreferencesProvider.smali  |  6 +--
+ .../ims/settings/ImsProfileCache.smali        |  8 ++--
+ .../settings/ImsProfileLoaderInternal.smali   |  2 +-
+ .../ims/settings/ImsServiceSwitchBase.smali   |  2 +-
+ .../ims/settings/ImsServiceSwitchEur.smali    |  2 +-
+ .../ims/settings/ImsSimMobilityUpdate.smali   |  2 +-
+ .../internal/ims/sms/SmsServiceModule.smali   |  6 +--
+ .../sec/internal/ims/ss/UtServiceModule.smali |  8 ++--
+ .../com/sec/internal/ims/util/CscParser.smali | 26 +++++------
+ smali/com/sec/internal/ims/util/IMSLog.smali  |  4 +-
+ smali/com/sec/internal/ims/util/IState.smali  |  2 +-
+ smali/com/sec/internal/ims/util/Mno.smali     |  4 +-
+ smali/com/sec/internal/ims/util/OmcCode.smali | 28 +++++------
+ .../com/sec/internal/ims/util/os/Debug.smali  |  6 +--
+ .../ims/util/os/TelephonyManagerWrapper.smali |  4 +-
+ ...ession$CallStateMachine$IncomingCall.smali |  4 +-
+ .../ImsCallSession$KeepAliveSender.smali      |  2 +-
+ .../volte2/SsacManager$SSACController.smali   |  2 +-
+ .../TmoEcholocateIntentBroadcaster.smali      |  4 +-
+ .../ims/volte2/VolteServiceModule.smali       |  6 +--
+ .../defaultconst/CapabilityDefaultConst.smali |  2 +-
+ 68 files changed, 178 insertions(+), 178 deletions(-)
+
+diff --git a/smali/com/google/ims/GoogleImsService$ImsNotifier.smali b/smali/com/google/ims/GoogleImsService$ImsNotifier.smali
+index ccd96ea..b5d8453 100644
+--- a/smali/com/google/ims/GoogleImsService$ImsNotifier.smali
++++ b/smali/com/google/ims/GoogleImsService$ImsNotifier.smali
+@@ -1217,7 +1217,7 @@
+ 
+     const-string v2, "net.sip.vzthirdpartyapi"
+ 
+-    invoke-static {v2, v0}, Landroid/os/SemSystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++    invoke-static {v2, v0}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
+ 
+     move-result v2
+ 
+diff --git a/smali/com/google/ims/internal/DataTypeConvertor.smali b/smali/com/google/ims/internal/DataTypeConvertor.smali
+index a4f91f1..f89411a 100644
+--- a/smali/com/google/ims/internal/DataTypeConvertor.smali
++++ b/smali/com/google/ims/internal/DataTypeConvertor.smali
+@@ -855,7 +855,7 @@
+ 
+     const-string v10, ""
+ 
+-    invoke-static {v8, v10}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v8, v10}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v8
+ 
+@@ -870,7 +870,7 @@
+     .line 388
+     const-string/jumbo v10, "ro.csc.sales_code"
+ 
+-    invoke-static {v10}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v10}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v8
+ 
+diff --git a/smali/com/samsung/android/cmcsetting/CmcSettingManager.smali b/smali/com/samsung/android/cmcsetting/CmcSettingManager.smali
+index 7f9a242..2ee8682 100644
+--- a/smali/com/samsung/android/cmcsetting/CmcSettingManager.smali
++++ b/smali/com/samsung/android/cmcsetting/CmcSettingManager.smali
+@@ -5950,7 +5950,7 @@
+ 
+     const-string v2, ""
+ 
+-    invoke-static {v1, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -5981,7 +5981,7 @@
+     .line 730
+     const-string/jumbo v1, "ro.build.characteristics"
+ 
+-    invoke-static {v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+diff --git a/smali/com/sec/internal/ims/aec/util/AECLog.smali b/smali/com/sec/internal/ims/aec/util/AECLog.smali
+index 10b2ae5..3c881fc 100644
+--- a/smali/com/sec/internal/ims/aec/util/AECLog.smali
++++ b/smali/com/sec/internal/ims/aec/util/AECLog.smali
+@@ -34,7 +34,7 @@
+ 
+     const-string v1, "false"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -54,7 +54,7 @@
+ 
+     const-string v1, "0x4f4c"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/aec/workflow/WorkflowBaseImpl.smali b/smali/com/sec/internal/ims/aec/workflow/WorkflowBaseImpl.smali
+index dae63b6..06f95f2 100644
+--- a/smali/com/sec/internal/ims/aec/workflow/WorkflowBaseImpl.smali
++++ b/smali/com/sec/internal/ims/aec/workflow/WorkflowBaseImpl.smali
+@@ -132,7 +132,7 @@
+ 
+     const-string v1, "false"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/cmstore/ambs/globalsetting/ATTGlobalVariables$ProvisionApiHeaderAttribute.smali b/smali/com/sec/internal/ims/cmstore/ambs/globalsetting/ATTGlobalVariables$ProvisionApiHeaderAttribute.smali
+index 31eafb5..8daaaa6 100644
+--- a/smali/com/sec/internal/ims/cmstore/ambs/globalsetting/ATTGlobalVariables$ProvisionApiHeaderAttribute.smali
++++ b/smali/com/sec/internal/ims/cmstore/ambs/globalsetting/ATTGlobalVariables$ProvisionApiHeaderAttribute.smali
+@@ -17,9 +17,9 @@
+ # static fields
+ .field public static final mContentType:Ljava/lang/String; = "application/x-www-form-urlencoded"
+ 
+-.field public static final mGzip:Z = false
++.field public static final mGzip:Z
+ 
+-.field public static final mKeepAlive:Z = false
++.field public static final mKeepAlive:Z
+ 
+ 
+ # direct methods
+diff --git a/smali/com/sec/internal/ims/config/ImsUtil.smali b/smali/com/sec/internal/ims/config/ImsUtil.smali
+index 65808b9..7e74166 100644
+--- a/smali/com/sec/internal/ims/config/ImsUtil.smali
++++ b/smali/com/sec/internal/ims/config/ImsUtil.smali
+@@ -903,7 +903,7 @@
+ 
+     const-string v1, ""
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -1278,7 +1278,7 @@
+ 
+     const-string v1, "0"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -1315,7 +1315,7 @@
+ 
+     const-string v1, ""
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -4200,7 +4200,7 @@
+ 
+     const/4 v1, -0x1
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v0
+ 
+@@ -4240,7 +4240,7 @@
+     :cond_1
+     const-string/jumbo v3, "ro.product.first_api_level"
+ 
+-    invoke-static {v3, v2}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v3, v2}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v2
+ 
+@@ -4466,7 +4466,7 @@
+     .line 214
+     const-string/jumbo v0, "ro.build.characteristics"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -5432,7 +5432,7 @@
+     move-object v1, v2
+ 
+     :goto_0
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 286
+     sget-object v0, Lcom/sec/internal/ims/util/Mno;->MOCK_MNONAME_PROPERTY:Ljava/lang/String;
+@@ -5450,7 +5450,7 @@
+     move-result-object v2
+ 
+     :cond_1
+-    invoke-static {v0, v2}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v0, v2}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 288
+     invoke-virtual {p0}, Ljava/lang/Boolean;->booleanValue()Z
+@@ -5473,7 +5473,7 @@
+     :goto_1
+     const-string/jumbo v3, "persist.ims.gcfmode"
+ 
+-    invoke-static {v3, v0}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v3, v0}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 289
+     invoke-virtual {p0}, Ljava/lang/Boolean;->booleanValue()Z
+@@ -5490,7 +5490,7 @@
+     :goto_2
+     const-string/jumbo v0, "persist.radio.gcfmode"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 290
+     return-void
+@@ -5733,7 +5733,7 @@
+ 
+     const-string v2, ""
+ 
+-    invoke-static {v1, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+diff --git a/smali/com/sec/internal/ims/config/adapters/DialogAdapter.smali b/smali/com/sec/internal/ims/config/adapters/DialogAdapter.smali
+index d62a4ef..0862293 100644
+--- a/smali/com/sec/internal/ims/config/adapters/DialogAdapter.smali
++++ b/smali/com/sec/internal/ims/config/adapters/DialogAdapter.smali
+@@ -1091,7 +1091,7 @@
+     .local v1, "input":Landroid/widget/EditText;
+     const-string/jumbo v2, "ro.build.scafe.cream"
+ 
+-    invoke-static {v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -2476,7 +2476,7 @@
+     .line 334
+     const-string/jumbo v0, "ro.build.scafe.cream"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -2660,7 +2660,7 @@
+     .line 308
+     const-string/jumbo v0, "ro.build.scafe.version"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/config/interfaces/IHttpAdapter.smali b/smali/com/sec/internal/ims/config/interfaces/IHttpAdapter.smali
+index a4b5ff3..d94855b 100644
+--- a/smali/com/sec/internal/ims/config/interfaces/IHttpAdapter.smali
++++ b/smali/com/sec/internal/ims/config/interfaces/IHttpAdapter.smali
+@@ -24,7 +24,7 @@
+ 
+     const-string/jumbo v1, "ro.product_ship"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+diff --git a/smali/com/sec/internal/ims/config/workflow/WorkflowBase.smali b/smali/com/sec/internal/ims/config/workflow/WorkflowBase.smali
+index 3f3840a..6ad45a8 100644
+--- a/smali/com/sec/internal/ims/config/workflow/WorkflowBase.smali
++++ b/smali/com/sec/internal/ims/config/workflow/WorkflowBase.smali
+@@ -7981,7 +7981,7 @@
+ 
+     const-string v4, ""
+ 
+-    invoke-static {v3, v4}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3, v4}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v3
+ 
+diff --git a/smali/com/sec/internal/ims/config/workflow/WorkflowPrimaryDevice$FetchHttps.smali b/smali/com/sec/internal/ims/config/workflow/WorkflowPrimaryDevice$FetchHttps.smali
+index c36531b..c0fac85 100644
+--- a/smali/com/sec/internal/ims/config/workflow/WorkflowPrimaryDevice$FetchHttps.smali
++++ b/smali/com/sec/internal/ims/config/workflow/WorkflowPrimaryDevice$FetchHttps.smali
+@@ -88,7 +88,7 @@
+ 
+     const-string v4, ""
+ 
+-    invoke-static {v3, v4}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3, v4}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v3
+ 
+diff --git a/smali/com/sec/internal/ims/config/workflow/WorkflowRjil$FetchHttps.smali b/smali/com/sec/internal/ims/config/workflow/WorkflowRjil$FetchHttps.smali
+index 8caa872..c2f09ca 100644
+--- a/smali/com/sec/internal/ims/config/workflow/WorkflowRjil$FetchHttps.smali
++++ b/smali/com/sec/internal/ims/config/workflow/WorkflowRjil$FetchHttps.smali
+@@ -88,7 +88,7 @@
+ 
+     const-string v4, ""
+ 
+-    invoke-static {v3, v4}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3, v4}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v3
+ 
+diff --git a/smali/com/sec/internal/ims/config/workflow/WorkflowUp$FetchHttps.smali b/smali/com/sec/internal/ims/config/workflow/WorkflowUp$FetchHttps.smali
+index 2153e80..63deb4e 100644
+--- a/smali/com/sec/internal/ims/config/workflow/WorkflowUp$FetchHttps.smali
++++ b/smali/com/sec/internal/ims/config/workflow/WorkflowUp$FetchHttps.smali
+@@ -181,7 +181,7 @@
+ 
+     const-string v3, ""
+ 
+-    invoke-static {v2, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+diff --git a/smali/com/sec/internal/ims/entitlement/nsds/app/fcm/data/ericssonnsds/PushMessage.smali b/smali/com/sec/internal/ims/entitlement/nsds/app/fcm/data/ericssonnsds/PushMessage.smali
+index f9dfb67..fd598ef 100644
+--- a/smali/com/sec/internal/ims/entitlement/nsds/app/fcm/data/ericssonnsds/PushMessage.smali
++++ b/smali/com/sec/internal/ims/entitlement/nsds/app/fcm/data/ericssonnsds/PushMessage.smali
+@@ -125,7 +125,7 @@
+ 
+     const-string/jumbo v1, "ro.debuggable"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v1
+ 
+diff --git a/smali/com/sec/internal/ims/entitlement/nsds/ericssonnsds/NSDSModule.smali b/smali/com/sec/internal/ims/entitlement/nsds/ericssonnsds/NSDSModule.smali
+index 296b8f9..88201ce 100644
+--- a/smali/com/sec/internal/ims/entitlement/nsds/ericssonnsds/NSDSModule.smali
++++ b/smali/com/sec/internal/ims/entitlement/nsds/ericssonnsds/NSDSModule.smali
+@@ -2542,7 +2542,7 @@
+     :cond_0
+     const-string/jumbo v11, "ro.product.first_api_level"
+ 
+-    invoke-static {v11, v2}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v11, v2}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v11
+ 
+diff --git a/smali/com/sec/internal/ims/entitlement/util/ConfigElementExtractor.smali b/smali/com/sec/internal/ims/entitlement/util/ConfigElementExtractor.smali
+index a0efb7a..beca76a 100644
+--- a/smali/com/sec/internal/ims/entitlement/util/ConfigElementExtractor.smali
++++ b/smali/com/sec/internal/ims/entitlement/util/ConfigElementExtractor.smali
+@@ -4,7 +4,7 @@
+ 
+ 
+ # static fields
+-.field private static final DEBUG:Z = false
++.field private static final DEBUG:Z
+ 
+ .field private static final LOG_TAG:Ljava/lang/String;
+ 
+diff --git a/smali/com/sec/internal/ims/im/strategy/VzwStrategy.smali b/smali/com/sec/internal/ims/im/strategy/VzwStrategy.smali
+index 88cde98..830fb36 100644
+--- a/smali/com/sec/internal/ims/im/strategy/VzwStrategy.smali
++++ b/smali/com/sec/internal/ims/im/strategy/VzwStrategy.smali
+@@ -1313,7 +1313,7 @@
+ 
+     const/4 v1, 0x0
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
+ 
+     move-result v0
+ 
+diff --git a/smali/com/sec/internal/ims/im/strategy/VzwUPStrategy.smali b/smali/com/sec/internal/ims/im/strategy/VzwUPStrategy.smali
+index a7c12ff..6f77793 100644
+--- a/smali/com/sec/internal/ims/im/strategy/VzwUPStrategy.smali
++++ b/smali/com/sec/internal/ims/im/strategy/VzwUPStrategy.smali
+@@ -2472,7 +2472,7 @@
+ 
+     const/4 v1, 0x0
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
+ 
+     move-result v0
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/CscNetParser.smali b/smali/com/sec/internal/ims/imsservice/CscNetParser.smali
+index 7c22203..14630b5 100644
+--- a/smali/com/sec/internal/ims/imsservice/CscNetParser.smali
++++ b/smali/com/sec/internal/ims/imsservice/CscNetParser.smali
+@@ -133,7 +133,7 @@
+     .line 463
+     const-string/jumbo v0, "persist.sys.omc_path"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -184,7 +184,7 @@
+     .line 471
+     const-string/jumbo v5, "persist.sys.omcnw_path2"
+ 
+-    invoke-static {v5, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v5, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -192,7 +192,7 @@
+ 
+     .line 473
+     :cond_0
+-    invoke-static {v7, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v7, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -200,7 +200,7 @@
+ 
+     .line 476
+     :cond_1
+-    invoke-static {v7, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v7, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/DeviceConfigManager.smali b/smali/com/sec/internal/ims/imsservice/DeviceConfigManager.smali
+index 8db187d..f399de9 100644
+--- a/smali/com/sec/internal/ims/imsservice/DeviceConfigManager.smali
++++ b/smali/com/sec/internal/ims/imsservice/DeviceConfigManager.smali
+@@ -229,7 +229,7 @@
+     .line 114
+     const-string/jumbo v2, "ro.csc.sales_code"
+ 
+-    invoke-static {v2, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -237,7 +237,7 @@
+     .local v0, "omc_code":Ljava/lang/String;
+     const-string/jumbo v2, "ro.csc.omcnw_code"
+ 
+-    invoke-static {v2, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -3674,7 +3674,7 @@
+ 
+     const-string v1, ""
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -4053,7 +4053,7 @@
+     .line 449
+     const-string/jumbo v7, "persist.sys.ims_test_mode"
+ 
+-    invoke-static {v7, v5}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v7, v5}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 451
+     iget-object v5, p0, Lcom/sec/internal/ims/imsservice/DeviceConfigManager;->mMno:Lcom/sec/internal/ims/util/Mno;
+@@ -4864,7 +4864,7 @@
+     :goto_0
+     const-string v2, "net.tether.always"
+ 
+-    invoke-static {v2, v1}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v2, v1}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     goto :goto_1
+ 
+@@ -5491,7 +5491,7 @@
+     :cond_9
+     const-string/jumbo v5, "persist.sys.ims_test_mode"
+ 
+-    invoke-static {v5, v3}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v5, v3}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v3
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepo.smali b/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepo.smali
+index ef844fa..075f542 100644
+--- a/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepo.smali
++++ b/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepo.smali
+@@ -427,7 +427,7 @@
+ 
+     const-string v4, ""
+ 
+-    invoke-static {v1, v4}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v4}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepoBase.smali b/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepoBase.smali
+index 13a25bb..974826c 100644
+--- a/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepoBase.smali
++++ b/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepoBase.smali
+@@ -1087,7 +1087,7 @@
+ 
+     const-string/jumbo v1, "ro.build.PDA"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -1095,7 +1095,7 @@
+     .local v1, "pdaVer":Ljava/lang/String;
+     const-string/jumbo v2, "ril.official_cscver"
+ 
+-    invoke-static {v2, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -3932,7 +3932,7 @@
+ 
+     const-string/jumbo v1, "ro.build.PDA"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -3940,7 +3940,7 @@
+     .local v1, "pdaVer":Ljava/lang/String;
+     const-string/jumbo v2, "ril.official_cscver"
+ 
+-    invoke-static {v2, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepoKorChnx.smali b/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepoKorChnx.smali
+index 58889b4..c89c5b1 100644
+--- a/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepoKorChnx.smali
++++ b/smali/com/sec/internal/ims/imsservice/GlobalSettingsRepoKorChnx.smali
+@@ -53,7 +53,7 @@
+ 
+     const-string v3, "0,0"
+ 
+-    invoke-static {v2, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -1040,7 +1040,7 @@
+ 
+     const/4 v4, 0x0
+ 
+-    invoke-static {v3, v4}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v3, v4}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v3
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/ImsIconManager.smali b/smali/com/sec/internal/ims/imsservice/ImsIconManager.smali
+index a866a3c..fc59403 100644
+--- a/smali/com/sec/internal/ims/imsservice/ImsIconManager.smali
++++ b/smali/com/sec/internal/ims/imsservice/ImsIconManager.smali
+@@ -681,7 +681,7 @@
+     :cond_3
+     const-string/jumbo v5, "ril.currentplmn"
+ 
+-    invoke-static {v5}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v5}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v5
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/ImsLogAgent.smali b/smali/com/sec/internal/ims/imsservice/ImsLogAgent.smali
+index 146d621..dcef998 100644
+--- a/smali/com/sec/internal/ims/imsservice/ImsLogAgent.smali
++++ b/smali/com/sec/internal/ims/imsservice/ImsLogAgent.smali
+@@ -1702,7 +1702,7 @@
+ 
+     const v1, 0x5265c00
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v0
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/ImsServiceStub$BootCompleteReceiver.smali b/smali/com/sec/internal/ims/imsservice/ImsServiceStub$BootCompleteReceiver.smali
+index 208a4eb..1929a9a 100644
+--- a/smali/com/sec/internal/ims/imsservice/ImsServiceStub$BootCompleteReceiver.smali
++++ b/smali/com/sec/internal/ims/imsservice/ImsServiceStub$BootCompleteReceiver.smali
+@@ -152,7 +152,7 @@
+ 
+     const-string/jumbo v4, "ro.product.first_api_level"
+ 
+-    invoke-static {v4, v3}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v4, v3}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v3
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/ImsServiceStub.smali b/smali/com/sec/internal/ims/imsservice/ImsServiceStub.smali
+index 7d1ebf4..3e6537d 100644
+--- a/smali/com/sec/internal/ims/imsservice/ImsServiceStub.smali
++++ b/smali/com/sec/internal/ims/imsservice/ImsServiceStub.smali
+@@ -1844,7 +1844,7 @@
+ 
+     const-string/jumbo v2, "sys.boot_completed"
+ 
+-    invoke-static {v2, v1}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v2, v1}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v2
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/PaniGenerator$PaniGeneratorBase.smali b/smali/com/sec/internal/ims/imsservice/PaniGenerator$PaniGeneratorBase.smali
+index 65b0d1f..b2a2c44 100644
+--- a/smali/com/sec/internal/ims/imsservice/PaniGenerator$PaniGeneratorBase.smali
++++ b/smali/com/sec/internal/ims/imsservice/PaniGenerator$PaniGeneratorBase.smali
+@@ -242,7 +242,7 @@
+ 
+     const-string v3, "false"
+ 
+-    invoke-static {v2, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/PdnController$NetworkCallback.smali b/smali/com/sec/internal/ims/imsservice/PdnController$NetworkCallback.smali
+index 05192a5..a866d90 100644
+--- a/smali/com/sec/internal/ims/imsservice/PdnController$NetworkCallback.smali
++++ b/smali/com/sec/internal/ims/imsservice/PdnController$NetworkCallback.smali
+@@ -841,7 +841,7 @@
+ 
+     const-string v6, ""
+ 
+-    invoke-static {v2, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/RcsHqmAgent.smali b/smali/com/sec/internal/ims/imsservice/RcsHqmAgent.smali
+index ce32d92..1e318f6 100644
+--- a/smali/com/sec/internal/ims/imsservice/RcsHqmAgent.smali
++++ b/smali/com/sec/internal/ims/imsservice/RcsHqmAgent.smali
+@@ -202,7 +202,7 @@
+ 
+     const-string v1, "00101#"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/RegistrationManagerBase.smali b/smali/com/sec/internal/ims/imsservice/RegistrationManagerBase.smali
+index 6d25698..d267451 100644
+--- a/smali/com/sec/internal/ims/imsservice/RegistrationManagerBase.smali
++++ b/smali/com/sec/internal/ims/imsservice/RegistrationManagerBase.smali
+@@ -6013,7 +6013,7 @@
+ 
+     const-string v2, ""
+ 
+-    invoke-static {v0, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -22917,7 +22917,7 @@
+ 
+     move-result-object v1
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 9920
+     return-void
+@@ -25035,7 +25035,7 @@
+     .line 2013
+     const-string/jumbo v8, "ro.build.PDA"
+ 
+-    invoke-static {v8}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v8}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v8
+ 
+@@ -25165,7 +25165,7 @@
+     .line 2025
+     const-string/jumbo v11, "ril.sw_ver"
+ 
+-    invoke-static {v11}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v11}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v11
+ 
+@@ -25278,7 +25278,7 @@
+     .line 2040
+     const-string/jumbo v5, "ro.product.base_model"
+ 
+-    invoke-static {v5}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v5}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v5
+ 
+@@ -32035,7 +32035,7 @@
+ 
+     .line 9884
+     .local v0, "propVal":Ljava/lang/String;
+-    invoke-static {p1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {p1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -41493,7 +41493,7 @@
+ 
+     const-string/jumbo v3, "ril.ims.ltevoicesupport"
+ 
+-    invoke-static {v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v3
+ 
+@@ -50530,7 +50530,7 @@
+     .line 8181
+     const-string/jumbo v3, "ro.ril.svlte1x"
+ 
+-    invoke-static {v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v3
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/RegistrationObserverManager.smali b/smali/com/sec/internal/ims/imsservice/RegistrationObserverManager.smali
+index c551548..1fa4377 100644
+--- a/smali/com/sec/internal/ims/imsservice/RegistrationObserverManager.smali
++++ b/smali/com/sec/internal/ims/imsservice/RegistrationObserverManager.smali
+@@ -1514,7 +1514,7 @@
+     .local v8, "lastVolteSwitch":Ljava/lang/String;
+     const-string/jumbo v10, "ro.product.first_api_level"
+ 
+-    invoke-static {v10, v3}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v10, v3}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v3
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/SettingsProvider.smali b/smali/com/sec/internal/ims/imsservice/SettingsProvider.smali
+index f38d7c3..fe345a1 100644
+--- a/smali/com/sec/internal/ims/imsservice/SettingsProvider.smali
++++ b/smali/com/sec/internal/ims/imsservice/SettingsProvider.smali
+@@ -1106,7 +1106,7 @@
+ 
+     const-string v6, ""
+ 
+-    invoke-static {v2, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/SimManager.smali b/smali/com/sec/internal/ims/imsservice/SimManager.smali
+index 4a27204..b4c7be9 100644
+--- a/smali/com/sec/internal/ims/imsservice/SimManager.smali
++++ b/smali/com/sec/internal/ims/imsservice/SimManager.smali
+@@ -568,7 +568,7 @@
+ 
+     const-string/jumbo v3, "ro.csc.sales_code"
+ 
+-    invoke-static {v3, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v3
+ 
+@@ -676,7 +676,7 @@
+     .line 275
+     iget-object v4, p0, Lcom/sec/internal/ims/imsservice/SimManager;->OMC_CODE:Ljava/lang/String;
+ 
+-    invoke-static {v5, v4}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v5, v4}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v4
+ 
+@@ -690,7 +690,7 @@
+ 
+     const-string/jumbo v5, "ro.csc.omcnw_code2"
+ 
+-    invoke-static {v5, v4}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v5, v4}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v4
+ 
+@@ -702,7 +702,7 @@
+     :cond_5
+     iget-object v4, p0, Lcom/sec/internal/ims/imsservice/SimManager;->OMC_CODE:Ljava/lang/String;
+ 
+-    invoke-static {v5, v4}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v5, v4}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v4
+ 
+@@ -1588,7 +1588,7 @@
+     .line 1871
+     const-string/jumbo v0, "persist.radio.multisim.config"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -2569,7 +2569,7 @@
+ 
+     const-string/jumbo v1, "ro.csc.sales_code"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -2611,7 +2611,7 @@
+     .line 2263
+     const-string/jumbo v0, "ro.boot.hardware"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -3795,7 +3795,7 @@
+ 
+     .line 955
+     :cond_8
+-    invoke-static {v10, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v10, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v7
+ 
+@@ -3876,7 +3876,7 @@
+ 
+     move-object/from16 v7, v23
+ 
+-    invoke-static {v7, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v7, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v6
+ 
+@@ -3890,7 +3890,7 @@
+ 
+     const-string/jumbo v7, "ro.csc.omcnw_code2"
+ 
+-    invoke-static {v7, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v7, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v6
+ 
+@@ -3904,7 +3904,7 @@
+ 
+     iget-object v6, v0, Lcom/sec/internal/ims/imsservice/SimManager;->OMC_CODE:Ljava/lang/String;
+ 
+-    invoke-static {v7, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v7, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v6
+ 
+@@ -4386,7 +4386,7 @@
+ 
+     move-result-object v11
+ 
+-    invoke-static {v10, v11}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v10, v11}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1041
+     iget-object v10, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mSimHistory:Lcom/sec/internal/ims/util/SimpleEventLog;
+@@ -5750,7 +5750,7 @@
+ 
+     .line 1249
+     :cond_30
+-    invoke-static {v10, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v10, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -5829,7 +5829,7 @@
+     .line 1259
+     iget-object v2, v0, Lcom/sec/internal/ims/imsservice/SimManager;->OMC_CODE:Ljava/lang/String;
+ 
+-    invoke-static {v7, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v7, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -5843,7 +5843,7 @@
+ 
+     const-string/jumbo v4, "ro.csc.omcnw_code2"
+ 
+-    invoke-static {v4, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -5855,7 +5855,7 @@
+     :cond_33
+     iget-object v2, v0, Lcom/sec/internal/ims/imsservice/SimManager;->OMC_CODE:Ljava/lang/String;
+ 
+-    invoke-static {v7, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v7, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -5957,7 +5957,7 @@
+ 
+     move-result-object v2
+ 
+-    invoke-static {v1, v2}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v1, v2}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1277
+     iget-object v1, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mMnoInfo:Landroid/content/ContentValues;
+@@ -6193,7 +6193,7 @@
+     .line 1300
+     .end local v18    # "changed":Z
+     .local v2, "changed":Z
+-    invoke-static {v10, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v10, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v7
+ 
+@@ -6311,7 +6311,7 @@
+ 
+     iget-object v6, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mSimMnoName:Ljava/lang/String;
+ 
+-    invoke-static {v1, v6}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v1, v6}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1315
+     iget-object v1, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mMnoInfo:Landroid/content/ContentValues;
+@@ -6428,7 +6428,7 @@
+ 
+     .line 1185
+     :cond_3e
+-    invoke-static {v10, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v10, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -6571,7 +6571,7 @@
+ 
+     iget-object v6, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mSimMnoName:Ljava/lang/String;
+ 
+-    invoke-static {v1, v6}, Landroid/os/SemSystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
++    invoke-static {v1, v6}, Landroid/os/SystemProperties;->set(Ljava/lang/String;Ljava/lang/String;)V
+ 
+     .line 1205
+     iget-object v1, v0, Lcom/sec/internal/ims/imsservice/SimManager;->mMnoInfo:Landroid/content/ContentValues;
+@@ -10615,7 +10615,7 @@
+     .local v1, "simOp":Ljava/lang/String;
+     const-string/jumbo v2, "ro.boot.hardware"
+ 
+-    invoke-static {v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -11058,7 +11058,7 @@
+     .local v1, "simOp":Ljava/lang/String;
+     const-string/jumbo v2, "ro.boot.hardware"
+ 
+-    invoke-static {v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/UserAgent.smali b/smali/com/sec/internal/ims/imsservice/UserAgent.smali
+index 4b33b49..71b9ea8 100644
+--- a/smali/com/sec/internal/ims/imsservice/UserAgent.smali
++++ b/smali/com/sec/internal/ims/imsservice/UserAgent.smali
+@@ -5163,7 +5163,7 @@
+ 
+     const-string v3, ""
+ 
+-    invoke-static {v0, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorHkTw.smali b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorHkTw.smali
+index 2359dce..650127f 100644
+--- a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorHkTw.smali
++++ b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorHkTw.smali
+@@ -139,7 +139,7 @@
+     .line 68
+     const-string/jumbo v8, "persist.sys.ims_test_mode"
+ 
+-    invoke-static {v8, v5}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v8, v5}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v8
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorImpl.smali b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorImpl.smali
+index cbb14a0..41e679d 100644
+--- a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorImpl.smali
++++ b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorImpl.smali
+@@ -1420,7 +1420,7 @@
+     .line 455
+     const-string/jumbo v10, "persist.sys.ims_test_mode"
+ 
+-    invoke-static {v10, v6}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v10, v6}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v10
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorKor.smali b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorKor.smali
+index 4dc1700..7ac889f 100644
+--- a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorKor.smali
++++ b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorKor.smali
+@@ -231,7 +231,7 @@
+ 
+     const-string v1, "false"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -4470,7 +4470,7 @@
+     if-ne v1, v2, :cond_1
+ 
+     .line 751
+-    invoke-static {v4, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -4510,7 +4510,7 @@
+     if-ne v2, v5, :cond_2
+ 
+     .line 759
+-    invoke-static {v4, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -6563,7 +6563,7 @@
+     if-ne v0, v2, :cond_1
+ 
+     .line 1591
+-    invoke-static {v4, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -6599,7 +6599,7 @@
+     if-ne v0, v2, :cond_2
+ 
+     .line 1598
+-    invoke-static {v4, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -6697,7 +6697,7 @@
+     .line 1243
+     const-string/jumbo v0, "ril.domesticOtaStart"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorMeAfrica.smali b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorMeAfrica.smali
+index eb2fe57..a015be9 100644
+--- a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorMeAfrica.smali
++++ b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorMeAfrica.smali
+@@ -183,7 +183,7 @@
+     .line 151
+     const-string/jumbo v12, "persist.sys.ims_test_mode"
+ 
+-    invoke-static {v12, v9}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v12, v9}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v12
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorOce.smali b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorOce.smali
+index 71cc50f..8ed6359 100644
+--- a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorOce.smali
++++ b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorOce.smali
+@@ -187,7 +187,7 @@
+     .line 267
+     const-string/jumbo v10, "persist.sys.ims_test_mode"
+ 
+-    invoke-static {v10, v7}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v10, v7}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v10
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorSwa.smali b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorSwa.smali
+index 73ce400..edffa69 100644
+--- a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorSwa.smali
++++ b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorSwa.smali
+@@ -160,7 +160,7 @@
+     .line 142
+     const-string/jumbo v9, "persist.sys.ims_test_mode"
+ 
+-    invoke-static {v9, v6}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v9, v6}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v9
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorVzw.smali b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorVzw.smali
+index b8b1362..029dd58 100644
+--- a/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorVzw.smali
++++ b/smali/com/sec/internal/ims/imsservice/governor/RegistrationGovernorVzw.smali
+@@ -665,7 +665,7 @@
+     .local v0, "isSVLTEDevice":Z
+     const-string/jumbo v1, "ro.ril.svlte1x"
+ 
+-    invoke-static {v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -1577,7 +1577,7 @@
+ 
+     const-string/jumbo v4, "persist.sys.ims_test_mode"
+ 
+-    invoke-static {v4, v3}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v4, v3}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v4
+ 
+@@ -1624,7 +1624,7 @@
+     .line 838
+     const-string/jumbo v7, "ro.product.first_api_level"
+ 
+-    invoke-static {v7, v3}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v7, v3}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v7
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/imslogger/ISignallingNotifier.smali b/smali/com/sec/internal/ims/imsservice/imslogger/ISignallingNotifier.smali
+index 7f30570..411f238 100644
+--- a/smali/com/sec/internal/ims/imsservice/imslogger/ISignallingNotifier.smali
++++ b/smali/com/sec/internal/ims/imsservice/imslogger/ISignallingNotifier.smali
+@@ -41,7 +41,7 @@
+ 
+     const-string v1, "false"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/mdec/MdecAccountManager.smali b/smali/com/sec/internal/ims/mdec/MdecAccountManager.smali
+index 8df5e21..9aac966 100644
+--- a/smali/com/sec/internal/ims/mdec/MdecAccountManager.smali
++++ b/smali/com/sec/internal/ims/mdec/MdecAccountManager.smali
+@@ -2459,7 +2459,7 @@
+ 
+     const-string v3, ""
+ 
+-    invoke-static {v1, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -2525,7 +2525,7 @@
+ 
+     const-string v1, ""
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -2743,7 +2743,7 @@
+ 
+     const-string v6, ""
+ 
+-    invoke-static {v4, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v4
+ 
+diff --git a/smali/com/sec/internal/ims/options/ContactCache.smali b/smali/com/sec/internal/ims/options/ContactCache.smali
+index 06476a6..86eb71d 100644
+--- a/smali/com/sec/internal/ims/options/ContactCache.smali
++++ b/smali/com/sec/internal/ims/options/ContactCache.smali
+@@ -22,7 +22,7 @@
+ 
+ .field private static final MAX_COUNT:I = 0x3e8
+ 
+-.field private static final VERBOSE:Z = false
++.field private static final VERBOSE:Z
+ 
+ 
+ # instance fields
+diff --git a/smali/com/sec/internal/ims/presence/PresenceModule.smali b/smali/com/sec/internal/ims/presence/PresenceModule.smali
+index 580edaf..589d66d 100644
+--- a/smali/com/sec/internal/ims/presence/PresenceModule.smali
++++ b/smali/com/sec/internal/ims/presence/PresenceModule.smali
+@@ -4424,7 +4424,7 @@
+     :cond_7
+     const-string/jumbo v11, "ro.ril.svlte1x"
+ 
+-    invoke-static {v11, v4}, Landroid/os/SemSystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++    invoke-static {v11, v4}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
+ 
+     move-result v11
+ 
+diff --git a/smali/com/sec/internal/ims/rcs/util/RcsUtils$UiUtils.smali b/smali/com/sec/internal/ims/rcs/util/RcsUtils$UiUtils.smali
+index 32424fe..8de87aa 100644
+--- a/smali/com/sec/internal/ims/rcs/util/RcsUtils$UiUtils.smali
++++ b/smali/com/sec/internal/ims/rcs/util/RcsUtils$UiUtils.smali
+@@ -345,7 +345,7 @@
+ 
+     const-string v1, ""
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/rcscore/RcsPreferencesProvider.smali b/smali/com/sec/internal/ims/rcscore/RcsPreferencesProvider.smali
+index 05a599a..e6df205 100644
+--- a/smali/com/sec/internal/ims/rcscore/RcsPreferencesProvider.smali
++++ b/smali/com/sec/internal/ims/rcscore/RcsPreferencesProvider.smali
+@@ -538,7 +538,7 @@
+ 
+     const-string v11, ""
+ 
+-    invoke-static {v4, v11}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v11}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v4
+ 
+@@ -1220,7 +1220,7 @@
+     .local v1, "phoneId":I
+     const-string/jumbo v2, "persist.radio.multisim.config"
+ 
+-    invoke-static {v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -1591,7 +1591,7 @@
+     .local v1, "phoneId":I
+     const-string/jumbo v2, "persist.radio.multisim.config"
+ 
+-    invoke-static {v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+diff --git a/smali/com/sec/internal/ims/settings/ImsProfileCache.smali b/smali/com/sec/internal/ims/settings/ImsProfileCache.smali
+index 7e8ffc0..130f192 100644
+--- a/smali/com/sec/internal/ims/settings/ImsProfileCache.smali
++++ b/smali/com/sec/internal/ims/settings/ImsProfileCache.smali
+@@ -942,7 +942,7 @@
+ 
+     const-string/jumbo v1, "ro.build.PDA"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -950,7 +950,7 @@
+     .local v1, "pdaVer":Ljava/lang/String;
+     const-string/jumbo v2, "ril.official_cscver"
+ 
+-    invoke-static {v2, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -1082,7 +1082,7 @@
+ 
+     const-string/jumbo v1, "ro.build.PDA"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -1090,7 +1090,7 @@
+     .local v1, "pdaVer":Ljava/lang/String;
+     const-string/jumbo v2, "ril.official_cscver"
+ 
+-    invoke-static {v2, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/settings/ImsProfileLoaderInternal.smali b/smali/com/sec/internal/ims/settings/ImsProfileLoaderInternal.smali
+index 7600903..5f19d80 100644
+--- a/smali/com/sec/internal/ims/settings/ImsProfileLoaderInternal.smali
++++ b/smali/com/sec/internal/ims/settings/ImsProfileLoaderInternal.smali
+@@ -250,7 +250,7 @@
+ 
+     const-string v2, ""
+ 
+-    invoke-static {v1, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+diff --git a/smali/com/sec/internal/ims/settings/ImsServiceSwitchBase.smali b/smali/com/sec/internal/ims/settings/ImsServiceSwitchBase.smali
+index f7038c5..733f4cb 100644
+--- a/smali/com/sec/internal/ims/settings/ImsServiceSwitchBase.smali
++++ b/smali/com/sec/internal/ims/settings/ImsServiceSwitchBase.smali
+@@ -1441,7 +1441,7 @@
+ 
+     const-string v6, ""
+ 
+-    invoke-static {v5, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v5, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v5
+ 
+diff --git a/smali/com/sec/internal/ims/settings/ImsServiceSwitchEur.smali b/smali/com/sec/internal/ims/settings/ImsServiceSwitchEur.smali
+index 553cd6a..c2f004d 100644
+--- a/smali/com/sec/internal/ims/settings/ImsServiceSwitchEur.smali
++++ b/smali/com/sec/internal/ims/settings/ImsServiceSwitchEur.smali
+@@ -1008,7 +1008,7 @@
+ 
+     const-string v6, ""
+ 
+-    invoke-static {v5, v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v5, v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v5
+ 
+diff --git a/smali/com/sec/internal/ims/settings/ImsSimMobilityUpdate.smali b/smali/com/sec/internal/ims/settings/ImsSimMobilityUpdate.smali
+index e4e8ae9..08256bb 100644
+--- a/smali/com/sec/internal/ims/settings/ImsSimMobilityUpdate.smali
++++ b/smali/com/sec/internal/ims/settings/ImsSimMobilityUpdate.smali
+@@ -905,7 +905,7 @@
+ 
+     const-string/jumbo v6, "persist.ims.simmobility"
+ 
+-    invoke-static {v6, v4}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v6, v4}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v4
+ 
+diff --git a/smali/com/sec/internal/ims/sms/SmsServiceModule.smali b/smali/com/sec/internal/ims/sms/SmsServiceModule.smali
+index 4e729b1..308dd17 100644
+--- a/smali/com/sec/internal/ims/sms/SmsServiceModule.smali
++++ b/smali/com/sec/internal/ims/sms/SmsServiceModule.smali
+@@ -6866,7 +6866,7 @@
+ 
+     const-string v2, "00101#"
+ 
+-    invoke-static {v1, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -6890,7 +6890,7 @@
+ 
+     const-string v3, "gsm.operator.isroaming"
+ 
+-    invoke-static {v3, v2}, Landroid/os/SemSystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++    invoke-static {v3, v2}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
+ 
+     move-result v13
+ 
+@@ -10632,7 +10632,7 @@
+     .line 1617
+     const-string/jumbo v3, "ro.product.first_api_level"
+ 
+-    invoke-static {v3, v6}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v3, v6}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v3
+ 
+diff --git a/smali/com/sec/internal/ims/ss/UtServiceModule.smali b/smali/com/sec/internal/ims/ss/UtServiceModule.smali
+index 3f931f2..edbd87c 100644
+--- a/smali/com/sec/internal/ims/ss/UtServiceModule.smali
++++ b/smali/com/sec/internal/ims/ss/UtServiceModule.smali
+@@ -3382,7 +3382,7 @@
+ 
+     move-result-object v6
+ 
+-    invoke-static {v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v6
+ 
+@@ -3390,7 +3390,7 @@
+     .local v6, "iccType":Ljava/lang/String;
+     const-string/jumbo v7, "ril.IsCSIM"
+ 
+-    invoke-static {v7}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v7}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v7
+ 
+@@ -3667,7 +3667,7 @@
+     .line 215
+     const-string/jumbo v1, "ro.build.PDA"
+ 
+-    invoke-static {v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -3727,7 +3727,7 @@
+ 
+     const-string/jumbo v6, "ro.product.base_model"
+ 
+-    invoke-static {v6}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v6}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v6
+ 
+diff --git a/smali/com/sec/internal/ims/util/CscParser.smali b/smali/com/sec/internal/ims/util/CscParser.smali
+index c196d5a..2d4569c 100644
+--- a/smali/com/sec/internal/ims/util/CscParser.smali
++++ b/smali/com/sec/internal/ims/util/CscParser.smali
+@@ -578,7 +578,7 @@
+     .line 78
+     const-string/jumbo v0, "persist.sys.omc_path"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -602,7 +602,7 @@
+ 
+     const-string/jumbo v2, "persist.radio.multisim.config"
+ 
+-    invoke-static {v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -622,7 +622,7 @@
+     .line 83
+     const-string/jumbo v2, "persist.sys.omcnw_path2"
+ 
+-    invoke-static {v2, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -630,7 +630,7 @@
+ 
+     .line 85
+     :cond_0
+-    invoke-static {v3, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -638,7 +638,7 @@
+ 
+     .line 88
+     :cond_1
+-    invoke-static {v3, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -1515,7 +1515,7 @@
+ 
+     const-string v2, "/odm/omc"
+ 
+-    invoke-static {v1, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -4692,7 +4692,7 @@
+     :cond_0
+     const-string/jumbo v0, "persist.sys.omc_path"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -4718,7 +4718,7 @@
+ 
+     const-string/jumbo v2, "persist.radio.multisim.config"
+ 
+-    invoke-static {v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -4736,7 +4736,7 @@
+     .line 261
+     const-string/jumbo v2, "persist.sys.omcnw_path2"
+ 
+-    invoke-static {v2, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -4744,7 +4744,7 @@
+ 
+     .line 263
+     :cond_1
+-    invoke-static {v3, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -4752,7 +4752,7 @@
+ 
+     .line 266
+     :cond_2
+-    invoke-static {v3, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -5831,7 +5831,7 @@
+     .line 631
+     const-string/jumbo v0, "persist.radio.multisim.config"
+ 
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -5844,7 +5844,7 @@
+     if-nez v1, :cond_1
+ 
+     .line 632
+-    invoke-static {v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/util/IMSLog.smali b/smali/com/sec/internal/ims/util/IMSLog.smali
+index 5c145ef..0df70da 100644
+--- a/smali/com/sec/internal/ims/util/IMSLog.smali
++++ b/smali/com/sec/internal/ims/util/IMSLog.smali
+@@ -78,7 +78,7 @@
+ 
+     const-string/jumbo v1, "ro.debuggable"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v1
+ 
+@@ -113,7 +113,7 @@
+ 
+     const-string v2, "false"
+ 
+-    invoke-static {v1, v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+diff --git a/smali/com/sec/internal/ims/util/IState.smali b/smali/com/sec/internal/ims/util/IState.smali
+index c9279ea..a2e682d 100644
+--- a/smali/com/sec/internal/ims/util/IState.smali
++++ b/smali/com/sec/internal/ims/util/IState.smali
+@@ -6,7 +6,7 @@
+ # static fields
+ .field public static final HANDLED:Z = true
+ 
+-.field public static final NOT_HANDLED:Z = false
++.field public static final NOT_HANDLED:Z
+ 
+ 
+ # virtual methods
+diff --git a/smali/com/sec/internal/ims/util/Mno.smali b/smali/com/sec/internal/ims/util/Mno.smali
+index 8813c03..8673c6e 100644
+--- a/smali/com/sec/internal/ims/util/Mno.smali
++++ b/smali/com/sec/internal/ims/util/Mno.smali
+@@ -6135,7 +6135,7 @@
+ 
+     const-string v1, ""
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -6150,7 +6150,7 @@
+ 
+     const-string v1, ""
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/util/OmcCode.smali b/smali/com/sec/internal/ims/util/OmcCode.smali
+index 8a16627..4a8e850 100644
+--- a/smali/com/sec/internal/ims/util/OmcCode.smali
++++ b/smali/com/sec/internal/ims/util/OmcCode.smali
+@@ -27,7 +27,7 @@
+ 
+     const-string/jumbo v1, "persist.omc.sales_code"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -42,7 +42,7 @@
+     .line 34
+     const-string/jumbo v2, "ro.csc.sales_code"
+ 
+-    invoke-static {v2, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+@@ -61,7 +61,7 @@
+ 
+     const-string/jumbo v1, "persist.sys.omc_etcpath"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -110,7 +110,7 @@
+ 
+     const-string/jumbo v3, "persist.radio.multisim.config"
+ 
+-    invoke-static {v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v3
+ 
+@@ -137,7 +137,7 @@
+     :cond_0
+     const-string/jumbo v3, "ro.csc.omcnw_code2"
+ 
+-    invoke-static {v3, v5}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3, v5}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -152,7 +152,7 @@
+     move-result-object v5
+ 
+     :cond_2
+-    invoke-static {v4, v5}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v5}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -167,7 +167,7 @@
+     move-result-object v5
+ 
+     :cond_4
+-    invoke-static {v4, v5}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v5}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -186,7 +186,7 @@
+ 
+     const-string/jumbo v1, "persist.sys.omcnw_path"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -218,7 +218,7 @@
+ 
+     const-string/jumbo v3, "persist.radio.multisim.config"
+ 
+-    invoke-static {v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v3
+ 
+@@ -242,7 +242,7 @@
+ 
+     const-string/jumbo v4, "persist.sys.omcnw_path2"
+ 
+-    invoke-static {v4, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -254,7 +254,7 @@
+ 
+     move-result-object v3
+ 
+-    invoke-static {v4, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -266,7 +266,7 @@
+ 
+     move-result-object v3
+ 
+-    invoke-static {v4, v3}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v4, v3}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -350,7 +350,7 @@
+ 
+     const-string v1, "/system/csc"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -737,7 +737,7 @@
+ 
+     const-string v1, "false"
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/util/os/Debug.smali b/smali/com/sec/internal/ims/util/os/Debug.smali
+index 4dae7e2..264fe25 100644
+--- a/smali/com/sec/internal/ims/util/os/Debug.smali
++++ b/smali/com/sec/internal/ims/util/os/Debug.smali
+@@ -58,7 +58,7 @@
+ 
+     const-string/jumbo v2, "ro.boot.debug_level"
+ 
+-    invoke-static {v2, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -130,7 +130,7 @@
+ 
+     const-string/jumbo v2, "ro.product_ship"
+ 
+-    invoke-static {v2, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v2
+ 
+@@ -154,7 +154,7 @@
+ 
+     const-string v1, ""
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+diff --git a/smali/com/sec/internal/ims/util/os/TelephonyManagerWrapper.smali b/smali/com/sec/internal/ims/util/os/TelephonyManagerWrapper.smali
+index 2d496ab..b6f3734 100644
+--- a/smali/com/sec/internal/ims/util/os/TelephonyManagerWrapper.smali
++++ b/smali/com/sec/internal/ims/util/os/TelephonyManagerWrapper.smali
+@@ -672,7 +672,7 @@
+ 
+     const-string v5, ""
+ 
+-    invoke-static {v0, v5}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v0, v5}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v0
+ 
+@@ -991,7 +991,7 @@
+     .line 293
+     const-string v2, "gsm.apn.sim.operator.numeric"
+ 
+-    invoke-static {v2, v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2, v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+diff --git a/smali/com/sec/internal/ims/volte2/ImsCallSession$CallStateMachine$IncomingCall.smali b/smali/com/sec/internal/ims/volte2/ImsCallSession$CallStateMachine$IncomingCall.smali
+index b0ae484..3ded6ba 100644
+--- a/smali/com/sec/internal/ims/volte2/ImsCallSession$CallStateMachine$IncomingCall.smali
++++ b/smali/com/sec/internal/ims/volte2/ImsCallSession$CallStateMachine$IncomingCall.smali
+@@ -520,7 +520,7 @@
+     :pswitch_0
+     const-string/jumbo v2, "service.camera.running"
+ 
+-    invoke-static {v2, v10}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v2, v10}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v2
+ 
+@@ -528,7 +528,7 @@
+     .local v2, "spCameraRun":I
+     const-string/jumbo v3, "service.camera.rec.running"
+ 
+-    invoke-static {v3, v10}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v3, v10}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v3
+ 
+diff --git a/smali/com/sec/internal/ims/volte2/ImsCallSession$KeepAliveSender.smali b/smali/com/sec/internal/ims/volte2/ImsCallSession$KeepAliveSender.smali
+index 782561d..dbe2744 100644
+--- a/smali/com/sec/internal/ims/volte2/ImsCallSession$KeepAliveSender.smali
++++ b/smali/com/sec/internal/ims/volte2/ImsCallSession$KeepAliveSender.smali
+@@ -196,7 +196,7 @@
+ 
+     const-string/jumbo v1, "persist.sys.ims.blockvzwka"
+ 
+-    invoke-static {v1, v0}, Landroid/os/SemSystemProperties;->getBoolean(Ljava/lang/String;Z)Z
++    invoke-static {v1, v0}, Landroid/os/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z
+ 
+     move-result v0
+ 
+diff --git a/smali/com/sec/internal/ims/volte2/SsacManager$SSACController.smali b/smali/com/sec/internal/ims/volte2/SsacManager$SSACController.smali
+index 1bbc8b8..629f871 100644
+--- a/smali/com/sec/internal/ims/volte2/SsacManager$SSACController.smali
++++ b/smali/com/sec/internal/ims/volte2/SsacManager$SSACController.smali
+@@ -21,7 +21,7 @@
+ 
+ .field public static final STATE_BARRED:Z = true
+ 
+-.field public static final STATE_NOT_BARRED:Z = false
++.field public static final STATE_NOT_BARRED:Z
+ 
+ 
+ # instance fields
+diff --git a/smali/com/sec/internal/ims/volte2/TmoEcholocateIntentBroadcaster.smali b/smali/com/sec/internal/ims/volte2/TmoEcholocateIntentBroadcaster.smali
+index 7214208..f93c112 100644
+--- a/smali/com/sec/internal/ims/volte2/TmoEcholocateIntentBroadcaster.smali
++++ b/smali/com/sec/internal/ims/volte2/TmoEcholocateIntentBroadcaster.smali
+@@ -399,7 +399,7 @@
+ 
+     const/4 v1, 0x0
+ 
+-    invoke-static {v0, v1}, Landroid/os/SemSystemProperties;->getInt(Ljava/lang/String;I)I
++    invoke-static {v0, v1}, Landroid/os/SystemProperties;->getInt(Ljava/lang/String;I)I
+ 
+     move-result v0
+ 
+@@ -452,7 +452,7 @@
+ 
+     move-result-object v1
+ 
+-    invoke-static {v1}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v1}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v1
+ 
+diff --git a/smali/com/sec/internal/ims/volte2/VolteServiceModule.smali b/smali/com/sec/internal/ims/volte2/VolteServiceModule.smali
+index 6f3dd82..f6ef3eb 100644
+--- a/smali/com/sec/internal/ims/volte2/VolteServiceModule.smali
++++ b/smali/com/sec/internal/ims/volte2/VolteServiceModule.smali
+@@ -36596,7 +36596,7 @@
+     .line 6056
+     const-string/jumbo v10, "ro.ril.ecclist"
+ 
+-    invoke-static {v10}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v10}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v9
+ 
+@@ -36638,7 +36638,7 @@
+     .line 6062
+     .local v10, "ecclistOnNet":Ljava/lang/String;
+     :goto_2
+-    invoke-static {v10, v12}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v10, v12}, Landroid/os/SystemProperties;->get(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v11
+ 
+@@ -36686,7 +36686,7 @@
+ 
+     .line 6068
+     .local v2, "key":Ljava/lang/String;
+-    invoke-static {v2}, Landroid/os/SemSystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
++    invoke-static {v2}, Landroid/os/SystemProperties;->get(Ljava/lang/String;)Ljava/lang/String;
+ 
+     move-result-object v15
+ 
+diff --git a/smali/com/sec/internal/tapi/service/defaultconst/CapabilityDefaultConst.smali b/smali/com/sec/internal/tapi/service/defaultconst/CapabilityDefaultConst.smali
+index c870a88..2ce07ff 100644
+--- a/smali/com/sec/internal/tapi/service/defaultconst/CapabilityDefaultConst.smali
++++ b/smali/com/sec/internal/tapi/service/defaultconst/CapabilityDefaultConst.smali
+@@ -4,7 +4,7 @@
+ 
+ 
+ # static fields
+-.field public static final DEFALUT_IS_AUTOMATA:Z = false
++.field public static final DEFALUT_IS_AUTOMATA:Z
+ 
+ 
+ # direct methods

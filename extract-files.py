@@ -178,20 +178,18 @@ IMX576_60FPS_PATCHES = [
 
 
 blob_fixups: blob_fixups_user_type = {
-    # libhidltransport and libhwbinder were merged into libhidlbase in
-    # Android 10; their stubs are not available to the product partition.
-    (
-        'product/lib/com.qualcomm.qti.imscmservice@1.0.so',
-        'product/lib/com.qualcomm.qti.imscmservice@2.0.so',
-        'product/lib/com.qualcomm.qti.imscmservice@2.1.so',
-        'product/lib/com.qualcomm.qti.imscmservice@2.2.so',
-        'product/lib64/com.qualcomm.qti.imscmservice@1.0.so',
-        'product/lib64/com.qualcomm.qti.imscmservice@2.0.so',
-        'product/lib64/com.qualcomm.qti.imscmservice@2.1.so',
-        'product/lib64/com.qualcomm.qti.imscmservice@2.2.so',
-    ): blob_fixup()
-        .remove_needed('libhidltransport.so')
-        .remove_needed('libhwbinder.so'),
+    # ro.control_privapp_permissions is enforce, so everything the patched
+    # imsservice requests has to be allowed here.
+    'system/etc/permissions/privapp-permissions-com.sec.imsservice.xml': blob_fixup()
+        .regex_replace(
+            r'(ACCESS_IMS_CALL_SERVICE"/>\n)',
+            r'\1        <permission name="android.permission.BIND_IMS_SERVICE"/>\n'
+            r'        <permission name="android.permission.INTERACT_ACROSS_USERS_FULL"/>\n',
+        )
+        .regex_replace(
+            r'(MONITOR_DEFAULT_SMS_PACKAGE"/>\n)',
+            r'\1        <permission name="android.permission.WRITE_SETTINGS"/>\n',
+        ),
     'vendor/lib64/libgps.utils.so': blob_fixup()
         .add_needed('libprocessgroup_shim.so'),
     # Uses no C++ runtime symbols; libstdc++ is not available to vendor
@@ -210,6 +208,18 @@ blob_fixups: blob_fixups_user_type = {
     # define; init rejects the whole service over an unknown group.
     'vendor/etc/init/android.hardware.gnss@2.0-service-qti.rc': blob_fixup()
         .regex_replace(' vendor_qti_diag', ''),
+    # Samsung framework classes, the precise data connection action and the
+    # API of the imported imsservice; see the patches for each change.
+    'system/framework/imsmanager.jar': blob_fixup()
+        .apktool_patch('blob-patches/imsmanager'),
+    # Android 12+ stand-ins for Samsung framework methods (compat/src) and the
+    # IWLAN data call on the eris tunnel; see the patches for each change.
+    'system/priv-app/EpdgService/EpdgService.apk': blob_fixup()
+        .apktool_patch('blob-patches/EpdgService'),
+    # AOSP compat (samsung-ims-patches), carrier data, Ut, SMS over IMS
+    # (bridge/src); see the patches for each change.
+    'system/priv-app/imsservice/imsservice.apk': blob_fixup()
+        .apktool_patch('blob-patches/imsservice'),
     # utf8_length() was removed from libutils in Android 11.
     # CallSession::StartAllMediaForUAS() leaves the audio of an answered VoWiFi
     # call (AP voice engine, SAE) to Samsung's phone app, which starts it

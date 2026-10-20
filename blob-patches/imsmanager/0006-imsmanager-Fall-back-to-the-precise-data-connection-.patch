@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: James Nguyen <tienthong2004@gmail.com>
+Date: Tue, 20 Oct 2026 05:24:16 +0700
+Subject: [PATCH 6/9] imsmanager: Fall back to the precise data connection
+ action string
+
+TelephonyManagerExt reads TelephonyManager's hidden
+ACTION_PRECISE_DATA_CONNECTION_STATE_CHANGED by reflection. Android 12
+removed that constant, so the field ends up null and
+RegistrationManagerBase.<init> crashes in IntentFilter.addAction(null).
+Use the action string when reflection finds nothing.
+
+Assisted-by: LLM
+---
+ smali/com/sec/ims/extensions/TelephonyManagerExt.smali | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/smali/com/sec/ims/extensions/TelephonyManagerExt.smali b/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
+index 29d52d2..b3dfc41 100644
+--- a/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
++++ b/smali/com/sec/ims/extensions/TelephonyManagerExt.smali
+@@ -80,6 +80,11 @@
+ 
+     check-cast v0, Ljava/lang/String;
+ 
++    if-nez v0, :cond_0
++
++    const-string v0, "android.intent.action.PRECISE_DATA_CONNECTION_STATE_CHANGED"
++
++    :cond_0
+     sput-object v0, Lcom/sec/ims/extensions/TelephonyManagerExt;->ACTION_PRECISE_DATA_CONNECTION_STATE_CHANGED:Ljava/lang/String;
+ 
+     .line 82

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2026 The LineageOS Project
+
+     SPDX-License-Identifier: Apache-2.0
+-->
+<!--
+     imsservice only accepts calls from callers that hold its permissions.
+     The phone process (android.uid.phone) used to get them from Samsung's
+     ImsTelephonyService, which shared its uid; without them hanging up an
+     IMS call crashed com.android.phone. Request them for the shared uid.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.lineageos.samsungims.phonepermissions"
+    android:sharedUserId="android.uid.phone">
+
+    <uses-permission android:name="com.sec.imsservice.PERMISSION" />
+    <uses-permission android:name="com.sec.imsservice.READ_IMS_PERMISSION" />
+    <uses-permission android:name="com.sec.imsservice.WRITE_IMS_PERMISSION" />
+
+    <application android:hasCode="false" />
+</manifest>

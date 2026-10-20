@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: James Nguyen <tienthong2004@gmail.com>
+Date: Mon, 19 Oct 2026 15:24:31 +0000
+Subject: [PATCH 7/7] EpdgService: Fix NPE when the ePDG connection fails or is
+ throttled
+
+When an ePDG connection fails or is throttled by the carrier network
+before bringUp succeeds, EpdgInterface.getApnConnStatusData() returns
+null. TelephonyAdapter.updateApnConnStatus() calls data.getLinkProp(),
+which crashes com.sec.epdg with a NullPointerException in
+convertDataCallResponse.
+
+Fall back in EpdgInterfaceController.updateConnectionStatus() to the
+failure ApnConnStatusData passed into the method when
+getApnConnStatusData() is null.
+
+Assisted-by: LLM
+---
+ .../epdg/interfaceController/EpdgInterfaceController.smali | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/smali/com/sec/epdg/interfaceController/EpdgInterfaceController.smali b/smali/com/sec/epdg/interfaceController/EpdgInterfaceController.smali
+index 94aa251..6f3bb23 100644
+--- a/smali/com/sec/epdg/interfaceController/EpdgInterfaceController.smali
++++ b/smali/com/sec/epdg/interfaceController/EpdgInterfaceController.smali
+@@ -793,6 +793,8 @@
+ 
+     move-result-object v2
+ 
++    if-eqz v2, :cond_0
++
+     invoke-virtual {v1, p1, v2}, Lcom/sec/epdg/TelephonyAdapter;->updateApnConnStatus(ILcom/sec/epdg/EpdgCommands$ApnConnStatusData;)V
+ 
+     .line 107
+@@ -868,6 +870,11 @@
+ 
+     move-result-object v2
+ 
++    if-nez v2, :cond_2
++
++    move-object v2, p2
++
++    :cond_2
+     invoke-virtual {v1, p1, v2}, Lcom/sec/epdg/TelephonyAdapter;->updateApnConnStatus(ILcom/sec/epdg/EpdgCommands$ApnConnStatusData;)V
+ 
+     .line 121

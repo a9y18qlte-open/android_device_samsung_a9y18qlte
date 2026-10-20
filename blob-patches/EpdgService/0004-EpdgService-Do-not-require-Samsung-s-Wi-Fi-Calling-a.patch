@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: thongass000 <tienthong2004@gmail.com>
+Date: Wed, 7 Oct 2026 00:53:45 +0700
+Subject: [PATCH 4/7] EpdgService: Do not require Samsung's Wi-Fi Calling app
+
+WfcActivityController.IsAvaliableWfcActivity() keeps the ePDG off unless
+Samsung's Wi-Fi Calling app (com.sec.unifiedwfc) is installed. On AOSP
+the Wi-Fi Calling switch is the framework's own, so count a missing app
+as available; a disabled one still turns the ePDG off.
+
+Assisted-by: LLM
+---
+ smali/com/sec/epdg/WfcActivityController.smali | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/smali/com/sec/epdg/WfcActivityController.smali b/smali/com/sec/epdg/WfcActivityController.smali
+index 9135c3d..6bc42ce 100644
+--- a/smali/com/sec/epdg/WfcActivityController.smali
++++ b/smali/com/sec/epdg/WfcActivityController.smali
+@@ -165,6 +165,8 @@
+     :catch_0
+     move-exception v3
+ 
++    const/4 v0, 0x1
++
+     .line 50
+     .local v3, "ie":Ljava/lang/IllegalArgumentException;
+     new-instance v4, Ljava/lang/StringBuilder;

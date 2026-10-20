@@ -1,0 +1,72 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: James Nguyen <tienthong2004@gmail.com>
+Date: Mon, 19 Oct 2026 15:24:49 +0000
+Subject: [PATCH 15/15] imsservice: Fix premature SIM ready and userdebug crash
+ loop
+
+- SimManager.isSimAvailable() previously returned true as soon as mSimState reached LOADED, regardless of whether ISIM was loaded. On ISIM-enabled SIM cards, this fired notifySimReady() prematurely before ISIM credentials were read, racing duplicate PDN bringups and leaving undeleted UAs. Require mIsimLoaded when hasIsim() is true.
+- ResipRegistrationManager.registerInternal throws RuntimeException ("UA is not deleted..") in eng/userdebug mode (ro.debuggable=1). Bypass the IMSLog.isEngMode() check so it always takes the non-crashing recovery path (EVENT_DELETE_UA).
+
+Assisted-by: LLM
+---
+ .../imsservice/ResipRegistrationManager.smali |  2 +-
+ .../internal/ims/imsservice/SimManager.smali  | 20 ++++++++++++++-----
+ 2 files changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/smali/com/sec/internal/ims/imsservice/ResipRegistrationManager.smali b/smali/com/sec/internal/ims/imsservice/ResipRegistrationManager.smali
+index e796c5b..20459d2 100644
+--- a/smali/com/sec/internal/ims/imsservice/ResipRegistrationManager.smali
++++ b/smali/com/sec/internal/ims/imsservice/ResipRegistrationManager.smali
+@@ -9324,7 +9324,7 @@
+     :cond_7
+     invoke-static {}, Lcom/sec/internal/ims/util/IMSLog;->isEngMode()Z
+ 
+-    move-result v0
++    const/4 v0, 0x0
+ 
+     if-nez v0, :cond_9
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/SimManager.smali b/smali/com/sec/internal/ims/imsservice/SimManager.smali
+index e7570b1..eea231c 100644
+--- a/smali/com/sec/internal/ims/imsservice/SimManager.smali
++++ b/smali/com/sec/internal/ims/imsservice/SimManager.smali
+@@ -11376,16 +11376,26 @@
+ 
+     sget-object v1, Lcom/sec/internal/ims/imsservice/SimManager$SIM_STATE;->LOADED:Lcom/sec/internal/ims/imsservice/SimManager$SIM_STATE;
+ 
+-    if-ne v0, v1, :cond_0
++    if-ne v0, v1, :cond_1
+ 
+-    const/4 v0, 0x1
++    invoke-virtual {p0}, Lcom/sec/internal/ims/imsservice/SimManager;->hasIsim()Z
+ 
+-    goto :goto_0
++    move-result v0
++
++    if-eqz v0, :cond_0
++
++    iget-boolean v0, p0, Lcom/sec/internal/ims/imsservice/SimManager;->mIsimLoaded:Z
++
++    if-eqz v0, :cond_1
+ 
+     :cond_0
++    const/4 v0, 0x1
++
++    return v0
++
++    :cond_1
+     const/4 v0, 0x0
+ 
+-    :goto_0
+     return v0
+ .end method
+ 
+@@ -11805,7 +11815,7 @@
+ 
+     .line 798
+     .local v0, "intent":Landroid/content/Intent;
+-    const-string v1, "nonce"
++    const-string/jumbo v1, "nonce"
+ 
+     invoke-virtual {v0, v1, p1}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+ 
