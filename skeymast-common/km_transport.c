@@ -102,7 +102,7 @@ int km_tz_transact(const km_indata *in, km_outdata *out) {
         return -0x3e8;
     }
     if (km_outdata_decode(buf_payload(outbuf), resp_len, out) != 0) {
-        ALOGE("km_outdata_decode failed");
+        ALOGE("km_outdata_decode failed (len=%u)", resp_len);
         return -0x3e8;
     }
     return 0;

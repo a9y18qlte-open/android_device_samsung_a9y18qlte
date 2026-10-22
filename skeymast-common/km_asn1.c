@@ -93,10 +93,13 @@ int km_indata_encode(const km_indata *in, uint8_t *out, uint32_t cap, uint32_t *
 // while older headers declare them extern. The struct layout {data,len} is
 // stable, so direct access links against any libcrypto version.
 
-// Decode a signed big-endian INTEGER content (DER) into int64.
+// Decode a big-endian INTEGER content (DER) into int64. A 9-byte value with a
+// leading 0x00 is an unsigned 64-bit with the top bit set (e.g. an operation
+// handle); strip the sign pad so it fits.
 static int be_to_i64(const CBS *c, int64_t *out) {
     size_t n = c->len;
     const uint8_t *p = c->data;
+    if (n == 9 && p[0] == 0) { p++; n = 8; }
     if (n == 0 || n > 8) return -1;
     int64_t v = (p[0] & 0x80) ? -1 : 0;  // sign-extend
     for (size_t i = 0; i < n; i++) v = (v << 8) | p[i];
