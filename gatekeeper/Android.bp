@@ -3,40 +3,30 @@
 //
 // Installs as gatekeeper.mdfpposs.so so the stock gatekeeper.mdfpp.so stays in
 // place; select ours with ro.hardware.gatekeeper=mdfpposs, fall back by setting
-// it to mdfpp. libQSEEComAPI is the stock vendor prebuilt (closed); we only
-// reimplement the client above it.
+// it to mdfpp. libQSEEComAPI is the stock vendor prebuilt (closed); the shared
+// transport/codec lives in libskeymast_common.
+//
+// Links the current platform BoringSSL (CBB/CBS). Do NOT apply the
+// libcrypto-v33 replace_needed fixup here: that shim is only for the PREBUILT
+// mdfpp blobs (BoringSSL ABI frozen at A13). Built in tree, our codec matches
+// the libcrypto it links; replacing gatekeeper also drops gatekeeper's v33 need.
 
 cc_library_shared {
     name: "gatekeeper.mdfpposs",
     relative_install_path: "hw",
     vendor: true,
 
-    srcs: [
-        "gatekeeper_mdfpp.c",
-        "km_transport.c",
-        "km_asn1.c",
-    ],
+    srcs: ["gatekeeper_mdfpp.c"],
+
+    static_libs: ["libskeymast_common"],
 
     shared_libs: [
         "liblog",
-        // Current BoringSSL, built from source alongside us: ASN.1 + i2d/d2i.
-        // Do NOT apply the libcrypto-v33 replace_needed fixup here. That shim
-        // exists only for the PREBUILT mdfpp blobs, whose compiled-in BoringSSL
-        // ASN.1 struct ABI is frozen at Android 13. We compile against the same
-        // libcrypto we link, so there is no ABI mismatch; the DER on the wire is
-        // identical. This module replacing gatekeeper also drops gatekeeper's
-        // v33 dependency (v33 stays only for the prebuilt keymaster blobs).
         "libcrypto",
-        "libQSEEComAPI", // stock vendor prebuilt
+        "libQSEEComAPI",
     ],
 
-    header_libs: [
-        "libhardware_headers",
-    ],
-
-    // QSEEComAPI.h is not in AOSP; it comes from the CAF securemsm headers.
-    // Point this at wherever the device tree vendors it (e.g. a local include/).
-    local_include_dirs: ["include"],
+    header_libs: ["libhardware_headers"],
 
     cflags: [
         "-Wall",
