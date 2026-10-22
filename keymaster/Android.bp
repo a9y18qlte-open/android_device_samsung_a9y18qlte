@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: Apache-2.0
+// OSS MDFPP keymaster (keymaster2) module for a9y18qlte (talks to skeymast TA).
+//
+// Installs as keystore.mdfpposs.so alongside the stock keystore.mdfpp.so and is
+// NOT selected by default. Select with ro.hardware.keystore=mdfpposs; fall back
+// with =mdfpp. Shares the transport/codec in libskeymast_common. Links the
+// current platform BoringSSL (CBB/CBS); the libcrypto-v33 fixup is only for the
+// prebuilt mdfpp blobs and does not apply here.
+
+cc_library_shared {
+    name: "keystore.mdfpposs",
+    relative_install_path: "hw",
+    vendor: true,
+
+    srcs: ["keymaster_mdfpp.c"],
+
+    static_libs: ["libskeymast_common"],
+
+    shared_libs: [
+        "liblog",
+        "libcrypto",
+        "libQSEEComAPI",
+    ],
+
+    header_libs: ["libhardware_headers"],
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-unused-parameter",
+    ],
+}

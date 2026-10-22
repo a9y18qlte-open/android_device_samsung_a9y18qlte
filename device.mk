@@ -458,8 +458,13 @@ PRODUCT_PACKAGES += \
 # NOT selected by default. To try it, set ro.hardware.gatekeeper=mdfpposs
 # (fall back with =mdfpp). Live-tested via a standalone harness; see
 # https://github.com/a9y18qlte-open (oss-gatekeeper-test branch) notes.
+#
+# OSS keymaster module (keymaster/): same idea for keystore.mdfpp.so. Installed
+# as keystore.mdfpposs.so, NOT default; select with ro.hardware.keystore=mdfpposs
+# (fall back =mdfpp). Both share libskeymast_common (skeymast-common/).
 PRODUCT_PACKAGES += \
-    gatekeeper.mdfpposs
+    gatekeeper.mdfpposs \
+    keystore.mdfpposs
 
 # VNDK compat
 # Android 12 no longer ships HIDL interface libraries in the VNDK; the Android 10
