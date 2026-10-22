@@ -44,6 +44,27 @@ enum {
     KM_C_UPGRADE_KEY = 0x10,
 };
 
+// Timestamp params the stock nwd_km_KM_INDATA_pack injects (epoch ms, KM_DATE):
+// generate_key/import get CREATION_DATETIME; begin gets a per-op timestamp tag
+// (0x60000320) the TA requires, or begin fails with KM_ERROR_UNKNOWN_ERROR.
+#define KM_TAG_CREATION_DATETIME_T 0x600002bdu
+#define KM_TAG_BEGIN_TIMESTAMP     0x60000320u
+
+#include <time.h>
+static uint64_t now_ms(void) {
+    struct timespec ts;
+    if (clock_gettime(CLOCK_REALTIME, &ts) != 0) return 0;
+    return (uint64_t)ts.tv_sec * 1000 + (uint64_t)ts.tv_nsec / 1000000;
+}
+
+// Append {tag, i=now_ms()} to a km_param array unless `tag` is already present.
+static uint32_t inject_ts(km_param *p, uint32_t n, uint32_t max, uint32_t tag) {
+    for (uint32_t k = 0; k < n; k++) if (p[k].tag == tag) return n;
+    if (n >= max) return n;
+    p[n].tag = tag; p[n].i = now_ms(); p[n].b.data = NULL; p[n].b.len = 0;
+    return n + 1;
+}
+
 // ---- OS version / patchlevel (must match stock, or key blobs won't verify) ----
 // version = major*10000 + minor*100 + subminor, from ro.build.version.release.
 static uint32_t os_version(void) {
@@ -194,6 +215,7 @@ static keymaster_error_t km_generate_key(const keymaster2_device_t *dev __unused
     if (params == NULL || key_blob == NULL) return KM_ERROR_UNEXPECTED_NULL_POINTER;
     km_param p[KM_MAX_PARAMS];
     uint32_t n = to_km_params(params, p, KM_MAX_PARAMS);
+    n = inject_ts(p, n, KM_MAX_PARAMS, KM_TAG_CREATION_DATETIME_T);
 
     if (km_tz_open() != 0) return KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
     km_indata in; req_init(&in, KM_C_GENERATE_KEY);
@@ -248,6 +270,7 @@ static keymaster_error_t km_begin(const keymaster2_device_t *dev __unused,
     if (key == NULL || operation_handle == NULL) return KM_ERROR_UNEXPECTED_NULL_POINTER;
     km_param p[KM_MAX_PARAMS];
     uint32_t n = to_km_params(in_params, p, KM_MAX_PARAMS);
+    n = inject_ts(p, n, KM_MAX_PARAMS, KM_TAG_BEGIN_TIMESTAMP);
 
     if (km_tz_open() != 0) return KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
     km_indata in; req_init(&in, KM_C_BEGIN);

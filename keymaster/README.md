@@ -22,19 +22,25 @@ Installed as `keystore.mdfpposs.so`, NOT default. Select with
   generate_key, so the ops do not add them to request params.
 
 ## Status
-Live-tested via a standalone harness against the real `skeymast` TA (blob-based
-keys, nothing persisted):
+Live-tested via standalone harnesses against the real `skeymast` TA (ephemeral
+blob-based keys, nothing persisted):
 - `add_rng_entropy` -> ok
-- `generate_key` (AES) -> ok, 256-byte key blob + 8 decoded characteristics
+- `generate_key` (AES) -> ok, key blob + decoded characteristics
 - `get_key_characteristics` -> ok
+- full op: `generate_key(AES-128/ECB)` -> `begin(ENCRYPT)` -> `update(16B)` ->
+  `finish` -> ok, 16-byte ciphertext (operation handle round-trips).
 
-Implemented: configure, add_rng_entropy, generate_key, get_key_characteristics,
-begin, update, finish, abort, delete_key/all (UNIMPLEMENTED, as stock — blob
-keys). NOT yet wired (need the same stock-byte A/B capture for their exact field
-use): import_key, export_key, upgrade_key, attest_key — left NULL so keystore
-reports them unavailable rather than misbehaving. begin/update/finish are
-implemented from the RE field map but not yet live-exercised with a full
-crypto operation.
+Two things make the stateful ops work (both replicate the stock
+nwd_km_KM_INDATA_pack behaviour): generate_key/import inject
+KM_TAG_CREATION_DATETIME, and begin injects a per-op timestamp tag (0x60000320,
+KM_DATE) — begin returns KM_ERROR_UNKNOWN_ERROR without it. Operation handles
+come back as a 9-byte sign-padded INTEGER (64-bit with the top bit set).
+
+Implemented + tested: configure, add_rng_entropy, generate_key,
+get_key_characteristics, begin, update, finish, abort. delete_key/all return
+UNIMPLEMENTED (as stock — blob keys). NOT yet wired (need the same stock-byte
+A/B capture for their exact field use): import_key, export_key, upgrade_key,
+attest_key — left NULL so keystore reports them unavailable.
 
 **Test only on a throwaway setup first.** A wrong key-blob format can make
 existing keys unusable. Keep stock selectable as fallback.
