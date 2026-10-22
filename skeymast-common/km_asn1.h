@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-// KM_INDATA/KM_OUTDATA wire format for the Samsung skeymast TA.
-//
-// Encoded/decoded by hand with BoringSSL's CBB/CBS byte API rather than the
-// ASN1_ITEM template macros. The template descriptor structs changed layout
-// between BoringSSL versions (Android 12.1 vs 16), so a module compiled against
-// one and linked against another's libcrypto corrupts memory — that is exactly
-// why the stock prebuilts are pinned to libcrypto-v33. CBB/CBS are ABI-stable
-// across versions, so this module links whatever libcrypto the platform ships.
-// The DER produced is canonical and byte-identical to the stock templates.
+// KM_INDATA/KM_OUTDATA wire format for the Samsung skeymast TA. Encoded/decoded
+// with BoringSSL's ABI-stable CBB/CBS byte API (not the ASN1_ITEM macros), so
+// the module links whatever platform libcrypto ships, no libcrypto-v33 pin.
 #pragma once
 
 #include <stdbool.h>
@@ -42,9 +36,7 @@ enum { KM_CMD_ENROLL = 0x201, KM_CMD_VERIFY = 0x202 };
 #define KM_TYPE_BYTES    0x90000000u
 #define KM_TYPE_ULONG_REP 0xa0000000u
 
-// One keymaster key parameter. `b` is used only for BYTES/BIGNUM tags; `i` holds
-// the integer/enum/bool/long/date value otherwise. On the wire a KM_PARAM is
-// SEQUENCE{ INTEGER tag, [0] EXPLICIT INTEGER i | [1] EXPLICIT OCTET STRING b }.
+// One keymaster key parameter: `b` for BYTES/BIGNUM tags, `i` otherwise.
 typedef struct {
     uint32_t tag;
     uint64_t i;
@@ -53,13 +45,8 @@ typedef struct {
 
 #define KM_MAX_PARAMS 64
 
-// Request. ver/km_ver are emitted as the constants above; caller sets the rest.
-// Optional fields [0]int0 [1]long0 [2]bin0 [3]bin1 [4]key use EXPLICIT (constructed)
-// context tags wrapping a universal INTEGER/OCTET STRING, matching the stock
-// skeymast wire format. A field is emitted when its *_set flag is true, EVEN IF
-// its octet length is 0 (stock emits empty octet strings for present-but-empty
-// fields; the TA expects the slots). long0's inner INTEGER uses the raw minimal
-// big-endian encoding (stock km_set_ASN1_INTEGER_BN: no sign pad).
+// Request. Optional fields [0]int0 [1]long0 [2]bin0 [3]bin1 [4]key are emitted
+// when their *_set flag is true, even with length 0 (the TA expects the slots).
 typedef struct {
     uint32_t cmd;
     uint32_t pid;
@@ -73,8 +60,7 @@ typedef struct {
     km_blob bin1;
     bool key_set;
     km_blob key;
-    // par [8]: SET OF KM_PARAM. Emitted (sorted by tag, as DER SET OF requires)
-    // when n_params > 0.
+    // par [8]: SET OF KM_PARAM, emitted when n_params > 0.
     const km_param *params;
     uint32_t n_params;
 } km_indata;
@@ -90,8 +76,7 @@ typedef struct {
     uint32_t bin0_len;
     uint8_t *bin1;
     uint32_t bin1_len;
-    // par [4]: decoded KM_PARAM list (tags + int values; byte values point into
-    // the caller-provided DER buffer, so keep it alive while reading them).
+    // par [4]: byte values point into the caller's DER buffer; keep it alive.
     km_param params[KM_MAX_PARAMS];
     uint32_t n_params;
 } km_outdata;

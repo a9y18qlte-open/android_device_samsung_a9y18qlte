@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-// DER encode/decode for KM_INDATA/KM_OUTDATA using BoringSSL's CBB/CBS byte API.
-// Output is canonical DER, byte-identical to the stock skeymast templates.
-//
-// NOTE on BoringSSL ABI: this uses the CBB/CBS *functions* (not the ASN1_ITEM
-// template macros, whose descriptor struct layout changed between versions). It
-// builds against the platform's own BoringSSL headers, so the CBB struct layout
-// matches the libcrypto it links — which soong guarantees in-tree. The CBB
-// struct is NOT stable across BoringSSL versions, so do not cross-compile this
-// against mismatched (e.g. older) openssl headers.
+// Canonical DER encode/decode for KM_INDATA/KM_OUTDATA, byte-identical to the
+// stock skeymast templates. Uses BoringSSL's CBB/CBS byte API (not the ASN1_ITEM
+// macros) and must build against the platform's own BoringSSL headers.
 #include "km_asn1.h"
 
 #include <openssl/bytestring.h>
@@ -57,10 +51,8 @@ int km_indata_encode(const km_indata *in, uint8_t *out, uint32_t cap, uint32_t *
         ok = CBB_add_asn1(&seq, &wrap, EXP(4)) && CBB_add_asn1(&wrap, &inner, CBS_ASN1_OCTETSTRING) &&
              (in->key.len == 0 || CBB_add_bytes(&inner, in->key.data, in->key.len));
 
-    // par [8]: EXPLICIT { SET OF KM_PARAM }. Each KM_PARAM is
-    // SEQUENCE{ INTEGER tag, [0]{INTEGER i} | [1]{OCTET b} }. The value slot is
-    // [1] for BYTES/BIGNUM tags, [0] otherwise. CBB_flush_asn1_set_of sorts the
-    // set into DER order (stock emits it sorted by tag).
+    // par [8]: EXPLICIT { SET OF SEQUENCE{INTEGER tag, [0]{INTEGER} | [1]{OCTET}} }.
+    // Value slot is [1] for BYTES/BIGNUM tags, [0] otherwise; set sorted by DER.
     if (ok && in->n_params > 0) {
         CBB pwrap, setof, pseq, pv, pvi;
         ok = CBB_add_asn1(&seq, &pwrap, EXP(8)) && CBB_add_asn1(&pwrap, &setof, CBS_ASN1_SET);
@@ -88,14 +80,11 @@ int km_indata_encode(const km_indata *in, uint8_t *out, uint32_t cap, uint32_t *
     return 0;
 }
 
-// Access CBS fields directly rather than via CBS_init/CBS_data/CBS_len: newer
-// BoringSSL (Android 16) makes those static-inline and does not export them,
-// while older headers declare them extern. The struct layout {data,len} is
-// stable, so direct access links against any libcrypto version.
+// CBS fields are accessed directly ({data,len} is stable; CBS_data/CBS_len are
+// not exported on Android 16).
 
-// Decode a big-endian INTEGER content (DER) into int64. A 9-byte value with a
-// leading 0x00 is an unsigned 64-bit with the top bit set (e.g. an operation
-// handle); strip the sign pad so it fits.
+// Decode a DER big-endian INTEGER into int64. A 9-byte value with a leading 0x00
+// is an unsigned 64-bit with the top bit set (e.g. an operation handle).
 static int be_to_i64(const CBS *c, int64_t *out) {
     size_t n = c->len;
     const uint8_t *p = c->data;
@@ -130,7 +119,7 @@ int km_outdata_decode(const uint8_t *der, uint32_t der_len, km_outdata *out) {
         return -1;
     out->err = (int32_t)err;
 
-    // Optional fields are EXPLICIT [n] (constructed) wrapping a universal element.
+    // Optional fields are EXPLICIT [n] wrapping a universal element.
 #define EXP(n) (CBS_ASN1_CONTEXT_SPECIFIC | CBS_ASN1_CONSTRUCTED | (unsigned)(n))
     CBS inner;
     if (!CBS_get_optional_asn1(&seq, &child, &present, EXP(0))) return -1;
@@ -157,8 +146,8 @@ int km_outdata_decode(const uint8_t *der, uint32_t der_len, km_outdata *out) {
             dup_octet(&inner, &out->bin1, &out->bin1_len))
             return -1;
     }
-    // [4] par: EXPLICIT { SET OF KM_PARAM }. Decode tags + values into out->params.
-    // Byte values point into `der` (caller keeps it alive). [5] log is ignored.
+    // [4] par: SET OF params into out->params; byte values point into `der`
+    // (caller keeps it alive). [5] log is ignored.
     if (!CBS_get_optional_asn1(&seq, &child, &present, EXP(4))) return -1;
     if (present) {
         CBS setof;
