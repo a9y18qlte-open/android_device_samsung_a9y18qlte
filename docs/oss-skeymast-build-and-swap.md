@@ -13,15 +13,39 @@ userspace glue changes. Both are proven via standalone harnesses
 - Always keep a known-good build (`~/lineage-23.2-20261020-...a9y18qlte.zip`) and
   OrangeFox ready to reflash. The swap is one prop; the fallback is one prop.
 
-## 1. Get the branch onto the VM
-VM is usually stopped; start it and push the device tree (reverse of
-`sync_from_vm.sh`):
+## 1. Get the branch onto the VM (without replacing the VM tree)
+`push_to_vm.sh` only creates/updates the `oss-gatekeeper-test` *ref* on the VM;
+it does NOT change the VM's checked-out build branch or working files, and git
+refuses to overwrite the VM's active branch. The replacement risk is in a full
+`git checkout` of our branch — our branch is a complete tree cut from a local
+branch, so switching to it could diverge from any VM-only commits/edits.
+
+So do a **surgical apply**: push the ref, then check out only our additions onto
+whatever the VM already has (no branch switch):
 ```
 ~/vm.sh start
-~/all_build_scripts/push_to_vm.sh ~/android_device_samsung_a9y18qlte   # pushes oss-gatekeeper-test
-~/vm.sh ssh 'cd ~/device_samsung_a9y18qlte && git checkout oss-gatekeeper-test && git log --oneline -3'
+~/all_build_scripts/push_to_vm.sh ~/android_device_samsung_a9y18qlte   # creates ref oss-gatekeeper-test
+~/vm.sh ssh << 'EOF'
+set -e
+cd ~/device_samsung_a9y18qlte
+git stash list; git status --short | head       # note any VM-only changes first
+git checkout oss-gatekeeper-test -- gatekeeper keymaster skeymast-common
+# device.mk: just APPEND the packages (PRODUCT_PACKAGES += is additive, so this
+# never clobbers VM-only edits):
+grep -q 'keystore.mdfpposs' device.mk || \
+  printf '\nPRODUCT_PACKAGES += \\\n    gatekeeper.mdfpposs \\\n    keystore.mdfpposs\n' >> device.mk
+git --no-pager diff --stat
+EOF
 ```
-(The tree is bind-mounted into `~/lineage-23/device/samsung/a9y18qlte`.)
+This leaves the VM's build branch and every other file exactly as-is; only
+`gatekeeper/`, `keymaster/`, `skeymast-common/` and two `device.mk` lines are
+added. (If you instead want the VM fully on our branch and know it matches, a
+plain `git checkout oss-gatekeeper-test` works — but verify no VM-only changes
+with `git status` first.) The tree is bind-mounted into
+`~/lineage-23/device/samsung/a9y18qlte`.
+
+To undo the surgical apply: drop the appended `PRODUCT_PACKAGES` block from
+`device.mk` and `rm -rf gatekeeper keymaster skeymast-common`.
 
 ## 2. Build just the two modules (fast)
 Use the SAME env as `build.sh` or soong rebuilds host tools (70k-step bacon).
