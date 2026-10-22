@@ -1,15 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-// OSS MDFPP keymaster (keymaster2) module for a9y18qlte. Speaks the skeymast
-// KM_INDATA/KM_OUTDATA protocol over QSEECom (shared libskeymast_common codec),
-// replacing the closed libkeymaster2_mdfpp.so glue. The skeymast TrustZone app
-// is unchanged.
-//
-// Command ids and per-field mapping are from RE of libkeymaster_helper_vendor.so
-// (see project notes). Verified live: add_rng_entropy, generate_key (+ decoded
-// characteristics). The operation ops (begin/update/finish) use the TA operation
-// handle carried in long0.
-//
-// TEST ONLY until A/B-compared with stock: a wrong key-blob format bricks keys.
+// OSS keymaster2 HAL for a9y18qlte: talks the skeymast KM_INDATA/KM_OUTDATA
+// protocol to the TrustZone app via libskeymast_common. See keymaster/README.md.
 
 #define LOG_TAG "keymaster_mdfpp_oss"
 
@@ -18,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 #include <sys/system_properties.h>
 
@@ -45,20 +37,18 @@ enum {
     KM_C_UPGRADE_KEY = 0x10,
 };
 
-// Timestamp params the stock nwd_km_KM_INDATA_pack injects (epoch ms, KM_DATE):
-// generate_key/import get CREATION_DATETIME; begin gets a per-op timestamp tag
-// (0x60000320) the TA requires, or begin fails with KM_ERROR_UNKNOWN_ERROR.
+// Timestamp params the stock pack injects (epoch ms, KM_DATE): CREATION_DATETIME
+// on generate/import, a per-op tag on begin (begin fails UNKNOWN_ERROR without it).
 #define KM_TAG_CREATION_DATETIME_T 0x600002bdu
 #define KM_TAG_BEGIN_TIMESTAMP     0x60000320u
 
-#include <time.h>
 static uint64_t now_ms(void) {
     struct timespec ts;
     if (clock_gettime(CLOCK_REALTIME, &ts) != 0) return 0;
     return (uint64_t)ts.tv_sec * 1000 + (uint64_t)ts.tv_nsec / 1000000;
 }
 
-// Append {tag, i=now_ms()} to a km_param array unless `tag` is already present.
+// Append {tag, now_ms()} unless `tag` is already present.
 static uint32_t inject_ts(km_param *p, uint32_t n, uint32_t max, uint32_t tag) {
     for (uint32_t k = 0; k < n; k++) if (p[k].tag == tag) return n;
     if (n >= max) return n;
@@ -66,8 +56,7 @@ static uint32_t inject_ts(km_param *p, uint32_t n, uint32_t max, uint32_t tag) {
     return n + 1;
 }
 
-// ---- OS version / patchlevel (must match stock, or key blobs won't verify) ----
-// version = major*10000 + minor*100 + subminor, from ro.build.version.release.
+// OS version = major*10000+minor*100+sub from ro.build.version.release.
 static uint32_t os_version(void) {
     char v[PROP_VALUE_MAX] = {0};
     if (__system_property_get("ro.build.version.release", v) < 1) return 0;
@@ -79,7 +68,7 @@ static uint32_t os_version(void) {
     return a * 10000 + b * 100 + c;
 }
 
-// patchlevel = year*100 + month, from ro.build.version.security_patch (YYYY-MM-DD).
+// OS patchlevel = year*100+month from ro.build.version.security_patch.
 static uint32_t os_patchlevel(void) {
     char v[PROP_VALUE_MAX] = {0};
     if (__system_property_get("ro.build.version.security_patch", v) < 1) return 0;
@@ -88,11 +77,8 @@ static uint32_t os_patchlevel(void) {
     return y * 100 + m;
 }
 
-// ---- param conversion -------------------------------------------------------
-// keymaster_key_param_set_t -> km_param[]. OS version/patchlevel are NOT added
-// here: the skeymast TA binds them itself from its configured state (set via the
-// configure command) and REJECTS client-supplied OS_VERSION/OS_PATCHLEVEL at
-// generate_key (verified: injecting them returns KM_ERROR_UNKNOWN_ERROR).
+// keymaster_key_param_set_t -> km_param[]. Does NOT add OS version/patchlevel:
+// the TA binds those itself (via configure) and rejects client-supplied ones.
 static uint32_t to_km_params(const keymaster_key_param_set_t *in, km_param *out, uint32_t max) {
     uint32_t n = 0;
     if (!in) return 0;
@@ -166,7 +152,6 @@ static void req_init(km_indata *in, uint32_t cmd) {
     in->pid = (uint32_t)getpid();
 }
 
-// ---- keymaster2_device ops --------------------------------------------------
 
 static keymaster_error_t km_configure(const keymaster2_device_t *dev __unused,
                                        const keymaster_key_param_set_t *params) {
@@ -470,13 +455,8 @@ static keymaster_error_t km_upgrade_key(const keymaster2_device_t *dev __unused,
     return e;
 }
 
-// ---- attest_key 0x0e ---------------------------------------------------------
-// Samsung device attestation keys/certs are provisioned in /efs/DAK as
-// {GAK|SAK}_{RSA|EC}.{private,certs}. The HAL injects them as KM_BYTES params
-// (tags from RE of saved_prov_to_param), the TA signs a leaf attestation cert
-// with the matching provisioned key (returned in bin0, algo in int0), and the
-// HAL appends the provisioned CA chain (the .certs file split into DER certs).
-
+// attest_key: inject the /efs/DAK provisioned keys + issuer certs as params; the
+// TA signs the leaf (bin0), and we append the matching CA chain. See README.
 static int read_dak(const char *base, uint8_t **buf, uint32_t *len) {
     char path[160];
     FILE *f = NULL;
@@ -501,36 +481,14 @@ static int read_dak(const char *base, uint8_t **buf, uint32_t *len) {
     return 0;
 }
 
-// One DER element's total length (tag + length field + content); 0 on malformed.
-static uint32_t der_len(const uint8_t *p, uint32_t avail);
-
-// Add a provisioned file as a KM_BYTES param (buffer kept alive in bufs[]).
-// `first_cert` truncates to the first DER element: the .private files are
-// injected whole, but the certs tags carry only the immediate issuer cert
-// (first cert of the concatenated .certs file), per the stock request capture.
+// Read a /efs/DAK file and add it as a KM_BYTES param (buffer kept in bufs[]).
 static void add_dak_param(km_param *p, uint32_t *n, uint32_t tag, const char *file,
-                          int first_cert, uint8_t **bufs, uint32_t *nb) {
+                          uint8_t **bufs, uint32_t *nb) {
     uint8_t *b = NULL; uint32_t l = 0;
     if (*n >= KM_MAX_PARAMS || read_dak(file, &b, &l) != 0) return;
-    if (first_cert) { uint32_t fl = der_len(b, l); if (fl) l = fl; }
     p[*n].tag = tag; p[*n].i = 0; p[*n].b.data = b; p[*n].b.len = l;
     (*n)++;
     bufs[(*nb)++] = b;
-}
-
-// One DER element's total length (tag + length field + content); 0 on malformed.
-static uint32_t der_len(const uint8_t *p, uint32_t avail) {
-    if (avail < 2) return 0;
-    uint32_t l = p[1], hdr = 2;
-    if (p[1] & 0x80) {
-        uint32_t nb = p[1] & 0x7f;
-        if (nb == 0 || nb > 4 || avail < 2 + nb) return 0;
-        l = 0;
-        for (uint32_t i = 0; i < nb; i++) l = (l << 8) | p[2 + i];
-        hdr = 2 + nb;
-    }
-    if (l > avail - hdr) return 0;
-    return hdr + l;
 }
 
 static keymaster_error_t km_attest_key(const keymaster2_device_t *dev __unused,
@@ -544,17 +502,15 @@ static keymaster_error_t km_attest_key(const keymaster2_device_t *dev __unused,
 
     km_param p[KM_MAX_PARAMS];
     uint32_t n = to_km_params(attest_params, p, KM_MAX_PARAMS);
-    // Inject provisioned keys/certs (tags from saved_prov_to_param): GAK_RSA,
-    // GAK_EC, SAK_EC, each {private -> tag_a, certs -> tag_b}.
-    // private tags get the .private key whole; certs tags get the issuer cert
-    // (the individual certN0.der file, matching the stock request sizes).
+    // Provisioned material (tags from RE): each key's .private whole + its issuer
+    // cert (certN0.der). The TA picks the set matching the attested key's algo.
     uint8_t *bufs[6]; uint32_t nb = 0;
-    add_dak_param(p, &n, 0x9000139d, "GAK_RSA.private",  0, bufs, &nb);
-    add_dak_param(p, &n, 0x9000139f, "gakrsacert0.der",  0, bufs, &nb);
-    add_dak_param(p, &n, 0x9000139e, "GAK_EC.private",   0, bufs, &nb);
-    add_dak_param(p, &n, 0x900013a0, "gakeccert0.der",   0, bufs, &nb);
-    add_dak_param(p, &n, 0x900013a2, "SAK_EC.private",   0, bufs, &nb);
-    add_dak_param(p, &n, 0x900013a4, "sakeccert0.der",   0, bufs, &nb);
+    add_dak_param(p, &n, 0x9000139d, "GAK_RSA.private", bufs, &nb);
+    add_dak_param(p, &n, 0x9000139f, "gakrsacert0.der", bufs, &nb);
+    add_dak_param(p, &n, 0x9000139e, "GAK_EC.private",  bufs, &nb);
+    add_dak_param(p, &n, 0x900013a0, "gakeccert0.der",  bufs, &nb);
+    add_dak_param(p, &n, 0x900013a2, "SAK_EC.private",  bufs, &nb);
+    add_dak_param(p, &n, 0x900013a4, "sakeccert0.der",  bufs, &nb);
 
     keymaster_error_t e = KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
     km_outdata out;
