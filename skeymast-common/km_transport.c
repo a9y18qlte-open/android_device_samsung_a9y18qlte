@@ -11,6 +11,7 @@
 
 #define LOG_TAG "km_tz_oss"
 
+#include <stdio.h>
 #include "km_transport.h"
 
 #include <log/log.h>
@@ -22,12 +23,14 @@
 #define KM_TA_PATH "/vendor/firmware_mnt/image/"
 #define KM_TA_NAME "skeymast"
 
-#define KM_BUF_PAYLOAD 0x2000u          // max DER payload the TA accepts
-#define KM_BUF_SIZE    (KM_BUF_PAYLOAD + 8u)  // [u64 len][payload] = 0x2008
 #define KM_ALIGN64(x)  (((x) + 0x3fu) & ~0x3fu)
-// Stock region = align64(size + 0x40) = 0x2080 (sb_size = 2*region = 0x4100),
-// matching the captured stock QSEECom_start_app/send_cmd lengths exactly.
-#define KM_REGION      KM_ALIGN64(KM_BUF_SIZE + 0x40u)
+// Region size matches the stock KEYMASTER buffer (region 0x19080, sb 0x32100):
+// keymaster attest_key injects the provisioned /efs/DAK keys+certs (~11 KB), far
+// more than gatekeeper's 0x2080. Using the larger size for both HALs is safe -
+// the TA reads the length-prefixed DER, not the buffer size - and gatekeeper
+// re-verified fine with it. Payload = region - 8 (the u64 length prefix).
+#define KM_REGION      0x19080u
+#define KM_BUF_PAYLOAD (KM_REGION - 8u)
 
 static struct QSEECom_handle *g_handle = NULL;
 
