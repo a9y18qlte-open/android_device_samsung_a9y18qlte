@@ -369,6 +369,106 @@ static keymaster_error_t km_abort(const keymaster2_device_t *dev __unused,
     return e;
 }
 
+// import_key 0x04: int0=key_format, bin0=key material, par=params (+creation
+// datetime, as generate). OUT bin1=key blob, par=characteristics.
+static keymaster_error_t km_import_key(const keymaster2_device_t *dev __unused,
+                                       const keymaster_key_param_set_t *params,
+                                       keymaster_key_format_t key_format,
+                                       const keymaster_blob_t *key_data,
+                                       keymaster_key_blob_t *key_blob,
+                                       keymaster_key_characteristics_t *characteristics) {
+    if (params == NULL || key_data == NULL || key_blob == NULL) return KM_ERROR_UNEXPECTED_NULL_POINTER;
+    km_param p[KM_MAX_PARAMS];
+    uint32_t n = to_km_params(params, p, KM_MAX_PARAMS);
+    n = inject_ts(p, n, KM_MAX_PARAMS, KM_TAG_CREATION_DATETIME_T);
+
+    if (km_tz_open() != 0) return KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
+    km_indata in; req_init(&in, KM_C_IMPORT_KEY);
+    in.int0_set = true; in.int0 = (uint32_t)key_format;
+    in.bin0_set = true; in.bin0.data = key_data->data; in.bin0.len = (uint32_t)key_data->data_length;
+    in.params = p; in.n_params = n;
+    km_outdata out;
+    int rc = km_tz_transact(&in, &out);
+    keymaster_error_t e = KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
+    if (rc == 0) {
+        e = (keymaster_error_t)out.err;
+        if (e == KM_ERROR_OK && out.bin1) {
+            if (dup_blob(out.bin1, out.bin1_len, &key_blob->key_material,
+                         &key_blob->key_material_size) != 0)
+                e = KM_ERROR_MEMORY_ALLOCATION_FAILED;
+            else if (characteristics)
+                split_characteristics(&out, characteristics);
+        } else if (e == KM_ERROR_OK) {
+            e = KM_ERROR_UNKNOWN_ERROR;
+        }
+        km_outdata_release(&out);
+    }
+    km_tz_close();
+    return e;
+}
+
+// export_key 0x05: int0=format, key=blob, bin0=client_id, bin1=app_data.
+// OUT bin0=exported key material (e.g. X.509 public key).
+static keymaster_error_t km_export_key(const keymaster2_device_t *dev __unused,
+                                       keymaster_key_format_t export_format,
+                                       const keymaster_key_blob_t *key_to_export,
+                                       const keymaster_blob_t *client_id,
+                                       const keymaster_blob_t *app_data,
+                                       keymaster_blob_t *export_data) {
+    if (key_to_export == NULL || export_data == NULL) return KM_ERROR_UNEXPECTED_NULL_POINTER;
+    if (km_tz_open() != 0) return KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
+    km_indata in; req_init(&in, KM_C_EXPORT_KEY);
+    in.int0_set = true; in.int0 = (uint32_t)export_format;
+    in.key_set = true;  in.key.data = key_to_export->key_material; in.key.len = (uint32_t)key_to_export->key_material_size;
+    in.bin0_set = true; if (client_id) { in.bin0.data = client_id->data; in.bin0.len = (uint32_t)client_id->data_length; }
+    in.bin1_set = true; if (app_data) { in.bin1.data = app_data->data; in.bin1.len = (uint32_t)app_data->data_length; }
+    km_outdata out;
+    int rc = km_tz_transact(&in, &out);
+    keymaster_error_t e = KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
+    if (rc == 0) {
+        e = (keymaster_error_t)out.err;
+        if (e == KM_ERROR_OK) {
+            export_data->data = NULL; export_data->data_length = 0;
+            if (out.bin0) dup_blob(out.bin0, out.bin0_len, &export_data->data, &export_data->data_length);
+        }
+        km_outdata_release(&out);
+    }
+    km_tz_close();
+    return e;
+}
+
+// upgrade_key 0x10: int0=1, key=blob, par=upgrade params. OUT bin1=upgraded blob.
+static keymaster_error_t km_upgrade_key(const keymaster2_device_t *dev __unused,
+                                        const keymaster_key_blob_t *key_to_upgrade,
+                                        const keymaster_key_param_set_t *upgrade_params,
+                                        keymaster_key_blob_t *upgraded_key) {
+    if (key_to_upgrade == NULL || upgraded_key == NULL) return KM_ERROR_UNEXPECTED_NULL_POINTER;
+    km_param p[KM_MAX_PARAMS];
+    uint32_t n = to_km_params(upgrade_params, p, KM_MAX_PARAMS);
+
+    if (km_tz_open() != 0) return KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
+    km_indata in; req_init(&in, KM_C_UPGRADE_KEY);
+    in.int0_set = true; in.int0 = 1;  // stock passes constant 1
+    in.key_set = true;  in.key.data = key_to_upgrade->key_material; in.key.len = (uint32_t)key_to_upgrade->key_material_size;
+    in.params = p; in.n_params = n;
+    km_outdata out;
+    int rc = km_tz_transact(&in, &out);
+    keymaster_error_t e = KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
+    if (rc == 0) {
+        e = (keymaster_error_t)out.err;
+        if (e == KM_ERROR_OK && out.bin1) {
+            if (dup_blob(out.bin1, out.bin1_len, &upgraded_key->key_material,
+                         &upgraded_key->key_material_size) != 0)
+                e = KM_ERROR_MEMORY_ALLOCATION_FAILED;
+        } else if (e == KM_ERROR_OK) {
+            e = KM_ERROR_UNKNOWN_ERROR;
+        }
+        km_outdata_release(&out);
+    }
+    km_tz_close();
+    return e;
+}
+
 // delete_key / delete_all_keys: stock returns UNIMPLEMENTED (blob-based keys).
 static keymaster_error_t km_delete_key(const keymaster2_device_t *dev __unused,
                                        const keymaster_key_blob_t *key __unused) {
@@ -404,9 +504,12 @@ static int km_open(const hw_module_t *module, const char *name, hw_device_t **de
     km->abort = km_abort;
     km->delete_key = km_delete_key;
     km->delete_all_keys = km_delete_all_keys;
-    // import_key/export_key/upgrade_key/attest_key: not wired yet (need the same
-    // A/B byte capture as generate_key for their exact field use). Left NULL so
-    // keystore reports them unavailable rather than misbehaving.
+    km->import_key = km_import_key;
+    km->export_key = km_export_key;
+    km->upgrade_key = km_upgrade_key;
+    // attest_key: not wired yet. It injects provisioned attestation-cert params
+    // from secure storage (saved_prov_to_param, tags 0x9000139d..0x900013a4) and
+    // assembles a cert chain; needs its own RE pass. Left NULL -> unavailable.
     *dev = &km->common;
     return 0;
 }
