@@ -1,5 +1,5 @@
---- a/vendor/etc/camera/imx576_d24qs_chromatix.xml
-+++ b/vendor/etc/camera/imx576_d24qs_chromatix.xml
+--- a/imx576_d24qs_chromatix.xml
++++ b/imx576_d24qs_chromatix.xml
 @@ -181,6 +181,18 @@
        <A3Preview>imx576_e24qs_mode_slowmotion_3a</A3Preview>
        <A3Video>imx576_e24qs_mode_slowmotion_3a</A3Video>
