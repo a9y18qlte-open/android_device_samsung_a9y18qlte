@@ -40,19 +40,29 @@ come back as a 9-byte sign-padded INTEGER (64-bit with the top bit set).
   -> ok; upgrade_key wired (reaches the TA; returns a keymaster error for a
   fresh key with no upgrade params, as expected).
 
+- attest_key (EC) -> ok, 4-cert chain: leaf (TA-signed) + gakeccert0 +
+  gakeccert1 + gakecroot, matching stock.
+
 Implemented + tested: configure, add_rng_entropy, generate_key,
 get_key_characteristics, begin, update, finish, abort, import_key, export_key,
-upgrade_key. delete_key/all return UNIMPLEMENTED (as stock — blob keys).
-
-NOT wired: attest_key — it injects provisioned attestation-cert params from
-secure storage (saved_prov_to_param, tags 0x9000139d..0x900013a4) and assembles
-a cert chain; needs its own RE pass. Left NULL so keystore reports it
-unavailable.
+upgrade_key, attest_key. delete_key/all return UNIMPLEMENTED (as stock — blob keys).
+All keymaster2 ops are now wired.
 
 Field map (int0/long0/key/bin0/bin1/par): import 0x04 int0=format bin0=key
 material par=params(+creation datetime) -> OUT bin1=blob par=chars; export 0x05
 int0=format key=blob bin0=client_id bin1=app_data -> OUT bin0=exported; upgrade
 0x10 int0=1 key=blob par=params -> OUT bin1=upgraded blob.
+
+attest_key 0x0e: key=blob to attest, par = caller attest params (challenge, app
+id) + provisioned keys/certs injected from /efs/DAK — the .private key whole and
+the issuer cert (certN0.der) under tags 0x9000139d/f (GAK_RSA), 0x9000139e/a0
+(GAK_EC), 0x900013a2/a4 (SAK_EC). OUT int0=algo (1=RSA,3=EC), long0=group
+(nonzero=GAK), bin0=leaf cert. The HAL appends the CA chain (gak/sak{rsa,ec}
+cert0/cert1/root .der). Needs read access to /efs/DAK (system).
+
+Note: keymaster uses a larger shared buffer than gatekeeper (region 0x19080,
+sb 0x32100) because attest_key injects ~5 KB of provisioned certs; the shared
+transport uses that size for both HALs (gatekeeper re-verified fine with it).
 
 **Test only on a throwaway setup first.** A wrong key-blob format can make
 existing keys unusable. Keep stock selectable as fallback.
