@@ -153,6 +153,15 @@ static void req_init(km_indata *in, uint32_t cmd) {
 }
 
 
+// FIXME(configure): the keymaster@3.0 wrapper calls this at device creation and
+// rejects the whole device if it is not KM_ERROR_OK, and the TA refuses every op
+// with KEYMINT_NOT_CONFIGURED (-64) until a configure succeeds. Live-tested
+// 2026-10-22: this OS_VERSION/OS_PATCHLEVEL payload is rejected -38
+// (KM_ERROR_INVALID_ARGUMENT) for every value tried (0, 16.x, 10, 8), while the
+// stock blob's configure (same wrapper, same OS params) succeeds -- so stock
+// forwards a different payload to the TA. The correct configure wire format
+// still needs RE, and the transport must hold one TA session open (per-op
+// open/close drops the configured state). See gatekeeper-keymaster-re memory.
 static keymaster_error_t km_configure(const keymaster2_device_t *dev __unused,
                                        const keymaster_key_param_set_t *params) {
     (void)params;  // stock derives version/patchlevel itself; we send computed ones
@@ -603,12 +612,13 @@ static int km_open(const hw_module_t *module, const char *name, hw_device_t **de
 
 static struct hw_module_methods_t km_methods = { .open = km_open };
 
+// .name matches the stock keystore.mdfpp.so exactly ("keymaster_mdfpp_module").
 struct hw_module_t HAL_MODULE_INFO_SYM = {
     .tag = HARDWARE_MODULE_TAG,
     .module_api_version = KEYMASTER_MODULE_API_VERSION_2_0,
     .hal_api_version = HARDWARE_HAL_API_VERSION,
     .id = KEYSTORE_HARDWARE_MODULE_ID,
-    .name = "MDFPP Keymaster OSS",
+    .name = "keymaster_mdfpp_module",
     .author = "LineageOS a9y18qlte",
     .methods = &km_methods,
 };
