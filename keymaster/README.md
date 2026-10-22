@@ -36,11 +36,23 @@ KM_TAG_CREATION_DATETIME, and begin injects a per-op timestamp tag (0x60000320,
 KM_DATE) — begin returns KM_ERROR_UNKNOWN_ERROR without it. Operation handles
 come back as a 9-byte sign-padded INTEGER (64-bit with the top bit set).
 
+- import_key (raw AES) -> ok; export_key (EC P-256 -> 91-byte X.509 public key)
+  -> ok; upgrade_key wired (reaches the TA; returns a keymaster error for a
+  fresh key with no upgrade params, as expected).
+
 Implemented + tested: configure, add_rng_entropy, generate_key,
-get_key_characteristics, begin, update, finish, abort. delete_key/all return
-UNIMPLEMENTED (as stock — blob keys). NOT yet wired (need the same stock-byte
-A/B capture for their exact field use): import_key, export_key, upgrade_key,
-attest_key — left NULL so keystore reports them unavailable.
+get_key_characteristics, begin, update, finish, abort, import_key, export_key,
+upgrade_key. delete_key/all return UNIMPLEMENTED (as stock — blob keys).
+
+NOT wired: attest_key — it injects provisioned attestation-cert params from
+secure storage (saved_prov_to_param, tags 0x9000139d..0x900013a4) and assembles
+a cert chain; needs its own RE pass. Left NULL so keystore reports it
+unavailable.
+
+Field map (int0/long0/key/bin0/bin1/par): import 0x04 int0=format bin0=key
+material par=params(+creation datetime) -> OUT bin1=blob par=chars; export 0x05
+int0=format key=blob bin0=client_id bin1=app_data -> OUT bin0=exported; upgrade
+0x10 int0=1 key=blob par=params -> OUT bin1=upgraded blob.
 
 **Test only on a throwaway setup first.** A wrong key-blob format can make
 existing keys unusable. Keep stock selectable as fallback.
