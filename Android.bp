@@ -1,2 +1,7 @@
 soong_namespace {
+    // Allow device-tree modules (e.g. the OSS skeymast HALs) to depend on the
+    // vendor prebuilts in vendor/samsung/a9y18qlte, such as libQSEEComAPI.
+    imports: [
+        "vendor/samsung/a9y18qlte",
+    ],
 }
