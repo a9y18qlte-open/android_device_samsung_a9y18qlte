@@ -1,5 +1,5 @@
---- a/vendor/etc/camera/imx576_d24qs_chromatix.xml
-+++ b/vendor/etc/camera/imx576_d24qs_chromatix.xml
+--- a/imx576_d24qs_chromatix.xml
++++ b/imx576_d24qs_chromatix.xml
 @@ -169,6 +169,18 @@
        <A3Preview>imx576_d24qs_zsl_preview_3a</A3Preview>
        <A3Video>imx576_d24qs_default_video_3a</A3Video>

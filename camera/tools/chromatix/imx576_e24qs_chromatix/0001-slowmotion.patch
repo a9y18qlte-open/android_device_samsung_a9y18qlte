@@ -1,5 +1,5 @@
---- a/vendor/etc/camera/imx576_e24qs_chromatix.xml
-+++ b/vendor/etc/camera/imx576_e24qs_chromatix.xml
+--- a/imx576_e24qs_chromatix.xml
++++ b/imx576_e24qs_chromatix.xml
 @@ -537,6 +537,20 @@
        <A3Video>imx576_e24qs_hfr_120_3a</A3Video>
        <PostProc>imx576_e24qs_sw_post_proc_tetra</PostProc>
