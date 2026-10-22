@@ -452,6 +452,15 @@ PRODUCT_PACKAGES += \
     android.hardware.keymaster@3.0-impl \
     android.hardware.keymaster@3.0-service
 
+# OSS gatekeeper module (gatekeeper/): an open-source reimplementation of the
+# Samsung gatekeeper.mdfpp.so that speaks the same protocol to the same skeymast
+# TrustZone app. Installed as gatekeeper.mdfpposs.so alongside the stock blob;
+# NOT selected by default. To try it, set ro.hardware.gatekeeper=mdfpposs
+# (fall back with =mdfpp). Live-tested via a standalone harness; see
+# https://github.com/a9y18qlte-open (oss-gatekeeper-test branch) notes.
+PRODUCT_PACKAGES += \
+    gatekeeper.mdfpposs
+
 # VNDK compat
 # Android 12 no longer ships HIDL interface libraries in the VNDK; the Android 10
 # vendor blobs (health, audio, BT, GNSS, RIL, camera, ...) link them, so install
