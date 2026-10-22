@@ -1,11 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-// OSS gatekeeper hw_module_t for the Samsung skeymast TA (a9y18qlte).
-// Drop-in replacement for the stock gatekeeper.mdfpp.so module: same
-// enroll=0x201 / verify=0x202 protocol, same 58-byte password_handle_t and
-// 69-byte hw_auth_token_t outputs (see ~/gatekeeper-re/PLAN.md).
-//
-// Build with ro.hardware.gatekeeper switchable so the stock module stays as a
-// fallback. TEST ON A THROWAWAY USER FIRST: a wrong handle format locks /data.
+// OSS gatekeeper hw_module for the Samsung skeymast TA (a9y18qlte): enroll=0x201,
+// verify=0x202, AOSP 58-byte handle / 69-byte token. See gatekeeper/README.md.
 
 #define LOG_TAG "gatekeeper_mdfpp_oss"
 
@@ -38,13 +33,10 @@ static int gk_enroll(const struct gatekeeper_device *dev __unused, uint32_t uid,
     memset(&out, 0, sizeof(out));
     if (km_tz_open() != 0) return -1;
 
-    // INDATA (from stock nwd_KM_INDATA_pack arg order): int0=uid,
-    // key[4]=current password handle, bin0[2]=current password,
-    // bin1[3]=desired password.
+    // INDATA: int0=uid, key[4]=current handle, bin0[2]=current pwd, bin1[3]=desired
+    // pwd. Stock always sends all four (empty octet when absent), so always set.
     km_indata in;
     memset(&in, 0, sizeof(in));
-    // Stock always sends int0, bin0, bin1, key for enroll (empty octet strings
-    // when absent), so set their *_set flags regardless of length.
     in.cmd = KM_CMD_ENROLL;
     in.pid = (uint32_t)getpid();
     in.int0_set = true;
@@ -95,11 +87,9 @@ static int gk_verify(const struct gatekeeper_device *dev __unused, uint32_t uid,
     memset(&out, 0, sizeof(out));
     if (km_tz_open() != 0) return -1;
 
-    // INDATA (from stock nwd_KM_INDATA_pack arg order): int0=uid,
-    // long0=challenge, key[4]=enrolled password handle, bin0[2]=provided password.
+    // INDATA: int0=uid, long0=challenge, key[4]=enrolled handle, bin0[2]=provided pwd.
     km_indata in;
     memset(&in, 0, sizeof(in));
-    // Stock sends int0, long0, key, bin0 for verify (bin1 omitted).
     in.cmd = KM_CMD_VERIFY;
     in.pid = (uint32_t)getpid();
     in.int0_set = true;
