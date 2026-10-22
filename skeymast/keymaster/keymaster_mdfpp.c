@@ -153,25 +153,32 @@ static void req_init(km_indata *in, uint32_t cmd) {
 }
 
 
-// FIXME(configure): the keymaster@3.0 wrapper calls this at device creation and
-// rejects the whole device if it is not KM_ERROR_OK, and the TA refuses every op
-// with KEYMINT_NOT_CONFIGURED (-64) until a configure succeeds. Live-tested
-// 2026-10-22: this OS_VERSION/OS_PATCHLEVEL payload is rejected -38
-// (KM_ERROR_INVALID_ARGUMENT) for every value tried (0, 16.x, 10, 8), while the
-// stock blob's configure (same wrapper, same OS params) succeeds -- so stock
-// forwards a different payload to the TA. The correct configure wire format
-// still needs RE, and the transport must hold one TA session open (per-op
-// open/close drops the configured state). See gatekeeper-keymaster-re memory.
+// Samsung-proprietary configure tags, captured from the stock blob's cmd 0x0f
+// (qsee_hook, 2026-10-23): besides the AOSP OS_VERSION(705)/OS_PATCHLEVEL(706)
+// the wrapper passes, stock adds these two, derived from the same props. The TA
+// rejects a configure that omits them (-38 INVALID_ARGUMENT), which is what
+// blocked every earlier 2-param attempt; it does NOT require 705==805/706==806.
+#define KM_TAG_SEC_OS_VERSION    (KM_UINT | 805u)  // 0x30000325
+#define KM_TAG_SEC_OS_PATCHLEVEL (KM_UINT | 806u)  // 0x30000326
+
+// configure (cmd 0x0f). The keymaster@3.0 wrapper calls this at device creation
+// and rejects the whole device if it is not KM_ERROR_OK; the TA then refuses
+// every op with KEYMINT_NOT_CONFIGURED (-64) until a configure succeeds. Mirror
+// stock byte-for-byte: four OS params + an empty bin0 [2].
 static keymaster_error_t km_configure(const keymaster2_device_t *dev __unused,
                                        const keymaster_key_param_set_t *params) {
-    (void)params;  // stock derives version/patchlevel itself; we send computed ones
-    km_param p[2];
-    p[0].tag = KM_TAG_OS_VERSION;    p[0].i = os_version();    p[0].b.data = NULL; p[0].b.len = 0;
-    p[1].tag = KM_TAG_OS_PATCHLEVEL; p[1].i = os_patchlevel(); p[1].b.data = NULL; p[1].b.len = 0;
+    (void)params;  // stock derives all four from props; the wrapper's 705/706 match
+    uint32_t osv = os_version(), osp = os_patchlevel();
+    km_param p[4];
+    p[0].tag = KM_TAG_OS_VERSION;        p[0].i = osv; p[0].b.data = NULL; p[0].b.len = 0;
+    p[1].tag = KM_TAG_OS_PATCHLEVEL;     p[1].i = osp; p[1].b.data = NULL; p[1].b.len = 0;
+    p[2].tag = KM_TAG_SEC_OS_VERSION;    p[2].i = osv; p[2].b.data = NULL; p[2].b.len = 0;
+    p[3].tag = KM_TAG_SEC_OS_PATCHLEVEL; p[3].i = osp; p[3].b.data = NULL; p[3].b.len = 0;
 
     if (km_tz_open() != 0) return KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
     km_indata in; req_init(&in, KM_C_CONFIGURE);
-    in.params = p; in.n_params = 2;
+    in.bin0_set = true; in.bin0.data = NULL; in.bin0.len = 0;  // stock sends empty [2]
+    in.params = p; in.n_params = 4;
     km_outdata out;
     int rc = km_tz_transact(&in, &out);
     keymaster_error_t e = (rc == 0) ? (keymaster_error_t)out.err : KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
