@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: Apache-2.0
+// Shared skeymast transport + KM_INDATA/KM_OUTDATA codec, used by both the OSS
+// gatekeeper and keymaster HAL modules. See each module's dir and the project
+// notes for the protocol. Links the platform's BoringSSL (CBB/CBS) — build in
+// tree so the CBB struct layout matches the linked libcrypto.
+
+cc_library_static {
+    name: "libskeymast_common",
+    vendor: true,
+
+    srcs: [
+        "km_asn1.c",
+        "km_transport.c",
+    ],
+
+    shared_libs: [
+        "liblog",
+        "libcrypto",
+        "libQSEEComAPI",
+    ],
+
+    local_include_dirs: ["include"],
+    export_include_dirs: [".", "include"],
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wno-unused-parameter",
+    ],
+}
