@@ -57,6 +57,31 @@ int km_indata_encode(const km_indata *in, uint8_t *out, uint32_t cap, uint32_t *
         ok = CBB_add_asn1(&seq, &wrap, EXP(4)) && CBB_add_asn1(&wrap, &inner, CBS_ASN1_OCTETSTRING) &&
              (in->key.len == 0 || CBB_add_bytes(&inner, in->key.data, in->key.len));
 
+    // par [8]: EXPLICIT { SET OF KM_PARAM }. Each KM_PARAM is
+    // SEQUENCE{ INTEGER tag, [0]{INTEGER i} | [1]{OCTET b} }. The value slot is
+    // [1] for BYTES/BIGNUM tags, [0] otherwise. CBB_flush_asn1_set_of sorts the
+    // set into DER order (stock emits it sorted by tag).
+    if (ok && in->n_params > 0) {
+        CBB pwrap, setof, pseq, pv, pvi;
+        ok = CBB_add_asn1(&seq, &pwrap, EXP(8)) && CBB_add_asn1(&pwrap, &setof, CBS_ASN1_SET);
+        for (uint32_t k = 0; ok && k < in->n_params; k++) {
+            const km_param *pp = &in->params[k];
+            uint32_t ty = KM_TAG_TYPE(pp->tag);
+            ok = CBB_add_asn1(&setof, &pseq, CBS_ASN1_SEQUENCE) &&
+                 CBB_add_asn1(&pseq, &pvi, CBS_ASN1_INTEGER) && put_int_content(&pvi, pp->tag, 1);
+            if (!ok) break;
+            if (ty == KM_TYPE_BYTES || ty == KM_TYPE_BIGNUM) {
+                ok = CBB_add_asn1(&pseq, &pv, EXP(1)) &&
+                     CBB_add_asn1(&pv, &pvi, CBS_ASN1_OCTETSTRING) &&
+                     (pp->b.len == 0 || CBB_add_bytes(&pvi, pp->b.data, pp->b.len));
+            } else {
+                ok = CBB_add_asn1(&pseq, &pv, EXP(0)) &&
+                     CBB_add_asn1(&pv, &pvi, CBS_ASN1_INTEGER) && put_int_content(&pvi, pp->i, 1);
+            }
+        }
+        if (ok) ok = CBB_flush_asn1_set_of(&setof) && CBB_flush(&seq);
+    }
+
     size_t der_len = 0;
     if (!ok || !CBB_finish(&cbb, NULL, &der_len)) { CBB_cleanup(&cbb); return -5; }
     *out_len = (uint32_t)der_len;
@@ -129,7 +154,36 @@ int km_outdata_decode(const uint8_t *der, uint32_t der_len, km_outdata *out) {
             dup_octet(&inner, &out->bin1, &out->bin1_len))
             return -1;
     }
-    // [4] par (SET OF) and [5] log (SEQ OF) are ignored.
+    // [4] par: EXPLICIT { SET OF KM_PARAM }. Decode tags + values into out->params.
+    // Byte values point into `der` (caller keeps it alive). [5] log is ignored.
+    if (!CBS_get_optional_asn1(&seq, &child, &present, EXP(4))) return -1;
+    if (present) {
+        CBS setof;
+        if (!CBS_get_asn1(&child, &setof, CBS_ASN1_SET)) return -1;
+        while (setof.len > 0 && out->n_params < KM_MAX_PARAMS) {
+            CBS pseq, v, pvi;
+            int64_t tag;
+            if (!CBS_get_asn1(&setof, &pseq, CBS_ASN1_SEQUENCE) ||
+                !CBS_get_asn1(&pseq, &pvi, CBS_ASN1_INTEGER) || be_to_i64(&pvi, &tag))
+                return -1;
+            km_param *pp = &out->params[out->n_params++];
+            memset(pp, 0, sizeof(*pp));
+            pp->tag = (uint32_t)tag;
+            uint32_t ty = KM_TAG_TYPE(pp->tag);
+            if (ty == KM_TYPE_BYTES || ty == KM_TYPE_BIGNUM) {
+                if (!CBS_get_asn1(&pseq, &v, EXP(1)) || !CBS_get_asn1(&v, &pvi, CBS_ASN1_OCTETSTRING))
+                    return -1;
+                pp->b.data = pvi.data;
+                pp->b.len = (uint32_t)pvi.len;
+            } else {
+                int64_t iv;
+                if (!CBS_get_asn1(&pseq, &v, EXP(0)) || !CBS_get_asn1(&v, &pvi, CBS_ASN1_INTEGER) ||
+                    be_to_i64(&pvi, &iv))
+                    return -1;
+                pp->i = (uint64_t)iv;
+            }
+        }
+    }
     return 0;
 #undef EXP
 }
