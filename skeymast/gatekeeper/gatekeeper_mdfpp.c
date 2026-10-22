@@ -156,14 +156,14 @@ static int gk_open(const hw_module_t *module, const char *name, hw_device_t **de
 
 static struct hw_module_methods_t gk_methods = { .open = gk_open };
 
-// Named "MDFPP Gatekeeper" so a Samsung-style service that probes the module
-// name (isMdfppGatekeeper) still recognises it.
+// .name matches the stock gatekeeper.mdfpp.so exactly ("gatekeeper") so any
+// name-based probe sees no difference.
 struct hw_module_t HAL_MODULE_INFO_SYM = {
     .tag = HARDWARE_MODULE_TAG,
     .module_api_version = GATEKEEPER_MODULE_API_VERSION_0_1,
     .hal_api_version = HARDWARE_HAL_API_VERSION,
     .id = GATEKEEPER_HARDWARE_MODULE_ID,
-    .name = "MDFPP Gatekeeper OSS",
+    .name = "gatekeeper",
     .author = "LineageOS a9y18qlte",
     .methods = &gk_methods,
 };
