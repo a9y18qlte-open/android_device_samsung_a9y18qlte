@@ -15,6 +15,7 @@
 
 #include <errno.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -469,6 +470,137 @@ static keymaster_error_t km_upgrade_key(const keymaster2_device_t *dev __unused,
     return e;
 }
 
+// ---- attest_key 0x0e ---------------------------------------------------------
+// Samsung device attestation keys/certs are provisioned in /efs/DAK as
+// {GAK|SAK}_{RSA|EC}.{private,certs}. The HAL injects them as KM_BYTES params
+// (tags from RE of saved_prov_to_param), the TA signs a leaf attestation cert
+// with the matching provisioned key (returned in bin0, algo in int0), and the
+// HAL appends the provisioned CA chain (the .certs file split into DER certs).
+
+static int read_dak(const char *base, uint8_t **buf, uint32_t *len) {
+    char path[160];
+    FILE *f = NULL;
+    snprintf(path, sizeof(path), "/efs/DAK/%s", base);
+    f = fopen(path, "rb");
+    if (!f) {
+        snprintf(path, sizeof(path), "/mnt/vendor/efs/DAK/%s", base);
+        f = fopen(path, "rb");
+    }
+    if (!f) return -1;
+    fseek(f, 0, SEEK_END);
+    long n = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    if (n <= 0 || n > 0x4000) { fclose(f); return -1; }
+    uint8_t *b = malloc((size_t)n);
+    if (!b) { fclose(f); return -1; }
+    size_t got = fread(b, 1, (size_t)n, f);
+    fclose(f);
+    if (got != (size_t)n) { free(b); return -1; }
+    *buf = b;
+    *len = (uint32_t)n;
+    return 0;
+}
+
+// One DER element's total length (tag + length field + content); 0 on malformed.
+static uint32_t der_len(const uint8_t *p, uint32_t avail);
+
+// Add a provisioned file as a KM_BYTES param (buffer kept alive in bufs[]).
+// `first_cert` truncates to the first DER element: the .private files are
+// injected whole, but the certs tags carry only the immediate issuer cert
+// (first cert of the concatenated .certs file), per the stock request capture.
+static void add_dak_param(km_param *p, uint32_t *n, uint32_t tag, const char *file,
+                          int first_cert, uint8_t **bufs, uint32_t *nb) {
+    uint8_t *b = NULL; uint32_t l = 0;
+    if (*n >= KM_MAX_PARAMS || read_dak(file, &b, &l) != 0) return;
+    if (first_cert) { uint32_t fl = der_len(b, l); if (fl) l = fl; }
+    p[*n].tag = tag; p[*n].i = 0; p[*n].b.data = b; p[*n].b.len = l;
+    (*n)++;
+    bufs[(*nb)++] = b;
+}
+
+// One DER element's total length (tag + length field + content); 0 on malformed.
+static uint32_t der_len(const uint8_t *p, uint32_t avail) {
+    if (avail < 2) return 0;
+    uint32_t l = p[1], hdr = 2;
+    if (p[1] & 0x80) {
+        uint32_t nb = p[1] & 0x7f;
+        if (nb == 0 || nb > 4 || avail < 2 + nb) return 0;
+        l = 0;
+        for (uint32_t i = 0; i < nb; i++) l = (l << 8) | p[2 + i];
+        hdr = 2 + nb;
+    }
+    if (l > avail - hdr) return 0;
+    return hdr + l;
+}
+
+static keymaster_error_t km_attest_key(const keymaster2_device_t *dev __unused,
+                                       const keymaster_key_blob_t *key_to_attest,
+                                       const keymaster_key_param_set_t *attest_params,
+                                       keymaster_cert_chain_t *cert_chain) {
+    if (key_to_attest == NULL || attest_params == NULL || cert_chain == NULL)
+        return KM_ERROR_UNEXPECTED_NULL_POINTER;
+    cert_chain->entries = NULL;
+    cert_chain->entry_count = 0;
+
+    km_param p[KM_MAX_PARAMS];
+    uint32_t n = to_km_params(attest_params, p, KM_MAX_PARAMS);
+    // Inject provisioned keys/certs (tags from saved_prov_to_param): GAK_RSA,
+    // GAK_EC, SAK_EC, each {private -> tag_a, certs -> tag_b}.
+    // private tags get the .private key whole; certs tags get the issuer cert
+    // (the individual certN0.der file, matching the stock request sizes).
+    uint8_t *bufs[6]; uint32_t nb = 0;
+    add_dak_param(p, &n, 0x9000139d, "GAK_RSA.private",  0, bufs, &nb);
+    add_dak_param(p, &n, 0x9000139f, "gakrsacert0.der",  0, bufs, &nb);
+    add_dak_param(p, &n, 0x9000139e, "GAK_EC.private",   0, bufs, &nb);
+    add_dak_param(p, &n, 0x900013a0, "gakeccert0.der",   0, bufs, &nb);
+    add_dak_param(p, &n, 0x900013a2, "SAK_EC.private",   0, bufs, &nb);
+    add_dak_param(p, &n, 0x900013a4, "sakeccert0.der",   0, bufs, &nb);
+
+    keymaster_error_t e = KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
+    km_outdata out;
+    if (km_tz_open() == 0) {
+        km_indata in; req_init(&in, KM_C_ATTEST_KEY);
+        in.key_set = true; in.key.data = key_to_attest->key_material; in.key.len = (uint32_t)key_to_attest->key_material_size;
+        in.params = p; in.n_params = n;
+        int rc = km_tz_transact(&in, &out);
+        if (rc == 0) {
+            e = (keymaster_error_t)out.err;
+            if (e == KM_ERROR_OK && out.bin0 && out.bin0_len) {
+                // Chain = leaf (TA) + provisioned CA certs, as individual DER
+                // files. int0 = algo (1=RSA, 3=EC); long0 group selects GAK/SAK.
+                static const char *ec_gak[] = {"gakeccert0.der", "gakeccert1.der", "gakecroot.der"};
+                static const char *ec_sak[] = {"sakeccert0.der", "sakeccert1.der"};
+                static const char *rsa_gak[] = {"gakrsacert0.der", "gakrsacert1.der", "gakrsaroot.der"};
+                const char **ca; uint32_t nca;
+                if (out.int0 == 1) { ca = rsa_gak; nca = 3; }
+                else if (out.long0_set && out.long0 == 0) { ca = ec_sak; nca = 2; }
+                else { ca = ec_gak; nca = 3; }
+
+                keymaster_blob_t *ents = calloc(1 + nca, sizeof(*ents));
+                if (ents) {
+                    uint8_t *leaf = malloc(out.bin0_len);
+                    if (leaf) { memcpy(leaf, out.bin0, out.bin0_len); ents[0].data = leaf; ents[0].data_length = out.bin0_len; }
+                    uint32_t idx = 1;
+                    for (uint32_t k = 0; k < nca; k++) {
+                        uint8_t *c = NULL; uint32_t cl = 0;
+                        if (read_dak(ca[k], &c, &cl) == 0) { ents[idx].data = c; ents[idx].data_length = cl; idx++; }
+                    }
+                    cert_chain->entries = ents;
+                    cert_chain->entry_count = idx;
+                } else {
+                    e = KM_ERROR_MEMORY_ALLOCATION_FAILED;
+                }
+            } else if (e == KM_ERROR_OK) {
+                e = KM_ERROR_UNKNOWN_ERROR;
+            }
+            km_outdata_release(&out);
+        }
+        km_tz_close();
+    }
+    for (uint32_t i = 0; i < nb; i++) free(bufs[i]);
+    return e;
+}
+
 // delete_key / delete_all_keys: stock returns UNIMPLEMENTED (blob-based keys).
 static keymaster_error_t km_delete_key(const keymaster2_device_t *dev __unused,
                                        const keymaster_key_blob_t *key __unused) {
@@ -507,9 +639,8 @@ static int km_open(const hw_module_t *module, const char *name, hw_device_t **de
     km->import_key = km_import_key;
     km->export_key = km_export_key;
     km->upgrade_key = km_upgrade_key;
-    // attest_key: not wired yet. It injects provisioned attestation-cert params
-    // from secure storage (saved_prov_to_param, tags 0x9000139d..0x900013a4) and
-    // assembles a cert chain; needs its own RE pass. Left NULL -> unavailable.
+    km->attest_key = km_attest_key;
+    // (attest_key reads /efs/DAK provisioned keys/certs and appends the CA chain)
     *dev = &km->common;
     return 0;
 }
