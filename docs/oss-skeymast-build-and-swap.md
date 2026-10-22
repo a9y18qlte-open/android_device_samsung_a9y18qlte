@@ -1,7 +1,8 @@
 # OSS skeymast HALs — VM build & on-device swap
 
 Covers building and switching to the open-source gatekeeper/keymaster modules
-(`gatekeeper/`, `keymaster/`, `skeymast-common/`) on branch `oss-gatekeeper-test`.
+(under `skeymast/`: `common/`, `gatekeeper/`, `keymaster/`) on branch
+`oss-gatekeeper-test`.
 They talk to the same signed `skeymast` TrustZone app as stock; only the closed
 userspace glue changes. Both are proven via standalone harnesses
 (`~/gatekeeper-re/oss/`); this is the integration path.
@@ -29,7 +30,7 @@ whatever the VM already has (no branch switch):
 set -e
 cd ~/device_samsung_a9y18qlte
 git stash list; git status --short | head       # note any VM-only changes first
-git checkout oss-gatekeeper-test -- gatekeeper keymaster skeymast-common
+git checkout oss-gatekeeper-test -- skeymast
 # device.mk: just APPEND the packages (PRODUCT_PACKAGES += is additive, so this
 # never clobbers VM-only edits):
 grep -q 'keystore.mdfpposs' device.mk || \
@@ -38,14 +39,13 @@ git --no-pager diff --stat
 EOF
 ```
 This leaves the VM's build branch and every other file exactly as-is; only
-`gatekeeper/`, `keymaster/`, `skeymast-common/` and two `device.mk` lines are
-added. (If you instead want the VM fully on our branch and know it matches, a
+`skeymast/` and two `device.mk` lines are added. (If you instead want the VM fully on our branch and know it matches, a
 plain `git checkout oss-gatekeeper-test` works — but verify no VM-only changes
 with `git status` first.) The tree is bind-mounted into
 `~/lineage-23/device/samsung/a9y18qlte`.
 
 To undo the surgical apply: drop the appended `PRODUCT_PACKAGES` block from
-`device.mk` and `rm -rf gatekeeper keymaster skeymast-common`.
+`device.mk` and `rm -rf skeymast`.
 
 ## 2. Build just the two modules (fast)
 Use the SAME env as `build.sh` or soong rebuilds host tools (70k-step bacon).
