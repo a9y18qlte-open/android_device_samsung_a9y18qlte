@@ -452,16 +452,17 @@ PRODUCT_PACKAGES += \
     android.hardware.keymaster@3.0-impl \
     android.hardware.keymaster@3.0-service
 
-# OSS gatekeeper module (gatekeeper/): an open-source reimplementation of the
-# Samsung gatekeeper.mdfpp.so that speaks the same protocol to the same skeymast
-# TrustZone app. Installed as gatekeeper.mdfpposs.so alongside the stock blob;
-# NOT selected by default. To try it, set ro.hardware.gatekeeper=mdfpposs
+# OSS gatekeeper module (skeymast/gatekeeper/): an open-source reimplementation
+# of the Samsung gatekeeper.mdfpp.so that speaks the same protocol to the same
+# skeymast TrustZone app. Installed as gatekeeper.mdfpposs.so alongside the stock
+# blob; NOT selected by default. To try it, set ro.hardware.gatekeeper=mdfpposs
 # (fall back with =mdfpp). Live-tested via a standalone harness; see
 # https://github.com/a9y18qlte-open (oss-gatekeeper-test branch) notes.
 #
-# OSS keymaster module (keymaster/): same idea for keystore.mdfpp.so. Installed
-# as keystore.mdfpposs.so, NOT default; select with ro.hardware.keystore=mdfpposs
-# (fall back =mdfpp). Both share libskeymast_common (skeymast-common/).
+# OSS keymaster module (skeymast/keymaster/): same idea for keystore.mdfpp.so.
+# Installed as keystore.mdfpposs.so, NOT default; select with
+# ro.hardware.keystore=mdfpposs (fall back =mdfpp). Both share libskeymast_common
+# (skeymast/common/).
 PRODUCT_PACKAGES += \
     gatekeeper.mdfpposs \
     keystore.mdfpposs

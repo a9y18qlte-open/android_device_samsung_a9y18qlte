@@ -10,7 +10,7 @@ replaced. The TrustZone app itself is unchanged.
   verify=0x202), named "MDFPP Gatekeeper OSS".
 - The DER codec (`km_asn1`), QSEECom transport (`km_transport`) and
   `QSEEComAPI.h` are shared with the keymaster module and live in
-  `../skeymast-common/` (built as `libskeymast_common`). The codec uses BoringSSL
+  `../common/` (built as `libskeymast_common`). The codec uses BoringSSL
   CBB/CBS (functions, not the version-fragile ASN1_ITEM template structs); build
   against the platform's own BoringSSL headers (soong does) so the CBB struct
   layout matches the linked libcrypto.
