@@ -5,7 +5,6 @@
 #
 
 import re
-import subprocess
 from os import path
 
 from extract_utils.file import File
@@ -118,23 +117,6 @@ def fix_depth_mount_angle(
     )
     with open(file_path, 'w', newline='', encoding='utf-8') as f:
         f.write(data)
-
-
-def apply_diff(
-    ctx: BlobFixupCtx,
-    file: File,
-    file_path: str,
-    diff: str,
-    *args,
-    **kwargs,
-):
-    # patch(1) takes the target file explicitly, so the diff can keep the
-    # paths of the tree it was made in.
-    subprocess.run(
-        ['patch', '--silent', '--no-backup-if-mismatch', file_path,
-         path.join(ctx.module_dir, diff)],
-        check=True,
-    )
 
 
 def scale_exposure_table(
@@ -325,14 +307,12 @@ blob_fixups: blob_fixups_user_type = {
     # the exposure tables stopped at 11.6 ms instead of 1/60 s. Point it at
     # copies with scaled tables (scale_exposure_table).
     'vendor/etc/camera/imx576_e24qs_chromatix.xml': blob_fixup()
-        .call(apply_diff, 'camera/tools/chromatix/imx576_e24qs_chromatix-slowmotion.diff')
-        .call(apply_diff, 'camera/tools/chromatix/imx576_e24qs_chromatix-res1-3a.diff'),
+        .patch_file('camera/tools/chromatix/imx576_e24qs_chromatix'),
     # The front imx576 has no res 5 entry and no slow-motion 3A. Its sensor
     # module adds front dimension flags to every session's special mode mask,
     # so add a res 5 entry with them, using the main camera's slow-motion 3A.
     'vendor/etc/camera/imx576_d24qs_chromatix.xml': blob_fixup()
-        .call(apply_diff, 'camera/tools/chromatix/imx576_d24qs_chromatix-slowmotion.diff')
-        .call(apply_diff, 'camera/tools/chromatix/imx576_d24qs_chromatix-res1-3a.diff'),
+        .patch_file('camera/tools/chromatix/imx576_d24qs_chromatix'),
     'vendor/lib/libchromatix_imx576_e24qs_60_preview_3a.so': blob_fixup()
         .call(scale_exposure_table, 'libchromatix_imx576_e24qs_4k_preview_3a.so'),
     'vendor/lib/libchromatix_imx576_e24qs_60_video_3a.so': blob_fixup()
