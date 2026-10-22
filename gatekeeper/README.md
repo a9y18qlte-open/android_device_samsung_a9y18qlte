@@ -6,17 +6,14 @@ handles and the lockscreen keep working — only the closed userspace glue is
 replaced. The TrustZone app itself is unchanged.
 
 ## Files
-- `km_asn1.{h,c}` — KM_INDATA/KM_OUTDATA DER codec using BoringSSL CBB/CBS
-  (functions, not the version-fragile ASN1_ITEM template structs). Produces
-  canonical DER byte-identical to stock. Build against the platform's own
-  BoringSSL headers (soong does): the CBB struct layout must match the linked
-  libcrypto.
-- `km_transport.{h,c}` — QSEECom client: loads `skeymast`, runs the
-  pack/send/unpack cycle against it.
 - `gatekeeper_mdfpp.c` — the `gatekeeper_device_t` hw_module (enroll=0x201,
   verify=0x202), named "MDFPP Gatekeeper OSS".
-- `include/QSEEComAPI.h` — minimal client header (matches the canonical CAF one;
-  vendor the full header if preferred).
+- The DER codec (`km_asn1`), QSEECom transport (`km_transport`) and
+  `QSEEComAPI.h` are shared with the keymaster module and live in
+  `../skeymast-common/` (built as `libskeymast_common`). The codec uses BoringSSL
+  CBB/CBS (functions, not the version-fragile ASN1_ITEM template structs); build
+  against the platform's own BoringSSL headers (soong does) so the CBB struct
+  layout matches the linked libcrypto.
 
 ## Protocol notes
 - Optional KM fields use EXPLICIT context tags (`0xa0|n` wrapping a universal
