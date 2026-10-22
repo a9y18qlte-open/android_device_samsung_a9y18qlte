@@ -59,9 +59,9 @@ line counts scaled by 6320/4400 (the device tree's
 `scale_exposure_table`): `60_preview_3a` and `60_video_3a` on both
 cameras. 4K at 30 fps is not affected: the mode picker gives every
 session at 30 fps or less res 0.
-[tools/chromatix/imx576_e24qs_chromatix-res1-3a.diff](../tools/chromatix/imx576_e24qs_chromatix-res1-3a.diff)
+[tools/chromatix/imx576_e24qs_chromatix/0002-res1-3a.patch](../tools/chromatix/imx576_e24qs_chromatix/0002-res1-3a.patch)
 and
-[tools/chromatix/imx576_d24qs_chromatix-res1-3a.diff](../tools/chromatix/imx576_d24qs_chromatix-res1-3a.diff)
+[tools/chromatix/imx576_d24qs_chromatix/0002-res1-3a.patch](../tools/chromatix/imx576_d24qs_chromatix/0002-res1-3a.patch)
 point res 1 at them; the front one adds a res 1 entry with the front
 dimension mask, which its sessions always carry. A 60 fps frame then
 gets up to 16.66 ms (the frame stretches to 16.71 ms when it needs all
@@ -165,21 +165,23 @@ The chromatix XML only has a res 5 entry for the Samsung `SLOW_MOTION`
 special mode, which the Samsung camera app sets through its shot mode
 parameter. Without it the backend uses `zsl_preview_3a`, whose auto
 exposure lengthens the frames in low light (240 fps only at ISO 50).
-[tools/chromatix/imx576_e24qs_chromatix-slowmotion.diff](../tools/chromatix/imx576_e24qs_chromatix-slowmotion.diff)
+[tools/chromatix/imx576_e24qs_chromatix/0001-slowmotion.patch](../tools/chromatix/imx576_e24qs_chromatix/0001-slowmotion.patch)
 adds a default res 5 entry with `mode_slowmotion_3a` for preview and
 video; with it the frame rate stays at 240 and the gain stops at
-ISO 800, so the picture gets darker instead. Apply it to
-`vendor/etc/camera/imx576_e24qs_chromatix.xml` in the device tree.
+ISO 800, so the picture gets darker instead.
 
 The front camera's XML has no res 5 entry and no slow motion 3A at all.
 Its sensor module adds front dimension flags to the special mode mask of
 every session (`PREVIEW_FRONT_DIM_HIGH,SNAPSHOT_FRONT_DIM_HIGH,VIDEO_FRONT_DIM_HIGH`
 at 1280x720), and an entry only matches with that mask, so the generic
 front entry with `zsl_preview_3a` won: about 111 fps indoors.
-[tools/chromatix/imx576_d24qs_chromatix-slowmotion.diff](../tools/chromatix/imx576_d24qs_chromatix-slowmotion.diff)
+[tools/chromatix/imx576_d24qs_chromatix/0001-slowmotion.patch](../tools/chromatix/imx576_d24qs_chromatix/0001-slowmotion.patch)
 adds a res 5 entry with that mask, the front's ISP/CPP tuning and the
-main camera's `imx576_e24qs_mode_slowmotion_3a`. Apply it to
-`vendor/etc/camera/imx576_d24qs_chromatix.xml` in the device tree.
+main camera's `imx576_e24qs_mode_slowmotion_3a`.
+
+The device tree applies each directory under `tools/chromatix` to the
+chromatix XML of the same name with extract-utils' `patch_file`, in
+file name order (the front res 1 patch needs the slow motion entry).
 
 120 fps uses Samsung's `hfr_120_3a` tuning without changes.
 
