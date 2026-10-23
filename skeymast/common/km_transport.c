@@ -23,6 +23,15 @@
 
 static struct QSEECom_handle *g_handle = NULL;
 
+// Reference count on the TA session. The skeymast TA loses its configured state
+// (OS version/patchlevel set via cmd 0x0f) the moment QSEECom unloads it, so the
+// keymaster device must keep ONE session open for its whole lifetime -- otherwise
+// configure runs at device creation, the TA unloads, and every later op fails
+// KEYMINT_NOT_CONFIGURED (-64). km_open() takes a persistent ref; per-op
+// open/close only balance against it so the TA stays loaded. Gatekeeper takes no
+// persistent ref, so its ops still load+unload per call, unchanged.
+static int g_refs = 0;
+
 // Scratch buffers must be our OWN memory, not the ION buffer: QSEECom_send_cmd
 // copies the request in and the response back out; pointing inside ION skips the
 // copy-back and reads a stale response. 64-byte aligned, [u64 len][DER] layout.
@@ -34,7 +43,7 @@ static inline void buf_set_len(uint8_t *b, uint32_t n) { *(uint64_t *)b = n; }
 static inline uint32_t buf_get_len(const uint8_t *b) { return (uint32_t)(*(const uint64_t *)b); }
 
 int km_tz_open(void) {
-    if (g_handle != NULL) return 0;
+    if (g_handle != NULL) { g_refs++; return 0; }
     uint32_t region = KM_REGION;  // *2: one region in, one out (as stock)
     int rc = QSEECom_start_app(&g_handle, KM_TA_PATH, KM_TA_NAME, region * 2);
     if (rc != 0 || g_handle == NULL) {
@@ -42,14 +51,17 @@ int km_tz_open(void) {
         g_handle = NULL;
         return -1;
     }
+    g_refs = 1;
     return 0;
 }
 
 int km_tz_close(void) {
     if (g_handle == NULL) return 0;
+    if (g_refs > 1) { g_refs--; return 0; }  // still pinned; keep the TA loaded
     int rc = QSEECom_shutdown_app(&g_handle);
     if (rc != 0) ALOGE("QSEECom_shutdown_app failed: %d", rc);
     g_handle = NULL;
+    g_refs = 0;
     return rc;
 }
 
