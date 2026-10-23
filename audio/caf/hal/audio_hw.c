@@ -381,14 +381,15 @@ const char * const use_case_table[AUDIO_USECASE_MAX] = {
     [USECASE_AUDIO_HFP_SCO_DOWNLINK] = "hfp-sco-downlink",
     [USECASE_AUDIO_HFP_SCO_WB_DOWNLINK] = "hfp-sco-wb-downlink",
 
-    [USECASE_VOICE_CALL] = "voice-call",
-    [USECASE_VOICE2_CALL] = "voice2-call",
+    /* Samsung runs calls on the VoiceMMode sessions under these names */
+    [USECASE_VOICE_CALL] = "voicemmode1-call",
+    [USECASE_VOICE2_CALL] = "voicemmode2-call",
     [USECASE_VOLTE_CALL] = "volte-call",
     [USECASE_QCHAT_CALL] = "qchat-call",
     [USECASE_VOWLAN_CALL] = "vowlan-call",
     [USECASE_VOICEMMODE1_CALL] = "voicemmode1-call",
     [USECASE_VOICEMMODE2_CALL] = "voicemmode2-call",
-    [USECASE_COMPRESS_VOIP_CALL] = "compress-voip-call",
+    [USECASE_COMPRESS_VOIP_CALL] = "voip-call",
     [USECASE_INCALL_REC_UPLINK] = "incall-rec-uplink",
     [USECASE_INCALL_REC_DOWNLINK] = "incall-rec-downlink",
     [USECASE_INCALL_REC_UPLINK_AND_DOWNLINK] = "incall-rec-uplink-and-downlink",
@@ -2590,19 +2591,8 @@ static void stream_app_type_cfg_init(struct stream_app_type_cfg *cfg)
 
 bool is_btsco_device(snd_device_t out_snd_device, snd_device_t in_snd_device)
 {
-   bool ret=false;
-   if ((out_snd_device == SND_DEVICE_OUT_BT_SCO ||
-        out_snd_device == SND_DEVICE_OUT_BT_SCO_WB ||
-        out_snd_device == SND_DEVICE_OUT_BT_SCO_SWB) ||
-        in_snd_device == SND_DEVICE_IN_BT_SCO_MIC_WB_NREC ||
-        in_snd_device == SND_DEVICE_IN_BT_SCO_MIC_WB ||
-        in_snd_device == SND_DEVICE_IN_BT_SCO_MIC_SWB ||
-        in_snd_device == SND_DEVICE_IN_BT_SCO_MIC_NREC ||
-        in_snd_device == SND_DEVICE_IN_BT_SCO_MIC ||
-        in_snd_device == SND_DEVICE_IN_BT_SCO_MIC_SWB_NREC)
-        ret = true;
-
-   return ret;
+   return platform_get_bt_sco_sample_rate(out_snd_device) > 0 ||
+          platform_get_bt_sco_sample_rate(in_snd_device) > 0;
 }
 
 bool is_a2dp_device(snd_device_t out_snd_device)
@@ -2647,26 +2637,17 @@ static int configure_btsco_sample_rate(snd_device_t snd_device)
                 return -ENOSYS;
         }
 
-        switch (snd_device) {
-        case SND_DEVICE_OUT_BT_SCO:
+        switch (platform_get_bt_sco_sample_rate(snd_device)) {
+        case 8000:
             rate_str = "KHZ_8";
             break;
-        case SND_DEVICE_IN_BT_SCO_MIC_NREC:
-        case SND_DEVICE_IN_BT_SCO_MIC:
-            rate_str = "KHZ_8";
-            is_rx_dev = false;
-            break;
-        case SND_DEVICE_OUT_BT_SCO_WB:
+        case 16000:
             rate_str = "KHZ_16";
-            break;
-        case SND_DEVICE_IN_BT_SCO_MIC_WB_NREC:
-        case SND_DEVICE_IN_BT_SCO_MIC_WB:
-            rate_str = "KHZ_16";
-            is_rx_dev = false;
             break;
         default:
             return 0;
         }
+        is_rx_dev = snd_device < SND_DEVICE_OUT_END;
 
         ctl = (ctl_sr == NULL) ? (is_rx_dev ? ctl_sr_rx : ctl_sr_tx) : ctl_sr;
         if (mixer_ctl_set_enum_by_string(ctl, rate_str) != 0)
