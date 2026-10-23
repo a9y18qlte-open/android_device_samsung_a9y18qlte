@@ -307,6 +307,10 @@
          that can be set by the user. -->
     <item name="config_screenBrightnessDozeFloat" format="float" type="dimen">0.06667</item>
 
+    <!-- The doze brightness only picks one of the panel's two always-on display
+         levels: jump to it instead of ramping through the levels in between. -->
+    <bool name="config_displayBrightnessBucketsInDoze">true</bool>
+
     <!-- Default screen brightness setting.
          Must be in the range specified by minimum and maximum. -->
      <integer name="config_screenBrightnessSettingDefault">128</integer>
