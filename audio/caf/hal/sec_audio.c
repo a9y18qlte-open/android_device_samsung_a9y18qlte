@@ -22,6 +22,7 @@
 #include "platform_api.h"
 #include "sec_audio.h"
 #include "voice.h"
+#include "voice_extn.h"
 
 #define OUT_HEADSETS (AUDIO_DEVICE_OUT_WIRED_HEADSET | AUDIO_DEVICE_OUT_WIRED_HEADPHONE)
 #define OUT_USB (AUDIO_DEVICE_OUT_USB_DEVICE | AUDIO_DEVICE_OUT_USB_HEADSET)
@@ -40,10 +41,43 @@
 /* Samsung tunes EVS calls separately; every call device has an _EVS twin */
 #define EVS(adev, dev) ((adev)->sec.call_band == SEC_CALL_BAND_SWB ? dev##_EVS : dev)
 
+/*
+ * Samsung takes communication mode with a voice communication or plain mic
+ * input running for a VoIP call; what kind of one follows the call state.
+ */
+static enum sec_voip_type get_voip_type(struct audio_device *adev)
+{
+    struct listnode *node;
+    bool voip_input;
+
+    if (adev->mode != AUDIO_MODE_IN_COMMUNICATION)
+        return SEC_VOIP_NONE;
+
+    voip_input = voice_extn_compress_voip_is_active(adev);
+    list_for_each(node, &adev->usecase_list) {
+        struct audio_usecase *usecase = node_to_item(node, struct audio_usecase, list);
+
+        if (usecase->type == PCM_CAPTURE && usecase->stream.in != NULL &&
+            (usecase->stream.in->source == AUDIO_SOURCE_VOICE_COMMUNICATION ||
+             usecase->stream.in->source == AUDIO_SOURCE_MIC))
+            voip_input = true;
+    }
+    if (!voip_input)
+        return SEC_VOIP_NONE;
+
+    if (adev->sec.wifi_call)
+        return SEC_VOIP_WIFI_CALL;
+    if (adev->sec.csvt)
+        return SEC_VOIP_CSVT;
+    if (adev->sec.fmc)
+        return SEC_VOIP_FMC;
+    return SEC_VOIP_COMM;
+}
+
 static bool is_in_call(struct audio_device *adev)
 {
     return ((adev->mode == AUDIO_MODE_IN_CALL || adev->sec.real_call) &&
-            voice_is_in_call(adev)) || adev->sec.voip_type == SEC_VOIP_CSVT;
+            voice_is_in_call(adev)) || get_voip_type(adev) == SEC_VOIP_CSVT;
 }
 
 static bool usb_capture(void)
@@ -162,7 +196,7 @@ static snd_device_t get_output_for_voip(struct audio_device *adev, audio_devices
     bool nrec = adev->bluetooth_nrec;
     bool wb = adev->bt_wb_speech_enabled;
 
-    switch (adev->sec.voip_type) {
+    switch (get_voip_type(adev)) {
     case SEC_VOIP_WIFI_CALL:
         return get_output_for_wifi_call(adev, devices);
     case SEC_VOIP_COMM:
@@ -225,11 +259,9 @@ int sec_audio_get_output_snd_device(struct audio_device *adev, struct listnode *
         ALOGW("%s: no call device for %#x", __func__, devices);
     }
 
-    if (adev->sec.voip_type != SEC_VOIP_NONE && adev->sec.voip_type != SEC_VOIP_CSVT) {
-        snd_device = get_output_for_voip(adev, devices);
-        if (snd_device != SND_DEVICE_NONE)
-            goto exit;
-    }
+    snd_device = get_output_for_voip(adev, devices);
+    if (snd_device != SND_DEVICE_NONE)
+        goto exit;
 
     if (count == 2) {
         if ((devices & AUDIO_DEVICE_OUT_SPEAKER) && (devices & OUT_HEADSETS))
@@ -384,7 +416,7 @@ static snd_device_t get_input_for_voip(struct audio_device *adev, audio_devices_
     bool nrec = adev->bluetooth_nrec;
     bool wb = adev->bt_wb_speech_enabled;
 
-    switch (adev->sec.voip_type) {
+    switch (get_voip_type(adev)) {
     case SEC_VOIP_WIFI_CALL:
         return get_input_for_wifi_call(adev, out);
     case SEC_VOIP_COMM:
@@ -505,11 +537,9 @@ int sec_audio_get_input_snd_device(struct audio_device *adev, struct stream_in *
             goto exit;
     }
 
-    if (adev->sec.voip_type != SEC_VOIP_NONE && adev->sec.voip_type != SEC_VOIP_CSVT) {
-        snd_device = get_input_for_voip(adev, out);
-        if (snd_device != SND_DEVICE_NONE)
-            goto exit;
-    }
+    snd_device = get_input_for_voip(adev, out);
+    if (snd_device != SND_DEVICE_NONE)
+        goto exit;
 
     snd_device = get_input_by_source(adev, source, in_devices);
     if (snd_device != SND_DEVICE_NONE)
