@@ -1,8 +1,7 @@
 // Android 14's hardware/interfaces/audio/core/all-versions/default, built for
 // @6.0, with Samsung SIM slot hooks (SimSlot.cpp): PrimaryDevice::setMode()
 // tells Samsung's audio HAL which SIM a call is on, and output/stream hooks
-// pick the modem voice session for VoLTE calls. VoipRouting.cpp moves VoIP
-// calls along with their output's routing.
+// pick the modem voice session for VoLTE calls.
 
 cc_library_shared {
     name: "android.hardware.audio@6.0-impl.a9y18qlte",
@@ -18,7 +17,6 @@ cc_library_shared {
         "Stream.cpp",
         "StreamIn.cpp",
         "StreamOut.cpp",
-        "VoipRouting.cpp",
     ],
 
     defaults: ["hidl_defaults"],
