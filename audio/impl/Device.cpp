@@ -17,7 +17,6 @@
 #define LOG_TAG "DeviceHAL"
 
 #include "SimSlot.h"
-#include "VoipRouting.h"
 #include "core/default/Device.h"
 #include "common/all-versions/default/EffectMap.h"
 #include "core/default/StreamIn.h"
@@ -86,7 +85,6 @@ void Device::closeInputStream(audio_stream_in_t* stream) {
 
 void Device::closeOutputStream(audio_stream_out_t* stream) {
     samsung_sim_slot::onOutputClosed(stream);
-    samsung_voip_routing::onStreamClosed(&stream->common);
     mDevice->close_output_stream(mDevice, stream);
     LOG_ALWAYS_FATAL_IF(mOpenedStreamsCount == 0, "mOpenedStreamsCount is already 0");
     --mOpenedStreamsCount;
