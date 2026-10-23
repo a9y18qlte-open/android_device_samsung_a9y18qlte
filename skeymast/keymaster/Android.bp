@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
 // OSS MDFPP keymaster (keymaster2) module for a9y18qlte (talks to skeymast TA).
 //
-// Installs as keystore.mdfpposs.so alongside the stock keystore.mdfpp.so and is
-// NOT selected by default. Select with ro.hardware.keystore=mdfpposs; fall back
-// with =mdfpp. Shares the transport/codec in libskeymast_common. Links the
-// current platform BoringSSL (CBB/CBS); the libcrypto-v33 fixup is only for the
-// prebuilt mdfpp blobs and does not apply here.
+// Replaces Samsung's keystore.mdfpp.so (and its libkeymaster2_mdfpp /
+// libkeymaster_helper_vendor) under the same name, selected by
+// ro.hardware.keystore=mdfpp. The name must stay "mdfpp": Samsung's fingerprint
+// HAL (libbauthtzcommon) picks the keymaster TA with
+// memcmp(ro.hardware.keystore, "mdfpp", 6). Shares the transport/codec in
+// libskeymast_common and links the in-tree BoringSSL (CBB/CBS).
 
 cc_library_shared {
-    name: "keystore.mdfpposs",
+    name: "keystore.mdfpp",
     relative_install_path: "hw",
     vendor: true,
+    compile_multilib: "64",
 
     srcs: ["keymaster_mdfpp.c"],
 
