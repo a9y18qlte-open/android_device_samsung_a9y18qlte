@@ -168,10 +168,6 @@ on boot
     chown system system /sys/class/sec/tsp/dt2w_enable
     chmod 0660 /sys/class/sec/tsp/dt2w_enable
 
-    # AOD low-power brightness, picked by AodBrightness.
-    chown system system /sys/class/lcd/panel/alpm
-    chmod 0660 /sys/class/lcd/panel/alpm
-
     # Charging control and fast charge nodes for the Lineage Health HAL.
     chown system system /sys/class/power_supply/battery/batt_slate_mode
     chmod 0660 /sys/class/power_supply/battery/batt_slate_mode
