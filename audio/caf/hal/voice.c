@@ -73,6 +73,12 @@ static bool voice_is_sidetone_device(snd_device_t out_device,
 
     switch (out_device) {
     case SND_DEVICE_OUT_VOICE_HANDSET:
+    case SND_DEVICE_OUT_CALL_HANDSET:
+    case SND_DEVICE_OUT_CALL_HANDSET_EVS:
+    case SND_DEVICE_OUT_CALL_HANDSET_HAC:
+    case SND_DEVICE_OUT_CALL_HANDSET_HAC_EVS:
+    case SND_DEVICE_OUT_CALL_HANDSET_EX:
+    case SND_DEVICE_OUT_CALL_HANDSET_EX_EVS:
         is_sidetone_dev = true;
         strlcpy(mixer_path, "sidetone-handset", MIXER_PATH_MAX_LENGTH);
         break;
@@ -80,6 +86,8 @@ static bool voice_is_sidetone_device(snd_device_t out_device,
     case SND_DEVICE_OUT_VOICE_HEADSET:
     case SND_DEVICE_OUT_VOICE_ANC_HEADSET:
     case SND_DEVICE_OUT_VOICE_ANC_FB_HEADSET:
+    case SND_DEVICE_OUT_CALL_HEADSET:
+    case SND_DEVICE_OUT_CALL_HEADSET_EVS:
         is_sidetone_dev = true;
         strlcpy(mixer_path, "sidetone-headphones", MIXER_PATH_MAX_LENGTH);
         break;
@@ -386,6 +394,8 @@ int voice_start_usecase(struct audio_device *adev, audio_usecase_t usecase_id)
         ALOGE("%s: platform_start_voice_call error %d\n", __func__, ret);
         goto error_start_voice;
     }
+
+    sec_audio_on_voice_routed(adev, &uc_info->device_list);
 
     session->state.current = CALL_ACTIVE;
     goto done;
@@ -723,7 +733,7 @@ int voice_start_call(struct audio_device *adev)
 
     ret = voice_extn_start_call(adev);
     if (ret == -ENOSYS) {
-        ret = voice_start_usecase(adev, USECASE_VOICE_CALL);
+        ret = voice_start_usecase(adev, sec_audio_get_voice_usecase(adev));
     }
 
     return ret;
@@ -736,7 +746,8 @@ int voice_stop_call(struct audio_device *adev)
     adev->voice.in_call = false;
     ret = voice_extn_stop_call(adev);
     if (ret == -ENOSYS) {
-        ret = voice_stop_usecase(adev, USECASE_VOICE_CALL);
+        ret = voice_stop_usecase(adev, adev->sec.voice_usecase);
+        adev->sec.voice_usecase = USECASE_INVALID;
     }
 
     return ret;

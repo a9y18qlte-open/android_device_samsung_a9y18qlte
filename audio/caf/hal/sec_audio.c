@@ -9,7 +9,10 @@
 
 #include <errno.h>
 #include <stdlib.h>
+#include <string.h>
 
+#include <cutils/properties.h>
+#include <cutils/str_parms.h>
 #include <log/log.h>
 #include <tinyalsa/asoundlib.h>
 
@@ -657,4 +660,197 @@ void sec_audio_vi_feedback_on_disable(struct audio_device *adev, int snd_device)
         return;
     if (is_speaker_snd_device(snd_device))
         stop_vi_feedback(adev);
+}
+
+/* Call state */
+
+void sec_audio_init(struct audio_device *adev)
+{
+    adev->sec.voice_usecase = USECASE_INVALID;
+    adev->sec.voice_device_type = -1;
+}
+
+int sec_audio_get_voice_usecase(struct audio_device *adev)
+{
+    adev->sec.voice_usecase = adev->sec.modem == 1 ? USECASE_VOICEMMODE2_CALL
+                                                   : USECASE_VOICEMMODE1_CALL;
+    return adev->sec.voice_usecase;
+}
+
+static void set_mixer_int(struct audio_device *adev, const char *name, int value)
+{
+    struct mixer_ctl *ctl = mixer_get_ctl_by_name(adev->mixer, name);
+
+    if (ctl == NULL) {
+        ALOGV("%s: no mixer control %s", __func__, name);
+        return;
+    }
+    ALOGV("%s: %s = %d", __func__, name, value);
+    mixer_ctl_set_value(ctl, 0, value);
+}
+
+/* What the DSP's Samsung voice module tunes for: 0 other, 1 speaker, 2 headset, 3 BT, 4 handset */
+static int voice_device_type(audio_devices_t devices)
+{
+    switch (devices) {
+    case AUDIO_DEVICE_OUT_EARPIECE:
+        return 4;
+    case AUDIO_DEVICE_OUT_SPEAKER:
+        return 1;
+    case AUDIO_DEVICE_OUT_WIRED_HEADSET:
+    case AUDIO_DEVICE_OUT_WIRED_HEADPHONE:
+        return 2;
+    case AUDIO_DEVICE_OUT_BLUETOOTH_SCO:
+    case AUDIO_DEVICE_OUT_BLUETOOTH_SCO_HEADSET:
+    case AUDIO_DEVICE_OUT_BLUETOOTH_SCO_CARKIT:
+        return 3;
+    default:
+        return 0;
+    }
+}
+
+void sec_audio_on_voice_routed(struct audio_device *adev, struct listnode *out_devices)
+{
+    int type = voice_device_type(get_device_types(out_devices));
+
+    if (type != adev->sec.voice_device_type) {
+        ALOGD("%s: voice device info %d", __func__, type);
+        set_mixer_int(adev, "Voice Device Info", type);
+        adev->sec.voice_device_type = type;
+    }
+    set_mixer_int(adev, "NB Mode", adev->sec.nb_quality);
+}
+
+static void reroute_call(struct audio_device *adev)
+{
+    if (voice_is_in_call(adev) && adev->sec.voice_usecase != USECASE_INVALID)
+        select_devices(adev, adev->sec.voice_usecase);
+}
+
+static bool get_bool(struct str_parms *parms, const char *key, bool *out)
+{
+    char value[32];
+
+    if (str_parms_get_str(parms, key, value, sizeof(value)) < 0)
+        return false;
+    *out = !strcmp(value, "true") || !strcmp(value, "on");
+    str_parms_del(parms, key);
+    return true;
+}
+
+static void set_sim_slot(struct audio_device *adev, int slot)
+{
+    char prop[PROPERTY_VALUE_MAX];
+    int modem = adev->sec.modem;
+    int vsid, vsid2;
+
+    if (slot == 0x02)
+        modem = 1;
+    else if (slot == 0x01)
+        modem = 0;
+
+    property_get("vendor.gsm.current.vsid", prop, "0");
+    vsid = atoi(prop);
+    property_get("vendor.gsm.current.vsid2", prop, "0");
+    vsid2 = atoi(prop);
+    if (vsid != 0 && vsid2 == 0)
+        modem = !modem;
+
+    if (modem == adev->sec.modem)
+        return;
+    /* The voice session cannot move to the other modem in the middle of a call */
+    if (voice_is_in_call(adev)) {
+        ALOGI("%s: not moving the call to modem %d", __func__, modem + 1);
+        return;
+    }
+    ALOGI("%s: calls on modem %d", __func__, modem + 1);
+    adev->sec.modem = modem;
+}
+
+static void set_call_state(struct audio_device *adev, int state)
+{
+    struct sec_audio *sec = &adev->sec;
+
+    ALOGI("%s: %#x", __func__, state);
+
+    if (state & 0x2)
+        sec->real_call = !sec->csvt;
+    else if (state & 0x1)
+        sec->real_call = false;
+
+    if (state & 0x20) {
+        sec->wifi_call = true;
+        sec->csvt = false;
+    } else if (state & 0x10) {
+        sec->wifi_call = false;
+    }
+
+    if (state & 0xf000) {
+        sec->csvt = (state & 0x2000) != 0;
+        if (sec->csvt)
+            sec->wifi_call = false;
+    }
+
+    if (state & 0xf0000)
+        sec->fmc = (state & 0x20000) != 0;
+
+    reroute_call(adev);
+}
+
+void sec_audio_set_parameters(struct audio_device *adev, struct str_parms *parms)
+{
+    char value[32];
+    int val;
+    bool flag;
+
+    if (str_parms_get_int(parms, "g_call_sim_slot", &val) >= 0) {
+        str_parms_del(parms, "g_call_sim_slot");
+        set_sim_slot(adev, val);
+    }
+
+    if (str_parms_get_int(parms, "g_call_state", &val) >= 0) {
+        str_parms_del(parms, "g_call_state");
+        set_call_state(adev, val);
+    }
+
+    if (str_parms_get_str(parms, "g_call_band", value, sizeof(value)) >= 0) {
+        enum sec_call_band band = adev->sec.call_band;
+
+        str_parms_del(parms, "g_call_band");
+        if (!strcmp(value, "swb"))
+            band = SEC_CALL_BAND_SWB;
+        else if (!strcmp(value, "wb"))
+            band = SEC_CALL_BAND_WB;
+        else if (!strcmp(value, "nb"))
+            band = SEC_CALL_BAND_NB;
+        if (str_parms_get_str(parms, "g_call_ims_codec_type", value, sizeof(value)) >= 0 &&
+            !strcmp(value, "evs"))
+            band = SEC_CALL_BAND_SWB;
+        if (band != adev->sec.call_band) {
+            ALOGI("%s: call band %d", __func__, band);
+            adev->sec.call_band = band;
+            reroute_call(adev);
+        }
+    }
+
+    if (get_bool(parms, "g_call_extra_volume_enable", &flag) && flag != adev->sec.extra_volume) {
+        adev->sec.extra_volume = flag;
+        reroute_call(adev);
+        if (voice_is_in_call(adev))
+            voice_set_volume(adev, adev->voice.volume);
+    }
+
+    if (get_bool(parms, "l_call_nb_quality_enable", &flag))
+        adev->sec.nb_quality = flag;
+
+    if (str_parms_get_int(parms, "g_sco_samplerate", &val) >= 0) {
+        bool wb = val == 16000;
+
+        str_parms_del(parms, "g_sco_samplerate");
+        if (wb != adev->bt_wb_speech_enabled) {
+            ALOGI("%s: BT SCO at %d Hz", __func__, val);
+            adev->bt_wb_speech_enabled = wb;
+            reroute_call(adev);
+        }
+    }
 }
