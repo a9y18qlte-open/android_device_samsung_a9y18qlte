@@ -47,11 +47,15 @@
 #define COMPRESS_VOIP_IO_BUF_SIZE_SWB 1280
 #define COMPRESS_VOIP_IO_BUF_SIZE_FB 1920
 
+/*
+ * msm-pcm-voip-v2 opens with a buffer of VOIP_MIN_Q_LEN (2) packets and
+ * rejects hw params for more, so queue two 20 ms packets like Samsung's HAL.
+ */
 struct pcm_config pcm_config_voip_nb = {
     .channels = 1,
     .rate = 8000, /* changed when the stream is opened */
     .period_size = COMPRESS_VOIP_IO_BUF_SIZE_NB/2,
-    .period_count = 10,
+    .period_count = 2,
     .format = PCM_FORMAT_S16_LE,
     .stop_threshold = INT_MAX,
 };
@@ -60,7 +64,7 @@ struct pcm_config pcm_config_voip_wb = {
     .channels = 1,
     .rate = 16000, /* changed when the stream is opened */
     .period_size = COMPRESS_VOIP_IO_BUF_SIZE_WB/2,
-    .period_count = 10,
+    .period_count = 2,
     .format = PCM_FORMAT_S16_LE,
     .stop_threshold = INT_MAX,
 };
@@ -69,7 +73,7 @@ struct pcm_config pcm_config_voip_swb = {
     .channels = 1,
     .rate = 32000, /* changed when the stream is opened */
     .period_size = COMPRESS_VOIP_IO_BUF_SIZE_SWB/2,
-    .period_count = 10,
+    .period_count = 2,
     .format = PCM_FORMAT_S16_LE,
     .stop_threshold = INT_MAX,
 };
@@ -78,7 +82,7 @@ struct pcm_config pcm_config_voip_fb = {
     .channels = 1,
     .rate = 48000, /* changed when the stream is opened */
     .period_size = COMPRESS_VOIP_IO_BUF_SIZE_FB/2,
-    .period_count = 10,
+    .period_count = 2,
     .format = PCM_FORMAT_S16_LE,
     .stop_threshold = INT_MAX,
 };
