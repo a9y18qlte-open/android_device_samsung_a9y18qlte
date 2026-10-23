@@ -6,13 +6,19 @@
 // configs/sensors/hals.conf). The rc keeps the stock "input" group: those
 // modules read /dev/input event nodes, which AOSP's own rc for this service
 // does not allow.
+//
+// The service wraps that HAL to add an always-on display brightness sensor
+// for SystemUI, derived from the light sensor (Sensors.cpp).
 
 cc_binary {
     name: "android.hardware.sensors@1.0-service.a9y18qlte",
     relative_install_path: "hw",
     vendor: true,
     init_rc: ["android.hardware.sensors@1.0-service.a9y18qlte.rc"],
-    srcs: ["service.cpp"],
+    srcs: [
+        "Sensors.cpp",
+        "service.cpp",
+    ],
 
     shared_libs: [
         "liblog",
@@ -21,6 +27,7 @@ cc_binary {
         "libbase",
         "libutils",
         "libhidlbase",
+        "libpower",
         "android.hardware.sensors@1.0",
     ],
 }
