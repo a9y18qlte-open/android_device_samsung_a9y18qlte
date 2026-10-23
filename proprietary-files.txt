@@ -1313,11 +1313,8 @@ vendor/lib64/vendor.samsung.hardware.security.proca@2.0.so
 vendor/lib64/vendor.samsung.hardware.security.securestorage@3.0.so;MODULE_SUFFIX=_vendor
 
 # Sensors
-vendor/bin/hw/android.hardware.sensors@1.0-service
 vendor/bin/sensors.qti
-vendor/etc/init/android.hardware.sensors@1.0-service.rc
 vendor/lib/hw/activity_recognition.sdm660.so
-vendor/lib/hw/android.hardware.sensors@1.0-impl.so
 vendor/lib/libsensor1.so
 vendor/lib/libsensor_reg.so
 vendor/lib/libsensorlistener.so
@@ -1326,7 +1323,6 @@ vendor/lib/sensor_calibrate.so
 vendor/lib/sensors.grip.so
 vendor/lib/sensors.ssc.so
 vendor/lib64/hw/activity_recognition.sdm660.so
-vendor/lib64/hw/android.hardware.sensors@1.0-impl.so
 vendor/lib64/libsensor1.so
 vendor/lib64/libsensor_reg.so
 vendor/lib64/libsensorlistener.so
