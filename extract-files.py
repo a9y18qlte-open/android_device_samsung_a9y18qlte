@@ -258,14 +258,6 @@ blob_fixups: blob_fixups_user_type = {
     # Camera::connect() and Surface::isValid() changed in Android 11/12.
     'system/lib64/libsamsung_videoengine_9_0.so': blob_fixup()
         .add_needed('libsve_shim.so'),
-    # Their ASN.1 templates use the Android 13 BoringSSL struct layout, which
-    # Android 14 changed; use the Android 13 libcrypto.
-    (
-        'vendor/lib64/hw/gatekeeper.mdfpp.so',
-        'vendor/lib64/libkeymaster2_mdfpp.so',
-        'vendor/lib64/libkeymaster_helper_vendor.so',
-    ): blob_fixup()
-        .replace_needed('libcrypto.so', 'libcrypto-v33.so'),
     # Android 14's RefBase aborts on its stack-allocated objects; use the
     # Android 13 libutils.
     'vendor/bin/pm-service': blob_fixup()

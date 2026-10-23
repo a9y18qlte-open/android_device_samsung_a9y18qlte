@@ -5,8 +5,23 @@ Open-source reimplementation of Samsung's `libkeymaster2_mdfpp.so` +
 same signed `skeymast` TrustZone app (shared `libskeymast_common` codec), so
 existing hardware-backed keys keep working. The TrustZone app is unchanged.
 
-Installed as `keystore.mdfpposs.so`, NOT default. Select with
-`ro.hardware.keystore=mdfpposs`; fall back with `=mdfpp`.
+Replaces Samsung's `keystore.mdfpp.so`, `libkeymaster2_mdfpp.so` and
+`libkeymaster_helper_vendor.so` (none of them are extracted any more) under the
+same module name, selected by `ro.hardware.keystore=mdfpp`. The name must stay
+`mdfpp`: Samsung's fingerprint HAL (`libbauthtzcommon`) picks the keymaster TA
+with `memcmp(ro.hardware.keystore, "mdfpp", 6)`, so any other value breaks
+fingerprint. Falling back to stock means flashing a build that still has the
+blobs (they also need `libcrypto-v33`).
+
+Things that broke it on the way (keep them in mind when changing the code):
+- configure (0x0f) needs Samsung tags 805/806 next to OS_VERSION/OS_PATCHLEVEL.
+- The TA forgets the configure state when QSEECom unloads it, so the device pins
+  one TA session for its lifetime (`km_open`/`km_close`).
+- Operation handles are unsigned 64-bit; a high-bit handle must be sent with the
+  DER leading `0x00` or update/finish fail and return empty output.
+- To test through keystore2 without a reboot, restart `keystore2` as well as
+  `vendor.keymaster-3-0`; restarting only the HAL leaves keystore2 with a dead
+  binder (`DEAD_OBJECT`) whatever the module.
 
 ## Protocol
 - `keymaster2_device` ops map to skeymast command ids (1=add_rng_entropy,

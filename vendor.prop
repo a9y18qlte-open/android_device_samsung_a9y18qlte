@@ -77,13 +77,15 @@ ro.vendor.sensors.facing=false
 ro.vendor.sensors.cmc=false
 ro.vendor.sdk.sensors.gestures=false
 
-# Samsung's gatekeeper HAL module is gatekeeper.mdfpp.so, but hw_get_module()
+# The gatekeeper HAL module is gatekeeper.mdfpp.so, but hw_get_module()
 # probes ro.hardware.gatekeeper first and falls back to ro.hardware (qcom) and
 # then "default" - none of which match. Without this the module is never found,
 # and the HAL logs "Unable to open GateKeeper HAL, but keep going" then
 # registers with a null device pointer. The first call segfaults it, gatekeeperd
 # aborts on DEAD_OBJECT, and no lock credential can ever be stored.
 ro.hardware.gatekeeper=mdfpp
+# keystore must stay "mdfpp" too: the fingerprint HAL picks its keymaster TA
+# with memcmp(ro.hardware.keystore, "mdfpp", 6).
 ro.hardware.keystore=mdfpp
 
 # Camera
