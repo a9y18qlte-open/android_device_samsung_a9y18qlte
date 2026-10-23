@@ -1,0 +1,12 @@
+// Samsung's libbauthserver links the factory sensor self-test library of every
+// fingerprint sensor vendor it supports. This device has an Egis sensor, so the
+// Goodix, Qualcomm and Synaptics self-tests can never run; this provides their
+// entry points instead of shipping those three blobs (see the libbauthserver
+// fixup in extract-files.py).
+
+cc_library_shared {
+    name: "libfp_sensortest_shim",
+    srcs: ["sensortest_shim.c"],
+    vendor: true,
+    compile_multilib: "64",
+}

@@ -556,8 +556,11 @@ PRODUCT_PACKAGES += \
 # fingerprint.default module wraps. A copy of hardware/samsung's in
 # fingerprint/, which also detects a finger while unlocking with it is
 # not allowed, so a touch after boot brings up the PIN screen.
+# libfp_sensortest_shim stands in for the self-test libraries of the sensors
+# this device does not have, which libbauthserver links.
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint-service.samsung-a9y18qlte
+    android.hardware.biometrics.fingerprint-service.samsung-a9y18qlte \
+    libfp_sensortest_shim
 
 # USB
 # USB-C port and role control through /sys/class/typec (S2MM005 CCIC).

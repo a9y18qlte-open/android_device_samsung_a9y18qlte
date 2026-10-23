@@ -285,6 +285,14 @@ blob_fixups: blob_fixups_user_type = {
     # namespace.
     'vendor/bin/hw/android.hardware.drm@1.2-service.widevine': blob_fixup()
         .remove_needed('libbinder.so'),
+    # It links the factory self-test library of every fingerprint sensor vendor;
+    # only the Egis one exists here, so libfp_sensortest_shim stands in for the
+    # Goodix, Qualcomm and Synaptics ones.
+    'vendor/lib64/libbauthserver.so': blob_fixup()
+        .remove_needed('libgf_in_system_lib.so')
+        .remove_needed('libqfp_sensortest.so')
+        .remove_needed('libsynaFpSensorTestNwd.so')
+        .add_needed('libfp_sensortest_shim.so'),
     # Parcel::print(TextOutput&), removed in Android 14; libsve_shim provides it.
     'system/lib64/libsveservice.so': blob_fixup()
         .add_needed('libsve_shim.so'),
