@@ -9,7 +9,33 @@
          panel switches to its low-power mode instead of staying fully on. -->
     <bool name="doze_display_state_supported">true</bool>
 
-    <!-- Show the always-on display in DOZE_SUSPEND: in DOZE the panel driver holds
-         a wake lock and the CPU never suspends. AodBrightness lets the clock update. -->
-    <bool name="doze_suspend_display_state_supported">true</bool>
+    <!-- Show the always-on display in DOZE, not DOZE_SUSPEND: the display HAL takes
+         no new frames in DOZE_SUSPEND, so the clock would stop. In DOZE the CPU
+         still suspends between frames: the panel driver drops to its ultra low
+         power mode while suspended. -->
+    <bool name="doze_suspend_display_state_supported">false</bool>
+
+    <!-- Always-on display brightness sensor of the sensors HAL: reports 1 in the
+         dark and 2 otherwise, and 2 if the light sensor reports nothing. -->
+    <string name="doze_brightness_sensor_type" translatable="false">org.lineageos.sensor.aod_brightness</string>
+
+    <!-- Doze brightness per sensor value. The panel driver shows the always-on
+         display at 2 nit for the lowest brightness levels and at 60 nit above. -->
+    <integer-array name="config_doze_brightness_sensor_to_brightness">
+        <item>-1</item> <!-- 0: unused -->
+        <item>1</item> <!-- 1: dark, 2 nit -->
+        <item>17</item> <!-- 2: bright, 60 nit -->
+    </integer-array>
+
+    <integer-array name="config_doze_brightness_sensor_to_scrim_opacity">
+        <item>-1</item> <!-- 0: unused -->
+        <item>0</item> <!-- 1: dark -->
+        <item>0</item> <!-- 2: bright -->
+    </integer-array>
+
+    <integer-array name="config_doze_brightness_sensor_to_wallpaper_scrim_opacity">
+        <item>-1</item> <!-- 0: unused -->
+        <item>0</item> <!-- 1: dark -->
+        <item>0</item> <!-- 2: bright -->
+    </integer-array>
 </resources>
