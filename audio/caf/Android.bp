@@ -1,0 +1,4 @@
+// The CAF audio HAL's modules share their names with the ones in
+// hardware/qcom-caf/sdm660/audio, so they live in a namespace of their own.
+soong_namespace {
+}
