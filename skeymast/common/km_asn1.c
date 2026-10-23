@@ -40,7 +40,12 @@ int km_indata_encode(const km_indata *in, uint8_t *out, uint32_t cap, uint32_t *
              put_int_content(&inner, in->int0, 1);
     if (ok && in->long0_set)
         ok = CBB_add_asn1(&seq, &wrap, EXP(1)) && CBB_add_asn1(&wrap, &inner, CBS_ASN1_INTEGER) &&
-             put_int_content(&inner, in->long0, 0);
+             // long0 is an unsigned 64-bit value (keymaster op handle, gatekeeper
+             // challenge); pad=1 so a high-bit-set value is DER-encoded unsigned (leading
+             // 0x00) like the TA does. With pad=0 a ~50%-likely high-bit op handle was
+             // sent as a negative 8-byte int, the TA failed the op lookup, and the op
+             // returned empty -> WiFi-MAC BufferUnderflow/soft-reboot + flaky unlock.
+             put_int_content(&inner, in->long0, 1);
     if (ok && in->bin0_set)
         ok = CBB_add_asn1(&seq, &wrap, EXP(2)) && CBB_add_asn1(&wrap, &inner, CBS_ASN1_OCTETSTRING) &&
              (in->bin0.len == 0 || CBB_add_bytes(&inner, in->bin0.data, in->bin0.len));
