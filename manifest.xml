@@ -573,16 +573,6 @@
         <fqname>@1.0::ISehTima/default</fqname>
     </hal>
     <hal format="hidl">
-        <name>vendor.samsung.hardware.tlc.ucm</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>ISehUcm</name>
-            <instance>default</instance>
-        </interface>
-        <fqname>@1.0::ISehUcm/default</fqname>
-    </hal>
-    <hal format="hidl">
         <name>vendor.samsung.hardware.wifi</name>
         <transport>hwbinder</transport>
         <version>2.0</version>
@@ -611,26 +601,6 @@
             <instance>default</instance>
         </interface>
         <fqname>@2.0::ISehSupplicant/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.trustonic.tee</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>ITee</name>
-            <instance>default</instance>
-        </interface>
-        <fqname>@1.0::ITee/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.trustonic.teeregistry</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>ITeeRegistry</name>
-            <instance>default</instance>
-        </interface>
-        <fqname>@1.0::ITeeRegistry/default</fqname>
     </hal>
     <hal format="hidl">
         <name>android.hardware.drm</name>

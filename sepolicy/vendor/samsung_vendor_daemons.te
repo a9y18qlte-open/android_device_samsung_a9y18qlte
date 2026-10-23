@@ -16,17 +16,6 @@ type sec_wsm, domain;
 type sec_wsm_exec, exec_type, file_type, vendor_file_type;
 init_daemon_domain(sec_wsm)
 
-# Trustonic Kinibi TEE driver service and its registry. Keystore, gatekeeper
-# and fingerprint all route through this, so it must work before those can.
-type tee_hal, domain;
-type tee_hal_exec, exec_type, file_type, vendor_file_type;
-init_daemon_domain(tee_hal)
-hal_server_domain(tee_hal, hal_keymaster)
-
-type teeregistry_hal, domain;
-type teeregistry_hal_exec, exec_type, file_type, vendor_file_type;
-init_daemon_domain(teeregistry_hal)
-
 # ADSP firmware loader.
 type factory_adsp, domain;
 type factory_adsp_exec, exec_type, file_type, vendor_file_type;
@@ -87,12 +76,8 @@ allow sec_proca tee_device:chr_file rw_file_perms;
 allow sec_proca ion_device:chr_file rw_file_perms;
 hwbinder_use(sec_proca)
 
-# WSM and the TEE registry both publish an HIDL service.
+# WSM publishes an HIDL service.
 hwbinder_use(sec_wsm)
-hwbinder_use(teeregistry_hal)
-hwbinder_use(tee_hal)
-allow tee_hal tee_device:chr_file rw_file_perms;
-allow teeregistry_hal tee_device:chr_file rw_file_perms;
 
 # The ADSP loader reads sensor calibration out of /persist and opens a local
 # socket pair to talk to the DSP.

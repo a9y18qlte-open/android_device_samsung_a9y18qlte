@@ -80,7 +80,6 @@ allow hal_audio_default efs_file:dir search;
 # an explicit get_prop.
 get_prop(sec_proca, hwservicemanager_prop)
 get_prop(sec_wsm, hwservicemanager_prop)
-get_prop(teeregistry_hal, hwservicemanager_prop)
 get_prop(mediacodec, vendor_audio_prop)
 # wcnss_service reading wigig_core_prop is left denied. wcnss_service is a
 # vendor domain but wigig_core_prop is declared plat-private in
