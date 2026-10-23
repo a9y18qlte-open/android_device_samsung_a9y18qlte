@@ -1,23 +1,7 @@
-soong_config_module_type {
-    name: "target_board_platform_cc_library_shared",
-    module_type: "cc_library_shared",
-    config_namespace: "ANDROID",
-    value_variables: ["target_board_platform"],
-    properties: [
-        "name",
-    ],
-}
-
-target_board_platform_cc_library_shared {
-    name: "audio.primary.qcom",
-    soong_config_variables: {
-        target_board_platform: {
-            name: "audio.primary.%s",
-            conditions_default: {
-                name: "audio.primary.qcom",
-            },
-        },
-    },
+cc_library_shared {
+    name: "audio.primary.sdm660-a9y18qlte",
+    // The audio HAL service here is 32-bit only
+    compile_multilib: "32",
     relative_install_path: "hw",
     vendor: true,
     owner: "qti",

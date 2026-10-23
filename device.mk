@@ -65,6 +65,7 @@ PRODUCT_AAPT_PREBUILT_DPI := xxxhdpi xxhdpi xhdpi hdpi
 PRODUCT_PACKAGES += \
     android.hardware.audio.service \
     android.hardware.audio@6.0-impl.a9y18qlte \
+    audio.primary.sdm660-a9y18qlte \
     audio.r_submix.default \
     audio.usb.default \
     libaudio-resampler \
