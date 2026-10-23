@@ -54,8 +54,6 @@ struct sec_audio {
     int modem;
     /* VoiceMMode usecase of the ongoing call */
     int voice_usecase;
-    /* Last "Voice Device Info" sent to the DSP, -1 for none */
-    int voice_device_type;
 
     /* VI feedback of the speaker amplifier */
     struct pcm *vi_feedback_pcm;

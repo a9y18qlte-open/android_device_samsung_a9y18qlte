@@ -697,7 +697,6 @@ void sec_audio_vi_feedback_on_disable(struct audio_device *adev, int snd_device)
 void sec_audio_init(struct audio_device *adev)
 {
     adev->sec.voice_usecase = USECASE_INVALID;
-    adev->sec.voice_device_type = -1;
 }
 
 int sec_audio_get_voice_usecase(struct audio_device *adev)
@@ -739,15 +738,16 @@ static int voice_device_type(audio_devices_t devices)
     }
 }
 
+/*
+ * Sent on every voice routing: the DSP only takes them while the voice
+ * session runs, and the first routing of a call comes before it does.
+ */
 void sec_audio_on_voice_routed(struct audio_device *adev, struct listnode *out_devices)
 {
     int type = voice_device_type(get_device_types(out_devices));
 
-    if (type != adev->sec.voice_device_type) {
-        ALOGD("%s: voice device info %d", __func__, type);
-        set_mixer_int(adev, "Voice Device Info", type);
-        adev->sec.voice_device_type = type;
-    }
+    ALOGD("%s: voice device info %d", __func__, type);
+    set_mixer_int(adev, "Voice Device Info", type);
     set_mixer_int(adev, "NB Mode", adev->sec.nb_quality);
 }
 
