@@ -65,18 +65,12 @@ vendor/lib/libacdbrtac.so
 vendor/lib/libadiertac.so
 vendor/lib/libadm.so
 vendor/lib/libaudcal.so
-vendor/lib/libaudio_log_utils.so
-vendor/lib/libaudio_soundtrigger.so
 vendor/lib/libaudioalsa.so
 vendor/lib/libaudioparsers.so
 vendor/lib/libdrc.so
 vendor/lib/libqtigef.so
-vendor/lib/librecordalive.so
-vendor/lib/libsamsungVoipResampler.so
 vendor/lib/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
-vendor/lib/libsecaudioinfo.so
 vendor/lib/libsurround_3mic_proc.so
-vendor/lib/vendor.qti.hardware.audiohalext@1.0.so
 vendor/lib64/lib_SoundBooster_ver950.so
 vendor/lib64/libacdb-fts.so
 vendor/lib64/libacdbloader.so
@@ -87,7 +81,6 @@ vendor/lib64/libaudioalsa.so
 vendor/lib64/libaudioparsers.so
 vendor/lib64/libqtigef.so
 vendor/lib64/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
-vendor/lib64/libsecaudioinfo.so
 
 # Audio FX Modules
 vendor/lib/soundfx/libasphere.so
@@ -120,9 +113,6 @@ vendor/etc/audconf/OPEN/Hdmi_cal.acdb
 vendor/etc/audconf/OPEN/Headset_cal.acdb
 vendor/etc/audconf/OPEN/Speaker_cal.acdb
 vendor/etc/audconf/OPEN/workspaceFile.qwsp
-
-# Audio-Hardware
-vendor/lib/hw/audio.primary.sdm660.so:vendor/lib/hw/audio.primary.sdm660-a9y18qlte.so;MODULE_SUFFIX=_vendor;FIX_SONAME
 
 # Bluetooth
 vendor/bin/hw/android.hardware.bluetooth@1.0-service-qti
