@@ -1,4 +1,4 @@
-# Types for the Samsung and Trustonic HIDL interfaces labelled in
+# Types for the Samsung HIDL interfaces labelled in
 # sepolicy/vendor/hwservice_contexts. See that file for why an unlabelled
 # interface is fatal under enforcing rather than cosmetic.
 #
@@ -30,8 +30,6 @@ type samsung_vibrator_hwservice, hwservice_manager_type;
 type samsung_widevine_hwservice, hwservice_manager_type;
 type samsung_wifi_hwservice, hwservice_manager_type;
 type samsung_wsm_hwservice, hwservice_manager_type;
-type trustonic_tee_hwservice, hwservice_manager_type;
-type trustonic_teeregistry_hwservice, hwservice_manager_type;
 type nxp_nfc_hwservice, hwservice_manager_type;
 type lineage_touch_hwservice, hwservice_manager_type;
 
@@ -51,8 +49,6 @@ add_hwservice(hal_vibrator_default, samsung_vibrator_hwservice)
 add_hwservice(sec_wsm, samsung_wsm_hwservice)
 add_hwservice(rild, samsung_radio_hwservice)
 add_hwservice(sec_proca, samsung_proca_hwservice)
-add_hwservice(tee_hal, trustonic_tee_hwservice)
-add_hwservice(teeregistry_hal, trustonic_teeregistry_hwservice)
 
 # --- lookups ----------------------------------------------------------------
 # multiclientd brokers the second SIM's radio channel through the Samsung radio

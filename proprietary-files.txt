@@ -605,7 +605,6 @@ vendor/lib64/com.qualcomm.qti.dpm.api@1.0.so
 
 # DRM
 vendor/bin/qseecomd
-vendor/lib/libGPTEE_vendor.so
 vendor/lib/libGPreqcancel.so
 vendor/lib/libGPreqcancel_svc.so
 vendor/lib/libQSEEComAPI.so
@@ -625,7 +624,6 @@ vendor/lib/libsecureui.so
 vendor/lib/libsecureui_svcsock.so
 vendor/lib/libssd.so
 vendor/lib/libtzdrmgenprov.so
-vendor/lib64/libGPTEE_vendor.so
 vendor/lib64/libGPreqcancel.so
 vendor/lib64/libGPreqcancel_svc.so
 vendor/lib64/libQSEEComAPI.so
@@ -1249,7 +1247,6 @@ vendor/lib64/libwsmd_functions.so
 
 # Samsung
 vendor/bin/hw/vendor.samsung.hardware.miscpower@2.0-service
-vendor/bin/hw/vendor.samsung.hardware.tlc.ucm@1.0-service
 vendor/bin/secure_storage_daemon
 vendor/bin/vendor.samsung.hardware.security.proca@2.0-service
 vendor/bin/vendor.samsung.hardware.security.wsm@1.0-service
@@ -1257,7 +1254,6 @@ vendor/etc/floating_feature.xml
 vendor/etc/init/pa_daemon_qsee.rc
 vendor/etc/init/secure_storage_daemon_qsee.rc
 vendor/etc/init/vendor.samsung.hardware.miscpower@2.0-service.rc
-vendor/etc/init/vendor.samsung.hardware.tlc.ucm@1.0-service.rc
 vendor/etc/init/wsm-service.rc
 vendor/etc/process_authenticator/pa_config
 vendor/lib/libfloatingfeature.so;MODULE_SUFFIX=_vendor
@@ -1267,13 +1263,8 @@ vendor/lib/libpadm.so
 vendor/lib/libsecnativefeature.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsecure_storage.so;MODULE_SUFFIX=_vendor
 vendor/lib/libspictrl.so
-vendor/lib/libucm_tlc_comm.so
-vendor/lib/libucm_tlc_direct_comm.so
-vendor/lib/libucm_tlc_tz_esecomm.so
 vendor/lib/vendor.samsung.hardware.security.proca@2.0.so
 vendor/lib/vendor.samsung.hardware.security.securestorage@3.0.so;MODULE_SUFFIX=_vendor
-vendor/lib/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
-vendor/lib/vendor.samsung.hardware.tlc.ucm@1.0.so
 vendor/lib64/libdsms_vendor.so
 vendor/lib64/libfloatingfeature.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libhal.wsm.samsung.so
@@ -1283,18 +1274,11 @@ vendor/lib64/libpadm.so
 vendor/lib64/libsecnativefeature.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libsecure_storage.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libspictrl.so
-vendor/lib64/libucm_tlc_comm.so
-vendor/lib64/libucm_tlc_direct_comm.so
-vendor/lib64/libucm_tlc_tz_esecomm.so
-vendor/lib64/libucsengine.so
 vendor/lib64/vendor.samsung.frameworks.security.dsms@1.0_vendor.so
-vendor/lib64/vendor.samsung.frameworks.security.ucm.crypto@1.0.so
 vendor/lib64/vendor.samsung.hardware.health@1.0.so
 vendor/lib64/vendor.samsung.hardware.miscpower@2.0.so
 vendor/lib64/vendor.samsung.hardware.security.proca@2.0.so
 vendor/lib64/vendor.samsung.hardware.security.securestorage@3.0.so;MODULE_SUFFIX=_vendor
-vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0-impl.so
-vendor/lib64/vendor.samsung.hardware.tlc.ucm@1.0.so
 
 # Sensors
 vendor/bin/hw/android.hardware.sensors@1.0-service
@@ -1341,19 +1325,6 @@ vendor/app/TimeService/TimeService.apk
 vendor/bin/time_daemon
 vendor/lib/libtime_genoff.so
 vendor/lib64/libtime_genoff.so
-
-# Trustonic
-vendor/app/mcRegistry/07010000000000000000000000000000.tlbin
-vendor/bin/hw/vendor.trustonic.tee@1.0-service
-vendor/bin/hw/vendor.trustonic.teeregistry@1.0-service
-vendor/bin/mcDriverDaemon
-vendor/bin/tbaseLoader
-vendor/etc/init/vendor.trustonic.tee@1.0-service.rc
-vendor/etc/init/vendor.trustonic.teeregistry@1.0-service.rc
-vendor/lib/libMcClient.so
-vendor/lib64/libMcClient.so
-vendor/lib64/vendor.trustonic.tee@1.0.so
-vendor/lib64/vendor.trustonic.teeregistry@1.0.so
 
 # UBWC
 vendor/lib/libUBWC.so

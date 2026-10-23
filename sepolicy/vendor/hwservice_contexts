@@ -1,4 +1,4 @@
-# Samsung and Trustonic HIDL interfaces.
+# Samsung HIDL interfaces.
 #
 # None of these were labelled by any policy in this tree, so hwservicemanager
 # fell back to default_android_hwservice, which vendor domains may neither add
@@ -35,13 +35,10 @@ vendor.samsung.hardware.tlc.atn::ISehAtn                                  u:obje
 vendor.samsung.hardware.tlc.iccc::ISehIccc                                u:object_r:samsung_tlc_hwservice:s0
 vendor.samsung.hardware.tlc.payment::ISehTlcPayment                       u:object_r:samsung_tlc_hwservice:s0
 vendor.samsung.hardware.tlc.tima::ISehTima                                u:object_r:samsung_tlc_hwservice:s0
-vendor.samsung.hardware.tlc.ucm::ISehUcm                                  u:object_r:samsung_tlc_hwservice:s0
 vendor.samsung.hardware.vibrator::ISehVibrator                            u:object_r:samsung_vibrator_hwservice:s0
 vendor.samsung.hardware.wifi.hostapd::ISehHostapd                         u:object_r:samsung_wifi_hwservice:s0
 vendor.samsung.hardware.wifi.supplicant::ISehSupplicant                   u:object_r:samsung_wifi_hwservice:s0
 vendor.samsung.hardware.wifi::ISehWifi                                    u:object_r:samsung_wifi_hwservice:s0
-vendor.trustonic.tee::ITee                                                u:object_r:trustonic_tee_hwservice:s0
-vendor.trustonic.teeregistry::ITeeRegistry                                u:object_r:trustonic_teeregistry_hwservice:s0
 
 # Not Samsung, but unlabelled for the same reason: the NFC HAL serves NXP's
 # vendor extension alongside the AOSP interface.

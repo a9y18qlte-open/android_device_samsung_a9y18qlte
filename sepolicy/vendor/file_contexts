@@ -3,8 +3,6 @@
 # runs them in its own domain - which enforcing then refuses to exec.
 /vendor/bin/vendor\.samsung\.hardware\.security\.proca@2\.0-service u:object_r:sec_proca_exec:s0
 /vendor/bin/vendor\.samsung\.hardware\.security\.wsm@1\.0-service   u:object_r:sec_wsm_exec:s0
-/vendor/bin/hw/vendor\.trustonic\.tee@1\.0-service                  u:object_r:tee_hal_exec:s0
-/vendor/bin/hw/vendor\.trustonic\.teeregistry@1\.0-service          u:object_r:teeregistry_hal_exec:s0
 /vendor/bin/factory\.adsp                                           u:object_r:factory_adsp_exec:s0
 
 # qcom labels every other init.*.sh as qti_init_shell_exec but omits this one,
