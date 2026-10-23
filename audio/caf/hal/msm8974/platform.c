@@ -495,7 +495,8 @@ static int pcm_device_table[AUDIO_USECASE_MAX][2] = {
                                         AFE_PROXY_RECORD_PCM_DEVICE},
     [USECASE_AUDIO_RECORD_AFE_PROXY2] = {AFE_PROXY_RECORD2_PCM_DEVICE,
                                         AFE_PROXY_RECORD2_PCM_DEVICE},
-    [USECASE_AUDIO_DSM_FEEDBACK] = {QUAT_MI2S_PCM_DEVICE, QUAT_MI2S_PCM_DEVICE},
+    /* Samsung's speaker amplifier feedback, captured on MultiMedia2 */
+    [USECASE_AUDIO_DSM_FEEDBACK] = {-1, MULTIMEDIA2_PCM_DEVICE},
     [USECASE_AUDIO_PLAYBACK_SILENCE] = {MULTIMEDIA9_PCM_DEVICE, -1},
     [USECASE_AUDIO_TRANSCODE_LOOPBACK_RX] = {TRANSCODE_LOOPBACK_RX_DEV_ID, -1},
     [USECASE_AUDIO_TRANSCODE_LOOPBACK_TX] = {-1, TRANSCODE_LOOPBACK_TX_DEV_ID},
@@ -7589,6 +7590,10 @@ snd_device_t platform_get_output_snd_device(void *platform, struct stream_out *o
         goto exit;
     }
 
+    snd_device = sec_audio_get_output_snd_device(adev, &devices);
+    if (snd_device != SND_DEVICE_NONE)
+        goto exit;
+
     if (compare_device_type(&devices, AUDIO_DEVICE_OUT_AUX_DIGITAL)) {
         controller = out->extconn.cs.controller;
         stream = out->extconn.cs.stream;
@@ -8280,6 +8285,11 @@ snd_device_t platform_get_input_snd_device(void *platform,
     ALOGV("%s: enter: out_device(%#x) in_device(%#x) channel_count (%d) channel_mask (0x%x)",
           __func__, get_device_types(out_devices), get_device_types(&in_devices),
           channel_count, channel_mask);
+
+    snd_device = sec_audio_get_input_snd_device(adev, in, out_devices);
+    if (snd_device != SND_DEVICE_NONE)
+        goto exit;
+
     if (my_data->external_mic) {
         if (!list_empty(out_devices) && ((mode == AUDIO_MODE_IN_CALL) ||
             voice_check_voicecall_usecases_active(adev) ||

@@ -64,6 +64,7 @@ typedef int error_log_t;
 #include "voice.h"
 #include "audio_hw_extn_api.h"
 #include "device_utils.h"
+#include "sec_audio.h"
 
 #if LINUX_ENABLED
 typedef struct {
@@ -800,6 +801,8 @@ struct audio_device {
     bool ha_proxy_enable;
 
     amplifier_device_t *amp;
+
+    struct sec_audio sec;
 };
 
 struct audio_patch_record {
