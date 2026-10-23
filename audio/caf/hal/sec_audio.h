@@ -46,7 +46,6 @@ struct sec_audio {
     bool csvt;
     bool fmc;
 
-    enum sec_voip_type voip_type;
     enum sec_call_band call_band; /* g_call_band, g_call_ims_codec_type */
     bool extra_volume;            /* g_call_extra_volume_enable */
     bool nb_quality;              /* l_call_nb_quality_enable */
