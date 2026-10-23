@@ -825,9 +825,6 @@ vendor/lib64/libgnss.so
 vendor/lib64/libgnsspps.so
 vendor/lib64/libgps.utils.so
 
-# Gatekeeper
-vendor/lib64/hw/gatekeeper.mdfpp.so
-
 # Graphics - from Zebra helios 14-41-13.00-UG-U03-STD-HEL-04 (Android 14, 2026-06-01)
 # Adreno V@0502.0 and the SDM extensions, built for the QSSI gralloc that the
 # sdm660 display HAL from source uses. The stock Android 10 ones are not.
@@ -904,13 +901,6 @@ vendor/lib64/hw/vendor.qti.hardware.iop@2.0-impl.so
 vendor/lib64/libqti-iopd-client.so
 vendor/lib64/vendor.qti.hardware.iop@1.0.so
 vendor/lib64/vendor.qti.hardware.iop@2.0.so
-
-# Keymaster
-vendor/lib64/libkeymaster2_mdfpp.so
-vendor/lib64/libkeymaster_helper_vendor.so
-
-# Keystore
-vendor/lib64/hw/keystore.mdfpp.so
 
 # Latency
 vendor/lib/vendor.qti.hardware.data.latency@1.0.so

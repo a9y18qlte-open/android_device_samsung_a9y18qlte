@@ -442,7 +442,7 @@ PRODUCT_PACKAGES += \
     libhwbinder.vendor
 
 # Keymaster / gatekeeper
-# AOSP keymaster 3.0 and gatekeeper 1.0 around Samsung's keystore.mdfpp and
+# AOSP keymaster 3.0 and gatekeeper 1.0 around the keystore.mdfpp and
 # gatekeeper.mdfpp modules (ro.hardware.keystore/gatekeeper=mdfpp); the stock
 # Android 10 keymaster@3.0-impl cannot load against Android 12+ keymaster
 # libraries. The services keep their stock options (see init.a9y18qlte.rc).
@@ -452,20 +452,12 @@ PRODUCT_PACKAGES += \
     android.hardware.keymaster@3.0-impl \
     android.hardware.keymaster@3.0-service
 
-# OSS gatekeeper module (skeymast/gatekeeper/): an open-source reimplementation
-# of the Samsung gatekeeper.mdfpp.so that speaks the same protocol to the same
-# skeymast TrustZone app. Installed as gatekeeper.mdfpposs.so alongside the stock
-# blob; NOT selected by default. To try it, set ro.hardware.gatekeeper=mdfpposs
-# (fall back with =mdfpp). Live-tested via a standalone harness; see
-# https://github.com/a9y18qlte-open (oss-gatekeeper-test branch) notes.
-#
-# OSS keymaster module (skeymast/keymaster/): same idea for keystore.mdfpp.so.
-# Installed as keystore.mdfpposs.so, NOT default; select with
-# ro.hardware.keystore=mdfpposs (fall back =mdfpp). Both share libskeymast_common
-# (skeymast/common/).
+# keystore.mdfpp and gatekeeper.mdfpp are built from source (skeymast/): they
+# replace Samsung's blobs under the same names and speak the same protocol to
+# the same skeymast TrustZone app.
 PRODUCT_PACKAGES += \
-    gatekeeper.mdfpposs \
-    keystore.mdfpposs
+    gatekeeper.mdfpp \
+    keystore.mdfpp
 
 # VNDK compat
 # Android 12 no longer ships HIDL interface libraries in the VNDK; the Android 10
@@ -556,10 +548,9 @@ PRODUCT_PACKAGES += android.hardware.radio@1.0
 # APEX, so install their vendor variants: libsec-ril and netmgrd (libnetutils,
 # libsqlite), the camera HAL (libion, sensorservice), sensors.ssc (libpower),
 # GPS (libsqlite) and libsi (libpng).
-# libcrypto-v33 and libcutils_shim are provided by hardware/lineage/compat.
+# libcutils_shim is provided by hardware/lineage/compat.
 PRODUCT_PACKAGES += \
     android.frameworks.sensorservice@1.0.vendor \
-    libcrypto-v33 \
     libcutils_shim \
     libcutils_shim.vendor \
     libion.vendor \
