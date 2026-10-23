@@ -121,8 +121,6 @@ vendor/etc/audconf/OPEN/workspaceFile.qwsp
 
 # Audio-Hardware
 vendor/lib/hw/audio.primary.sdm660.so:vendor/lib/hw/audio.primary.sdm660-a9y18qlte.so;MODULE_SUFFIX=_vendor;FIX_SONAME
-vendor/lib/hw/audio.sec_primary.default.so
-vendor/lib64/hw/audio.sec_primary.default.so
 
 # Bluetooth
 vendor/bin/hw/android.hardware.bluetooth@1.0-service-qti
