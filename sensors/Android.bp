@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: Apache-2.0
+// AOSP's android.hardware.sensors@1.0 passthrough service, built from source.
+//
+// It loads android.hardware.sensors@1.0-impl.samsung from hardware/samsung,
+// a multihal over Samsung's sensors.ssc and sensors.grip modules (see
+// configs/sensors/hals.conf). The rc keeps the stock "input" group: those
+// modules read /dev/input event nodes, which AOSP's own rc for this service
+// does not allow.
+
+cc_binary {
+    name: "android.hardware.sensors@1.0-service.a9y18qlte",
+    relative_install_path: "hw",
+    vendor: true,
+    init_rc: ["android.hardware.sensors@1.0-service.a9y18qlte.rc"],
+    srcs: ["service.cpp"],
+
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libdl",
+        "libbase",
+        "libutils",
+        "libhidlbase",
+        "android.hardware.sensors@1.0",
+    ],
+}
