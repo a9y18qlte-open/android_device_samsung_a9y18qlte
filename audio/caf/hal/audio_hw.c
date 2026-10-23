@@ -401,6 +401,7 @@ const char * const use_case_table[AUDIO_USECASE_MAX] = {
     [USECASE_INCALL_MUSIC_UPLINK2] = "incall_music_uplink2",
     [USECASE_AUDIO_SPKR_CALIB_RX] = "spkr-rx-calib",
     [USECASE_AUDIO_SPKR_CALIB_TX] = "spkr-vi-record",
+    [USECASE_AUDIO_DSM_FEEDBACK] = "spkr-vi-feedback",
 
     [USECASE_AUDIO_PLAYBACK_AFE_PROXY] = "afe-proxy-playback",
     [USECASE_AUDIO_RECORD_AFE_PROXY] = "afe-proxy-record",
@@ -1487,6 +1488,7 @@ int enable_snd_device(struct audio_device *adev,
          audio_extn_spkr_prot_calib_cancel(adev);
 
     audio_extn_dsm_feedback_enable(adev, snd_device, true);
+    sec_audio_vi_feedback_on_enable(adev, snd_device);
 
     if (platform_can_enable_spkr_prot_on_device(snd_device) &&
          audio_extn_spkr_prot_is_enabled()) {
@@ -1622,6 +1624,7 @@ int disable_snd_device(struct audio_device *adev,
         ALOGD("%s: snd_device(%d: %s)", __func__, snd_device, device_name);
 
         audio_extn_dsm_feedback_enable(adev, snd_device, false);
+        sec_audio_vi_feedback_on_disable(adev, snd_device);
 
         if (platform_can_enable_spkr_prot_on_device(snd_device) &&
              audio_extn_spkr_prot_is_enabled()) {

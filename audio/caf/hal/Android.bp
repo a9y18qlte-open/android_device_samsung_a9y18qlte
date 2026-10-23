@@ -27,6 +27,7 @@ target_board_platform_cc_library_shared {
         "audio_hw.c",
         "audio_perf.cpp",
         "platform_info.c",
+        "sec_audio.c",
         "voice.c",
         "audio_extn/audio_extn.c",
         "audio_extn/audio_hidl.cpp",
