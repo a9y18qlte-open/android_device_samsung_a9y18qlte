@@ -583,6 +583,7 @@ static keymaster_error_t km_delete_all_keys(const keymaster2_device_t *dev __unu
 }
 
 static int km_close(hw_device_t *dev) {
+    km_tz_close();  // release the persistent TA session pinned in km_open
     free(dev);
     return 0;
 }
@@ -613,6 +614,13 @@ static int km_open(const hw_module_t *module, const char *name, hw_device_t **de
     km->upgrade_key = km_upgrade_key;
     km->attest_key = km_attest_key;
     // (attest_key reads /efs/DAK provisioned keys/certs and appends the CA chain)
+
+    // Pin one skeymast session for the device lifetime. The @3.0 wrapper calls
+    // configure() right after this; the OS version/patchlevel it sets only
+    // survives as long as the TA stays loaded, so without this pin every op
+    // after configure fails KEYMINT_NOT_CONFIGURED (-64). Released in km_close.
+    km_tz_open();
+
     *dev = &km->common;
     return 0;
 }
