@@ -884,16 +884,12 @@ static inline bool audio_is_vr_mode_on(struct audio_device *(__attribute__((unus
 
 static void audio_extn_btsco_get_sample_rate(int snd_device, int *sample_rate)
 {
-    switch (snd_device) {
-    case SND_DEVICE_OUT_BT_SCO:
-    case SND_DEVICE_IN_BT_SCO_MIC:
-    case SND_DEVICE_IN_BT_SCO_MIC_NREC:
-        *sample_rate = 8000;
-        break;
-    case SND_DEVICE_OUT_BT_SCO_WB:
-    case SND_DEVICE_IN_BT_SCO_MIC_WB:
-    case SND_DEVICE_IN_BT_SCO_MIC_WB_NREC:
-        *sample_rate = 16000;
+    int rate = platform_get_bt_sco_sample_rate(snd_device);
+
+    switch (rate) {
+    case 8000:
+    case 16000:
+        *sample_rate = rate;
         break;
     default:
         ALOGV("%s:Not a BT SCO device, need not update sampling rate\n", __func__);
