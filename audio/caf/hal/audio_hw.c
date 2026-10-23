@@ -3205,6 +3205,9 @@ int select_devices(struct audio_device *adev, audio_usecase_t uc_id)
                                             &voip_out->app_type_cfg.gain[0]);
     }
 
+    if (usecase->type == VOICE_CALL && voice_is_in_call(adev))
+        sec_audio_on_voice_routed(adev, &usecase->device_list);
+
     ALOGD("%s: done",__func__);
 
     return status;
@@ -8923,6 +8926,8 @@ static int adev_set_parameters(struct audio_hw_device *dev, const char *kvpairs)
         }
     }
 
+    sec_audio_set_parameters(adev, parms);
+
     status = voice_set_parameters(adev, parms);
     if (status != 0)
         goto done;
@@ -10730,6 +10735,7 @@ static int adev_open(const hw_module_t *module, const char *name,
     audio_extn_feature_init();
     voice_extn_feature_init();
     voice_init(adev);
+    sec_audio_init(adev);
     list_init(&adev->usecase_list);
     list_init(&adev->active_inputs_list);
     list_init(&adev->active_outputs_list);
