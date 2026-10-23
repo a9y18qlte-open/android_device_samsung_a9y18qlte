@@ -484,10 +484,6 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.fstman@1.0.vendor \
     vendor.qti.hardware.perf@2.0.vendor
 
-# VNDK snapshot libraries
-PRODUCT_COPY_FILES += \
-    prebuilts/vndk/v33/arm64/arch-arm64-armv8-a/shared/vndk-sp/libutils.so:$(TARGET_COPY_OUT_VENDOR)/lib64/libutils-v33.so
-
 PRODUCT_PACKAGES += \
     libprotobuf-cpp-full-vendorcompat \
     libprotobuf-cpp-lite-vendorcompat
