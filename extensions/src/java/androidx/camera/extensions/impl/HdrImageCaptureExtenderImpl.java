@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 The Android Open Source Project
+ * Copyright (C) 2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,45 +16,43 @@
 package androidx.camera.extensions.impl;
 
 import android.content.Context;
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
 import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraExtensionCharacteristics;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
-import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.SessionConfiguration;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageWriter;
-import android.os.Build;
 import android.util.Log;
 import android.util.Pair;
 import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.Executor;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executor;
 
 /**
- * Implementation for HDR image capture use case.
+ * HDR still capture on a9y18qlte.
  *
- * <p>This class should be implemented by OEM and deployed to the target devices. 3P developers
- * don't need to implement this, unless this is used for related testing usage.
+ * <p>Takes an exposure bracket ({@link HdrExposure}) and merges it with exposure fusion
+ * ({@link HdrFusion}). The camera HAL's own HDR scene mode is not used: its imglib stage
+ * never runs on this device.
  *
- * @since 1.0
  * @hide
  */
 public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderImpl {
     private static final String TAG = "HdrImageCaptureExtender";
-    private static final int UNDER_STAGE_ID = 0;
-    private static final int NORMAL_STAGE_ID = 1;
-    private static final int OVER_STAGE_ID = 2;
-    private static final int SESSION_STAGE_ID = 101;
+    private static final int FIRST_STAGE_ID = 0;
+
+    private CameraCharacteristics mCharacteristics;
 
     /**
      * @hide
@@ -62,11 +60,88 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
     public HdrImageCaptureExtenderImpl() {
     }
 
+    /** Bracketing needs manual exposure applied frame by frame. */
+    static boolean isHdrAvailable(CameraCharacteristics characteristics) {
+        if (characteristics == null) {
+            return false;
+        }
+        int[] caps = characteristics.get(CameraCharacteristics.REQUEST_AVAILABLE_CAPABILITIES);
+        Integer latency = characteristics.get(CameraCharacteristics.SYNC_MAX_LATENCY);
+        if (caps == null || latency == null
+                || latency != CameraMetadata.SYNC_MAX_LATENCY_PER_FRAME_CONTROL) {
+            return false;
+        }
+        for (int cap : caps) {
+            if (cap == CameraMetadata.REQUEST_AVAILABLE_CAPABILITIES_MANUAL_SENSOR) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * The output sizes of the formats that fit the active array. On the quad Bayer sensors
+     * the active array is the binned size and larger outputs are remosaiced, which would be
+     * done for every frame of the bracket.
+     */
+    static List<Pair<Integer, Size[]>> hdrResolutions(CameraCharacteristics characteristics,
+            int... formats) {
+        if (characteristics == null) {
+            return null;
+        }
+        Rect active = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        StreamConfigurationMap map =
+                characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        if (active == null || map == null) {
+            return null;
+        }
+        List<Pair<Integer, Size[]>> resolutions = new ArrayList<>();
+        for (int format : formats) {
+            Size[] sizes = map.getOutputSizes(format);
+            if (sizes == null) {
+                continue;
+            }
+            List<Size> fitting = new ArrayList<>();
+            for (Size size : sizes) {
+                if (size.getWidth() <= active.width() && size.getHeight() <= active.height()) {
+                    fitting.add(size);
+                }
+            }
+            resolutions.add(new Pair<>(format, fitting.toArray(new Size[0])));
+        }
+        return resolutions;
+    }
+
+    static List<CaptureRequest.Key> requestKeys() {
+        return Arrays.asList(
+                CaptureRequest.CONTROL_AF_MODE,
+                CaptureRequest.CONTROL_AF_TRIGGER,
+                CaptureRequest.CONTROL_AF_REGIONS,
+                CaptureRequest.CONTROL_AE_REGIONS,
+                CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION,
+                CaptureRequest.JPEG_QUALITY,
+                CaptureRequest.JPEG_ORIENTATION);
+    }
+
+    static List<CaptureResult.Key> resultKeys() {
+        return Arrays.asList(
+                CaptureResult.CONTROL_AF_MODE,
+                CaptureResult.CONTROL_AF_STATE,
+                CaptureResult.CONTROL_AF_TRIGGER,
+                CaptureResult.CONTROL_AF_REGIONS,
+                CaptureResult.CONTROL_AE_REGIONS,
+                CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION,
+                CaptureResult.JPEG_QUALITY,
+                CaptureResult.JPEG_ORIENTATION,
+                CaptureResult.SENSOR_TIMESTAMP);
+    }
+
     /**
      * @hide
      */
     @Override
     public void init(String cameraId, CameraCharacteristics cameraCharacteristics) {
+        mCharacteristics = cameraCharacteristics;
     }
 
     /**
@@ -75,8 +150,7 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
     @Override
     public boolean isExtensionAvailable(String cameraId,
             CameraCharacteristics cameraCharacteristics) {
-        // a9y18qlte: the sample HDR effect is not offered
-        return false;
+        return isHdrAvailable(cameraCharacteristics);
     }
 
     /**
@@ -84,29 +158,13 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
      */
     @Override
     public List<CaptureStageImpl> getCaptureStages() {
-        // Under exposed capture stage
-        SettableCaptureStage captureStageUnder = new SettableCaptureStage(UNDER_STAGE_ID);
-        // Turn off AE so that ISO sensitivity can be controlled
-        captureStageUnder.addCaptureRequestParameters(CaptureRequest.CONTROL_AE_MODE,
-                CaptureRequest.CONTROL_AE_MODE_OFF);
-        captureStageUnder.addCaptureRequestParameters(CaptureRequest.SENSOR_EXPOSURE_TIME,
-                TimeUnit.MILLISECONDS.toNanos(8));
-
-        // Normal exposed capture stage
-        SettableCaptureStage captureStageNormal = new SettableCaptureStage(NORMAL_STAGE_ID);
-        captureStageNormal.addCaptureRequestParameters(CaptureRequest.SENSOR_EXPOSURE_TIME,
-                TimeUnit.MILLISECONDS.toNanos(16));
-
-        // Over exposed capture stage
-        SettableCaptureStage captureStageOver = new SettableCaptureStage(OVER_STAGE_ID);
-        captureStageOver.addCaptureRequestParameters(CaptureRequest.SENSOR_EXPOSURE_TIME,
-                TimeUnit.MILLISECONDS.toNanos(32));
-
-        List<CaptureStageImpl> captureStages = new ArrayList<>();
-        captureStages.add(captureStageUnder);
-        captureStages.add(captureStageNormal);
-        captureStages.add(captureStageOver);
-        return captureStages;
+        List<CaptureStageImpl> stages = new ArrayList<>();
+        SettableCaptureStage[] bracket = HdrExposure.stages(mCharacteristics, FIRST_STAGE_ID);
+        for (int i = 0; i < HdrExposure.EV.length; i++) {
+            // no metered preview frame yet: plain frames, which the fusion then averages
+            stages.add(bracket != null ? bracket[i] : new SettableCaptureStage(FIRST_STAGE_ID + i));
+        }
+        return stages;
     }
 
     /**
@@ -114,195 +172,109 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
      */
     @Override
     public CaptureProcessorImpl getCaptureProcessor() {
-        CaptureProcessorImpl captureProcessor =
-                new CaptureProcessorImpl() {
-                    private ImageWriter mImageWriter;
+        return new CaptureProcessorImpl() {
+            private final Object mLock = new Object();
+            private ImageWriter mImageWriter;
 
-                    @Override
-                    public void onOutputSurface(Surface surface, int imageFormat) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            mImageWriter = ImageWriter.newInstance(surface, 1);
+            @Override
+            public void onOutputSurface(Surface surface, int imageFormat) {
+                synchronized (mLock) {
+                    if (mImageWriter != null) {
+                        mImageWriter.close();
+                    }
+                    mImageWriter = ImageWriter.newInstance(surface, 1);
+                }
+            }
+
+            @Override
+            public void onPostviewOutputSurface(Surface surface) {
+            }
+
+            @Override
+            public void onResolutionUpdate(Size size) {
+            }
+
+            @Override
+            public void onResolutionUpdate(Size size, Size postviewSize) {
+            }
+
+            @Override
+            public void onImageFormatUpdate(int imageFormat) {
+            }
+
+            @Override
+            public void processWithPostview(
+                    Map<Integer, Pair<Image, TotalCaptureResult>> results,
+                    ProcessResultImpl resultCallback, Executor executor) {
+                throw new RuntimeException("The extension doesn't support postview");
+            }
+
+            @Override
+            public void process(Map<Integer, Pair<Image, TotalCaptureResult>> results,
+                    ProcessResultImpl resultCallback, Executor executor) {
+                Pair<Image, TotalCaptureResult> first = results.get(FIRST_STAGE_ID);
+                Pair<Image, TotalCaptureResult> ref =
+                        results.get(FIRST_STAGE_ID + HdrExposure.REFERENCE);
+                Long shutter = first != null
+                        ? first.second.get(CaptureResult.SENSOR_TIMESTAMP) : null;
+                if (resultCallback != null && shutter != null && ref != null) {
+                    // the shutter is the first frame's, the settings the metered frame's
+                    List<Pair<CaptureResult.Key, Object>> values = new ArrayList<>();
+                    for (CaptureResult.Key key : resultKeys()) {
+                        Object value = ref.second.get(key);
+                        if (value != null) {
+                            values.add(new Pair<>(key, value));
                         }
                     }
-
-                    @Override
-                    public void onPostviewOutputSurface(Surface surface) {
-
+                    if (executor != null) {
+                        executor.execute(() -> resultCallback.onCaptureCompleted(shutter, values));
+                    } else {
+                        resultCallback.onCaptureCompleted(shutter, values);
                     }
+                }
+                process(results);
+            }
 
-                    @Override
-                    public void processWithPostview(
-                            Map<Integer, Pair<Image, TotalCaptureResult>> results,
-                            ProcessResultImpl resultCallback, Executor executor) {
-                        if (!isPostviewAvailable()) {
-                            throw new RuntimeException("The extension doesn't support postview");
-                        }
-
-                        if (resultCallback != null) {
-                            process(results, resultCallback, executor);
-                        } else {
-                            process(results);
-                        }
-                    }
-
-                    @Override
-                    public void process(Map<Integer, Pair<Image, TotalCaptureResult>> results,
-                            ProcessResultImpl resultCallback, Executor executor) {
-                        Pair<Image, TotalCaptureResult> result = results.get(NORMAL_STAGE_ID);
-
-                        if ((resultCallback != null) && (result != null)) {
-                            ArrayList<Pair<CaptureResult.Key, Object>> captureResults =
-                                    new ArrayList<>();
-                            Long shutterTimestamp = results.get(UNDER_STAGE_ID).second.get(
-                                    CaptureResult.SENSOR_TIMESTAMP);
-                            if (shutterTimestamp != null) {
-                                Float zoomRatio = result.second.get(
-                                        CaptureResult.CONTROL_ZOOM_RATIO);
-                                if (zoomRatio != null) {
-                                    captureResults.add(new Pair<>(CaptureResult.CONTROL_ZOOM_RATIO,
-                                            zoomRatio));
-                                }
-                                Integer afMode = result.second.get(
-                                        CaptureResult.CONTROL_AF_MODE);
-                                if (afMode != null) {
-                                    captureResults.add(new Pair<>(CaptureResult.CONTROL_AF_MODE,
-                                            afMode));
-                                }
-                                Integer afTrigger = result.second.get(
-                                        CaptureResult.CONTROL_AF_TRIGGER);
-                                if (afTrigger != null) {
-                                    captureResults.add(new Pair<>(CaptureResult.CONTROL_AF_TRIGGER,
-                                            afTrigger));
-                                }
-                                Integer afState = result.second.get(
-                                        CaptureResult.CONTROL_AF_STATE);
-                                if (afState != null) {
-                                    captureResults.add(new Pair<>(CaptureResult.CONTROL_AF_STATE,
-                                            afState));
-                                }
-                                MeteringRectangle[] afRegions = result.second.get(
-                                        CaptureResult.CONTROL_AF_REGIONS);
-                                if (afRegions != null) {
-                                    captureResults.add(new Pair<>(CaptureResult.CONTROL_AF_REGIONS,
-                                            afRegions));
-                                }
-
-                                Byte jpegQuality = result.second.get(CaptureResult.JPEG_QUALITY);
-                                if (jpegQuality != null) {
-                                    captureResults.add(new Pair<>(CaptureResult.JPEG_QUALITY,
-                                            jpegQuality));
-                                }
-
-                                Integer jpegOrientation = result.second.get(
-                                        CaptureResult.JPEG_ORIENTATION);
-                                if (jpegOrientation != null) {
-                                    captureResults.add(new Pair<>(CaptureResult.JPEG_ORIENTATION,
-                                            jpegOrientation));
-                                }
-
-                                Integer strength = result.second.get(
-                                        CaptureResult.EXTENSION_STRENGTH);
-                                if (strength != null) {
-                                    captureResults.add(new Pair<>(CaptureResult.EXTENSION_STRENGTH,
-                                            strength));
-                                }
-
-                                captureResults.add(new Pair<>(CaptureResult.EXTENSION_CURRENT_TYPE,
-                                            CameraExtensionCharacteristics.EXTENSION_HDR));
-
-                                if (executor != null) {
-                                    executor.execute(() -> resultCallback.onCaptureCompleted(
-                                            shutterTimestamp, captureResults));
-                                    executor.execute(() ->
-                                            resultCallback.onCaptureProcessProgressed(100));
-                                } else {
-                                    resultCallback.onCaptureCompleted(shutterTimestamp,
-                                            captureResults);
-                                    resultCallback.onCaptureProcessProgressed(100);
-                                }
-                            }
-                        }
-
-                        process(results);
-                    }
-
-                    @Override
-                    public void process(Map<Integer, Pair<Image, TotalCaptureResult>> results) {
-                        Log.d(TAG, "Started HDR CaptureProcessor");
-
-                        // Check for availability of all requested images
-                        if (!results.containsKey(UNDER_STAGE_ID)) {
-                            Log.w(TAG,
-                                    "Unable to process since images does not contain "
-                                            + "underexposed image.");
+            @Override
+            public void process(Map<Integer, Pair<Image, TotalCaptureResult>> results) {
+                int n = HdrExposure.EV.length;
+                HdrFusion.Frame[] frames = new HdrFusion.Frame[n];
+                long timestamp = 0;
+                try {
+                    for (int i = 0; i < n; i++) {
+                        Pair<Image, TotalCaptureResult> r = results.get(FIRST_STAGE_ID + i);
+                        if (r == null || r.first == null) {
+                            Log.w(TAG, "Bracket frame " + i + " missing");
                             return;
                         }
-
-                        if (!results.containsKey(NORMAL_STAGE_ID)) {
-                            Log.w(TAG,
-                                    "Unable to process since images does not contain normal "
-                                            + "exposed image.");
-                            return;
+                        frames[i] = HdrFusion.fromImage(r.first);
+                        if (i == 0) {
+                            timestamp = r.first.getTimestamp();
                         }
-
-                        if (!results.containsKey(OVER_STAGE_ID)) {
-                            Log.w(TAG,
-                                    "Unable to process since images does not contain "
-                                            + "overexposed image.");
-                            return;
+                    }
+                } finally {
+                    for (Pair<Image, TotalCaptureResult> r : results.values()) {
+                        if (r.first != null) {
+                            r.first.close();
                         }
-
-                        // Do processing of images, our placeholder logic just copies the first
-                        // Image into the output buffer.
-                        List<Pair<Image, TotalCaptureResult>> imageDataPairs = new ArrayList<>(
-                                results.values());
-                        Image image = null;
-                        if (android.os.Build.VERSION.SDK_INT
-                                >= android.os.Build.VERSION_CODES.M) {
-                            image = mImageWriter.dequeueInputImage();
-
-                            // Do processing here
-                            ByteBuffer yByteBuffer = image.getPlanes()[0].getBuffer();
-                            ByteBuffer uByteBuffer = image.getPlanes()[2].getBuffer();
-                            ByteBuffer vByteBuffer = image.getPlanes()[1].getBuffer();
-
-                            // Sample here just simply return the normal image result
-                            yByteBuffer.put(imageDataPairs.get(
-                                    NORMAL_STAGE_ID).first.getPlanes()[0].getBuffer());
-                            uByteBuffer.put(imageDataPairs.get(
-                                    NORMAL_STAGE_ID).first.getPlanes()[2].getBuffer());
-                            vByteBuffer.put(imageDataPairs.get(
-                                    NORMAL_STAGE_ID).first.getPlanes()[1].getBuffer());
-
-                            image.setTimestamp(imageDataPairs.get(
-                                    UNDER_STAGE_ID).first.getTimestamp());
-                            mImageWriter.queueInputImage(image);
-                        }
-
-                        // Close all input images
-                        for (Pair<Image, TotalCaptureResult> imageDataPair : imageDataPairs) {
-                            imageDataPair.first.close();
-                        }
-
-                        Log.d(TAG, "Completed HDR CaptureProcessor");
                     }
+                }
 
-                    @Override
-                    public void onResolutionUpdate(Size size) {
-
+                long start = System.currentTimeMillis();
+                HdrFusion.Frame fused = HdrFusion.fuse(frames, HdrExposure.REFERENCE);
+                Log.d(TAG, "Fused " + fused.width + "x" + fused.height + " in "
+                        + (System.currentTimeMillis() - start) + " ms");
+                synchronized (mLock) {
+                    if (mImageWriter == null) {
+                        return;
                     }
-
-                    @Override
-                    public void onResolutionUpdate(Size size, Size postviewSize) {
-
-                    }
-
-                    @Override
-                    public void onImageFormatUpdate(int imageFormat) {
-
-                    }
-                };
-        return captureProcessor;
+                    Image out = mImageWriter.dequeueInputImage();
+                    HdrFusion.toImage(fused, out);
+                    out.setTimestamp(timestamp);
+                    mImageWriter.queueInputImage(out);
+                }
+            }
+        };
     }
 
     /**
@@ -311,7 +283,6 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
     @Override
     public void onInit(String cameraId, CameraCharacteristics cameraCharacteristics,
             Context context) {
-
     }
 
     /**
@@ -319,7 +290,6 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
      */
     @Override
     public void onDeInit() {
-
     }
 
     /**
@@ -327,8 +297,7 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
      */
     @Override
     public CaptureStageImpl onPresetSession() {
-        SettableCaptureStage captureStage = new SettableCaptureStage(SESSION_STAGE_ID);
-        return captureStage;
+        return null;
     }
 
     /**
@@ -336,8 +305,7 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
      */
     @Override
     public CaptureStageImpl onEnableSession() {
-        SettableCaptureStage captureStage = new SettableCaptureStage(SESSION_STAGE_ID);
-        return captureStage;
+        return null;
     }
 
     /**
@@ -345,8 +313,7 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
      */
     @Override
     public CaptureStageImpl onDisableSession() {
-        SettableCaptureStage captureStage = new SettableCaptureStage(SESSION_STAGE_ID);
-        return captureStage;
+        return null;
     }
 
     /**
@@ -354,7 +321,7 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
      */
     @Override
     public int getMaxCaptureStage() {
-        return 4;
+        return HdrExposure.EV.length;
     }
 
     /**
@@ -362,51 +329,68 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
      */
     @Override
     public List<Pair<Integer, Size[]>> getSupportedResolutions() {
-        return null;
+        return hdrResolutions(mCharacteristics, ImageFormat.JPEG, ImageFormat.YUV_420_888);
     }
 
+    /**
+     * @hide
+     */
     @Override
     public List<Pair<Integer, Size[]>> getSupportedPostviewResolutions(Size captureSize) {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public Range<Long> getEstimatedCaptureLatencyRange(Size captureOutputSize) {
         return null;
     }
 
+    /**
+     * @hide
+     */
+    @Override
+    public Range<Long> getEstimatedCaptureLatencyRange(Size captureOutputSize) {
+        return new Range<>(1000L, 3500L);
+    }
+
+    /**
+     * @hide
+     */
     @Override
     public List<CaptureRequest.Key> getAvailableCaptureRequestKeys() {
-        final CaptureRequest.Key [] CAPTURE_REQUEST_SET = {CaptureRequest.CONTROL_ZOOM_RATIO,
-            CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_REGIONS,
-            CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.EXTENSION_STRENGTH};
-        return Arrays.asList(CAPTURE_REQUEST_SET);
+        return requestKeys();
     }
 
+    /**
+     * @hide
+     */
     @Override
     public List<CaptureResult.Key> getAvailableCaptureResultKeys() {
-        final CaptureResult.Key [] CAPTURE_RESULT_SET = {CaptureResult.CONTROL_ZOOM_RATIO,
-            CaptureResult.CONTROL_AF_MODE, CaptureResult.CONTROL_AF_REGIONS,
-            CaptureResult.CONTROL_AF_TRIGGER, CaptureResult.CONTROL_AF_STATE,
-            CaptureResult.EXTENSION_CURRENT_TYPE, CaptureResult.EXTENSION_STRENGTH};
-        return Arrays.asList(CAPTURE_RESULT_SET);
+        return resultKeys();
     }
 
+    /**
+     * @hide
+     */
     @Override
     public int onSessionType() {
         return SessionConfiguration.SESSION_REGULAR;
     }
 
+    /**
+     * @hide
+     */
     @Override
     public boolean isCaptureProcessProgressAvailable() {
-        return true;
+        return false;
     }
 
+    /**
+     * @hide
+     */
     @Override
     public Pair<Long, Long> getRealtimeCaptureLatency() {
         return null;
     }
 
+    /**
+     * @hide
+     */
     @Override
     public boolean isPostviewAvailable() {
         return false;
