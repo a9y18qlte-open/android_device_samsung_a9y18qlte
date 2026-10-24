@@ -16,11 +16,13 @@
 package androidx.camera.extensions.impl;
 
 import android.content.Context;
+import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.params.Capability;
 import android.hardware.camera2.params.SessionConfiguration;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.util.Pair;
 import android.util.Range;
 import android.util.Size;
@@ -41,6 +43,8 @@ import java.util.List;
 public final class BokehImageCaptureExtenderImpl implements ImageCaptureExtenderImpl {
     private static final int DEFAULT_STAGE_ID = 0;
     private static final int SESSION_STAGE_ID = 101;
+
+    private CameraCharacteristics mCharacteristics;
 
     /**
      * @hide
@@ -63,6 +67,47 @@ public final class BokehImageCaptureExtenderImpl implements ImageCaptureExtender
             }
         }
         return false;
+    }
+
+    /**
+     * The output sizes of the formats that fit the bokeh mode's maximum stream size
+     * (CONTROL_AVAILABLE_EXTENDED_SCENE_MODE_MAX_SIZES), or null for no limit. The HAL
+     * renders bokeh stills in the sensor's binned mode, which that size covers; larger
+     * sizes would only upscale it, and their sessions remosaic other stills.
+     */
+    static List<Pair<Integer, Size[]>> bokehResolutions(CameraCharacteristics characteristics,
+            int... formats) {
+        if (characteristics == null) {
+            return null;
+        }
+        Size max = null;
+        Capability[] caps = characteristics.get(
+                CameraCharacteristics.CONTROL_AVAILABLE_EXTENDED_SCENE_MODE_CAPABILITIES);
+        for (Capability cap : caps != null ? caps : new Capability[0]) {
+            if (cap.getMode() == CaptureRequest.CONTROL_EXTENDED_SCENE_MODE_BOKEH_STILL_CAPTURE) {
+                max = cap.getMaxStreamingSize();
+            }
+        }
+        StreamConfigurationMap map =
+                characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        if (max == null || max.getWidth() <= 0 || max.getHeight() <= 0 || map == null) {
+            return null;
+        }
+        List<Pair<Integer, Size[]>> resolutions = new ArrayList<>();
+        for (int format : formats) {
+            Size[] sizes = map.getOutputSizes(format);
+            if (sizes == null) {
+                continue;
+            }
+            List<Size> fitting = new ArrayList<>();
+            for (Size size : sizes) {
+                if (size.getWidth() <= max.getWidth() && size.getHeight() <= max.getHeight()) {
+                    fitting.add(size);
+                }
+            }
+            resolutions.add(new Pair<>(format, fitting.toArray(new Size[0])));
+        }
+        return resolutions;
     }
 
     static SettableCaptureStage bokehStage(int id) {
@@ -109,6 +154,7 @@ public final class BokehImageCaptureExtenderImpl implements ImageCaptureExtender
      */
     @Override
     public void init(String cameraId, CameraCharacteristics cameraCharacteristics) {
+        mCharacteristics = cameraCharacteristics;
     }
 
     /**
@@ -192,7 +238,7 @@ public final class BokehImageCaptureExtenderImpl implements ImageCaptureExtender
      */
     @Override
     public List<Pair<Integer, Size[]>> getSupportedResolutions() {
-        return null;
+        return bokehResolutions(mCharacteristics, ImageFormat.JPEG, ImageFormat.YUV_420_888);
     }
 
     /**

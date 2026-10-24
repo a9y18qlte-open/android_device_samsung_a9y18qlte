@@ -16,6 +16,7 @@
 package androidx.camera.extensions.impl;
 
 import android.content.Context;
+import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.params.SessionConfiguration;
 import android.util.Pair;
@@ -38,11 +39,14 @@ public final class BokehPreviewExtenderImpl implements PreviewExtenderImpl {
      */
     public BokehPreviewExtenderImpl() {}
 
+    private CameraCharacteristics mCharacteristics;
+
     /**
      * @hide
      */
     @Override
     public void init(String cameraId, CameraCharacteristics cameraCharacteristics) {
+        mCharacteristics = cameraCharacteristics;
     }
 
     /**
@@ -83,7 +87,8 @@ public final class BokehPreviewExtenderImpl implements PreviewExtenderImpl {
      */
     @Override
     public List<Pair<Integer, Size[]>> getSupportedResolutions() {
-        return null;
+        return BokehImageCaptureExtenderImpl.bokehResolutions(mCharacteristics,
+                ImageFormat.PRIVATE, ImageFormat.YUV_420_888);
     }
 
     /**
