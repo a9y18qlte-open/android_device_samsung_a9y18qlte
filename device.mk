@@ -585,7 +585,7 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    android.hardware.camera.provider-service_32.samsung \
+    android.hardware.camera.provider-service_32.a9y18qlte \
     camera.sdm660 \
     libmmcamera_interface \
     libmmjpeg_interface \
