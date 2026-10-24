@@ -7,6 +7,7 @@
 #define LOG_TAG "audio_hw_sec"
 /*#define LOG_NDEBUG 0*/
 
+#include <dlfcn.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -692,11 +693,126 @@ void sec_audio_vi_feedback_on_disable(struct audio_device *adev, int snd_device)
         stop_vi_feedback(adev);
 }
 
+/* Recording preprocessing */
+
+#define RECORDALIVE_LIB "librecordalive.so"
+
+/*
+ * The solution Samsung's HAL runs on mic and camcorder recordings outside
+ * calls. The library's other solutions (beamforming, the voice recorder's)
+ * are switched on by Samsung's own recorder apps and input sources only.
+ */
+#define PREPROCESS_RECORD 0x1
+
+static void load_recordalive(struct sec_audio *sec)
+{
+    sec->recordalive = dlopen(RECORDALIVE_LIB, RTLD_NOW);
+    if (sec->recordalive == NULL) {
+        ALOGW("%s: %s", __func__, dlerror());
+        return;
+    }
+
+    sec->preprocess_init = dlsym(sec->recordalive, "PreProcessInit");
+    sec->preprocess_set_params = dlsym(sec->recordalive, "PreProcessSetParams");
+    sec->preprocess_clear = dlsym(sec->recordalive, "PreProcessClear");
+    sec->preprocess = dlsym(sec->recordalive, "PreProcess");
+    if (sec->preprocess_init == NULL || sec->preprocess_set_params == NULL ||
+        sec->preprocess_clear == NULL || sec->preprocess == NULL) {
+        ALOGE("%s: %s lacks the PreProcess functions", __func__, RECORDALIVE_LIB);
+        dlclose(sec->recordalive);
+        sec->recordalive = NULL;
+    }
+}
+
+static unsigned int get_preprocess_solutions(struct audio_device *adev, struct stream_in *in)
+{
+    if (adev->sec.recordalive == NULL)
+        return 0;
+    if (adev->mode != AUDIO_MODE_NORMAL && adev->mode != AUDIO_MODE_RINGTONE)
+        return 0;
+    if (in->source != AUDIO_SOURCE_MIC && in->source != AUDIO_SOURCE_CAMCORDER)
+        return 0;
+    /* Samsung's HAL leaves 48 kHz fast capture and VoIP alone */
+    if (in->sample_rate == 48000 && (in->flags & AUDIO_INPUT_FLAG_FAST))
+        return 0;
+    if (in->usecase == USECASE_COMPRESS_VOIP_CALL || in->usecase == USECASE_AUDIO_RECORD_MMAP)
+        return 0;
+    /* It processes in place, so the PCM must already carry what the client reads */
+    if (in->format != AUDIO_FORMAT_PCM_16_BIT || in->config.format != PCM_FORMAT_S16_LE ||
+        in->config.channels != audio_channel_count_from_in_mask(in->channel_mask))
+        return 0;
+    return PREPROCESS_RECORD;
+}
+
+void sec_audio_preprocess_start(struct audio_device *adev, struct stream_in *in)
+{
+    struct sec_audio *sec = &adev->sec;
+    unsigned int solutions = get_preprocess_solutions(adev, in);
+    struct str_parms *parms;
+
+    if (solutions == 0) {
+        sec_audio_preprocess_stop(adev, in);
+        return;
+    }
+    parms = str_parms_create();
+    if (parms == NULL)
+        return;
+
+    sec->preprocess_clear();
+    str_parms_add_int(parms, "sampling_rate", in->config.rate);
+    str_parms_add_int(parms, "l_record_pre_channels", in->config.channels);
+    str_parms_add_int(parms, "channels", audio_channel_count_from_in_mask(in->channel_mask));
+    str_parms_add_int(parms, "l_record_pre_format", pcm_format_to_audio_format(in->config.format));
+    str_parms_add_int(parms, "format", in->format);
+    str_parms_add_int(parms, "input_source", in->source);
+    str_parms_add_int(parms, "routing", get_device_types(&in->device_list));
+    sec->preprocess_set_params(parms);
+    str_parms_destroy(parms);
+    sec->preprocess_init(solutions);
+
+    sec->preprocess_in = in;
+    sec->preprocess_solutions = solutions;
+    ALOGD("%s: source %d, %u Hz, %u ch, solutions %#x", __func__, in->source,
+          in->config.rate, in->config.channels, solutions);
+}
+
+void sec_audio_preprocess_stop(struct audio_device *adev, struct stream_in *in)
+{
+    if (adev->sec.preprocess_in == in)
+        adev->sec.preprocess_in = NULL;
+}
+
+void sec_audio_preprocess_route(struct audio_device *adev, struct stream_in *in)
+{
+    struct str_parms *parms;
+
+    if (adev->sec.preprocess_in != in)
+        return;
+    parms = str_parms_create();
+    if (parms == NULL)
+        return;
+    str_parms_add_int(parms, "routing", get_device_types(&in->device_list));
+    adev->sec.preprocess_set_params(parms);
+    str_parms_destroy(parms);
+}
+
+void sec_audio_preprocess(struct audio_device *adev, struct stream_in *in, void *buffer,
+                          size_t bytes)
+{
+    size_t frame_size = audio_stream_in_frame_size(&in->stream);
+
+    if (adev->sec.preprocess_in != in || bytes == 0 || frame_size == 0)
+        return;
+    adev->sec.preprocess(adev->sec.preprocess_solutions, buffer, buffer, bytes,
+                         bytes / frame_size);
+}
+
 /* Call state */
 
 void sec_audio_init(struct audio_device *adev)
 {
     adev->sec.voice_usecase = USECASE_INVALID;
+    load_recordalive(&adev->sec);
 }
 
 int sec_audio_get_voice_usecase(struct audio_device *adev)
