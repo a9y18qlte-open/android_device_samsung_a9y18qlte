@@ -274,6 +274,7 @@ QCamera3Bokeh::QCamera3Bokeh(uint32_t mainId, const camera_module_callbacks_t *c
       mStarting(false),
       mRunning(false),
       mStopRequested(false),
+      mRetryTime(0),
       mStartThreadValid(false),
       mRequestThreadValid(false)
 {
@@ -321,7 +322,8 @@ bool QCamera3Bokeh::isSupported(uint32_t cameraId)
 void QCamera3Bokeh::start()
 {
     pthread_mutex_lock(&mLock);
-    if (mStarting || mRunning) {
+    /* every bokeh request calls this: after a failed start, retry once a second */
+    if (mStarting || mRunning || systemTime() < mRetryTime) {
         pthread_mutex_unlock(&mLock);
         return;
     }
@@ -357,6 +359,9 @@ void *QCamera3Bokeh::startThread(void *data)
         }
     }
     bool failed = !self->mRunning;
+    if (failed && !self->mStopRequested) {
+        self->mRetryTime = systemTime() + s2ns(1);
+    }
     pthread_cond_broadcast(&self->mCond);
     pthread_mutex_unlock(&self->mLock);
     if (failed && rc == NO_ERROR) {

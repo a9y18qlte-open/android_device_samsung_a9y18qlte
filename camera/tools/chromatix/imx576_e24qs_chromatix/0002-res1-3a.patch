@@ -1,5 +1,5 @@
---- a/vendor/etc/camera/imx576_e24qs_chromatix.xml
-+++ b/vendor/etc/camera/imx576_e24qs_chromatix.xml
+--- a/imx576_e24qs_chromatix.xml
++++ b/imx576_e24qs_chromatix.xml
 @@ -391,8 +391,8 @@
        <CPPSnapshot>imx576_e24qs_snapshot_cpp</CPPSnapshot>
        <CPPVideo>imx576_e24qs_video_cpp</CPPVideo>
