@@ -3374,7 +3374,7 @@ int32_t mm_stream_calc_offset_post_view(cam_stream_info_t *stream_info,
  *==========================================================================*/
 int32_t mm_stream_calc_offset_snapshot(cam_format_t fmt,
                                        cam_dimension_t *dim,
-                                       __unused cam_stream_type_t type,
+                                       cam_stream_type_t type,
                                        cam_padding_info_t *padding,
                                        cam_stream_buf_plane_info_t *buf_planes)
 {
@@ -3403,6 +3403,15 @@ int32_t mm_stream_calc_offset_snapshot(cam_format_t fmt,
                 (2 * offset_x)), (padding->width_padding > CAM_PAD_TO_32 ? padding->width_padding : CAM_PAD_TO_32));
         scanline = PAD_TO_SIZE((dim->height +
                 (2 * offset_y)), (padding->height_padding > CAM_PAD_TO_4 ? padding->height_padding : CAM_PAD_TO_4));
+        /* Callback streams write into the framework's YCbCr_420_888 buffers,
+         * which gralloc lays out as NV21_ZSL: stride and scanline both padded
+         * to 64. With less, 2832x2124 is written with a 2848 stride into a
+         * 2880 one, and 1920x1440 puts chroma 32 lines above where gralloc
+         * reports it. */
+        if (type == CAM_STREAM_TYPE_CALLBACK) {
+            stride = PAD_TO_SIZE(stride, CAM_PAD_TO_64);
+            scanline = PAD_TO_SIZE(scanline, CAM_PAD_TO_64);
+        }
     }
 
     switch (fmt) {
