@@ -75,6 +75,11 @@ class CameraProvider : public BnCameraProvider, protected camera_module_callback
     // create AIDL device name from camera ID
     std::string getAidlDeviceName(std::string cameraId);
 
+    // Pairs of cameras that can stream concurrently
+    std::vector<ConcurrentCameraIdCombination> getConcurrentCameraPairs();
+    // Static info of a present legacy camera, or false
+    bool getPresentCameraInfo(const std::string& cameraId, camera_info* info);
+
     // static callback forwarding methods
     static void sCameraDeviceStatusChange(const struct camera_module_callbacks* callbacks,
                                           int camera_id, int new_status);

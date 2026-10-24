@@ -93,6 +93,10 @@ ro.hardware.keystore=mdfpp
 vendor.camera.aux.packageexcludelist=com.adobe.scan.android,com.tencent.mm,org.telegram.messenger,us.zoom.videomeetings
 # Camera2 extensions (bokeh) from the vendor extensions library
 ro.camerax.extensions.enabled=true
+# Concurrent cameras: mct refuses a second session of the main and front
+# cameras ("No VFE HW available"); the HAL admits sessions itself, by VFE
+# (camera/docs/concurrent.md)
+persist.camera.mct.multirdi=1
 
 # RIL: libsec-ril behind ril/secril-shim
 vendor.sec.rild.libpath=/vendor/lib64/libsec-ril-shim.so

@@ -10,9 +10,13 @@
 
 #include <CameraDevice.h>
 #include <convert.h>
+#include <system/camera_metadata.h>
+#include <system/graphics.h>
 #include <utils/Trace.h>
 
+#include <algorithm>
 #include <regex>
+#include <set>
 
 namespace android {
 namespace hardware {
@@ -22,6 +26,10 @@ namespace implementation {
 
 using ::aidl::android::hardware::camera::common::CameraMetadataType;
 using ::aidl::android::hardware::camera::common::Status;
+using ::aidl::android::hardware::camera::device::Stream;
+using ::aidl::android::hardware::camera::device::StreamConfiguration;
+using ::aidl::android::hardware::camera::device::StreamConfigurationMode;
+using ::aidl::android::hardware::camera::device::StreamType;
 using ::aidl::android::hardware::camera::common::TorchModeStatus;
 using ::aidl::android::hardware::camera::common::VendorTag;
 using ::android::hardware::camera::common::helper::VendorTagDescriptor;
@@ -48,6 +56,145 @@ bool matchDeviceName(const std::string& deviceName, std::string* deviceVersion,
         return true;
     }
     return false;
+}
+
+/*
+ * Concurrent streaming (source.android.com/docs/core/camera/concurrent-streaming):
+ * every camera of an advertised combination supports these streams while the
+ * others stream too, where s720p and s1440p are 1280x720 and 1920x1440, or the
+ * largest output size of the format if that is smaller:
+ *   YUV / PRIV / JPEG s1440p
+ *   YUV / PRIV s720p + JPEG s1440p
+ *   YUV / PRIV s720p + YUV / PRIV s1440p
+ */
+using Size = std::pair<int32_t, int32_t>;
+const Size kS720p = {1280, 720};
+const Size kS1440p = {1920, 1440};
+const int kMaxResourceCost = 100;
+
+int64_t area(const Size& size) {
+    return static_cast<int64_t>(size.first) * size.second;
+}
+
+bool hasCapability(const camera_metadata_t* meta, uint8_t capability) {
+    camera_metadata_ro_entry_t entry;
+    if (find_camera_metadata_ro_entry(meta, ANDROID_REQUEST_AVAILABLE_CAPABILITIES, &entry) != 0) {
+        return false;
+    }
+    return std::find(entry.data.u8, entry.data.u8 + entry.count, capability) !=
+           entry.data.u8 + entry.count;
+}
+
+std::set<Size> getOutputSizes(const camera_metadata_t* meta, int32_t format) {
+    std::set<Size> sizes;
+    camera_metadata_ro_entry_t entry;
+    if (find_camera_metadata_ro_entry(meta, ANDROID_SCALER_AVAILABLE_STREAM_CONFIGURATIONS,
+                                      &entry) != 0) {
+        return sizes;
+    }
+    // (format, width, height, input) quadruples
+    for (size_t i = 0; i + 3 < entry.count; i += 4) {
+        if (entry.data.i32[i] == format &&
+            entry.data.i32[i + 3] == ANDROID_SCALER_AVAILABLE_STREAM_CONFIGURATIONS_OUTPUT) {
+            sizes.emplace(entry.data.i32[i + 1], entry.data.i32[i + 2]);
+        }
+    }
+    return sizes;
+}
+
+Size getMaxSize(const std::set<Size>& sizes) {
+    Size max = {0, 0};
+    for (const auto& size : sizes) {
+        if (area(size) > area(max)) {
+            max = size;
+        }
+    }
+    return max;
+}
+
+// As the reference implementation (the emulated camera provider) does: a format
+// with sizes of s1440p or more lists 1440p and 720p, else one of 720p or more
+// lists 720p.
+bool supportsGuaranteedSizes(const std::set<Size>& sizes) {
+    if (sizes.empty()) {
+        return false;
+    }
+    Size max = getMaxSize(sizes);
+    if (area(max) >= area(kS1440p)) {
+        return sizes.count(kS1440p) && sizes.count(kS720p);
+    }
+    return area(max) < area(kS720p) || sizes.count(kS720p);
+}
+
+bool supportsConcurrentStreams(const camera_metadata_t* meta) {
+    return hasCapability(meta, ANDROID_REQUEST_AVAILABLE_CAPABILITIES_BACKWARD_COMPATIBLE) &&
+           supportsGuaranteedSizes(getOutputSizes(meta, HAL_PIXEL_FORMAT_YCBCR_420_888)) &&
+           supportsGuaranteedSizes(getOutputSizes(meta, HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED)) &&
+           supportsGuaranteedSizes(getOutputSizes(meta, HAL_PIXEL_FORMAT_BLOB));
+}
+
+bool conflicts(const camera_info& info, const std::string& cameraId) {
+    for (size_t i = 0; i < info.conflicting_devices_length; i++) {
+        if (cameraId == info.conflicting_devices[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+enum class StreamKind { YUV_OR_PRIV, JPEG, OTHER };
+
+StreamKind getStreamKind(const Stream& stream) {
+    int32_t format = static_cast<int32_t>(stream.format);
+    if (format == HAL_PIXEL_FORMAT_YCBCR_420_888 ||
+        format == HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED) {
+        return StreamKind::YUV_OR_PRIV;
+    }
+    int32_t dataSpace = static_cast<int32_t>(stream.dataSpace);
+    if (format == HAL_PIXEL_FORMAT_BLOB &&
+        (dataSpace == HAL_DATASPACE_V0_JFIF || dataSpace == HAL_DATASPACE_JFIF)) {
+        return StreamKind::JPEG;
+    }
+    return StreamKind::OTHER;
+}
+
+// Whether the stream is an output size of its format of at most s720p or s1440p.
+bool fitsSize(const camera_metadata_t* meta, const Stream& stream, const Size& bound) {
+    std::set<Size> sizes = getOutputSizes(meta, static_cast<int32_t>(stream.format));
+    Size size = {stream.width, stream.height};
+    if (!sizes.count(size)) {
+        return false;
+    }
+    Size max = getMaxSize(sizes);
+    const Size& limit = area(max) < area(bound) ? max : bound;
+    return size.first <= limit.first && size.second <= limit.second;
+}
+
+bool isGuaranteedCombination(const camera_metadata_t* meta, const StreamConfiguration& config) {
+    if (config.operationMode != StreamConfigurationMode::NORMAL_MODE ||
+        config.streams.empty() || config.streams.size() > 2) {
+        return false;
+    }
+    for (const auto& stream : config.streams) {
+        if (stream.streamType != StreamType::OUTPUT || !stream.physicalCameraId.empty() ||
+            getStreamKind(stream) == StreamKind::OTHER) {
+            return false;
+        }
+    }
+
+    if (config.streams.size() == 1) {
+        return fitsSize(meta, config.streams[0], kS1440p);
+    }
+
+    // The first target is a YUV or PRIV stream of s720p, the second a JPEG, YUV or
+    // PRIV stream of s1440p, in either order.
+    const Stream& a = config.streams[0];
+    const Stream& b = config.streams[1];
+    auto fits = [&](const Stream& small, const Stream& large) {
+        return getStreamKind(small) == StreamKind::YUV_OR_PRIV && fitsSize(meta, small, kS720p) &&
+               fitsSize(meta, large, kS1440p);
+    };
+    return fits(a, b) || fits(b, a);
 }
 
 }  // anonymous namespace
@@ -444,22 +591,93 @@ ndk::ScopedAStatus CameraProvider::notifyDeviceStateChange(int64_t newState) {
     return fromStatus(Status::OK);
 }
 
+bool CameraProvider::getPresentCameraInfo(const std::string& cameraId, camera_info* info) {
+    if (mCameraIds.indexOf(cameraId) == NAME_NOT_FOUND) {
+        return false;
+    }
+    int id = std::stoi(cameraId);
+    auto status = mCameraStatusMap.find(cameraId);
+    if (id >= mNumberOfLegacyCameras || status == mCameraStatusMap.end() ||
+        status->second != CAMERA_DEVICE_STATUS_PRESENT) {
+        return false;
+    }
+    return mModule->getCameraInfo(id, info) == NO_ERROR &&
+           info->static_camera_characteristics != nullptr;
+}
+
+/*
+ * Every pair of present cameras that support the guaranteed streams, whose
+ * resource costs fit in the camera service's 100 together and that the HAL
+ * does not report as conflicting devices.
+ */
+std::vector<ConcurrentCameraIdCombination> CameraProvider::getConcurrentCameraPairs() {
+    std::vector<std::pair<std::string, camera_info>> cameras;
+    for (const auto& cameraId : mCameraIds) {
+        camera_info info;
+        if (getPresentCameraInfo(cameraId, &info) &&
+            supportsConcurrentStreams(info.static_camera_characteristics)) {
+            cameras.emplace_back(cameraId, info);
+        }
+    }
+
+    std::vector<ConcurrentCameraIdCombination> pairs;
+    for (size_t i = 0; i < cameras.size(); i++) {
+        for (size_t j = i + 1; j < cameras.size(); j++) {
+            const auto& [idA, infoA] = cameras[i];
+            const auto& [idB, infoB] = cameras[j];
+            if (infoA.resource_cost + infoB.resource_cost <= kMaxResourceCost &&
+                !conflicts(infoA, idB) && !conflicts(infoB, idA)) {
+                ConcurrentCameraIdCombination pair;
+                pair.combination = {idA, idB};
+                pairs.push_back(pair);
+            }
+        }
+    }
+    return pairs;
+}
+
 ndk::ScopedAStatus CameraProvider::getConcurrentCameraIds(
         std::vector<ConcurrentCameraIdCombination>* _aidl_return) {
     if (_aidl_return == nullptr) {
         return fromStatus(Status::ILLEGAL_ARGUMENT);
     }
-    *_aidl_return = {};
+    *_aidl_return = getConcurrentCameraPairs();
     return fromStatus(Status::OK);
 }
 
 ndk::ScopedAStatus CameraProvider::isConcurrentStreamCombinationSupported(
-        const std::vector<CameraIdAndStreamCombination>&, bool* _aidl_return) {
+        const std::vector<CameraIdAndStreamCombination>& in_configs, bool* _aidl_return) {
     if (_aidl_return == nullptr) {
         return fromStatus(Status::ILLEGAL_ARGUMENT);
     }
-    // No concurrent stream combinations are supported
     *_aidl_return = false;
+
+    // The cameras must be one advertised combination or part of one, and the
+    // streams of each a guaranteed combination: the HAL module has no
+    // is_stream_combination_supported to ask for more.
+    std::set<std::string> cameraIds;
+    for (const auto& config : in_configs) {
+        camera_info info;
+        if (!getPresentCameraInfo(config.cameraId, &info)) {
+            ALOGE("%s: camera %s is not present", __FUNCTION__, config.cameraId.c_str());
+            return fromStatus(Status::ILLEGAL_ARGUMENT);
+        }
+        if (!cameraIds.insert(config.cameraId).second) {
+            return fromStatus(Status::OK);
+        }
+        if (!isGuaranteedCombination(info.static_camera_characteristics,
+                                     config.streamConfiguration)) {
+            return fromStatus(Status::OK);
+        }
+    }
+    for (const auto& pair : getConcurrentCameraPairs()) {
+        std::set<std::string> combination(pair.combination.begin(), pair.combination.end());
+        if (!cameraIds.empty() && std::includes(combination.begin(), combination.end(),
+                                                cameraIds.begin(), cameraIds.end())) {
+            *_aidl_return = true;
+            break;
+        }
+    }
     return fromStatus(Status::OK);
 }
 
