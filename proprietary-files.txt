@@ -69,7 +69,9 @@ vendor/lib/libaudioalsa.so
 vendor/lib/libaudioparsers.so
 vendor/lib/libdrc.so
 vendor/lib/libqtigef.so
+vendor/lib/librecordalive.so
 vendor/lib/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
+vendor/lib/libsecaudioinfo.so
 vendor/lib/libsurround_3mic_proc.so
 vendor/lib64/lib_SoundBooster_ver950.so
 vendor/lib64/libacdb-fts.so
