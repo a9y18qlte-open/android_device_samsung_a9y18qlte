@@ -98,5 +98,7 @@ PRODUCT_PACKAGES += \
   EEPROM/OTP calibration format, dual-camera calibration
 - [docs/video.md](docs/video.md): sensor modes, 4K, slow motion and the
   240 fps tuning patch
+- [docs/concurrent.md](docs/concurrent.md): concurrent cameras, VFE and
+  CSI limits, and how the HAL admits sessions
 - [docs/reverse-engineering.md](docs/reverse-engineering.md): methods and
   [tools/](tools) to reproduce or extend the work
