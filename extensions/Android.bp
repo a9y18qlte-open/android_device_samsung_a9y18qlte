@@ -5,8 +5,8 @@
 //
 
 // CameraX / Camera2 extensions vendor library (androidx.camera.extensions.impl),
-// based on frameworks/ex/camera2/extensions/sample. Only the bokeh extension is
-// offered; the camera HAL renders it.
+// based on frameworks/ex/camera2/extensions/sample. Offers bokeh, which the camera
+// HAL renders, and HDR, an exposure bracket fused here.
 java_library {
     name: "androidx.camera.extensions.impl.a9y18qlte",
     installable: true,
