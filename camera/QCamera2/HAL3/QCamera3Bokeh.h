@@ -22,6 +22,7 @@
 
 #include <hardware/camera3.h>
 #include <utils/Errors.h>
+#include <utils/Timers.h>
 
 namespace qcamera {
 
@@ -104,6 +105,8 @@ private:
     bool mStarting;
     bool mRunning;
     bool mStopRequested;
+    // after a failed start, e.g. no VFE free, no new one before this time
+    nsecs_t mRetryTime;
     pthread_t mStartThread;
     bool mStartThreadValid;
     pthread_t mRequestThread;
