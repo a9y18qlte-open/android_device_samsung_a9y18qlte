@@ -5942,6 +5942,23 @@ void QCamera3HardwareInterface::unblockRequestIfNecessary()
    pthread_cond_signal(&mRequestCond);
 }
 
+/* SEC: the sensor module picks its stream by capture intent and fails the
+ * stream on for intents past ZERO_SHUTTER_LAG ("Invalid capture_intent 6").
+ * Apps' manual exposure brackets use TEMPLATE_MANUAL, so a remosaic, or the
+ * return to the binned mode after one, either hung or failed the device.
+ * A manual capture is a still; motion tracking streams like a preview. */
+static uint8_t backendCaptureIntent(uint8_t captureIntent)
+{
+    switch (captureIntent) {
+    case ANDROID_CONTROL_CAPTURE_INTENT_MANUAL:
+        return ANDROID_CONTROL_CAPTURE_INTENT_STILL_CAPTURE;
+    case ANDROID_CONTROL_CAPTURE_INTENT_MOTION_TRACKING:
+        return ANDROID_CONTROL_CAPTURE_INTENT_PREVIEW;
+    default:
+        return captureIntent;
+    }
+}
+
 bool QCamera3HardwareInterface::IsQCFASelected(camera3_capture_request *request)
 {
     if((request == NULL) || !m_bQuadraCfaSensor)
@@ -7443,7 +7460,8 @@ int QCamera3HardwareInterface::processCaptureRequest(
                 l_captureIntent = captureIntent;
                 clear_metadata_buffer(params);
                 ADD_SET_PARAM_ENTRY_TO_BATCH(params, CAM_INTF_PARM_HAL_VERSION, hal_version);
-                ADD_SET_PARAM_ENTRY_TO_BATCH(params, CAM_INTF_META_CAPTURE_INTENT, captureIntent);
+                ADD_SET_PARAM_ENTRY_TO_BATCH(params, CAM_INTF_META_CAPTURE_INTENT,
+                        backendCaptureIntent(captureIntent));
             }
 
             if (mFirstConfiguration) {
@@ -15941,7 +15959,8 @@ int QCamera3HardwareInterface::translateToHalMetadata
     }
 
     if (frame_settings.exists(ANDROID_CONTROL_CAPTURE_INTENT)) {
-        uint8_t captureIntent = frame_settings.find(ANDROID_CONTROL_CAPTURE_INTENT).data.u8[0];
+        uint8_t captureIntent = backendCaptureIntent(
+                frame_settings.find(ANDROID_CONTROL_CAPTURE_INTENT).data.u8[0]);
         if (ADD_SET_PARAM_ENTRY_TO_BATCH(hal_metadata, CAM_INTF_META_CAPTURE_INTENT,
                 captureIntent)) {
             rc = BAD_VALUE;
