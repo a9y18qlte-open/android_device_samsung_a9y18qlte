@@ -8,14 +8,15 @@
  * Samsung's audio HAL extensions for the Galaxy A9 (2018), rebuilt on top of
  * the CAF HAL from what the stock audio.primary.sdm660.so does: sound device
  * selection for Samsung's sound devices, the call state Samsung's telephony
- * and IMS stack report through set_parameters, and the speaker amplifier's
- * VI feedback.
+ * and IMS stack report through set_parameters, the speaker amplifier's
+ * VI feedback, and the recording preprocessing of librecordalive.
  */
 
 #ifndef SEC_AUDIO_H
 #define SEC_AUDIO_H
 
 #include <stdbool.h>
+#include <stddef.h>
 
 #include <cutils/list.h>
 
@@ -57,6 +58,20 @@ struct sec_audio {
 
     /* VI feedback of the speaker amplifier */
     struct pcm *vi_feedback_pcm;
+
+    /*
+     * librecordalive runs Samsung's recording solutions (gain control, wind
+     * noise suppression) on the captured data. It keeps one set of state, so
+     * it serves the input that started last.
+     */
+    void *recordalive;
+    void (*preprocess_init)(unsigned int solutions);
+    void (*preprocess_set_params)(struct str_parms *parms);
+    void (*preprocess_clear)(void);
+    void (*preprocess)(unsigned int solutions, void *in, void *out, size_t bytes,
+                       size_t frames);
+    struct stream_in *preprocess_in;
+    unsigned int preprocess_solutions;
 };
 
 void sec_audio_init(struct audio_device *adev);
@@ -80,5 +95,15 @@ int sec_audio_get_input_snd_device(struct audio_device *adev, struct stream_in *
 void sec_audio_vi_feedback_on_enable(struct audio_device *adev, int snd_device);
 /* Stop the VI feedback when a speaker sound device goes away */
 void sec_audio_vi_feedback_on_disable(struct audio_device *adev, int snd_device);
+
+/* Set up the recording preprocessing for an input that starts; adev->lock must be held */
+void sec_audio_preprocess_start(struct audio_device *adev, struct stream_in *in);
+/* Hand the preprocessing back when the input stops; adev->lock must be held */
+void sec_audio_preprocess_stop(struct audio_device *adev, struct stream_in *in);
+/* Tell the preprocessing about the input's new devices; adev->lock must be held */
+void sec_audio_preprocess_route(struct audio_device *adev, struct stream_in *in);
+/* Run the preprocessing in place on the data an input read; in->lock must be held */
+void sec_audio_preprocess(struct audio_device *adev, struct stream_in *in, void *buffer,
+                          size_t bytes);
 
 #endif /* SEC_AUDIO_H */

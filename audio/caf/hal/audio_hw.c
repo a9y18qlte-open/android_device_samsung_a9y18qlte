@@ -3254,6 +3254,7 @@ static int stop_input_stream(struct stream_in *in)
 
     list_remove(&uc_info->list);
     free(uc_info);
+    sec_audio_preprocess_stop(adev, in);
 
     if (priority_in == in) {
         priority_in = get_priority_input(adev);
@@ -3348,6 +3349,7 @@ int start_input_stream(struct stream_in *in)
     uc_info->out_snd_device = SND_DEVICE_NONE;
 
     list_add_tail(&adev->usecase_list, &uc_info->list);
+    sec_audio_preprocess_start(adev, in);
     audio_streaming_hint_start();
     audio_extn_perf_lock_acquire(&adev->perf_lock_handle, 0,
                                  adev->perf_lock_opts,
@@ -7097,6 +7099,7 @@ int route_input_stream(struct stream_in *in,
             assign_devices(&in->device_list, devices);
             if (!in->standby && !in->is_st_session) {
                 ALOGV("update input routing change");
+                sec_audio_preprocess_route(adev, in);
                 // inform adm before actual routing to prevent glitches.
                 if (adev->adm_on_routing_change) {
                     adev->adm_on_routing_change(adev->adm_data,
@@ -7345,6 +7348,9 @@ static ssize_t in_read(struct audio_stream_in *stream, void *buffer,
     }
 
     release_in_focus(in);
+
+    if (ret == 0)
+        sec_audio_preprocess(adev, in, buffer, bytes_read);
 
     /*
      * Instead of writing zeroes here, we could trust the hardware to always
