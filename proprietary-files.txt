@@ -73,7 +73,6 @@ vendor/lib/librecordalive.so
 vendor/lib/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsecaudioinfo.so
 vendor/lib/libsurround_3mic_proc.so
-vendor/lib64/lib_SoundBooster_ver950.so
 vendor/lib64/libacdb-fts.so
 vendor/lib64/libacdbloader.so
 vendor/lib64/libacdbrtac.so
@@ -88,7 +87,6 @@ vendor/lib64/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
 vendor/lib/soundfx/libasphere.so
 vendor/lib/soundfx/libsamsungSoundbooster_plus.so
 vendor/lib64/soundfx/libasphere.so
-vendor/lib64/soundfx/libsamsungSoundbooster_plus.so
 
 # Audio-ACDB
 vendor/etc/audconf/ODM/Bluetooth_cal.acdb
