@@ -696,11 +696,6 @@ vendor/firmware/a508_zap.b01
 vendor/firmware/a508_zap.b02
 vendor/firmware/a508_zap.elf
 vendor/firmware/a508_zap.mdt
-# Adreno 512 zap shader - not in /vendor on stock, which loads it from the APNHLOS firmware partition
-vendor/firmware/a512_zap.b00
-vendor/firmware/a512_zap.b01
-vendor/firmware/a512_zap.b02
-vendor/firmware/a512_zap.mdt
 vendor/firmware/a530_gpmu.fw2
 vendor/firmware/a530_pfp.fw
 vendor/firmware/a530_pm4.fw
@@ -714,7 +709,6 @@ vendor/firmware/crbtfw21.tlv
 vendor/firmware/crnv21.bin
 vendor/firmware/leia_pfp_470.fw
 vendor/firmware/leia_pm4_470.fw
-vendor/firmware/msadp
 vendor/firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini
 vendor/firmware/wlan/qca_cld/bdwlan.bin
 vendor/firmware/wlan/qca_cld/grippower.info
