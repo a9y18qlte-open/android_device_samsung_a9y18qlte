@@ -167,6 +167,7 @@ on boot
 
     chown system system /sys/class/sec/tsp/dt2w_enable
     chmod 0660 /sys/class/sec/tsp/dt2w_enable
+    setprop vendor.powerhal.init 1
 
     # Charging control and fast charge nodes for the Lineage Health HAL.
     chown system system /sys/class/power_supply/battery/batt_slate_mode
