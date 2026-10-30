@@ -33,10 +33,12 @@ type macloader, domain;
 type macloader_exec, exec_type, file_type, vendor_file_type;
 init_daemon_domain(macloader)
 
-# Samsung RIL configuration service.
+# Samsung RIL configuration service. persist.radio.multisim.config is
+# radio_control_prop, which only the telephony HAL may set from the vendor side.
 type secril_config, domain;
 type secril_config_exec, exec_type, file_type, vendor_file_type;
 init_daemon_domain(secril_config)
+hal_server_domain(secril_config, hal_telephony)
 
 
 # Shell wrapper init runs to bring up qseecomd. It is a script, so the domain
