@@ -197,9 +197,10 @@ allow macloader self:capability { net_admin sys_module };
 allow vold sysfs_ufs:file write;
 
 # --- secril_config ----------------------------------------------------------
-# Sets a telephony property at startup, which means talking to the property
-# service socket.
+# Sets the SIM count from /efs/factory.prop at startup, which means talking to
+# the property service socket.
 set_prop(secril_config, vendor_radio_prop)
+set_prop(secril_config, radio_control_prop)
 
 # --- PMIC brightness --------------------------------------------------------
 # init sets the panel brightness at boot. The node hangs off the SPMI tree, so

@@ -23,6 +23,10 @@ vendor.sys.qseecomd.enable    u:object_r:vendor_qseecomd_prop:s0
 vendor.bluetooth_fw_ver          u:object_r:samsung_bluetooth_prop:s0
 persist.ril.interfaceconf.failed u:object_r:samsung_ril_prop:s0
 
+# secril_config_svc sets this from /efs/factory.prop. It is in no property
+# context, so it fell through to default_prop, which vendor domains may not set.
+ro.multisim.simslotcount         u:object_r:vendor_radio_prop:s0
+
 # libsec-ril publishes the SIM slot of the ongoing call here (renamed from
 # ril.dds.call.slotid by extract-files.sh, a radio_prop vendor code may not
 # read); the audio HIDL impl needs it to pick the right modem voice session.
