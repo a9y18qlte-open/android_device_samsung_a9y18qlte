@@ -304,7 +304,6 @@ PRODUCT_COPY_FILES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
-    fstab.qcom_ramdisk \
     init.class_main.sh \
     init.crda.sh \
     init.mdm.sh \
@@ -331,8 +330,11 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.rc \
     init.samsung.bsp.rc \
     init.samsung.rc \
-    init.target.rc \
-    ueventd.qcom.rc
+    init.target.rc
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/etc/fstab.qcom:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom \
+    $(LOCAL_PATH)/rootdir/etc/ueventd.qcom.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
 
 # Recovery
 PRODUCT_PACKAGES += \
