@@ -106,9 +106,10 @@ static int gk_verify(const struct gatekeeper_device *dev __unused, uint32_t uid,
     if (km_tz_transact(&in, &out) != 0) goto done;
 
     // Throttle path: err -0x25b or -300 => tell gatekeeperd to retry later.
-    // long0 carries the timeout; return it as a positive value.
+    // long0 carries the timeout. Without one this is a plain wrong password,
+    // so return the TA error like stock; a positive value would mean retry.
     if (out.err == -0x25b || out.err == -300) {
-        ret = (int)(out.long0_set && out.long0 > 0 ? out.long0 : 1);
+        ret = out.long0_set && out.long0 != 0 ? (int)out.long0 : out.err;
         goto done;
     }
     if (out.err != 0) { ALOGE("verify TA err %d", out.err); ret = -EINVAL; goto done; }
