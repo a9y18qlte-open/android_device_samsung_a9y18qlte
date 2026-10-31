@@ -336,10 +336,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/fstab.qcom:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom \
     $(LOCAL_PATH)/rootdir/etc/ueventd.qcom.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
 
-# Recovery
-PRODUCT_PACKAGES += \
-    init.recovery.qcom.rc
-
 # imsservice takes its per-carrier IMS switches only from a CSC customer.xml.
 # Generated from Samsung's own switch table (imsservice res/raw/imsswitch.json)
 # by vendor/samsung/a9y18qlte/tools/imsservice, so it does not depend on the
