@@ -198,6 +198,12 @@ blob_fixups: blob_fixups_user_type = {
     # Remove triggers setting vendor.vts.native_server.on
     'vendor/etc/init/init.vendor.rilcommon.rc': blob_fixup()
         .call(delete_rc_block),
+    # A license comment comes before the XML declaration; xmllint fails the
+    # build on that.
+    'vendor/etc/data/dsi_config.xml': blob_fixup()
+        .fix_xml(),
+    'vendor/etc/data/netmgr_config.xml': blob_fixup()
+        .fix_xml(),
     # radio::sec::signalLevelInfosChanged() logs an error on every signal level
     # update while no Samsung radio indication client is registered, which is
     # always the case on AOSP. Drop the log call:
