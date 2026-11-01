@@ -493,11 +493,11 @@ bool CameraProvider::setUpVendorTags() {
 
 ndk::ScopedAStatus CameraProvider::setCallback(
         const std::shared_ptr<ICameraProviderCallback>& callback) {
+    if (callback == nullptr) {
+        return fromStatus(Status::ILLEGAL_ARGUMENT);
+    }
     Mutex::Autolock _l(mCbLock);
     mCallbacks = callback;
-    if (callback == nullptr) {
-        return fromStatus(Status::OK);
-    }
     // Add and report all presenting external cameras.
     for (auto const& statusPair : mCameraStatusMap) {
         int id = std::stoi(statusPair.first);
