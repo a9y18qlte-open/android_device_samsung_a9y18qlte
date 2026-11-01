@@ -67,7 +67,7 @@ int km_tz_close(void) {
 
 int km_tz_transact(const km_indata *in, km_outdata *out) {
     if (in == NULL || out == NULL) return -1;
-    if (g_handle == NULL) return -500;  // KM connection-not-open, as stock
+    if (g_handle == NULL) return KM_ERR_NOT_CONNECTED;  // KM connection-not-open, as stock
 
     uint32_t region = KM_REGION;
     uint8_t *inbuf = g_inbuf;
@@ -76,7 +76,7 @@ int km_tz_transact(const km_indata *in, km_outdata *out) {
     uint32_t der_len = 0;
     if (km_indata_encode(in, buf_payload(inbuf), KM_BUF_PAYLOAD, &der_len) != 0) {
         ALOGE("km_indata_encode failed");
-        return -0x26;
+        return KM_ERR_INVALID_PARAM;
     }
     buf_set_len(inbuf, der_len);
     buf_set_len(outbuf, 0);  // stock zeroes the out length before each cmd
@@ -87,17 +87,17 @@ int km_tz_transact(const km_indata *in, km_outdata *out) {
     QSEECom_set_bandwidth(g_handle, 0);
     if (rc != 0) {
         ALOGE("QSEECom_send_cmd failed: %d", rc);
-        return -0x26;
+        return KM_ERR_INVALID_PARAM;
     }
 
     uint32_t resp_len = buf_get_len(outbuf);
     if (resp_len == 0 || resp_len > KM_BUF_PAYLOAD) {
         ALOGE("bad response len %u", resp_len);
-        return -0x3e8;
+        return KM_ERR_COMM_FAILED;
     }
     if (km_outdata_decode(buf_payload(outbuf), resp_len, out) != 0) {
         ALOGE("km_outdata_decode failed (len=%u)", resp_len);
-        return -0x3e8;
+        return KM_ERR_COMM_FAILED;
     }
     return 0;
 }

@@ -39,8 +39,8 @@ enum {
 
 // Timestamp params the stock pack injects (epoch ms, KM_DATE): CREATION_DATETIME
 // on generate/import, a per-op tag on begin (begin fails UNKNOWN_ERROR without it).
-#define KM_TAG_CREATION_DATETIME_T 0x600002bdu
-#define KM_TAG_BEGIN_TIMESTAMP     0x60000320u
+// KM_TAG_CREATION_DATETIME_T and KM_TAG_BEGIN_TIMESTAMP are declared in km_asn1.h.
+#define DAK_FILE_MAX_SIZE 0x4000u  // 16 KB max DAK file
 
 static uint64_t now_ms(void) {
     struct timespec ts;
@@ -158,8 +158,7 @@ static void req_init(km_indata *in, uint32_t cmd) {
 // the wrapper passes, stock adds these two, derived from the same props. The TA
 // rejects a configure that omits them (-38 INVALID_ARGUMENT), which is what
 // blocked every earlier 2-param attempt; it does NOT require 705==805/706==806.
-#define KM_TAG_SEC_OS_VERSION    (KM_UINT | 805u)  // 0x30000325
-#define KM_TAG_SEC_OS_PATCHLEVEL (KM_UINT | 806u)  // 0x30000326
+// Defined in km_asn1.h: KM_TAG_SEC_OS_VERSION, KM_TAG_SEC_OS_PATCHLEVEL.
 
 // configure (cmd 0x0f). The keymaster@3.0 wrapper calls this at device creation
 // and rejects the whole device if it is not KM_ERROR_OK; the TA then refuses
@@ -486,7 +485,7 @@ static int read_dak(const char *base, uint8_t **buf, uint32_t *len) {
     fseek(f, 0, SEEK_END);
     long n = ftell(f);
     fseek(f, 0, SEEK_SET);
-    if (n <= 0 || n > 0x4000) { fclose(f); return -1; }
+    if (n <= 0 || n > DAK_FILE_MAX_SIZE) { fclose(f); return -1; }
     uint8_t *b = malloc((size_t)n);
     if (!b) { fclose(f); return -1; }
     size_t got = fread(b, 1, (size_t)n, f);
@@ -521,12 +520,12 @@ static keymaster_error_t km_attest_key(const keymaster2_device_t *dev __unused,
     // Provisioned material (tags from RE): each key's .private whole + its issuer
     // cert (certN0.der). The TA picks the set matching the attested key's algo.
     uint8_t *bufs[6]; uint32_t nb = 0;
-    add_dak_param(p, &n, 0x9000139d, "GAK_RSA.private", bufs, &nb);
-    add_dak_param(p, &n, 0x9000139f, "gakrsacert0.der", bufs, &nb);
-    add_dak_param(p, &n, 0x9000139e, "GAK_EC.private",  bufs, &nb);
-    add_dak_param(p, &n, 0x900013a0, "gakeccert0.der",  bufs, &nb);
-    add_dak_param(p, &n, 0x900013a2, "SAK_EC.private",  bufs, &nb);
-    add_dak_param(p, &n, 0x900013a4, "sakeccert0.der",  bufs, &nb);
+    add_dak_param(p, &n, KM_TAG_SEC_GAK_RSA_PRIV, "GAK_RSA.private", bufs, &nb);
+    add_dak_param(p, &n, KM_TAG_SEC_GAK_RSA_CERT, "gakrsacert0.der", bufs, &nb);
+    add_dak_param(p, &n, KM_TAG_SEC_GAK_EC_PRIV,  "GAK_EC.private",  bufs, &nb);
+    add_dak_param(p, &n, KM_TAG_SEC_GAK_EC_CERT,  "gakeccert0.der",  bufs, &nb);
+    add_dak_param(p, &n, KM_TAG_SEC_SAK_EC_PRIV,  "SAK_EC.private",  bufs, &nb);
+    add_dak_param(p, &n, KM_TAG_SEC_SAK_EC_CERT,  "sakeccert0.der",  bufs, &nb);
 
     keymaster_error_t e = KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
     km_outdata out;
