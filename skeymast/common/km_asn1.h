@@ -23,6 +23,18 @@ typedef struct {
 enum { KM_WIRE_VER = 2, KM_WIRE_KMVER = 20 };
 enum { KM_CMD_ENROLL = 0x201, KM_CMD_VERIFY = 0x202 };
 
+// skeymast TA status / error codes
+enum {
+    KM_ERR_OK            = 0,
+    KM_ERR_INVALID_PARAM = -0x26,   // -38 (corresponds to KM_ERROR_INVALID_ARGUMENT / -CA)
+    KM_ERR_PID_MISMATCH  = -0x2f,   // -47
+    KM_ERR_PARSE_FAILED  = -0xcc,   // -204
+    KM_ERR_RATE_LIMIT    = -300,    // -300 gatekeeper rate limit
+    KM_ERR_COMM_FAILED   = -0x3e8,  // -1000 communication failure
+    KM_ERR_NOT_CONNECTED = -500,    // -500 connection not open
+    KM_ERR_THROTTLED     = -0x25b,  // -603 gatekeeper retry timeout active
+};
+
 // Keymaster tag type lives in the top nibble of the tag (keymaster_defs.h).
 #define KM_TAG_TYPE(tag) ((tag) & 0xf0000000u)
 #define KM_TYPE_ENUM     0x10000000u
@@ -35,6 +47,20 @@ enum { KM_CMD_ENROLL = 0x201, KM_CMD_VERIFY = 0x202 };
 #define KM_TYPE_BIGNUM   0x80000000u
 #define KM_TYPE_BYTES    0x90000000u
 #define KM_TYPE_ULONG_REP 0xa0000000u
+
+// Samsung proprietary Keymaster tags
+#define KM_TAG_SEC_OS_VERSION      (KM_TYPE_UINT | 805u)   // 0x30000325
+#define KM_TAG_SEC_OS_PATCHLEVEL   (KM_TYPE_UINT | 806u)   // 0x30000326
+#define KM_TAG_CREATION_DATETIME_T (KM_TYPE_DATE | 701u)   // 0x600002bd (KM_TAG_CREATION_DATETIME)
+#define KM_TAG_BEGIN_TIMESTAMP     (KM_TYPE_DATE | 800u)   // 0x60000320 (Begin op timestamp)
+
+// Samsung DAK (Device Attestation Key) provisioning tags from /efs/DAK
+#define KM_TAG_SEC_GAK_RSA_PRIV    (KM_TYPE_BYTES | 5021u) // 0x9000139d ("GAK_RSA.private")
+#define KM_TAG_SEC_GAK_RSA_CERT    (KM_TYPE_BYTES | 5023u) // 0x9000139f ("gakrsacert0.der")
+#define KM_TAG_SEC_GAK_EC_PRIV     (KM_TYPE_BYTES | 5022u) // 0x9000139e ("GAK_EC.private")
+#define KM_TAG_SEC_GAK_EC_CERT     (KM_TYPE_BYTES | 5024u) // 0x900013a0 ("gakeccert0.der")
+#define KM_TAG_SEC_SAK_EC_PRIV     (KM_TYPE_BYTES | 5026u) // 0x900013a2 ("SAK_EC.private")
+#define KM_TAG_SEC_SAK_EC_CERT     (KM_TYPE_BYTES | 5028u) // 0x900013a4 ("sakeccert0.der")
 
 // One keymaster key parameter: `b` for BYTES/BIGNUM tags, `i` otherwise.
 typedef struct {
