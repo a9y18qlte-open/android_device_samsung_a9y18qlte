@@ -252,7 +252,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
     $(LOCAL_PATH)/configs/nfc/libnfc-nci-nfc_ese.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci-nfc_ese.conf \
     $(LOCAL_PATH)/configs/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf \
-    $(LOCAL_PATH)/configs/nfc/libnfc-nxp_chn.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp_chn.conf
+    $(LOCAL_PATH)/configs/nfc/libnfc-nxp_chn.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp_chn.conf \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nxp_kor.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp_kor.conf
 
 # SKU-specific permissions (SM-A9200 with eSE)
 PRODUCT_COPY_FILES += \
