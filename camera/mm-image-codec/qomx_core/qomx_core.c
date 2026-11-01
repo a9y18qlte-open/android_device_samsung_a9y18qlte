@@ -216,8 +216,10 @@ OMX_API OMX_ERRORTYPE OMX_APIENTRY OMX_GetHandle(
   }
 
   if (FALSE == p_core_comp->open) {
-    /* load the library */
-    p_core_comp->lib_handle = dlopen(p_core_comp->lib_name, RTLD_NOW);
+    /* load the library, every stream configuration opens the component so
+     * keep it resident instead of reloading it and its dependencies */
+    p_core_comp->lib_handle = dlopen(p_core_comp->lib_name,
+        RTLD_NOW | RTLD_NODELETE);
     if (NULL == p_core_comp->lib_handle) {
       ALOGE("%s:%d] Cannot load the library", __func__, __LINE__);
       rc = OMX_ErrorInvalidComponent;
