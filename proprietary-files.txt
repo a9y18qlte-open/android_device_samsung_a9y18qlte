@@ -97,6 +97,14 @@ vendor/etc/Handset_cal.acdb:vendor/etc/audconf/CHN/Handset_cal.acdb|7ab32fd1a29b
 vendor/etc/Hdmi_cal.acdb:vendor/etc/audconf/CHN/Hdmi_cal.acdb|162288e0e83fd7af4c656f9f1fce5d18beb3f488
 vendor/etc/Headset_cal.acdb:vendor/etc/audconf/CHN/Headset_cal.acdb|118e7494b318fbfb6c50040d11fee5fa85d4f7b8
 vendor/etc/Speaker_cal.acdb:vendor/etc/audconf/CHN/Speaker_cal.acdb|3596ed95811cca5b7204b3eca93026b1e9074086
+# SM-A920N tuning, which only its firmware has, kept in /vendor/etc on stock
+vendor/etc/Bluetooth_cal.acdb:vendor/etc/audconf/KOR/Bluetooth_cal.acdb|9a8261f6e521c31c3f29682525e4b2ede253880e
+vendor/etc/General_cal.acdb:vendor/etc/audconf/KOR/General_cal.acdb|e167a1c9b8fa3b8c7c803ea3d954d6010af62ed6
+vendor/etc/Global_cal.acdb:vendor/etc/audconf/KOR/Global_cal.acdb|05f2216db5288cda2c1261840e226771f4d5167c
+vendor/etc/Handset_cal.acdb:vendor/etc/audconf/KOR/Handset_cal.acdb|2b5b14a888597c7dea7ec20a37e0ea2c110ea240
+vendor/etc/Hdmi_cal.acdb:vendor/etc/audconf/KOR/Hdmi_cal.acdb|5caef60200e1124014427ab57d15976e4c2e3487
+vendor/etc/Headset_cal.acdb:vendor/etc/audconf/KOR/Headset_cal.acdb|f64414e2e1adeffeb47b32086372f47190a0cc69
+vendor/etc/Speaker_cal.acdb:vendor/etc/audconf/KOR/Speaker_cal.acdb|da52a6e3489176decddda41eac174e00f9f0053c
 vendor/etc/audconf/ODM/Bluetooth_cal.acdb
 vendor/etc/audconf/ODM/General_cal.acdb
 vendor/etc/audconf/ODM/Global_cal.acdb
@@ -719,6 +727,8 @@ vendor/firmware/leia_pfp_470.fw
 vendor/firmware/leia_pm4_470.fw
 vendor/firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini
 vendor/firmware/wlan/qca_cld/bdwlan.bin
+# SM-A920N WLAN calibration data
+vendor/firmware/wlan/qca_cld/bdwlan.bin:vendor/firmware/wlan/qca_cld/bdwlan_kor.bin|18d8eb25a0430d11da5d74971f2386333f210e48
 vendor/firmware/wlan/qca_cld/grippower.info
 vendor/firmware/wlanmdsp.mbn
 

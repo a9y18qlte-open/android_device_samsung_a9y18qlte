@@ -224,7 +224,7 @@ TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):libinit_a9y18qlte
 TARGET_RECOVERY_DEVICE_MODULES := libinit_a9y18qlte
 
 # OTA
-TARGET_OTA_ASSERT_DEVICE := a9y18qlte,a9y18qltechn
+TARGET_OTA_ASSERT_DEVICE := a9y18qlte,a9y18qltechn,a9y18qltekx
 TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)/releasetools
 
 # Properties

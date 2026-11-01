@@ -1,6 +1,10 @@
 on early-boot && property:ro.product.vendor.model=SM-A9200
     mount none /vendor/etc/libnfc-nxp_chn.conf /vendor/etc/libnfc-nxp.conf bind
 
+on early-boot && property:ro.product.vendor.model=SM-A920N
+    mount none /vendor/firmware/wlan/qca_cld/bdwlan_kor.bin /vendor/firmware/wlan/qca_cld/bdwlan.bin bind
+    mount none /vendor/etc/libnfc-nxp_kor.conf /vendor/etc/libnfc-nxp.conf bind
+
 on boot
 # SSWAP
     write /proc/sys/vm/swappiness 130
