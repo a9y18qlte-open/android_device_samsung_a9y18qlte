@@ -1,3 +1,6 @@
+on early-boot && property:ro.product.vendor.model=SM-A9200
+    mount none /vendor/etc/libnfc-nxp_chn.conf /vendor/etc/libnfc-nxp.conf bind
+
 on boot
 # SSWAP
     write /proc/sys/vm/swappiness 130

@@ -244,10 +244,19 @@ PRODUCT_PACKAGES += \
     nfc_nci_nxp \
     Tag
 
-# Samsung's libnfc-nxp.conf with its libnfc-nxp_RF.conf appended: the open
-# source HAL reads the RF settings from the main config only.
+# NFC configurations and multi-variant RF routing. Samsung's libnfc-nxp.conf
+# carries its libnfc-nxp_RF.conf appended, because the open source HAL reads
+# the RF settings from the main config only. libnfc-nci.conf is the framework's
+# own; libnfc-nci-nfc_ese.conf is loaded on SM-A9200, whose sku is nfc_ese.
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf
+    $(LOCAL_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nci-nfc_ese.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci-nfc_ese.conf \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nxp_chn.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp_chn.conf
+
+# SKU-specific permissions (SM-A9200 with eSE)
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.nfc.ese.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_nfc_ese/android.hardware.nfc.ese.xml
 
 # Permissions
 PRODUCT_COPY_FILES += \

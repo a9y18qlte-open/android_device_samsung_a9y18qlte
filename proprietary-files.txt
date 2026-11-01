@@ -89,6 +89,14 @@ vendor/lib/soundfx/libasphere.so
 vendor/lib64/soundfx/libasphere.so
 
 # Audio-ACDB
+# SM-A9200 tuning, which only its firmware has, kept in /vendor/etc on stock
+vendor/etc/Bluetooth_cal.acdb:vendor/etc/audconf/CHN/Bluetooth_cal.acdb|2804b1080e9eb0c292e287f1e4e0cfe2e1b34ed1
+vendor/etc/General_cal.acdb:vendor/etc/audconf/CHN/General_cal.acdb|5adb290f6f6ab2b012d2f991755d08795570c31e
+vendor/etc/Global_cal.acdb:vendor/etc/audconf/CHN/Global_cal.acdb|4c325128282c63e7993b9bca8c5b49abd361f013
+vendor/etc/Handset_cal.acdb:vendor/etc/audconf/CHN/Handset_cal.acdb|7ab32fd1a29b8bf789bef715ff1b657694e5d383
+vendor/etc/Hdmi_cal.acdb:vendor/etc/audconf/CHN/Hdmi_cal.acdb|162288e0e83fd7af4c656f9f1fce5d18beb3f488
+vendor/etc/Headset_cal.acdb:vendor/etc/audconf/CHN/Headset_cal.acdb|118e7494b318fbfb6c50040d11fee5fa85d4f7b8
+vendor/etc/Speaker_cal.acdb:vendor/etc/audconf/CHN/Speaker_cal.acdb|3596ed95811cca5b7204b3eca93026b1e9074086
 vendor/etc/audconf/ODM/Bluetooth_cal.acdb
 vendor/etc/audconf/ODM/General_cal.acdb
 vendor/etc/audconf/ODM/Global_cal.acdb

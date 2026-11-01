@@ -2,3 +2,6 @@
 # Samsung channel interface.
 binder_call(system_app, rild)
 allow system_app samsung_radio_hwservice:hwservice_manager find;
+
+# imsservice reads ro.csc.omcnw_code.
+get_prop(system_app, vendor_audio_prop)
