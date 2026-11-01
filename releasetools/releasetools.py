@@ -1,0 +1,13 @@
+#
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+PARTITIONS = ("system", "vendor")
+
+
+def FullOTA_InstallEnd(info):
+    for partition in PARTITIONS:
+        device = "/dev/block/bootdevice/by-name/" + partition
+        info.script.AppendExtra('run_program("/system/bin/e2fsck", "-fy", "%s");' % device)
+        info.script.AppendExtra('run_program("/system/bin/resize2fs", "%s");' % device)

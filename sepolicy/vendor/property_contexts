@@ -34,6 +34,10 @@ vendor.calls.slotid              u:object_r:samsung_call_slot_prop:s0
 # Set by ril/secril-shim for VoLTE calls.
 vendor.calls.ims_slotid          u:object_r:samsung_call_slot_prop:s0
 
+# libinit sets this on the SM-A9200; libacdbloader, inside the audio HAL, reads
+# it to find the tuning folder and would fall back to audconf/OPEN without it.
+ro.csc.omcnw_code                u:object_r:vendor_audio_prop:s0
+
 # Camera properties used by stock Samsung camera HAL and provider
 persist.camera.                  u:object_r:camera_prop:s0
 service.camera.                  u:object_r:camera_prop:s0
