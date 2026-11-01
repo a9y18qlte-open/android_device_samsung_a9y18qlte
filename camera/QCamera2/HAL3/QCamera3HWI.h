@@ -242,6 +242,8 @@ public:
     } InternalRequest;
 
     static int getCamInfo(uint32_t cameraId, struct camera_info *info);
+    static int isStreamCombinationSupported(uint32_t cameraId,
+            const camera_stream_combination_t *streams);
     static cam_capability_t *getCapabilities(mm_camera_ops_t *ops,
             uint32_t cam_handle);
     static int initCapabilities(uint32_t cameraId);
@@ -445,8 +447,31 @@ private:
 
     int validateCaptureRequest(camera3_capture_request_t *request,
                                List<InternalRequest> &internallyRequestedStreams);
-    int validateStreamDimensions(camera3_stream_configuration_t *streamList);
-    int validateStreamRotations(camera3_stream_configuration_t *streamList);
+    struct StreamValidateStatus {
+        bool bIsVideo, bIs4KVideo, bEisSupportedSize, bEisSupported, bIsSecureMode;
+        bool isZsl, isJpeg, bJpegOnEncoder, bUseCommonFeatureMask, bSmallJpegSize;
+        bool bYuv888OverrideJpeg, bQuadraSizeConfigured;
+        uint8_t quadraCfaStage;
+        camera3_stream_t *inputStream;
+        cam_feature_mask_t commonFeatureMask;
+        size_t numStreamsOnEncoder;
+        uint32_t videoWidth, videoHeight, numCbStream;
+        cam_dimension_t maxViewfinderSize, largeYuv888Size, jpegSize;
+        StreamValidateStatus() :
+                bIsVideo(false), bIs4KVideo(false), bEisSupportedSize(false),
+                bEisSupported(false), bIsSecureMode(false), isZsl(false), isJpeg(false),
+                bJpegOnEncoder(false), bUseCommonFeatureMask(false), bSmallJpegSize(false),
+                bYuv888OverrideJpeg(false), bQuadraSizeConfigured(false),
+                quadraCfaStage(QCFA_INACTIVE), inputStream(nullptr), commonFeatureMask(0),
+                numStreamsOnEncoder(0), videoWidth(0U), videoHeight(0U), numCbStream(0U),
+                maxViewfinderSize{0, 0}, largeYuv888Size{0, 0}, jpegSize{0, 0} {};
+    };
+    static int32_t validateStreamCombination(uint32_t cameraId,
+            camera3_stream_configuration_t *streamList /*in*/,
+            StreamValidateStatus *status /*out*/);
+    static int validateStreamDimensions(uint32_t cameraId,
+            camera3_stream_configuration_t *streamList, StreamValidateStatus *status);
+    static int validateStreamRotations(camera3_stream_configuration_t *streamList);
     void deriveMinFrameDuration();
     void handleBuffersDuringFlushLock(camera3_stream_buffer_t *buffer);
     int32_t handlePendingReprocResults(uint32_t frame_number);
@@ -510,7 +535,7 @@ private:
     int32_t handleCameraDeviceError();
     bool checkFrameInPendingList(const uint32_t frame_number);
 
-    bool isOnEncoder(const cam_dimension_t max_viewfinder_size,
+    static bool isOnEncoder(const cam_dimension_t max_viewfinder_size,
             uint32_t width, uint32_t height);
     camera_metadata_t* restoreHdrScene(uint8_t sceneMode, uint8_t controlMode,
             uint8_t extSceneMode, const camera_metadata_t *result);
