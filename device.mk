@@ -257,7 +257,17 @@ PRODUCT_COPY_FILES += \
 
 # SKU-specific permissions (SM-A9200 with eSE)
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.nfc.ese.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_nfc_ese/android.hardware.nfc.ese.xml
+    frameworks/native/data/etc/android.hardware.nfc.ese.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_nfc_ese/android.hardware.nfc.ese.xml \
+    frameworks/native/data/etc/android.hardware.se.omapi.ese.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_nfc_ese/android.hardware.se.omapi.ese.xml
+
+# Secure element. Only the SM-A9200 has one, but the service has to be up
+# before the framework enumerates its readers, and only that model declares
+# the OMAPI feature, so leave the start to init and the gating to the sku.
+PRODUCT_PACKAGES += \
+    android.hardware.secure_element@1.1-service
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/ese/libese-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libese-nxp.conf
 
 # Permissions
 PRODUCT_COPY_FILES += \
