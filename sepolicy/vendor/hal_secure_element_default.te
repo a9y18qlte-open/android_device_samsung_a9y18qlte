@@ -1,0 +1,11 @@
+# Reaches the element over /dev/p61 and asks the NFC HAL for its power, which
+# is where NXP's stack keeps it. The NFC HAL is a client in turn, since it
+# looks the element up on its own.
+allow hal_secure_element_default secure_element_device:chr_file rw_file_perms;
+allow hal_secure_element_default vendor_configs_file:file r_file_perms;
+
+binder_call(hal_secure_element_default, hal_nfc_default)
+hal_client_domain(hal_secure_element_default, hal_nfc)
+
+binder_call(hal_nfc_default, hal_secure_element_default)
+hal_client_domain(hal_nfc_default, hal_secure_element)
