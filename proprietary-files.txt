@@ -1346,8 +1346,10 @@ vendor/bin/fstman
 vendor/bin/hw/macloader
 vendor/bin/hw/mfgloader
 vendor/bin/hw/vendor.samsung.hardware.wifi@2.0-service
-# Not on stock; started by init.qcom.rc
-vendor/bin/qrtr-ns
+# From Zebra helios 14-41-13.00-UG-U03-STD-HEL-04 (sdm660, 4.19): no Samsung
+# firmware has it, as 4.4 has no QRTR, but the 4.19 kernel has no in-kernel
+# name service. Started by init.qcom.rc.
+vendor/bin/qrtr-ns|bd431629eacba7607a6f1a224f192d800687b125
 vendor/etc/init/vendor.qti.hardware.fstman@1.0-service.rc
 vendor/etc/init/vendor.samsung.hardware.wifi@2.0-service.rc
 vendor/etc/init/wifi.rc
