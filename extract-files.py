@@ -179,6 +179,18 @@ IMX576_60FPS_PATCHES = [
 
 
 blob_fixups: blob_fixups_user_type = {
+    # ro.control_privapp_permissions is enforce, so everything the patched
+    # imsservice requests has to be allowed here.
+    'system/etc/permissions/privapp-permissions-com.sec.imsservice.xml': blob_fixup()
+        .regex_replace(
+            r'(ACCESS_IMS_CALL_SERVICE"/>\n)',
+            r'\1        <permission name="android.permission.BIND_IMS_SERVICE"/>\n'
+            r'        <permission name="android.permission.INTERACT_ACROSS_USERS_FULL"/>\n',
+        )
+        .regex_replace(
+            r'(MONITOR_DEFAULT_SMS_PACKAGE"/>\n)',
+            r'\1        <permission name="android.permission.WRITE_SETTINGS"/>\n',
+        ),
     'vendor/lib64/libgps.utils.so': blob_fixup()
         .add_needed('libprocessgroup_shim.so'),
     # Uses no C++ runtime symbols; libstdc++ is not available to vendor

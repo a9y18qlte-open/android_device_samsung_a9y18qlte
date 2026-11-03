@@ -1205,18 +1205,16 @@ system/lib64/libevs_float.so
 system/lib64/libfloatingfeature.so
 system/lib64/libmediarelayengine.so
 system/lib64/libresampler_ims.so
-# libsec-ims.so and imsservice.apk are a 2022-09-05 build (imsservice CL
-# 56000433) that AP_A920FXXS7CVH1 does not have: the originals are in
-# vendor/samsung/a9y18qlte history, 41f7025:proprietary/lib64/libsec-ims.so and
-# 2ef7aaa:proprietary/priv-app/imsservice/imsservice.apk. To regenerate them,
-# extract from a dump with those at system/lib64 and system/priv-app/imsservice.
+# libsec-ims.so and imsservice.apk are from the SM-A9200's AP_A9200ZHU5CZB1:
+# the patches target its code, which differs from AP_A920FXXS7CVH1's. To
+# regenerate them, extract from a dump of that firmware.
 system/lib64/libsec-ims.so|b42c70656c5a5075c525732c666f7295ea1a118d|6f885190e6638daff7f7cd8356bc9afdb87ee9bc
 system/lib64/libsecnativefeature.so
 system/lib64/libsecril-client.so
 system/lib64/libstrongswan.so;DISABLE_CHECKELF
 system/lib64/vendor.samsung.hardware.radio.bridge@2.0.so
 # imsservice.apk is patched on extraction by blob-patches/imsservice.
-system/priv-app/imsservice/imsservice.apk|9a3e35ee3a516176b557b0d8c71f7a8f1c628b6c|c56673b37342373a6051d728551c16b7718200d7
+system/priv-app/imsservice/imsservice.apk|d6616f51a22ae9a67a1e52332699c62543653b90|ff88a39857c98e1bd227b32958b7b4768b6da3f8
 
 # Radio-IMS - VoWiFi: EpdgService (ePDG tunnel) and sveservice (AP voice engine)
 system/app/sveservice/sveservice.apk
