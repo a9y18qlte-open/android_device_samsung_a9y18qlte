@@ -116,6 +116,13 @@ ro.vendor.extension_library=libqti-perfd-client.so
 ro.hardware.egl=adreno
 ro.hardware.vulkan=adreno
 
+# Power
+# The power HAL releases the INTERACTION boost as soon as fb0/idle_state reads
+# "idle", and mdss reports idle after every frame while fb0/idle_time is 0 -
+# which nothing sets. Touch boosts lasted ~100 ms instead of >= 1400 ms, so use
+# the plain timed boost instead of the display-idle one.
+vendor.powerhal.disp.idle_support=false
+
 # SoC
 # YouTube reports these as its "soc" and only offers VP9 above 1080p with them.
 ro.soc.manufacturer=QTI
