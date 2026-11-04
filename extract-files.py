@@ -277,8 +277,21 @@ blob_fixups: blob_fixups_user_type = {
             (0x21d4, '048940b9', 0x21d4, '048540b9'),
         ]),
     # Camera::connect() and Surface::isValid() changed in Android 11/12.
+    # CControlManager::SetDeviceOrientInfo() indexes a four entry table with its
+    # orientation argument, which Samsung's own phone app passes as a 0-3 index.
+    # AOSP's VideoProvider.onSetDeviceOrientation() hands out degrees instead, so
+    # the first orientation of a video call read 90 entries past the table and
+    # killed sveservice, leaving the call without preview or camera controls.
+    # Convert degrees in place over the function's debug print, which only runs
+    # at debug priority 2 and up:
+    #   cmp w21, #4 ; b.lo out ; mov w8, #90 ; udiv w21, w21, w8 ;
+    #   and w21, w21, #3 ; b out
     'system/lib64/libsamsung_videoengine_9_0.so': blob_fixup()
-        .add_needed('libsve_shim.so'),
+        .add_needed('libsve_shim.so')
+        .call(patch_bytes, [(
+            0x5db00, '586901941f0800710b03005463fefff024feffd063e01291',
+            0x5db00, 'bf12007123030054480b8052b50ac81ab506001215000014',
+        )]),
     # Android 14's RefBase aborts on its stack-allocated objects; use the
     # Android 13 libutils.
     'vendor/bin/pm-service': blob_fixup()
