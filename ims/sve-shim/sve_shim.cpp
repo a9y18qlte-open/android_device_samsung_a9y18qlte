@@ -23,15 +23,25 @@
 #include <camera/Camera.h>
 #include <camera/CameraBase.h>
 #include <binder/Parcel.h>
+#include <gui/BufferItemConsumer.h>
+#include <gui/BufferQueue.h>
+#include <gui/Flags.h>
 #include <gui/Surface.h>
 #include <media/AudioRecord.h>
 #include <media/AudioTrack.h>
+#include <ui/GraphicBuffer.h>
 #include <ui/GraphicBufferMapper.h>
 #include <utils/String8.h>
 
 using android::AudioRecord;
 using android::AudioTrack;
+using android::BufferItem;
+using android::BufferItemConsumer;
+using android::BufferQueue;
 using android::Camera;
+using android::GraphicBuffer;
+using android::IGraphicBufferConsumer;
+using android::IGraphicBufferProducer;
 using android::RefBase;
 using android::CameraBase;
 using android::sp;
@@ -210,6 +220,53 @@ bool _ZN7android7Surface7isValidERKNS_2spIS0_EE(const sp<Surface>& surface) {
 
 }  // extern "C"
 
+namespace {
+
+// Returns the buffers the camera fills straight back to the queue, so the
+// producer never blocks on a target nobody reads.
+class BufferDrainer : public BufferItemConsumer::FrameAvailableListener {
+    const sp<BufferItemConsumer> mConsumer;
+
+  public:
+    explicit BufferDrainer(const sp<BufferItemConsumer>& consumer) : mConsumer(consumer) {}
+
+    void onFrameAvailable(const android::BufferItem&) override {
+        BufferItem item;
+        // Drain everything queued: one acquire per callback starves the camera
+        // as soon as two frames land between two listener wake-ups.
+        while (mConsumer->acquireBuffer(&item, 0 /* presentWhen */) == android::OK) {
+            mConsumer->releaseBuffer(item);
+        }
+    }
+};
+
+void setDummyPreviewTarget(const sp<Camera>& camera) {
+    static std::mutex mutex;
+    static sp<BufferItemConsumer> consumer;
+    static sp<Surface> surface;
+
+    std::lock_guard<std::mutex> lock(mutex);
+    if (consumer == nullptr) {
+        sp<IGraphicBufferProducer> producer;
+        sp<IGraphicBufferConsumer> bufferConsumer;
+        BufferQueue::createBufferQueue(&producer, &bufferConsumer);
+        consumer = new BufferItemConsumer(bufferConsumer, GraphicBuffer::USAGE_HW_TEXTURE,
+                                          4 /* bufferCount */);
+        consumer->setFrameAvailableListener(new BufferDrainer(consumer));
+        // Nobody looks at these frames, so let the camera overwrite the oldest
+        // one rather than fail its requests when the queue runs dry.
+        producer->setAsyncMode(true);
+        surface = new Surface(producer);
+    }
+#if WB_LIBCAMERASERVICE_WITH_DEPENDENCIES
+    camera->setPreviewTarget(surface);
+#else
+    camera->setPreviewTarget(surface->getIGraphicBufferProducer());
+#endif
+}
+
+}  // namespace
+
 // static sp<Camera> Camera::connect(int, const String16&, int, int)
 sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int clientUid,
                          int clientPid) __asm__("_ZN7android6Camera7connectEiRKNS_8String16Eii");
@@ -220,8 +277,20 @@ sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int cl
     clientAttribution.uid = clientUid;
     clientAttribution.pid = clientPid;
     CameraCompatibilityInfo compatInfo;
-    return Camera::connect(cameraId, 29 /* targetSdkVersion */, compatInfo,
-                           false /* forceSlowJpegMode */, clientAttribution, 0 /* devicePolicy */);
+    sp<Camera> camera =
+            Camera::connect(cameraId, 29 /* targetSdkVersion */, compatInfo,
+                            false /* forceSlowJpegMode */, clientAttribution,
+                            0 /* devicePolicy */);
+    // The video engine renders the preview itself from the frame callbacks and
+    // never sets a preview target, which Samsung's camera service allowed.
+    // Camera2Client::startPreviewL() leaves the client in
+    // WAITING_FOR_PREVIEW_WINDOW and configures no stream at all without one,
+    // so the camera never streams and no callback ever arrives. Give it a
+    // target of our own, which nothing reads, to get the streams configured.
+    if (camera != nullptr) {
+        setDummyPreviewTarget(camera);
+    }
+    return camera;
 }
 
 // static status_t CameraBase<Camera>::getCameraInfo(int, CameraInfo*)
