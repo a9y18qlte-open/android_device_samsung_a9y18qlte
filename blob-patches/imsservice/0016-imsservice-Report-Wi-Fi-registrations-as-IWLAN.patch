@@ -1,0 +1,86 @@
+From f3bb6f00052ac344ccc58b15055df3bc0c79f85a Mon Sep 17 00:00:00 2001
+From: thongass000 <tienthong2004@gmail.com>
+Date: Wed, 4 Nov 2026 18:49:09 +0700
+Subject: [PATCH 16/17] imsservice: Report Wi-Fi registrations as IWLAN
+
+Registrations were always reported with the LTE radio technology, so
+Android showed voice over Wi-Fi unavailable during VoWiFi. Report IWLAN
+when the registration is over ePDG.
+
+Assisted-by: LLM
+---
+ .../ims/GoogleImsService$ImsNotifier.smali    |  4 ++-
+ smali/com/google/ims/GoogleImsService.smali   | 28 +++++++++++++++++--
+ 2 files changed, 29 insertions(+), 3 deletions(-)
+
+diff --git a/smali/com/google/ims/GoogleImsService$ImsNotifier.smali b/smali/com/google/ims/GoogleImsService$ImsNotifier.smali
+index bd38bfd..4f2f152 100644
+--- a/smali/com/google/ims/GoogleImsService$ImsNotifier.smali
++++ b/smali/com/google/ims/GoogleImsService$ImsNotifier.smali
+@@ -408,7 +408,9 @@
+ 
+     .line 1440
+     :try_start_0
+-    const/16 v6, 0xe
++    invoke-static {p1}, Lcom/google/ims/GoogleImsService;->imsRadioTech(Lcom/sec/ims/ImsRegistration;)I
++
++    move-result v6
+ 
+     invoke-interface {v5, v6}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationConnectedWithRadioTech(I)V
+ 
+diff --git a/smali/com/google/ims/GoogleImsService.smali b/smali/com/google/ims/GoogleImsService.smali
+index f9ee52b..94a748f 100644
+--- a/smali/com/google/ims/GoogleImsService.smali
++++ b/smali/com/google/ims/GoogleImsService.smali
+@@ -173,6 +173,26 @@
+ 
+ 
+ # direct methods
++# ServiceState radio technology of a registration: IWLAN over ePDG, LTE otherwise.
++.method static imsRadioTech(Lcom/sec/ims/ImsRegistration;)I
++    .locals 1
++
++    invoke-virtual {p0}, Lcom/sec/ims/ImsRegistration;->getEpdgStatus()Z
++
++    move-result v0
++
++    if-eqz v0, :cond_lte
++
++    const/16 v0, 0x12
++
++    return v0
++
++    :cond_lte
++    const/16 v0, 0xe
++
++    return v0
++.end method
++
+ .method static constructor <clinit>()V
+     .locals 3
+ 
+@@ -5104,7 +5124,9 @@
+     invoke-static {v1, v7}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
+ 
+     .line 217
+-    const/16 v7, 0xe
++    invoke-static {v6}, Lcom/google/ims/GoogleImsService;->imsRadioTech(Lcom/sec/ims/ImsRegistration;)I
++
++    move-result v7
+ 
+     invoke-interface {p4, v7}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationConnectedWithRadioTech(I)V
+ 
+@@ -5823,7 +5845,9 @@
+ 
+     if-eqz v1, :cond_0
+ 
+-    const/16 v1, 0xe
++    invoke-static {v2}, Lcom/google/ims/GoogleImsService;->imsRadioTech(Lcom/sec/ims/ImsRegistration;)I
++
++    move-result v1
+ 
+     invoke-interface {p2, v1}, Lcom/android/ims/internal/IImsRegistrationListener;->registrationConnectedWithRadioTech(I)V
+ 
+-- 
+2.34.1
+
