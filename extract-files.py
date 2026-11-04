@@ -253,7 +253,11 @@ blob_fixups: blob_fixups_user_type = {
     # (RefBase -> SveBase keeps the string table layout).
     # The same change moved fields it reads inline: AudioTrack::mStatus
     # (initCheck()) 0x208 -> 0x200, AudioTrack::mSessionId (getSessionId())
-    # 0x34c -> 0x35c, AudioRecord::mStatus 0x88 -> 0x8c.
+    # 0x34c -> 0x35c, AudioRecord::mStatus 0x88 -> 0x8c. Android 16 dropped
+    # mLegacyCallbackWrapper from both, ahead of AudioTrack::mSessionId (now
+    # 0x354) and AudioRecord::mStatus (now 0x84); with the old offset the
+    # engine read a wrong status, failed to open the microphone and ended
+    # every VoWiFi call as soon as it was answered.
     'system/lib64/libAudioFWInterface.so': blob_fixup()
         .call(patch_bytes, [
             (0x20b0, '00578052', 0x20b0, '008d8052'),
@@ -268,9 +272,9 @@ blob_fixups: blob_fixups_user_type = {
         .call(patch_bytes, [
             (0x240c, '040942b9', 0x240c, '040142b9'),
             (0x2950, '080842b9', 0x2950, '080042b9'),
-            (0x2514, '144c43b9', 0x2514, '145c43b9'),
-            (0x2528, '88698052', 0x2528, '886b8052'),
-            (0x21d4, '048940b9', 0x21d4, '048d40b9'),
+            (0x2514, '144c43b9', 0x2514, '145443b9'),
+            (0x2528, '88698052', 0x2528, '886a8052'),
+            (0x21d4, '048940b9', 0x21d4, '048540b9'),
         ]),
     # Camera::connect() and Surface::isValid() changed in Android 11/12.
     'system/lib64/libsamsung_videoengine_9_0.so': blob_fixup()
