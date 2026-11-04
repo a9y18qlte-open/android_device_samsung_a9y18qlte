@@ -524,19 +524,21 @@ static void send_app_type_cfg(void *platform, struct mixer *mixer,
 void audio_get_vendor_config_path (char* config_file_path, int path_size)
 {
     char vendor_sku[PROPERTY_VALUE_MAX] = {'\0'};
-    if (property_get("ro.boot.product.vendor.sku", vendor_sku, "") <= 0) {
-#ifdef LINUX_ENABLED
-        /* Audio configs are stored in /etc */
-        snprintf(config_file_path, path_size, "%s", "/etc");
-#else
-        /* Audio configs are stored in /vendor/etc */
-        snprintf(config_file_path, path_size, "%s", "/vendor/etc");
-#endif
-    } else {
+    if (property_get("ro.boot.product.vendor.sku", vendor_sku, "") > 0) {
         /* Audio configs are stored in /vendor/etc/audio/sku_${vendor_sku} */
         snprintf(config_file_path, path_size,
             "%s%s", "/vendor/etc/audio/sku_", vendor_sku);
+        /* The sku may exist for other reasons than audio, e.g. permissions */
+        if (access(config_file_path, F_OK) == 0)
+            return;
     }
+#ifdef LINUX_ENABLED
+    /* Audio configs are stored in /etc */
+    snprintf(config_file_path, path_size, "%s", "/etc");
+#else
+    /* Audio configs are stored in /vendor/etc */
+    snprintf(config_file_path, path_size, "%s", "/vendor/etc");
+#endif
 }
 
 void audio_extn_utils_update_streams_cfg_lists(void *platform,
