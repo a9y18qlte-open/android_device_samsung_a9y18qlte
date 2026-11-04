@@ -3101,7 +3101,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>3_AT</NetworkName>
@@ -3110,7 +3110,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>3_DK</NetworkName>
@@ -3119,7 +3119,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>3_HK</NetworkName>
@@ -3128,7 +3128,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>3_ID</NetworkName>
@@ -3137,7 +3137,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>3_IE</NetworkName>
@@ -3146,7 +3146,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>3_MO</NetworkName>
@@ -3155,7 +3155,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>3_SE</NetworkName>
@@ -3164,7 +3164,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>4ka_SK</NetworkName>
@@ -3173,7 +3173,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>A1_AT</NetworkName>
@@ -3182,7 +3182,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>A1_BG</NetworkName>
@@ -3191,7 +3191,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>A1_SI</NetworkName>
@@ -3200,7 +3200,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>ACMOSS_FR</NetworkName>
@@ -3209,7 +3209,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>AIRTEL_IN</NetworkName>
@@ -3218,7 +3218,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>AIRTEL_LK</NetworkName>
@@ -3227,7 +3227,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>AIRTEL_NG</NetworkName>
@@ -3236,7 +3236,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>AIS_TH</NetworkName>
@@ -3245,7 +3245,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>ALE_EC</NetworkName>
@@ -3254,7 +3254,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>APT_TW</NetworkName>
@@ -3263,7 +3263,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>ASTCA_US</NetworkName>
@@ -3272,7 +3272,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>ATT_US</NetworkName>
@@ -3281,7 +3281,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>AVEA_TR</NetworkName>
@@ -3290,7 +3290,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Airbus_MX</NetworkName>
@@ -3299,7 +3299,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Airtel_KE</NetworkName>
@@ -3308,7 +3308,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Airtel_TZ</NetworkName>
@@ -3317,7 +3317,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Airtel_UG</NetworkName>
@@ -3326,7 +3326,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Alcom_FI</NetworkName>
@@ -3353,7 +3353,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Algar_BR</NetworkName>
@@ -3362,7 +3362,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Aliv_BS</NetworkName>
@@ -3371,7 +3371,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Altan_MX</NetworkName>
@@ -3380,7 +3380,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Altel_KZ</NetworkName>
@@ -3389,7 +3389,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Americanet_BR</NetworkName>
@@ -3425,7 +3425,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Att_ius_MX</NetworkName>
@@ -3434,7 +3434,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Avantel_CO</NetworkName>
@@ -3452,7 +3452,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>BSNL_IN</NetworkName>
@@ -3461,7 +3461,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>BTC_BS</NetworkName>
@@ -3479,7 +3479,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Bakcell_AZ</NetworkName>
@@ -3488,7 +3488,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Banglalink_BD</NetworkName>
@@ -3497,7 +3497,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Batelco_BH</NetworkName>
@@ -3506,7 +3506,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Beeline_KZ</NetworkName>
@@ -3515,7 +3515,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Beeline_RU</NetworkName>
@@ -3524,7 +3524,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Bell_CA</NetworkName>
@@ -3533,7 +3533,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Best_LA</NetworkName>
@@ -3542,7 +3542,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Bite_LT</NetworkName>
@@ -3551,7 +3551,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Bitel_PE</NetworkName>
@@ -3569,7 +3569,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Brisanet_BR</NetworkName>
@@ -3578,7 +3578,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CBN_CN</NetworkName>
@@ -3587,7 +3587,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CHT_TW</NetworkName>
@@ -3596,7 +3596,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CMCC_CN</NetworkName>
@@ -3605,7 +3605,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CMHK_HK</NetworkName>
@@ -3614,7 +3614,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CSL_HK</NetworkName>
@@ -3623,7 +3623,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CTC_CN</NetworkName>
@@ -3632,7 +3632,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CTC_MO</NetworkName>
@@ -3641,7 +3641,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CTG_HK</NetworkName>
@@ -3650,7 +3650,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CTM_MO</NetworkName>
@@ -3659,7 +3659,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CUHK_HK</NetworkName>
@@ -3668,7 +3668,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CU_CN</NetworkName>
@@ -3677,7 +3677,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Cable_JM</NetworkName>
@@ -3704,7 +3704,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>CellC_ZA</NetworkName>
@@ -3713,7 +3713,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Cellcard_KH</NetworkName>
@@ -3722,7 +3722,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Cellcom_IL</NetworkName>
@@ -3731,7 +3731,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Cellfie_GE</NetworkName>
@@ -3740,7 +3740,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Claro_AR</NetworkName>
@@ -3749,7 +3749,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Claro_BR</NetworkName>
@@ -3758,7 +3758,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Claro_CL</NetworkName>
@@ -3767,7 +3767,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Claro_CO</NetworkName>
@@ -3776,7 +3776,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Claro_CR</NetworkName>
@@ -3794,7 +3794,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Claro_EC</NetworkName>
@@ -3803,7 +3803,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Claro_GT</NetworkName>
@@ -3848,7 +3848,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Claro_PR</NetworkName>
@@ -3857,7 +3857,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Claro_PY</NetworkName>
@@ -3866,7 +3866,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Claro_SV</NetworkName>
@@ -3884,7 +3884,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Cogeco_CA</NetworkName>
@@ -3893,7 +3893,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Coopvoce_IT</NetworkName>
@@ -3911,7 +3911,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>DIGI_MY</NetworkName>
@@ -3920,7 +3920,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>DITO_PH</NetworkName>
@@ -3929,7 +3929,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>DNA_FI</NetworkName>
@@ -3938,7 +3938,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>DPAC_US</NetworkName>
@@ -3956,7 +3956,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>DU_AE</NetworkName>
@@ -3965,7 +3965,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Dhiraagu_MV</NetworkName>
@@ -3974,7 +3974,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Dialog_LK</NetworkName>
@@ -3983,7 +3983,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Digi_ES</NetworkName>
@@ -3992,7 +3992,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Digi_IT</NetworkName>
@@ -4001,7 +4001,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Digi_PT</NetworkName>
@@ -4019,7 +4019,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Docomo_JP</NetworkName>
@@ -4028,7 +4028,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>EDF_FR</NetworkName>
@@ -4037,7 +4037,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>EE_GB</NetworkName>
@@ -4046,7 +4046,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>ESK_CA</NetworkName>
@@ -4055,7 +4055,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Elisa_EE</NetworkName>
@@ -4064,7 +4064,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Elisa_FI</NetworkName>
@@ -4073,7 +4073,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Enel_ES</NetworkName>
@@ -4082,7 +4082,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Entel_BO</NetworkName>
@@ -4091,7 +4091,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Entel_CL</NetworkName>
@@ -4100,7 +4100,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Entel_PE</NetworkName>
@@ -4109,7 +4109,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Erate_NO</NetworkName>
@@ -4118,7 +4118,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Erillisverkot_FI</NetworkName>
@@ -4127,7 +4127,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Etisalat_AE</NetworkName>
@@ -4136,7 +4136,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Etisalat_EG</NetworkName>
@@ -4145,7 +4145,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>FET_TW</NetworkName>
@@ -4154,7 +4154,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Fastweb_IT</NetworkName>
@@ -4163,7 +4163,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Free_FR</NetworkName>
@@ -4172,7 +4172,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>GCI_US</NetworkName>
@@ -4181,7 +4181,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>GRAMEENPHONE_BD</NetworkName>
@@ -4190,7 +4190,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>GenericIR92_US</NetworkName>
@@ -4199,7 +4199,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Globe_PH</NetworkName>
@@ -4208,7 +4208,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>HotMobile_IL</NetworkName>
@@ -4217,7 +4217,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Hubone_FR</NetworkName>
@@ -4226,7 +4226,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Hutch_LK</NetworkName>
@@ -4235,7 +4235,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Hutchison_GB</NetworkName>
@@ -4244,7 +4244,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>IDEA_IN</NetworkName>
@@ -4253,7 +4253,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>INWI_MA</NetworkName>
@@ -4262,7 +4262,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>IceNet_NO</NetworkName>
@@ -4271,7 +4271,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Iliad_IT</NetworkName>
@@ -4289,7 +4289,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>JTL_KE</NetworkName>
@@ -4298,7 +4298,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>JT_GB</NetworkName>
@@ -4307,7 +4307,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Jazz_PK</NetworkName>
@@ -4316,7 +4316,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>KDDI_JP</NetworkName>
@@ -4325,7 +4325,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>KOLBI_CR</NetworkName>
@@ -4334,7 +4334,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>KPN_NL</NetworkName>
@@ -4343,7 +4343,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>KT_KR</NetworkName>
@@ -4352,7 +4352,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>LGU+_KR</NetworkName>
@@ -4361,7 +4361,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Laotel_LA</NetworkName>
@@ -4370,7 +4370,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>LycaMobile_PT</NetworkName>
@@ -4406,7 +4406,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MEO_PT</NetworkName>
@@ -4415,7 +4415,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MOBILY_SA</NetworkName>
@@ -4424,7 +4424,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MOD_PK</NetworkName>
@@ -4433,7 +4433,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MOI_QA</NetworkName>
@@ -4442,7 +4442,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MPT_MM</NetworkName>
@@ -4451,7 +4451,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MTN_GH</NetworkName>
@@ -4460,7 +4460,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MTN_IR</NetworkName>
@@ -4469,7 +4469,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MTN_NG</NetworkName>
@@ -4487,7 +4487,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MTN_ZA</NetworkName>
@@ -4496,7 +4496,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MTS_AM</NetworkName>
@@ -4505,7 +4505,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MTS_BY</NetworkName>
@@ -4514,7 +4514,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>MTS_RU</NetworkName>
@@ -4523,7 +4523,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Magticom_GE</NetworkName>
@@ -4532,7 +4532,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Manx_GB</NetworkName>
@@ -4541,7 +4541,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Maroc_MA</NetworkName>
@@ -4550,7 +4550,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Maxis_MY</NetworkName>
@@ -4559,7 +4559,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Mcci_IR</NetworkName>
@@ -4568,7 +4568,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Megafon_RU</NetworkName>
@@ -4577,7 +4577,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Meteor_IE</NetworkName>
@@ -4586,7 +4586,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Metfone_KH</NetworkName>
@@ -4595,7 +4595,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Mobifone_VN</NetworkName>
@@ -4604,7 +4604,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Mobileone_SG</NetworkName>
@@ -4613,7 +4613,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Mobitel_LK</NetworkName>
@@ -4622,7 +4622,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Moldcell_MD</NetworkName>
@@ -4640,7 +4640,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Movistar_AR</NetworkName>
@@ -4748,7 +4748,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Nova_IS</NetworkName>
@@ -4757,7 +4757,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>OUTREMER_FR</NetworkName>
@@ -4766,7 +4766,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Omantel_OM</NetworkName>
@@ -4775,7 +4775,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Ooredoo_KW</NetworkName>
@@ -4784,7 +4784,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Ooredoo_MM</NetworkName>
@@ -4793,7 +4793,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Ooredoo_MV</NetworkName>
@@ -4802,7 +4802,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Ooredoo_QA</NetworkName>
@@ -4811,7 +4811,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Optus_AU</NetworkName>
@@ -4820,7 +4820,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_BE</NetworkName>
@@ -4829,7 +4829,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_CH</NetworkName>
@@ -4838,7 +4838,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_DO</NetworkName>
@@ -4847,7 +4847,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_EG</NetworkName>
@@ -4856,7 +4856,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_ES</NetworkName>
@@ -4874,7 +4874,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_JO</NetworkName>
@@ -4883,7 +4883,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_LU</NetworkName>
@@ -4892,7 +4892,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_MA</NetworkName>
@@ -4919,7 +4919,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_RO</NetworkName>
@@ -4928,7 +4928,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_SK</NetworkName>
@@ -4937,7 +4937,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Orange_SN</NetworkName>
@@ -4955,7 +4955,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>PCCW_HK</NetworkName>
@@ -4964,7 +4964,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>PCL_IL</NetworkName>
@@ -4973,7 +4973,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>PTR_IL</NetworkName>
@@ -4982,7 +4982,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>PTV_ES</NetworkName>
@@ -4991,7 +4991,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Personal_AR</NetworkName>
@@ -5000,7 +5000,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Personal_PY</NetworkName>
@@ -5009,7 +5009,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Play_PL</NetworkName>
@@ -5018,7 +5018,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Plintron_IT</NetworkName>
@@ -5036,7 +5036,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Post_LU</NetworkName>
@@ -5045,7 +5045,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Proximus_BE</NetworkName>
@@ -5054,7 +5054,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>RDS_RO</NetworkName>
@@ -5072,7 +5072,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>ROBI_BD</NetworkName>
@@ -5081,7 +5081,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>RWC_CA</NetworkName>
@@ -5090,7 +5090,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Rain_ZA</NetworkName>
@@ -5099,7 +5099,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Rakuten_JP</NetworkName>
@@ -5108,7 +5108,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Redbull_SA</NetworkName>
@@ -5117,7 +5117,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>SBB_CH</NetworkName>
@@ -5126,7 +5126,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>SFR_FR</NetworkName>
@@ -5135,7 +5135,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>SKT_KR</NetworkName>
@@ -5144,7 +5144,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>SPM_FR</NetworkName>
@@ -5153,7 +5153,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>STC_SA</NetworkName>
@@ -5162,7 +5162,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Safaricom_KE</NetworkName>
@@ -5171,7 +5171,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Salam_SA</NetworkName>
@@ -5180,7 +5180,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>SaskTel_CA</NetworkName>
@@ -5189,7 +5189,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Seatel_KH</NetworkName>
@@ -5198,7 +5198,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Siminn_IS</NetworkName>
@@ -5207,7 +5207,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Singtel_SG</NetworkName>
@@ -5216,7 +5216,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Sky_GB</NetworkName>
@@ -5225,7 +5225,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Smart_KH</NetworkName>
@@ -5234,7 +5234,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Smart_PH</NetworkName>
@@ -5243,7 +5243,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Smartfren_ID</NetworkName>
@@ -5252,7 +5252,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Smartone_HK</NetworkName>
@@ -5261,7 +5261,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Softbank_JP</NetworkName>
@@ -5270,7 +5270,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Spark_NZ</NetworkName>
@@ -5279,7 +5279,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Spectranet_NG</NetworkName>
@@ -5288,7 +5288,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Sprint_US</NetworkName>
@@ -5297,7 +5297,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Spusu_AT</NetworkName>
@@ -5306,7 +5306,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Spusu_GB</NetworkName>
@@ -5315,7 +5315,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Spusu_IT</NetworkName>
@@ -5324,7 +5324,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Starhub_SG</NetworkName>
@@ -5333,7 +5333,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Sunrise_CH</NetworkName>
@@ -5342,7 +5342,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Sure_GB</NetworkName>
@@ -5351,7 +5351,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Swisscom_CH</NetworkName>
@@ -5360,7 +5360,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>T2_SI</NetworkName>
@@ -5369,7 +5369,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TDC_DK</NetworkName>
@@ -5378,7 +5378,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TELE2_RU</NetworkName>
@@ -5387,7 +5387,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_AT</NetworkName>
@@ -5396,7 +5396,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_CZ</NetworkName>
@@ -5405,7 +5405,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_DE</NetworkName>
@@ -5414,7 +5414,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_GR</NetworkName>
@@ -5423,7 +5423,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_HR</NetworkName>
@@ -5432,7 +5432,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_HU</NetworkName>
@@ -5441,7 +5441,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_ME</NetworkName>
@@ -5450,7 +5450,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_MK</NetworkName>
@@ -5459,7 +5459,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_NL</NetworkName>
@@ -5468,7 +5468,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_PL</NetworkName>
@@ -5477,7 +5477,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_RO</NetworkName>
@@ -5495,7 +5495,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TMobile_US</NetworkName>
@@ -5504,7 +5504,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TPG_SG</NetworkName>
@@ -5513,7 +5513,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TSTAR_TW</NetworkName>
@@ -5531,7 +5531,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tango_LU</NetworkName>
@@ -5540,7 +5540,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telavox_BE</NetworkName>
@@ -5549,7 +5549,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telcel_MX</NetworkName>
@@ -5558,7 +5558,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tele2_EE</NetworkName>
@@ -5567,7 +5567,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tele2_KZ</NetworkName>
@@ -5576,7 +5576,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tele2_LT</NetworkName>
@@ -5585,7 +5585,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tele2_NL</NetworkName>
@@ -5594,7 +5594,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tele2_SE</NetworkName>
@@ -5603,7 +5603,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telecom_AM</NetworkName>
@@ -5630,7 +5630,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telecom_IT</NetworkName>
@@ -5648,7 +5648,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telefonica_CZ</NetworkName>
@@ -5657,7 +5657,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telefonica_DE</NetworkName>
@@ -5666,7 +5666,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telefonica_ES</NetworkName>
@@ -5675,7 +5675,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telefonica_GB</NetworkName>
@@ -5684,7 +5684,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telefonica_SK</NetworkName>
@@ -5693,7 +5693,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telekom_AL</NetworkName>
@@ -5720,7 +5720,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telemach_HR</NetworkName>
@@ -5729,7 +5729,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telemach_SI</NetworkName>
@@ -5738,7 +5738,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telenet_BE</NetworkName>
@@ -5747,7 +5747,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telenor_BG</NetworkName>
@@ -5765,7 +5765,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telenor_HU</NetworkName>
@@ -5774,7 +5774,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telenor_ME</NetworkName>
@@ -5783,7 +5783,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telenor_MM</NetworkName>
@@ -5792,7 +5792,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telenor_NO</NetworkName>
@@ -5801,7 +5801,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telenor_PK</NetworkName>
@@ -5810,7 +5810,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telenor_RS</NetworkName>
@@ -5819,7 +5819,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telenor_SE</NetworkName>
@@ -5828,7 +5828,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telepost_GL</NetworkName>
@@ -5846,7 +5846,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telia_EE</NetworkName>
@@ -5855,7 +5855,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telia_FI</NetworkName>
@@ -5864,7 +5864,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telia_NO</NetworkName>
@@ -5873,7 +5873,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telia_SE</NetworkName>
@@ -5882,7 +5882,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telkom_ZA</NetworkName>
@@ -5891,7 +5891,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telkomsel_ID</NetworkName>
@@ -5900,7 +5900,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telstra_AU</NetworkName>
@@ -5909,7 +5909,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Telzar_IL</NetworkName>
@@ -5927,7 +5927,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tigo_CO</NetworkName>
@@ -5936,7 +5936,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tigo_GT</NetworkName>
@@ -5945,7 +5945,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tigo_PA</NetworkName>
@@ -5963,7 +5963,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tigo_TZ</NetworkName>
@@ -5972,7 +5972,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tim_BR</NetworkName>
@@ -5981,7 +5981,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Truemove_TH</NetworkName>
@@ -5990,7 +5990,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Tuenti_AR</NetworkName>
@@ -6008,7 +6008,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>TwoDegree_NZ</NetworkName>
@@ -6017,7 +6017,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>UMobile_MY</NetworkName>
@@ -6026,7 +6026,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>UPC_CH</NetworkName>
@@ -6035,7 +6035,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>USCC_US</NetworkName>
@@ -6044,7 +6044,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Ucom_AM</NetworkName>
@@ -6062,7 +6062,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Umniah_JO</NetworkName>
@@ -6080,7 +6080,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Unitel_LA</NetworkName>
@@ -6089,7 +6089,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>VGR_SE</NetworkName>
@@ -6098,7 +6098,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>VIP_MK</NetworkName>
@@ -6116,7 +6116,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>VZW_US</NetworkName>
@@ -6125,7 +6125,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Velcom_BY</NetworkName>
@@ -6134,7 +6134,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>VideoTron_CA</NetworkName>
@@ -6143,7 +6143,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vietnamobile_VN</NetworkName>
@@ -6161,7 +6161,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vimla_SE</NetworkName>
@@ -6170,7 +6170,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vinaphone_VN</NetworkName>
@@ -6179,7 +6179,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vipmobile_RS</NetworkName>
@@ -6188,7 +6188,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Virgin_GB</NetworkName>
@@ -6197,7 +6197,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Virgin_SA</NetworkName>
@@ -6206,7 +6206,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Viva_BH</NetworkName>
@@ -6215,7 +6215,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Viva_KW</NetworkName>
@@ -6224,7 +6224,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vivacom_BG</NetworkName>
@@ -6242,7 +6242,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodacom_ZA</NetworkName>
@@ -6251,7 +6251,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>VodafoneFiji_NZ</NetworkName>
@@ -6260,7 +6260,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>VodafonePNG_NZ</NetworkName>
@@ -6269,7 +6269,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_AL</NetworkName>
@@ -6287,7 +6287,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_CZ</NetworkName>
@@ -6296,7 +6296,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_DE</NetworkName>
@@ -6305,7 +6305,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_EG</NetworkName>
@@ -6323,7 +6323,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_GB</NetworkName>
@@ -6332,7 +6332,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_GR</NetworkName>
@@ -6341,7 +6341,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_HR</NetworkName>
@@ -6350,7 +6350,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_HU</NetworkName>
@@ -6359,7 +6359,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_IE</NetworkName>
@@ -6377,7 +6377,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_IS</NetworkName>
@@ -6386,7 +6386,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_IT</NetworkName>
@@ -6395,7 +6395,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_NL</NetworkName>
@@ -6404,7 +6404,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_NZ</NetworkName>
@@ -6413,7 +6413,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_OM</NetworkName>
@@ -6422,7 +6422,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_PT</NetworkName>
@@ -6440,7 +6440,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_RO</NetworkName>
@@ -6449,7 +6449,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Vodafone_TR</NetworkName>
@@ -6458,7 +6458,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>We_EG</NetworkName>
@@ -6467,7 +6467,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Wecom_IL</NetworkName>
@@ -6485,7 +6485,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Wind_GR</NetworkName>
@@ -6512,7 +6512,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Wom_CO</NetworkName>
@@ -6521,7 +6521,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>XL_ID</NetworkName>
@@ -6530,7 +6530,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Xphone_IL</NetworkName>
@@ -6539,7 +6539,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>YTL_MY</NetworkName>
@@ -6548,7 +6548,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Yoigo_ES</NetworkName>
@@ -6557,7 +6557,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>ZEB_LT</NetworkName>
@@ -6566,7 +6566,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Zain_BH</NetworkName>
@@ -6575,7 +6575,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Zain_JO</NetworkName>
@@ -6584,7 +6584,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Zain_KW</NetworkName>
@@ -6593,7 +6593,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Zain_SA</NetworkName>
@@ -6602,7 +6602,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Zantel_TZ</NetworkName>
@@ -6611,7 +6611,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Zeop_FR</NetworkName>
@@ -6620,7 +6620,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>false</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
         <Setting>
           <NetworkName>Zong_PK</NetworkName>
@@ -6629,7 +6629,7 @@
           <EnableVoLTEindicator>true</EnableVoLTEindicator>
           <EnableVoiceoverWIFI>true</EnableVoiceoverWIFI>
           <EnableVideocall>false</EnableVideocall>
-          <EnableSMSoverIP>false</EnableSMSoverIP>
+          <EnableSMSoverIP>true</EnableSMSoverIP>
         </Setting>
       </NbSetting>
     </IMSSetting>
