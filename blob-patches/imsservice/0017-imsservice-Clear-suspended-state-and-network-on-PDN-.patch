@@ -1,0 +1,100 @@
+From df2139d075b4476b286e994e55df4fda86f2661e Mon Sep 17 00:00:00 2001
+From: thongass000 <tienthong2004@gmail.com>
+Date: Wed, 4 Nov 2026 20:07:08 +0700
+Subject: [PATCH 17/17] imsservice: Clear suspended state and network on PDN
+ connect and disconnect
+
+When ePDG or mobile PDN disconnects or reconnects, clear mSuspended and mNetworkConnected on RegisterTask so teardown suspension and stale network handles do not block subsequent VoLTE registrations.
+
+Assisted-by: LLM
+---
+ .../ims/imsservice/RegisterTask.smali         | 21 ++++++++++++++++++-
+ .../imsservice/RegistrationManagerBase.smali  | 13 ++++++++++++
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+
+diff --git a/smali/com/sec/internal/ims/imsservice/RegisterTask.smali b/smali/com/sec/internal/ims/imsservice/RegisterTask.smali
+index 32d2024..ad50ca5 100644
+--- a/smali/com/sec/internal/ims/imsservice/RegisterTask.smali
++++ b/smali/com/sec/internal/ims/imsservice/RegisterTask.smali
+@@ -1258,6 +1258,10 @@
+ 
+     .line 221
+     :cond_0
++    const/4 v0, 0x0
++
++    iput-boolean v0, p0, Lcom/sec/internal/ims/imsservice/RegisterTask;->mSuspended:Z
++
+     iput-object p2, p0, Lcom/sec/internal/ims/imsservice/RegisterTask;->mNetworkConnected:Landroid/net/Network;
+ 
+     .line 222
+@@ -1348,6 +1352,8 @@
+     :cond_0
+     const/4 v0, 0x0
+ 
++    iput-boolean v0, p0, Lcom/sec/internal/ims/imsservice/RegisterTask;->mSuspended:Z
++
+     iput-object v0, p0, Lcom/sec/internal/ims/imsservice/RegisterTask;->mNetworkConnected:Landroid/net/Network;
+ 
+     .line 235
+@@ -2425,13 +2431,26 @@
+ .end method
+ 
+ .method public setState(Lcom/sec/internal/ims/imsservice/RegisterTask$RegisterTaskState;)V
+-    .locals 0
++    .locals 1
+     .param p1, "state"    # Lcom/sec/internal/ims/imsservice/RegisterTask$RegisterTaskState;
+ 
+     .line 462
+     iput-object p1, p0, Lcom/sec/internal/ims/imsservice/RegisterTask;->mState:Lcom/sec/internal/ims/imsservice/RegisterTask$RegisterTaskState;
+ 
+     .line 463
++    sget-object v0, Lcom/sec/internal/ims/imsservice/RegisterTask$RegisterTaskState;->IDLE:Lcom/sec/internal/ims/imsservice/RegisterTask$RegisterTaskState;
++
++    if-ne p1, v0, :cond_0
++
++    .line 464
++    const/4 v0, 0x0
++
++    iput-boolean v0, p0, Lcom/sec/internal/ims/imsservice/RegisterTask;->mSuspended:Z
++
++    iput-object v0, p0, Lcom/sec/internal/ims/imsservice/RegisterTask;->mNetworkConnected:Landroid/net/Network;
++
++    .line 466
++    :cond_0
+     return-void
+ .end method
+ 
+diff --git a/smali/com/sec/internal/ims/imsservice/RegistrationManagerBase.smali b/smali/com/sec/internal/ims/imsservice/RegistrationManagerBase.smali
+index a33ea31..8a5e277 100644
+--- a/smali/com/sec/internal/ims/imsservice/RegistrationManagerBase.smali
++++ b/smali/com/sec/internal/ims/imsservice/RegistrationManagerBase.smali
+@@ -38036,6 +38036,13 @@
+     invoke-virtual/range {p1 .. p1}, Lcom/sec/internal/ims/imsservice/RegisterTask;->clearUpdateRegisteringFlag()V
+ 
+     .line 4143
++    const/4 v10, 0x0
++
++    iput-boolean v10, v1, Lcom/sec/internal/ims/imsservice/RegisterTask;->mSuspended:Z
++
++    iput-object v10, v1, Lcom/sec/internal/ims/imsservice/RegisterTask;->mNetworkConnected:Landroid/net/Network;
++
++    .line 4144
+     iget-object v10, v1, Lcom/sec/internal/ims/imsservice/RegisterTask;->mMno:Lcom/sec/internal/ims/util/Mno;
+ 
+     invoke-virtual {v10}, Lcom/sec/internal/ims/util/Mno;->isKor()Z
+@@ -40216,6 +40223,12 @@
+     .locals 9
+     .param p1, "task"    # Lcom/sec/internal/ims/imsservice/RegisterTask;
+ 
++    const/4 v0, 0x0
++
++    iput-boolean v0, p1, Lcom/sec/internal/ims/imsservice/RegisterTask;->mSuspended:Z
++
++    iput-object v0, p1, Lcom/sec/internal/ims/imsservice/RegisterTask;->mNetworkConnected:Landroid/net/Network;
++
+     .line 3575
+     invoke-virtual {p1}, Lcom/sec/internal/ims/imsservice/RegisterTask;->getPhoneId()I
+ 
+-- 
+2.34.1
+
