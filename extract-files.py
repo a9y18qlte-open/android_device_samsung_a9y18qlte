@@ -417,6 +417,17 @@ blob_fixups: blob_fixups_user_type = {
                       '000000000100000000000000000000000000000000000000',
              0x28820, '01000000'),
         ]),
+    # CAM_STREAM_TYPE_CALLBACK (5) is routed to the CAM_STREAM_TYPE_SNAPSHOT (3)
+    # branch in cpp_module_extract_chromatix() and
+    # cpp_module_util_update_chromatix_pointer(), so Camera1 preview callbacks
+    # (such as SVE's ViLTE capture) get CPPSnapshot / CPPSnapshotLLS (heavy
+    # wavelet smoothing + clamped sharpening) instead of CPPPreview. Map
+    # CAM_STREAM_TYPE_CALLBACK to the CAM_STREAM_TYPE_PREVIEW branch instead.
+    'vendor/lib/libmmcamera2_cpp_module.so': blob_fixup()
+        .call(patch_bytes, [
+            (0x21b66, '0415041919190400', 0x21b68, '15'),
+            (0x2c954, '525e0559055e5e5e', 0x2c958, '52'),
+        ]),
     'vendor/lib/libmmcamera_imx576.so': blob_fixup()
         .call(patch_bytes, IMX576_60FPS_PATCHES),
     # Front high speed modes as on the main camera:
