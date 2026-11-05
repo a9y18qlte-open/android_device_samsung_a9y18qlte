@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: thongass000 <tienthong2004@gmail.com>
+Date: Wed, 5 Nov 2026 10:50:00 +0700
+Subject: [PATCH 18/18] imsservice: Report camera capabilities in sensor
+ orientation
+
+AOSP's dialer treats CameraCapabilities as sensor-orientation dimensions:
+VideoCallFragment.updatePreviewVideoScaling() swaps them before handing
+them to VideoScale, because it expects a landscape frame. Samsung reports
+the portrait pair instead, so the preview came out zoomed 1.78x
+((1/0.75) * (1080/2220) * 2.74) with most of the frame cropped away.
+
+Assisted-by: LLM
+---
+ ...oCallProviderImpl$ImsVideoCallEventListener.smali | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/smali/com/google/ims/ImsVideoCallProviderImpl$ImsVideoCallEventListener.smali b/smali/com/google/ims/ImsVideoCallProviderImpl$ImsVideoCallEventListener.smali
+index d45a50e..72a7d35 100644
+--- a/smali/com/google/ims/ImsVideoCallProviderImpl$ImsVideoCallEventListener.smali
++++ b/smali/com/google/ims/ImsVideoCallProviderImpl$ImsVideoCallEventListener.smali
+@@ -334,7 +334,7 @@
+     :cond_2
+     new-instance v0, Landroid/telecom/VideoProfile$CameraCapabilities;
+ 
+-    invoke-direct {v0, p2, p3}, Landroid/telecom/VideoProfile$CameraCapabilities;-><init>(II)V
++    invoke-direct {v0, p3, p2}, Landroid/telecom/VideoProfile$CameraCapabilities;-><init>(II)V
+ 
+     .line 861
+     .local v0, "cameraCapabilities":Landroid/telecom/VideoProfile$CameraCapabilities;
