@@ -325,6 +325,14 @@ blob_fixups: blob_fixups_user_type = {
         ), (
             0x781b0, 'f303012a',
             0x781b0, 'f3031f2a',
+        ), (
+            # CVideoCapture::setStartParam() locks preview-frame-rate and
+            # preview-fps-range to a fixed [fps, fps] (e.g. [15, 15]), which
+            # caps exposure time on the front camera and forces VT_VGA special
+            # mode in libmmcamera2_sensor_modules.so. Skip both calls so the
+            # camera keeps its default [7, 30] auto-exposure FPS range.
+            0x40758, 'e06300913ddf0194dfb2047180020054',
+            0x4075c, '16000014',
         )]),
     # Android 14's RefBase aborts on its stack-allocated objects; use the
     # Android 13 libutils.
