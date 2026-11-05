@@ -695,7 +695,6 @@ system/etc/firmware/rampatch_tlv_2.1.tlv
 system/etc/firmware/rampatch_tlv_3.0.tlv
 system/etc/firmware/rampatch_tlv_3.2.tlv
 vendor/etc/hostapd/hostapd_default.conf
-vendor/etc/wifi/WCNSS_qcom_cfg.ini
 vendor/firmware/Data.msc
 vendor/firmware/Tfa9872.cnt
 vendor/firmware/a225_pfp.fw
@@ -725,7 +724,6 @@ vendor/firmware/crbtfw21.tlv
 vendor/firmware/crnv21.bin
 vendor/firmware/leia_pfp_470.fw
 vendor/firmware/leia_pm4_470.fw
-vendor/firmware/wlan/qca_cld/WCNSS_qcom_cfg.ini
 vendor/firmware/wlan/qca_cld/bdwlan.bin
 # SM-A920N WLAN calibration data
 vendor/firmware/wlan/qca_cld/bdwlan.bin:vendor/firmware/wlan/qca_cld/bdwlan_kor.bin|18d8eb25a0430d11da5d74971f2386333f210e48
