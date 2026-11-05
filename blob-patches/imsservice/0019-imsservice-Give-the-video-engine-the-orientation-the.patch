@@ -1,0 +1,66 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: thongass000 <tienthong2004@gmail.com>
+Date: Wed, 5 Nov 2026 15:30:00 +0700
+Subject: [PATCH 19/19] imsservice: Give the video engine the orientation the
+ dialer sees
+
+AOSP's dialer rotates the local preview by the device orientation and the
+video engine rotates it too, so the two corrections only cancel while the
+dialer itself stays upright: rotate the dialer and the preview comes out
+90 degrees off. Hand the engine the angle relative to the display, which
+is what the dialer's own orientation follows.
+
+Assisted-by: LLM
+---
+diff --git a/smali/com/google/ims/ImsVideoCallProviderImpl.smali b/smali/com/google/ims/ImsVideoCallProviderImpl.smali
+index b3b90e7..bfb1d03 100644
+--- a/smali/com/google/ims/ImsVideoCallProviderImpl.smali
++++ b/smali/com/google/ims/ImsVideoCallProviderImpl.smali
+@@ -1831,6 +1831,47 @@
+         }
+     .end annotation
+ 
++    # AOSP dialer rotates the preview by the device orientation and the video
++    # engine rotates it too, so the engine has to be told the angle relative to
++    # the display, which is what the dialer orientation follows.
++    :sve_orient_try_start
++    invoke-static {}, Landroid/hardware/display/DisplayManagerGlobal;->getInstance()Landroid/hardware/display/DisplayManagerGlobal;
++
++    move-result-object v0
++
++    if-eqz v0, :sve_orient_done
++
++    const/4 v1, 0x0
++
++    invoke-virtual {v0, v1}, Landroid/hardware/display/DisplayManagerGlobal;->getRealDisplay(I)Landroid/view/Display;
++
++    move-result-object v0
++
++    if-eqz v0, :sve_orient_done
++
++    invoke-virtual {v0}, Landroid/view/Display;->getRotation()I
++
++    move-result v0
++
++    const/16 v1, 0x5a
++
++    mul-int/2addr v0, v1
++
++    sub-int/2addr p1, v0
++
++    const/16 v1, 0x168
++
++    rem-int/2addr p1, v1
++
++    add-int/2addr p1, v1
++
++    rem-int/2addr p1, v1
++
++    :sve_orient_try_end
++    .catch Ljava/lang/Throwable; {:sve_orient_try_start .. :sve_orient_try_end} :sve_orient_done
++
++    :sve_orient_done
++
+     .line 236
+     monitor-enter p0
+ 
