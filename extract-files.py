@@ -310,6 +310,16 @@ blob_fixups: blob_fixups_user_type = {
         ), (
             0x70c34, 'f503012a',
             0x70c34, 'b9b3ff17',
+        ), (
+            # Lock CVideoCapture::setCamOrientation() and
+            # CRemoteUser::SetDeviceOrientInfo() to 0 so the engine never
+            # software-rotates, letterboxes, or flips the captured/sent camera
+            # frames or incoming remote video when the phone tilts.
+            0x3c6d8, 'f303022af503012a',
+            0x3c6d8, 'f3031f2af5031f2a',
+        ), (
+            0x781b0, 'f303012a',
+            0x781b0, 'f3031f2a',
         )]),
     # Android 14's RefBase aborts on its stack-allocated objects; use the
     # Android 13 libutils.
