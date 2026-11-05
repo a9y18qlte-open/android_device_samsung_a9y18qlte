@@ -286,6 +286,16 @@ blob_fixups: blob_fixups_user_type = {
         .call(patch_bytes, [(
             0x5db00, '586901941f0800710b03005463fefff024feffd063e01291',
             0x5db00, 'bf12007123030054480b8052b50ac81ab506001215000014',
+        ), (
+            # AOSP's dialer has no way to tell the engine the video size, so
+            # StartPreview() falls back to 240x320 and the preview is a
+            # thumbnail stretched over the screen. Capture the largest 4:3
+            # size the front camera offers instead.
+            0x47c64, 'f70f1c3218288052',
+            0x47c64, '17788052' '18a08052',
+        ), (
+            0x47cd4, 'f70f1c3218288052',
+            0x47cd4, '17788052' '18a08052',
         )]),
     # Android 14's RefBase aborts on its stack-allocated objects; use the
     # Android 13 libutils.
