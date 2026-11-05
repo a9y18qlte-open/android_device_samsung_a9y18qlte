@@ -301,6 +301,20 @@ blob_fixups: blob_fixups_user_type = {
         ), (
             0x47cd4, 'f70f1c3218288052',
             0x47cd4, '17788052' '18a08052',
+        ), (
+            # The engine and AOSP's dialer both rotate the local preview, so
+            # in landscape the two corrections cancel into an upside down
+            # picture. Swap 90 and 270 on the way into CLocalRender so only
+            # the dialer's rotation survives; portrait is already right.
+            # The thunk lives in the debug block the orientation patch above
+            # made unreachable.
+            0x5db18, '84602691e0030091e1031732e223003205bd8052'
+                     'f8230032f90300918571ff9728c3208b0903004b',
+            0x5db18, '3f680171a00000543f380471a0000054f503012a'
+                     '434c0014d5218052414c0014550b80523f4c0014',
+        ), (
+            0x70c34, 'f503012a',
+            0x70c34, 'b9b3ff17',
         )]),
     # Android 14's RefBase aborts on its stack-allocated objects; use the
     # Android 13 libutils.
