@@ -240,6 +240,12 @@ class BufferDrainer : public BufferItemConsumer::FrameAvailableListener {
     }
 };
 
+class DummyBufferConsumer : public BufferItemConsumer {
+  public:
+    DummyBufferConsumer(const sp<IGraphicBufferConsumer>& consumer, uint64_t usage, int count)
+        : BufferItemConsumer(consumer, usage, count) {}
+};
+
 void setDummyPreviewTarget(const sp<Camera>& camera) {
     static std::mutex mutex;
     static sp<BufferItemConsumer> consumer;
@@ -250,7 +256,7 @@ void setDummyPreviewTarget(const sp<Camera>& camera) {
         sp<IGraphicBufferProducer> producer;
         sp<IGraphicBufferConsumer> bufferConsumer;
         BufferQueue::createBufferQueue(&producer, &bufferConsumer);
-        consumer = new BufferItemConsumer(bufferConsumer, GraphicBuffer::USAGE_HW_TEXTURE,
+        consumer = new DummyBufferConsumer(bufferConsumer, GraphicBuffer::USAGE_HW_TEXTURE,
                                           4 /* bufferCount */);
         consumer->setFrameAvailableListener(new BufferDrainer(consumer));
         // Nobody looks at these frames, so let the camera overwrite the oldest
