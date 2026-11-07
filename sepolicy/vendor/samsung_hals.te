@@ -1,24 +1,6 @@
-# Rules for the stock HAL domains once the Samsung binaries actually reach
-# them. While these services ran as init they inherited init's privileges and
-# none of this was needed; every rule below comes from a denial observed after
-# the type_transition started working.
-
-# --- health -----------------------------------------------------------------
-# Battery nodes live under the sm5705 charger rather than a stock path, and the
-# calibration data sits in /efs.
-#
-# /efs/Battery already carries a battery_efs_file xattr written by the stock
-# Samsung firmware, but no policy in this tree ever declared that type. The
-# kernel reports an xattr naming an unknown type as "unlabeled", which is why
-# the denial pointed at unlabeled while ls -Z showed battery_efs_file. Declaring
-# it makes the existing label valid rather than relabelling the partition.
+# Health
 type battery_efs_file, file_type, data_file_type;
-
-# Factory calibration data. Declared here rather than in plat_private because
-# hal_health_default is a vendor domain and cannot see plat_private types.
 type app_efs_file, file_type, data_file_type;
-
-# IMEI data, read by rild. Same reason it lives here: rild is a vendor domain.
 type imei_efs_file, file_type, data_file_type;
 allow hal_health_default sysfs_batteryinfo:dir search;
 allow hal_health_default sysfs_batteryinfo:file rw_file_perms;
@@ -32,56 +14,26 @@ allow hal_lineage_health_default sysfs_batteryinfo:file rw_file_perms;
 r_dir_file(hal_lineage_health_default, sysfs_sec_switch)
 allow hal_lineage_health_default sysfs_sec_switch:file rw_file_perms;
 
-# --- camera -----------------------------------------------------------------
-# Flash, firmware version and the v4l2 device names are all read out of sysfs,
-# and the provider writes the kernel's memory-boost knob while streaming.
-# 19.1 legacy-um does not declare sysfs_camera; vendor/genfs_contexts labels it.
+# Camera
 type sysfs_camera, sysfs_type, fs_type;
 r_dir_file(hal_camera_default, sysfs_camera)
 allow hal_camera_default sysfs_camera:file rw_file_perms;
 binder_call(hal_camera_default, surfaceflinger)
-# And the return direction: surfaceflinger calls into the provider too, which
-# binder_call() above does not cover - it only grants the callee transfer, not
-# call.
 binder_call(surfaceflinger, hal_camera_default)
 
-# The provider writes the kernel memory-boost knob while streaming. It lives
-# under /sys/kernel, not /sys/devices, so the sysfs_camera genfscon does not
-# reach it and it needs a type of its own.
 type sysfs_vmscan, sysfs_type, fs_type;
 allow hal_camera_default sysfs_vmscan:dir search;
 allow hal_camera_default sysfs_vmscan:file rw_file_perms;
 
-# --- usb --------------------------------------------------------------------
-
-# --- power ------------------------------------------------------------------
+# Power
 allow hal_power_default sysfs_batteryinfo:dir search;
 
-# --- fingerprint ------------------------------------------------------------
-# Calibration and template data. Generic vendor_data_file otherwise, which the
-# HAL may not write.
+# Fingerprint
 type sec_biometrics_data_file, file_type, data_file_type;
 allow hal_fingerprint_default sec_biometrics_data_file:dir create_dir_perms;
 allow hal_fingerprint_default sec_biometrics_data_file:file create_file_perms;
 
-
-# --- undeclared stock EFS types ---------------------------------------------
-# The failed enforcing boot logged:
-#   SELinux: Context u:object_r:sec_efs_file:s0 is not valid (left unmapped).
-#   SELinux: Context u:object_r:omr_file:s0 is not valid (left unmapped).
-#
-# Both are xattrs the stock Samsung firmware wrote onto /efs and /omr. Our
-# policy never declared them, so the kernel maps them to unlabeled - harmless
-# while permissive, but it denies access under enforcing to anything that has
-# to read those files, hal_keymaster_default among them since its own rc
-# creates /efs/DAK.
-#
-# Same fix as battery_efs_file: declare the type so the existing xattr becomes
-# valid rather than relabelling the partition.
-#
-# This was tried first as the fix for the late-fs hang and did not resolve it -
-# the hang was vendor.sys.qseecomd.enable, see sepolicy/vendor/property_contexts.
-# Keeping it because an unmapped context is a real defect either way.
+# Stock EFS types
 type sec_efs_file, file_type, data_file_type;
 type omr_file, file_type, data_file_type;
 
@@ -89,7 +41,7 @@ allow hal_keymaster_default sec_efs_file:dir create_dir_perms;
 allow hal_keymaster_default sec_efs_file:file create_file_perms;
 allow hal_keymaster_default efs_file:dir search;
 
-# Power HAL: double tap to wake (DoubleTapToWake in powerhint.json)
+# Power HAL: double tap to wake
 type sysfs_dt2w, sysfs_type, fs_type;
 allow hal_power_default sysfs_dt2w:file rw_file_perms;
 
@@ -102,13 +54,14 @@ allow hal_light_default { sysfs_graphics sysfs_lcd sysfs_leds }:lnk_file r_file_
 # Power HAL: touchscreen sysfs node
 allow hal_power_default sysfs_sectouch:dir search;
 
-# Keymaster reads attestation key files (GAK_RSA, GAK_EC, SAK_EC) in /efs/prov
+# Keymaster
 allow hal_keymaster_default unlabeled:file r_file_perms;
 
-# SurfaceFlinger needs to read process cmdline from composer HAL
+# SurfaceFlinger
 allow surfaceflinger hal_graphics_composer_default:dir search;
 allow surfaceflinger hal_graphics_composer_default:file r_file_perms;
 
+# Properties
 get_prop(hal_camera_default, samsung_ril_prop)
 get_prop(hal_gnss_qti, samsung_ril_prop)
 dontaudit hal_audio_default audio_prop:file read;

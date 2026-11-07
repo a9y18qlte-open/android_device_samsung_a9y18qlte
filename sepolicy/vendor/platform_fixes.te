@@ -1,14 +1,4 @@
-# Board-wide gaps found by sweeping all 93 denial groups at once rather than
-# fixing them one report at a time. Every rule is backed by an observed path.
-#
-# Domains here are all vendor-declared (device/qcom/sepolicy/generic/vendor or
-# system/sepolicy/vendor), so their rules cannot live in plat policy.
-
-# --- sysfs subsystem and UIO names -------------------------------------------
-# Ten different domains enumerate these two nodes at startup:
-#   /sys/devices/soc/cce0000.qcom,venus/subsys0/name
-#   /sys/devices/soc/0.qcom,rmtfs_sharedmem/uio/uio0/name
-# Unlabelled they fall to generic sysfs. One type serves every reader.
+# sysfs subsystem and UIO names
 type sysfs_subsys, sysfs_type, fs_type;
 allow { rmt_storage thermal-engine wcnss_service hal_sensors_default time_daemon
         vendor_pd_mapper vendor_per_mgr sensors atfwd
@@ -19,271 +9,145 @@ allow { rmt_storage thermal-engine wcnss_service hal_sensors_default time_daemon
         factory_adsp }
       sysfs_subsys:file r_file_perms;
 
-# --- SPMI / PMIC --------------------------------------------------------------
-# hvdcp walks the SPMI tree, and the RTC hangs off the same controller.
+# SPMI / PMIC
 type sysfs_spmi, sysfs_type, fs_type;
 allow hvdcp sysfs_spmi:dir r_dir_perms;
 allow hvdcp sysfs_spmi:file r_file_perms;
 allow hvdcp sysfs_batteryinfo:dir search;
 
-# The PMIC RTC hangs off that same SPMI tree, so its genfscon has to be more
-# specific than the one above or the broader prefix swallows it. system_server
-# reads rtc0/hctosys to decide whether the clock came from hardware.
-# sysfs_rtc is already declared in system/sepolicy/public/file.te - it is a
-# public type, so it only needed a genfscon, never a declaration.
 allow system_server sysfs_rtc:dir search;
 allow system_server sysfs_rtc:file r_file_perms;
 
-# --- sensors -----------------------------------------------------------------
-# sysfs_sensors is already declared in device/qcom/sepolicy - only the genfscon
-# and these rules were missing. sns.reg is written, not just read.
+# Sensors
 allow hal_sensors_default sysfs_sensors:dir r_dir_perms;
 allow hal_sensors_default sysfs_sensors:file r_file_perms;
 r_dir_file(sensors, app_efs_file)
 allow sensors app_efs_file:file { write setattr };
 allow sensors efs_file:dir getattr;
 
-# --- init-qcom-sensors-sh ----------------------------------------------------
-# A qcom vendor domain, despite the name. An earlier pass mis-read it as "init"
-# because the denial parser's character class stopped at the hyphen.
-#
-# Only the harmless parts are granted. Its writes to /data/misc/sensors and its
-# dac_override are both neverallowed - see the note at the end of
-# sepolicy/private/platform_fixes.te.
-# 19.1 legacy-um has no init-qcom-sensors-sh domain; rules dropped until the port needs it.
-
-# --- thermal-engine ----------------------------------------------------------
-# Writes cpus_offlined to take cores offline under load, and arms a wake alarm.
+# Thermal engine
 allow thermal-engine sysfs_batteryinfo:dir search;
 allow thermal-engine self:capability2 wake_alarm;
 
-# --- qti_init_shell ----------------------------------------------------------
-# Only the sysfs tuning is granted. Its execution of /system/bin/sh and
-# /system/bin/toolbox, and the vendor_file entrypoint, are all neverallowed -
-# see the note at the end of sepolicy/private/platform_fixes.te.
+# QTI init shell
 allow qti_init_shell sysfs_thermal:file rw_file_perms;
 allow qti_init_shell sysfs_devices_system_cpu:file setattr;
 
-# volkey_wakeup lives at /sys/power/volkey_wakeup, not under the sec_key tree -
-# an earlier pass guessed sysfs_sec_key from the node name alone and was wrong.
-# It also could not have worked: sysfs_sec_key is plat-private and used by the
-# kernel domain, so a vendor rule cannot name it.
 type sysfs_volkey, sysfs_type, fs_type;
 allow qti_init_shell sysfs_volkey:file { setattr write };
 
-# --- audio -------------------------------------------------------------------
+# Audio
 allow hal_audio_default sysfs:dir r_dir_perms;
 allow hal_audio_default efs_file:dir search;
 
-# --- properties --------------------------------------------------------------
-# hwbinder_use() does not cover the property read on this branch, so these need
-# an explicit get_prop.
+# Properties
 get_prop(sec_proca, hwservicemanager_prop)
 get_prop(sec_wsm, hwservicemanager_prop)
 get_prop(mediacodec, vendor_audio_prop)
-# wcnss_service reading wigig_core_prop is left denied. wcnss_service is a
-# vendor domain but wigig_core_prop is declared plat-private in
-# device/qcom/sepolicy/qva/private/property.te, so neither side can name both -
-# the same conflict as smdexe/at_device. Not worth a public declaration: wigig
-# is 60GHz 802.11ad and this board has no such radio, so the read fails
-# harmlessly either way.
 
-# --- Samsung PTA device ------------------------------------------------------
-# /dev/pta, char 10:34, owned system:system, left on the generic device type.
-# The consumer is energyawareness, not init - it only looked like init before,
-# because energyawareness had no domain of its own and ran as init.
-# /dev/pta is labelled pta_device by 19.1 legacy-um.
+# Samsung PTA device
 allow energyawareness pta_device:chr_file rw_file_perms;
 
-# --- Wi-Fi bring-up sysfs ----------------------------------------------------
-# init flips the bring-up trigger and macloader reads back the MAC and state:
-#   /sys/kernel/boot_wlan/boot_wlan
-#   /sys/wifi/mac_addr, /sys/wifi/qcwlanstate
-# Declared here rather than plat_private because macloader is a vendor domain;
-# init is plat-public so it can still be named from vendor policy.
+# Wi-Fi boot sysfs
 type sysfs_wlan_boot, sysfs_type, fs_type;
 allow { init macloader } sysfs_wlan_boot:dir r_dir_perms;
 allow { init macloader } sysfs_wlan_boot:file rw_file_perms;
 
-# macloader caches the read-back Wi-Fi version under /data/vendor/conn.
-# wifi_vendor_data_file already exists in qcom qva vendor policy - the path was
-# simply never labelled on this board.
 allow macloader wifi_vendor_data_file:dir rw_dir_perms;
 allow macloader wifi_vendor_data_file:file create_file_perms;
 
-# --- secril_config -----------------------------------------------------------
-# Reads the carrier property file out of EFS at startup: /efs/telephony.prop
+# secril_config
 allow secril_config mnt_vendor_file:dir search;
 allow secril_config efs_file:dir search;
 allow secril_config efs_file:file r_file_perms;
 
-# --- qseecomd wrapper --------------------------------------------------------
+# qseecomd wrapper
 get_prop(qseecomd_sh, vendor_tee_listener_prop)
 
-# --- NFC device node ---------------------------------------------------------
-# /dev/pn547 (NXP PN547 controller) is left on the generic device type.
-# nfc_device is already declared in system/sepolicy/public/device.te.
+# NFC device node
 allow hal_nfc_default nfc_device:chr_file rw_file_perms;
-# The open source NXP HAL looks up NXP's eSE HAL, which this device has none of.
 dontaudit hal_nfc_default default_android_hwservice:hwservice_manager find;
 
-# --- block devices -----------------------------------------------------------
-# Names resolved through /dev/block/by-name.
-# 19.1 legacy-um no longer declares ssd_block_device (17.1 device/qcom/sepolicy did).
-type ssd_block_device, dev_type;   # sda4  ssd (RPMB), used by the TEE
-type modem_efs_block_device, dev_type;   # sda1  modemst1
+# Block devices
+type ssd_block_device, dev_type;
+type modem_efs_block_device, dev_type;
 allow rmt_storage modem_efs_block_device:blk_file rw_file_perms;
 allow tee ssd_block_device:blk_file rw_file_perms;
 
-# persist_file is a qcom vendor type, so every domain that follows the /persist
-# symlink needs its rule here rather than in plat policy.
 allow tee persist_file:lnk_file r_file_perms;
 allow vendor_init persist_file:lnk_file r_file_perms;
 
-
-##############################################################################
-# Second sweep, from the live-pushed policy (78 denials remaining).
-
-# --- msm_core --------------------------------------------------------------
-# /sys/module/msm_core/parameters/disabled. init flips it at boot and
-# energyawareness writes it later, so the type lives here: energyawareness is a
-# vendor domain, and init is plat-public so it can still be named from vendor.
+# msm_core
 type sysfs_msm_core, sysfs_type, fs_type;
 allow { init energyawareness } sysfs_msm_core:dir search;
 allow { init energyawareness } sysfs_msm_core:file rw_file_perms;
 
-# --- Wi-Fi EFS -------------------------------------------------------------
-# macloader reads the calibrated MAC out of /efs/wifi. Moved out of plat_private
-# for the same reason app_efs_file and imei_efs_file were: the consumer is a
-# vendor domain.
+# Wi-Fi EFS
 type wifi_efs_file, file_type, data_file_type;
 r_dir_file(macloader, wifi_efs_file)
 allow macloader wifi_efs_file:dir write;
 allow macloader wifi_efs_file:file create_file_perms;
 
-# --- UFS host controller ---------------------------------------------------
-# hal_perf_default reads /sys/devices/soc/1da4000.ufshc/clkscale_enable to see
-# whether storage clock scaling is on before tuning.
+# UFS host controller
 type sysfs_ufs, sysfs_type, fs_type;
 allow hal_perf_default sysfs_ufs:dir search;
 allow hal_perf_default sysfs_ufs:file r_file_perms;
 
-# --- kernel log ------------------------------------------------------------
-# The qcom init scripts echo progress into /dev/kmsg. kmsg_device is plat-public
-# so it can be named from here.
+# Kernel log
 allow qti_init_shell kmsg_device:chr_file { open write };
 
-# --- more block devices ----------------------------------------------------
-# sda3 is by-name "fsc", the modem filesystem cache - same role as modemst1/2,
-# so it reuses that type rather than gaining one of its own.
+# Modem filesystem cache
 allow rmt_storage modem_efs_block_device:blk_file rw_file_perms;
 
-
-##############################################################################
-# Third sweep (35 denials remaining).
-
-# --- macloader --------------------------------------------------------------
-# It opens a UDP socket and drives the Wi-Fi interface through ioctls to write
-# the calibrated MAC, and loads the driver module.
+# macloader
 allow macloader self:udp_socket { create ioctl };
 allow macloader self:capability { net_admin sys_module };
 
-# connfwexe's rules live in sepolicy/private: it is a plat domain (its binary is
-# on /system), so vendor policy cannot name it.
-
-# --- vold -------------------------------------------------------------------
-# Writes the uevent node to re-trigger UFS enumeration. sysfs_ufs is ours, added
-# for hal_perf_default; vold needs the write.
+# vold
 allow vold sysfs_ufs:file write;
 
-# --- secril_config ----------------------------------------------------------
-# Sets the SIM count from /efs/factory.prop at startup, which means talking to
-# the property service socket.
+# secril_config
 set_prop(secril_config, vendor_radio_prop)
 set_prop(secril_config, radio_control_prop)
 
-# --- PMIC brightness --------------------------------------------------------
-# init sets the panel brightness at boot. The node hangs off the SPMI tree, so
-# it picked up sysfs_spmi from the genfscon added earlier.
-#
-# Worth noting: the device tree has had
-#   genfscon sysfs /class/backlight/panel/brightness u:object_r:sysfs_leds:s0
-# since before this work, and it has never taken effect - genfscon matches real
-# device paths and /sys/class is a symlink tree. That node is still generic
-# sysfs today.
+# PMIC brightness
 allow init sysfs_spmi:file setattr;
 
-# --- gatekeeper credential storage -------------------------------------------
-# qseecomd (u:r:tee:s0) writes the enrolled credential blob itself rather than
-# leaving it to gatekeeperd, so it needs /data/misc/gatekeeper:
-#   avc: denied { add_name } for name="gatekeeper.100000"
-#        scontext=u:r:tee:s0 tcontext=u:object_r:gatekeeper_data_file:s0
-#
-# Without this the enrol succeeds only because we are permissive - under
-# enforcing the blob write fails and no lock credential can be stored.
-# qseecomd (u:r:tee:s0) stores the enrolled credential blob itself rather than
-# leaving it to gatekeeperd:
-#   avc: denied { add_name } for name="gatekeeper.100000"
-#        scontext=u:r:tee:s0 tcontext=u:object_r:gatekeeper_data_file:s0
-#
-# This is not optional. Tested under enforcing without it: set-pattern fails and
-# even an already-enrolled credential stops verifying, so the lockscreen is
-# unusable.
-#
-# A plain allow is rejected - domain.te:848/:878, "vendor domains may only
-# access files in /data/vendor, never core_data_file_types". But that neverallow
-# carves out an attribute for exactly this case:
-#     -data_between_core_and_vendor_violators # TODO(b/34980020)
-# which is AOSP's sanctioned list for vendor code that reaches into core data.
-# qcom already puts hal_drm_default on it in device/qcom/sepolicy.
-#
-# Narrow on purpose: the neverallow already exempts
-# ~{ append getattr ioctl read write map }, so only the dir operations and file
-# creation actually need the attribute.
+# Gatekeeper credential storage
 typeattribute tee data_between_core_and_vendor_violators;
 allow tee gatekeeper_data_file:dir rw_dir_perms;
 allow tee gatekeeper_data_file:file create_file_perms;
 
-# --- from the enforcing trial ------------------------------------------------
-# The health HAL reads /efs/Battery but nothing granted search on the /efs root
-# itself, so every traversal was refused - 28 denials in one session. Valid
-# regardless of enforcement mode.
+# Health HAL
 allow hal_health_default efs_file:dir search;
 
-# The sensor daemon reads its calibration through /persist, which on this device
-# is reached via symlinks, and walks /efs the same way the health HAL does.
-# Reading a symlink needs read+getattr on the link itself, not just on the
-# target, which is why these show up as lnk_file rather than file.
+# Sensors HAL & daemon
 allow sensors efs_file:dir search;
 allow sensors persist_file:lnk_file r_file_perms;
-
-# Same two paths again for the HIDL sensors HAL, which is a separate domain from
-# the sensors daemon, and for macloader - it reads the wifi MAC out of
-# /efs/wifi and cannot get there without search on the /efs root.
 allow hal_sensors_default persist_file:lnk_file r_file_perms;
 allow macloader efs_file:dir search;
 
-# --- qti init shell ----------------------------------------------------------
+# QTI init shell
 allow qti_init_shell { sysfs sysfs_msm_power }:file setattr;
 allow qti_init_shell persist_file:lnk_file read;
 
-# factory_adsp access to persist, mnt_vendor, and diag
+# Factory ADSP
 allow factory_adsp persist_file:lnk_file r_file_perms;
 allow factory_adsp mnt_vendor_file:dir search;
 allow factory_adsp diag_device:chr_file rw_file_perms;
 
-# GNSS stack attempts to read core props that violate Treble neverallows
+# GNSS
 dontaudit hal_gnss_qti { radio_prop default_prop }:file read;
 
-# RIL & Telephony fixes
+# RIL & Telephony
 dontaudit rild radio_core_data_file:dir search;
 dontaudit secril_config { radio_prop default_prop }:file read;
 
-# Camera & Graphics fixes
+# Camera & Graphics
 allow hal_graphics_composer_default sysfs_camera:dir search;
 dontaudit hal_camera_default { default_prop radio_prop bootanim_system_prop persist_debug_prop }:file read;
 
-# Bluetooth & Audio fixes
+# Bluetooth & Audio
 allow hal_bluetooth_qti efs_file:dir search;
 dontaudit hal_audio_default radio_prop:file read;
 
@@ -291,33 +155,18 @@ dontaudit hal_audio_default radio_prop:file read;
 dontaudit multiclientd system_data_file:dir search;
 dontaudit hal_nfc_default system_file:file read;
 
-# SurfaceFlinger proc search
+# SurfaceFlinger
 allow surfaceflinger hal_graphics_composer_default:dir search;
 
-
-##############################################################################
-# Android 15 sweep.
-
-# --- thermal HAL --------------------------------------------------------------
-# Listens for thermal uevents from the kernel.
+# Thermal HAL
 allow hal_thermal_default self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
 
-# --- camera provider ----------------------------------------------------------
-# The AIDL camera provider looks up the AIDL graphics allocator before falling
-# back to the HIDL one.
+# Camera provider
 hal_client_domain(hal_camera_default, hal_graphics_allocator)
-# It reads the camera FMQ sizes too, which sepolicy/vendor/property_contexts
-# labels camera_config_prop for cameraserver.
 get_prop(hal_camera_default, camera_config_prop)
 
-# --- Bluetooth HAL ------------------------------------------------------------
-# Checks ro.factory.factory_binary, a Samsung factory-mode flag that is never
-# set here.
+# Bluetooth HAL
 dontaudit hal_bluetooth_qti default_prop:file read;
 
-# --- secril_config ------------------------------------------------------------
-# It tries to set the SIM slot count: ro.multisim.simslotcount,
-# ro.vendor.multisim.simslotcount and persist.radio.multisim.config.
-# vendor.prop already sets the last two (2, dsds), and ro.multisim.simslotcount
-# is a core property vendor code may not set.
+# secril_config
 dontaudit secril_config { default_prop vendor_default_prop radio_control_prop }:property_service set;

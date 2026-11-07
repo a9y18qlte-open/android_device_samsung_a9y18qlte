@@ -10,17 +10,6 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_o_mr1.mk
 
 TARGET_BOOT_ANIMATION_RES := 1080
 
-# Camera
-#
-# QASSA's default camera app (Aperture) is the LineageOS 20/21 one: targetSdk 33
-# with a CameraX stack that expects Android 12+ semantics. On this SDK 29
-# platform the Preview use case goes ACTIVE but never attaches ("Active and
-# attached use case: []"), so it shows a white screen. Opt out and ship Snap
-# instead - packages/apps/Snap is the camera built for this platform.
-#
-# Must be set before common_full_phone.mk, which is what reads it.
-# TARGET_APERTURE_OPTOUT := true
-
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 $(call inherit-product, $(LOCAL_PATH)/device.mk)
 

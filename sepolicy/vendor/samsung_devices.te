@@ -1,39 +1,12 @@
-# Device nodes and sysfs paths this board exposes under names the stock policy
-# does not label. Every rule below comes from an observed denial rather than a
-# guess, so the permission sets stay narrow.
-#
-# These live in vendor policy because the domains they name - hal_fingerprint_default
-# and time_daemon - are themselves vendor domains, declared in AOSP's vendor
-# policy and device/qcom/sepolicy respectively. plat_private cannot see them
-# ("ERROR 'unknown type hal_fingerprint_default'").
-
-# Samsung fingerprint sensor. The HAL already runs in hal_fingerprint_default,
-# but its device node sits on the generic "device" type, so the ioctl fails:
-#   avc: denied { ioctl } path="/dev/esfp0" tcontext=u:object_r:device:s0
+# Fingerprint sensor
 type sec_fingerprint_device, dev_type;
 allow hal_fingerprint_default sec_fingerprint_device:chr_file rw_file_perms;
-
-# The fingerprint HAL also talks to QSEE for the secure match.
 allow hal_fingerprint_default tee_device:chr_file rw_file_perms;
 
-# time_daemon reads a subsystem name out of sysfs:
-#   path="/sys/devices/soc/cce0000.qcom,venus/subsys0/name"
+# time_daemon
 allow time_daemon sysfs:file r_file_perms;
-
-# The "socket" class denials come from the QMI transport, not from time_daemon's
-# own code - it links libqmi_cci.so, which talks to the Qualcomm IPC router over
-# an AF_MSM_IPC socket. SELinux has no dedicated class for that family, so it
-# lands on the generic socket class with no path to identify it.
-#
-# The two requests were recovered from libqmi_cci.so and confirmed against
-# kernel/samsung/a9y18qlte/include/uapi/linux/msm_ipc.h:
-#
-#   0xc014c302  _IOWR(0xC3, 2, struct sockaddr_msm_ipc)  IPC_ROUTER_IOCTL_LOOKUP_SERVER
-#   0x8004c304  _IOR (0xC3, 4, unsigned int)             IPC_ROUTER_IOCTL_BIND_CONTROL_PORT
-#
-# domain.te neverallows ioctl on socket classes unless the commands are
-# whitelisted, so the allow needs a matching allowxperm. xperms match on the
-# low 16 bits of the request.
 allow time_daemon self:socket { create read write ioctl };
 allowxperm time_daemon self:socket ioctl { 0xc302 0xc304 };
+
+# init sysfs nodes
 allow init { sysfs_batteryinfo sysfs_ufs }:file { write setattr };

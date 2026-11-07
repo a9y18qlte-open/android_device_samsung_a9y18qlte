@@ -1,57 +1,37 @@
-# Domains for the Samsung /vendor binaries that AOSP has no equivalent for.
-#
-# Each is declared, given an exec type, and wired to init with
-# init_daemon_domain() so exec'ing the binary transitions out of init's domain.
-# Rules beyond that are added from observed denials - deliberately not a blanket
-# allow, since the point of the exercise is to stop these running with init's
-# privileges.
-
-# Samsung PROCA (periodic process/kernel integrity attestation).
+# Samsung PROCA (periodic process/kernel integrity attestation)
 type sec_proca, domain;
 type sec_proca_exec, exec_type, file_type, vendor_file_type;
 init_daemon_domain(sec_proca)
 
-# Samsung WSM (secure memory manager backing the TEE).
+# Samsung WSM (secure memory manager backing the TEE)
 type sec_wsm, domain;
 type sec_wsm_exec, exec_type, file_type, vendor_file_type;
 init_daemon_domain(sec_wsm)
 
-# ADSP firmware loader.
+# ADSP firmware loader
 type factory_adsp, domain;
 type factory_adsp_exec, exec_type, file_type, vendor_file_type;
 init_daemon_domain(factory_adsp)
 
-# Oneshot services. These run and exit, so a `ps` sweep never catches them -
-# they only showed up as "init -> vendor_file : file { execute }" denials once
-# the long-lived daemons had been dealt with. qcom ships file_contexts entries
-# for two of them, but only in the sepolicy-legacy-um variant this device does
-# not use, so the types are absent from the built policy and the binaries stay
-# on the generic vendor_file label.
-
-# Samsung Wi-Fi MAC address loader.
+# Samsung Wi-Fi MAC address loader
 type macloader, domain;
 type macloader_exec, exec_type, file_type, vendor_file_type;
 init_daemon_domain(macloader)
 
-# Samsung RIL configuration service. persist.radio.multisim.config is
-# radio_control_prop, which only the telephony HAL may set from the vendor side.
+# Samsung RIL configuration service
 type secril_config, domain;
 type secril_config_exec, exec_type, file_type, vendor_file_type;
 init_daemon_domain(secril_config)
 hal_server_domain(secril_config, hal_telephony)
 
-
-# Shell wrapper init runs to bring up qseecomd. It is a script, so the domain
-# needs to execute the vendor shell it is interpreted by.
+# qseecomd wrapper
 type qseecomd_sh, domain;
 type qseecomd_sh_exec, exec_type, file_type, vendor_file_type;
 init_daemon_domain(qseecomd_sh)
 allow qseecomd_sh vendor_shell_exec:file rx_file_perms;
 allow qseecomd_sh vendor_toolbox_exec:file rx_file_perms;
 
-# Samsung's qseecomd announces readiness with vendor.sys.qseecomd.enable, which
-# qcom's property_contexts does not name. See sepolicy/vendor/property_contexts
-# for why an untyped property here hangs init at late-fs forever.
+# Properties
 vendor_internal_prop(vendor_qseecomd_prop)
 set_prop(tee, vendor_qseecomd_prop)
 
@@ -68,21 +48,15 @@ vendor_internal_prop(samsung_call_slot_prop)
 set_prop(rild, samsung_call_slot_prop)
 get_prop(hal_audio_default, samsung_call_slot_prop)
 
-
-##############################################################################
-# Rules observed once each service actually reached its own domain. None of
-# this was needed while they ran as init, because init already had it all.
-
-# PROCA drives the integrity check through the TEE.
+# PROCA
 allow sec_proca tee_device:chr_file rw_file_perms;
 allow sec_proca ion_device:chr_file rw_file_perms;
 hwbinder_use(sec_proca)
 
-# WSM publishes an HIDL service.
+# WSM
 hwbinder_use(sec_wsm)
 
-# The ADSP loader reads sensor calibration out of /persist and opens a local
-# socket pair to talk to the DSP.
+# ADSP loader
 r_dir_file(factory_adsp, sensors_persist_file)
 allow factory_adsp mnt_vendor_file:dir getattr;
 allow factory_adsp sysfs:file r_file_perms;
@@ -91,7 +65,7 @@ allow factory_adsp self:netlink_socket { create bind read write };
 allow factory_adsp self:tcp_socket { create bind listen accept read write };
 allow factory_adsp node:tcp_socket node_bind;
 
-# Allow QSEEComd/TEE to search and read EFS for Widevine L1 keys
+# Widevine L1 keys in EFS
 allow tee { efs_file sec_efs_file }:dir r_dir_perms;
 allow tee { efs_file sec_efs_file }:file r_file_perms;
 get_prop(secril_config, samsung_ril_prop)

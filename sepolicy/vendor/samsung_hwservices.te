@@ -1,17 +1,4 @@
-# Types for the Samsung HIDL interfaces labelled in
-# sepolicy/vendor/hwservice_contexts. See that file for why an unlabelled
-# interface is fatal under enforcing rather than cosmetic.
-#
-# Every interface in the vendor manifest gets a type, but only the domains that
-# were actually observed registering or looking one up get a rule. Labelling an
-# interface nothing yet uses is harmless; granting a domain access it does not
-# need is not.
-#
-# These are deliberately NOT given the vendor_hwservice attribute. multiclientd
-# and the IMS stack are coredomain on this device but still have to look up the
-# Samsung radio interfaces, and AOSP neverallows coredomain from finding
-# vendor_hwservice. Attributing them would therefore fail the Treble tests
-# outright rather than describe how this device is actually wired.
+# Samsung HIDL interfaces
 
 type samsung_audio_hwservice, hwservice_manager_type;
 type samsung_camera_hwservice, hwservice_manager_type;

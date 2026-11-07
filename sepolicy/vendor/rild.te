@@ -1,72 +1,30 @@
-# rild is a vendor domain (system/sepolicy/vendor/rild.te), so rules naming it
-# have to live in vendor policy - plat_private cannot see the type at all
-# ("ERROR 'unknown type rild'").
-
-# Samsung's netd.rc declares an extra control socket:
-#     socket qosd stream 0660 root radio
-# With no file_contexts entry it lands on the generic socket_device type, which
-# rild may not write. Under enforcing this surfaces as a retry storm rather than
-# a logged denial, because the denial is dontaudit'd:
-#     RILD: [sqos] connectToServer(): Failed to connect to qosd: Permission denied
-#
-# No rule is needed for init or netd. init already holds create/setattr/unlink
-# on any plain file_type sock_file (public/init.te), and netd inherits the
-# descriptor from init rather than opening the path - which is why netd never
-# appeared in the denial log.
+# qosd socket
 type qosd_socket, file_type;
 allow rild qosd_socket:sock_file { getattr write };
 allow rild netd:unix_stream_socket connectto;
 
-# rild keeps its data-call state in a sqlite database under /data/vendor.
-# The directory has no file_contexts entry, so it inherits the generic
-# vendor_data_file type and every access is refused:
-#   avc: denied { ioctl } path="/data/vendor/secradio/datacallCid.db"
+# Data-call state
 type rild_secradio_data_file, file_type, data_file_type;
 allow rild rild_secradio_data_file:dir create_dir_perms;
 allow rild rild_secradio_data_file:file create_file_perms;
 
-# rild multiplexes its clients through multiclientd and both directions are
-# used. multiclientd is declared in sepolicy/public precisely so this rule can
-# be written - it is coredomain (binary on /system) while rild is vendor, so
-# neither plat nor vendor policy could name both types otherwise.
+# multiclientd
 binder_call(rild, multiclientd)
 binder_call(multiclientd, rild)
 
-# KNOWN GAP: rild writes /data/misc/radio/{.data_usage_rx,fingerprint}. That is
-# a core data location, and domain.te states the boundary plainly:
-#
-#   "vendor domains may only access files in /data/vendor, never
-#    core_data_file_types"
-#
-# rild is a vendor domain, and radio_data_file carries core_data_file_type, so
-# labelling the directory correctly makes the build fail rather than pass -
-# tried, rejected on domain.te:848 and :878. Samsung's rild writing outside
-# /data/vendor is the actual Treble violation and it is inside a blob we cannot
-# change. Left denied: the casualties are rild's own data-usage counters and a
-# cached modem fingerprint, neither of which the framework reads.
-
-# smdexe drives the modem AT channel. at_device is a qcom vendor type, so this
-# rule belongs here rather than with smdexe's other rules in plat policy.
+# smdexe AT channel
 allow smdexe at_device:chr_file rw_file_perms;
 
-# rild reads the device serial and MPS code out of /efs at startup:
-#   /efs/FactoryApp/serial_no
-#   /efs/imei/mps_code.dat
-# Read-only; it never writes either.
+# Device serial and MPS code from /efs
 r_dir_file(rild, app_efs_file)
 r_dir_file(rild, imei_efs_file)
 
-# rild configures the data interface directly through procfs when a PDN comes
-# up - disabling IPv6 autoconf on the raw interface and setting the router
-# solicitation count:
-#   /proc/sys/net/ipv6/conf/*/disable_ipv6
-#   /proc/sys/net/ipv6/conf/*/router_solicitations
-# It also reads its own per-uid traffic counters back out of qtaguid.
+# Procfs networking configuration
 allow rild proc_net:file rw_file_perms;
 allow rild proc_qtaguid_stat:file r_file_perms;
+
+# Properties
 get_prop(smdexe, samsung_ril_prop)
 dontaudit smdexe vendor_default_prop:file read;
 dontaudit rild { default_prop system_prop }:file read;
-
-# rild reads ro.csc.omcnw_code.
 get_prop(rild, vendor_audio_prop)

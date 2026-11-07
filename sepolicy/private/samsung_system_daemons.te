@@ -1,94 +1,47 @@
-# Domains for the Samsung binaries that ship under /system/bin.
-#
-# These sit on the system partition, so their types belong in plat_private
-# rather than vendor policy. Same failure as the vendor set: with no exec type
-# there is no type_transition, init runs them itself, and enforcing then refuses
-# the exec outright ("init: cannot execve('/system/bin/smdexe'): Permission
-# denied") leaving them to crash-loop on init's 5 second restart.
-
-# Each must be tagged coredomain. Under Treble, a domain that is not a
-# coredomain counts as a vendor component, and domain.te neverallows vendor
-# components from executing - or even reading - anything under /system:
-#   "Do not allow vendor components to execute files from system"   (:954)
-#   "Do not allow vendor components access to /system files"        (:1032)
-# These binaries ship on /system, so without coredomain the policy contradicts
-# itself and the build rejects the entrypoint rule init_daemon_domain() emits.
-
-# Samsung IMS daemon. VoLTE registration depends on this one - if it does not
-# come up, the stack never gets a usable IMS PDN.
+# Samsung IMS daemon
 type samsung_imsd, domain, coredomain;
 type samsung_imsd_exec, exec_type, file_type, system_file_type;
 init_daemon_domain(samsung_imsd)
 net_domain(samsung_imsd)
 
-# Samsung shared-memory / modem bridge daemon.
-# The domain type is declared in sepolicy/public so vendor policy can name it.
+# Samsung shared-memory / modem bridge daemon
 type smdexe_exec, exec_type, file_type, system_file_type;
 init_daemon_domain(smdexe)
 
-# Samsung connectivity framework executor.
+# Samsung connectivity framework executor
 type connfwexe, domain, coredomain;
 type connfwexe_exec, exec_type, file_type, system_file_type;
 init_daemon_domain(connfwexe)
 net_domain(connfwexe)
 
-# Samsung multi-client daemon (runs as two instances).
-# The domain type is declared in sepolicy/public so vendor policy can name it.
+# Samsung multi-client daemon
 type multiclientd_exec, exec_type, file_type, system_file_type;
 init_daemon_domain(multiclientd)
 net_domain(multiclientd)
 
-
-##############################################################################
-# Rules observed once each daemon actually reached its own domain. None of this
-# was needed while they ran as init, because init already had it all.
-
-# imsd opens a PF_KEY socket. That is the IPsec SA management interface - the
-# IMS stack negotiates SIP signalling security with the P-CSCF over it, so this
-# is on the VoLTE path rather than incidental.
+# imsd
 allow samsung_imsd self:key_socket { create read write };
+allow samsung_imsd self:capability net_admin;
 
-# smdexe drives the modem AT channel, watches the USB gadget state, and drops
-# privileges after start.
-# smdexe's access to /dev/at_mdm0 is granted from sepolicy/vendor/rild.te - the
-# node is typed at_device by qcom vendor policy, so the rule has to be written
-# on the vendor side now that the smdexe type is public.
+# smdexe
 r_dir_file(smdexe, sysfs_android_usb)
 allow smdexe sysfs_sec_switch:dir search;
 allow smdexe sysfs_sec_switch:file { open read getattr };
 allow smdexe self:capability setuid;
 
-# connfwexe holds a wakelock over system_suspend and also drops privileges.
-# binder_call() covers the calls themselves but not looking the interface up in
-# hwservicemanager first, which is a separate class.
+# connfwexe
 binder_call(connfwexe, system_suspend)
 allow connfwexe system_suspend_hwservice:hwservice_manager find;
 allow connfwexe self:capability setuid;
 
-# The IMS daemon configures its own network interfaces for the IMS PDN.
-allow samsung_imsd self:capability net_admin;
-
-# multiclientd inspects peer processes and reads hwservicemanager properties.
-# Deliberately narrow: r_file_perms would pull in ioctl and lock, which
-# property.te and domain.te both neverallow, and granting those across the
-# whole domain attribute would be far broader than reading /proc/<pid>/cmdline
-# needs.
+# multiclientd
 get_prop(multiclientd, hwservicemanager_prop)
 r_dir_file(multiclientd, system_app)
 allow multiclientd domain:dir search;
 allow multiclientd domain:file { open read getattr };
-
-# It also walks /data/user_de/0 to reach the telephony provider and the phone
-# app while brokering the second SIM. multiclientd is coredomain, so this is
-# core-to-core and needs no Treble violator attribute - only the traversal.
 allow multiclientd radio_data_file:dir search;
 
-##############################################################################
-# VoWiFi.
-
-# eris: Samsung's IKEv2 client (strongSwan) for the ePDG tunnel. It creates the
-# epdg<n> TUN device, talks IKE to the ePDG over UDP 500/4500 and takes its
-# requests from EpdgService over the eris socket.
+# VoWiFi: eris (IKEv2 client for ePDG)
 type eris, domain, coredomain;
 type eris_exec, exec_type, file_type, system_file_type;
 init_daemon_domain(eris)
@@ -108,23 +61,16 @@ allow eris node:udp_socket node_bind;
 allow eris port:udp_socket name_bind;
 allow eris eris_data_file:dir create_dir_perms;
 allow eris eris_data_file:file create_file_perms;
-# The SIM authentication for IKE (EAP-AKA) goes through the RIL multiplexer.
 allow eris multiclientd:unix_stream_socket connectto;
-# It tunes /proc/sys/net/core/xfrm_acq_expires for kernel IPsec, which it does
-# not use: the tunnel is userspace ESP over the TUN device.
 dontaudit eris proc_net:file write;
 
-# epdg_addr: sets the IPv6 addresses of the tunnel for EpdgService, which may not
-# call netd itself. See device ims/epdg-addr.
+# epdg_addr
 type epdg_addr, domain, coredomain;
 type epdg_addr_exec, exec_type, file_type, system_file_type;
 init_daemon_domain(epdg_addr)
 
 allow epdg_addr self:capability net_admin;
 allow epdg_addr self:netlink_route_socket { create_socket_perms_no_ioctl nlmsg_write };
-# if_nametoindex()
 allow epdg_addr self:udp_socket { create ioctl };
-# Lists the tunnel's addresses (/proc/net/if_inet6) and turns off SLAAC on it
-# (/proc/sys/net/ipv6/conf/<iface>/autoconf).
 r_dir_file(epdg_addr, proc_net)
 allow epdg_addr proc_net:file w_file_perms;

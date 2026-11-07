@@ -1,100 +1,41 @@
-# Core-side counterparts to sepolicy/vendor/platform_fixes.te.
-#
-# Not every denial belongs in here. A large group of them are refusals AOSP
-# intends, and granting them would weaken the thing we are trying to turn on.
-# Those are listed at the bottom as deliberate, with the neverallow that forbids
-# each one. "No remaining denials" is not the goal; "no remaining denials that
-# should have been allowed" is.
-
-# --- init --------------------------------------------------------------------
-# Board sysfs written at boot. coredomain.te forbids a core domain from touching
-# unlabelled kernel interfaces, so each needs a real type:
-#   /sys/kernel/boot_wlan/boot_wlan        Wi-Fi bring-up trigger
-#   /sys/wifi/mac_addr                     MAC address handoff
-#   /sys/module/msm_core/parameters/disabled
-# init's wlan sysfs access is granted in sepolicy/vendor alongside macloader's -
-# the type had to move there because macloader is a vendor domain.
-# init's msm_core writes are granted in sepolicy/vendor alongside
-# energyawareness's - the type had to move there.
+# init
 allow init self:capability sys_module;
-allow init proc:file write;                       # /proc/sys/fs/protected_fifos
-allow init efs_file:dir mounton;                  # mounts /efs
-# /dev/pta is granted in sepolicy/vendor - sec_pta_device is a vendor type.
+allow init proc:file write;
+allow init efs_file:dir mounton;
 
-# --- FRP / persistent partition ----------------------------------------------
-# /dev/block/sda12, by-name "persistent", is the factory-reset-protection
-# partition behind PersistentDataBlockService - which is why that service has
-# been logging errors since the first build we looked at.
-#
-# system_server.te is explicit that frp_block_device is the *only* block device
-# system_server may touch, so this uses the stock type. Declaring a device type
-# of our own here would have been rejected, and rightly:
-#   "This helps avoid a system_server to root escalation by writing to raw
-#    block devices."
+# FRP / persistent partition
 allow system_server frp_block_device:blk_file rw_file_perms;
 allow system_server shell:unix_stream_socket getopt;
-# system_server's rtc0/hctosys read is granted in sepolicy/vendor: the RTC sits
-# under the SPMI tree and its genfscon has to live beside that one.
 
-# --- other partitions --------------------------------------------------------
-allow fsck userdata_block_device:blk_file rw_file_perms;      # sda29 userdata
-allow fsck cache_block_device:blk_file rw_file_perms;         # sda25 cache
-allow kernel sec_debug_block_device:blk_file r_file_perms;    # sda28 debug
+# Block partitions
+allow fsck userdata_block_device:blk_file rw_file_perms;
+allow fsck cache_block_device:blk_file rw_file_perms;
+allow kernel sec_debug_block_device:blk_file r_file_perms;
 
-# --- vendor_init -------------------------------------------------------------
-# Its persist_file read is granted in sepolicy/vendor - persist_file is a qcom
-# vendor type and plat policy cannot name it.
+# vendor_init
 allow vendor_init tmpfs:dir { add_name write };
 allow vendor_init rootfs:file { getattr relabelfrom };
 allow vendor_init cgroup:file getattr;
 
-# --- misc core domains -------------------------------------------------------
-# logpersist needs no rule from us. Once the boot_log services write
-# /data/misc/logd instead of /cache, stock policy already covers it:
-# private/logpersist.te grants misc_logd_file inside userdebug_or_eng(), and the
-# matching neverallow carves logpersist out on the same condition. Adding an
-# unconditional allow here is worse than redundant - it applies on user builds
-# too, where the carve-out does not exist, so it fails the neverallow.
+# Core domains
 allow ueventd self:capability sys_nice;
 allow vold rootfs:dir setattr;
 allow migrate_legacy_obb_data self:capability sys_resource;
 allow adbd shell:unix_stream_socket shutdown;
 allow hwservicemanager multiclientd:binder transfer;
-# BootReceiver reads /proc/last_kmsg, the previous boot's kernel log, to add it
-# to DropBox after a crash.
 allow system_server proc_last_kmsg:file r_file_perms;
 
-# --- connfwexe ---------------------------------------------------------------
-# Samsung's connectivity daemon. It publishes a control socket at
-# /data/.tcpdump_socket and, when told to, captures packets to /data/log/tcpdump.
-# Capture is dormant on this device (no pcap dir, no properties set) but the
-# socket is created every boot as system:system 0771.
-#
-# Typed narrowly rather than granting connfwexe write over system_data_file,
-# which would hand a packet-capture daemon the whole of /data.
+# connfwexe
 allow connfwexe tcpdump_socket_file:sock_file { create unlink };
-# A file_contexts entry alone is not enough: a newly created file inherits its
-# parent directory type unless a type_transition says otherwise, so connfwexe
-# was still creating the socket as system_data_file. restorecon fixed the
-# existing one; this makes it land correctly at creation.
 type_transition connfwexe system_data_file:sock_file tcpdump_socket_file ".tcpdump_socket";
 allow connfwexe system_data_file:dir { write add_name remove_name };
 dontaudit connfwexe system_data_root_file:dir write;
 get_prop(connfwexe, hwservicemanager_prop)
 
-# connfwexe registers with multiclientd and answers over hwbinder. Both named
-# types are reachable from plat: multiclientd is declared in sepolicy/public and
-# hwservicemanager is a core domain.
 allow connfwexe multiclientd:unix_stream_socket connectto;
 allow hwservicemanager connfwexe:binder transfer;
 
-# --- Samsung system app <-> IMS ----------------------------------------------
-# The Samsung IMS settings app talks to imsd over /dev/socket/imsd and writes
-# the IMS call-recording log. This is on the VoLTE path, not incidental.
-#
-# app.te neverallows appdomain writing system_data_file, and says how to do it
-# properly: "Define a different type for portions that should be writable by
-# apps." So /data/log/imscr gets its own type rather than a blanket grant.
+# Samsung system app & IMS
 allow system_app samsung_imsd:unix_stream_socket connectto;
 allow system_app multiclientd:unix_stream_socket connectto;
 allow system_app imsd_socket:sock_file write;
@@ -102,65 +43,11 @@ allow system_app ims_log_data_file:dir create_dir_perms;
 allow system_app ims_log_data_file:file create_file_perms;
 allow samsung_imsd ims_log_data_file:dir create_dir_perms;
 allow samsung_imsd ims_log_data_file:file create_file_perms;
-allow system_app proc_net:file r_file_perms;      # /proc/<pid>/net/if_inet6
+allow system_app proc_net:file r_file_perms;
 
-
-##############################################################################
-# Denied on purpose. Each of these was tried, rejected by a neverallow, and
-# left denied rather than forced through. The neverallow is the reason.
-#
-#   logpersist -> self:capability dac_override
-#       private/domain.te:275. dac_override is a privilege-escalation smell and
-#       AOSP gates it behind the dac_override_allowed attribute.
-#       (The cache_file writes it used to need are gone: the three boot_log
-#       services in init.samsung.rc now write /data/misc/logd, which logpersist
-#       owns, instead of /cache.)
-#
-#   init-qcom-sensors-sh -> self:capability dac_override
-#   vendor_init -> {tombstone,seemp}_data_file
-#       public/domain.te:878 and :908 - "vendor domains may only access files in
-#       /data/vendor, never core_data_file_types". These are vendor components
-#       reaching into core data; the blobs are the violation.
-#
-#   init -> vendor_toolbox_exec:file execute_no_trans
-#       public/init.te:585 - init must not execute anything without a domain
-#       transition. The fix is a domain for toybox_vendor, not an exemption.
-#
-#   (qti_init_shell's /system/bin/sh execution and its vendor_file entrypoint
-#   were in this list. Both are fixed at source instead: init.qti.can.sh now
-#   uses #!/vendor/bin/sh, and it has a qti_init_shell_exec label that qcom's
-#   file_contexts omitted.)
-#
-#   platform_app -> time_daemon:unix_stream_socket connectto
-#       public/domain.te:724 - app domains may not connect to vendor sockets.
-##############################################################################
-
-# --- from the enforcing trial ------------------------------------------------
+# Enforcing mode fixes
 allow platform_app bluetooth_data_file:dir getattr;
 binder_call(bluetooth, gpuservice)
-
-# --- the enforcing bootloop --------------------------------------------------
-# For the record, because this denial looks damning and is not:
-#
-#   5.413  init: starting service 'vendor.keymaster-3-0'
-#   5.442  init: last message ever
-#   5.453  avc: denied { read } comm="hwservicemanage" name="event-log-tags"
-#          scontext=u:r:hwservicemanager:s0
-#          tcontext=u:object_r:runtime_event_log_tags_file:s0 permissive=0
-#
-# hwservicemanager is how every HAL registers and init was stuck in late-fs, so
-# this reads like the cause. It is not, on two counts: the denial is timestamped
-# 11ms AFTER init's last message, and logd.te:27 neverallows it for every domain
-# outside a fixed list that hwservicemanager is not on - so it could not be
-# granted even if it were. Correlation, not cause. Left denied.
-#
-# The actual cause was vendor.sys.qseecomd.enable having no property_contexts
-# entry, which left u:r:tee:s0 unable to set it while pa_daemon_qsee.rc sat in
-# `on late-fs` running `wait_for_prop` on that exact property. See
-# sepolicy/vendor/property_contexts.
-
-# The other non-noatsecure denial from that boot. Not implicated in the hang,
-# but real.
 allow kernel block_device:dir search;
 
 # Service manager IPC
