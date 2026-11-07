@@ -1,30 +1,10 @@
 # Android fstab file.
-# The filesystem that contains the filesystem checker binary (typically /system) cannot
-# specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
-
-#TODO: Add 'check' as fs_mgr_flags with data partition.
-# Currently we dont have e2fsck compiled. So fs check would failed.
-
-# Non-A/B fstab.qcom variant
-#<src>                                   <mnt_point>            <type> <mnt_flags and options>                          <fs_mgr_flags>
+#<src>                                                 <mnt_point>            <type>  <mnt_flags and options>                                       <fs_mgr_flags>
 /dev/block/platform/soc/1da4000.ufshc/by-name/system /system    ext4   ro,barrier=1,discard                           wait,first_stage_mount
 /dev/block/platform/soc/1da4000.ufshc/by-name/vendor /vendor    ext4   ro,barrier=1,discard                           wait,first_stage_mount
 /dev/block/bootdevice/by-name/boot             /boot    emmc   defaults                                         defaults
 /dev/block/bootdevice/by-name/recovery         /recovery emmc  defaults                                         defaults
-# /data uses file-based encryption, v2 policies with AES-256-XTS contents keyed
-# for the UFS inline crypto engine (IV_INO_LBLK_64); the inlinecrypt mount
-# option makes the 4.19 kernel hand the keys to the engine through blk-crypto.
-# The 4.4 kernel has no v2 policies, so this differs from lineage-22.2's ice.
-#
-# There is no metadata partition on this board, so this is FBE only - metadata
-# encryption is not available.
-#
-# Verified working: ro.crypto.state=encrypted, ro.crypto.type=file, with VoLTE
-# re-registering from a freshly formatted partition. Tested in permissive - the
-# enforcing bootloop this was first blamed for was caused by enforcing alone.
-#
-# NOTE: /data must be formatted when this is first applied. Existing plaintext
-# files cannot be encrypted in place.
+# /data: File-Based Encryption (FBE) via inlinecrypt
 /dev/block/bootdevice/by-name/userdata	/data	ext4	noatime,nosuid,nodev,noauto_da_alloc,discard,journal_checksum,data=ordered,errors=continue,inlinecrypt	wait,check,formattable,quota,reservedsize=128M,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized
 /dev/block/bootdevice/by-name/misc        /misc                  emmc   defaults                                         defaults
 #/dev/block/bootdevice/by-name/modem      /vendor/firmware_mnt  vfat   ro,shortname=lower,uid=0,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0 wait,slotselect

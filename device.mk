@@ -12,22 +12,9 @@ DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay-lineage
 
 # Dalvik heap
-#
-# The tree previously inherited no dalvik-heap config at all, so the device
-# booted with zero dalvik.vm.heap* properties and ART fell back to its built-in
-# defaults - a ~16MB growth limit. com.sec.imsservice died with
-# java.lang.OutOfMemoryError roughly every 9 seconds, which stopped IMS from
-# ever completing SIP registration (and would starve any other memory-hungry
-# app). SM-A920F reports MemTotal ~5.6GB, so use the 6GB profile.
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
 
 # ART
-# The 4.4 kernel lacks MREMAP_DONTUNMAP, so ART cannot use the userfaultfd GC.
-# The build cannot read the version of the inline-built kernel
-# ("<unknown-kernel>") and then enables it, which leaves the system boot image
-# and system_server artifacts unusable at runtime: odrefresh recompiled all of
-# them into /data on every boot (~47 s at the splash screen), since odsign
-# cannot keep its keys with the Samsung keymaster.
 PRODUCT_ENABLE_UFFD_GC := true
 
 ENABLE_VENDOR_RIL_SERVICE := true
@@ -367,13 +354,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ims/epdg/epdg_apns_conf.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/epdg_apns_conf.xml
 
 # IPA (IP accelerator)
-#
-# /vendor/bin/ipacm is extracted as a blob and ipacm.rc ships, but the stock
-# /vendor/etc/IPACM_cfg.xml was never captured by extract-files.sh. Without it
-# ipacm dereferences unloaded config and dies with SIGSEGV (fault addr 0x188)
-# on every start, so init restart-loops it forever - visible as repeated
-# "ipa ipa2_nat_del_cmd:799 Nat table not initialized". Ship the matching QCOM
-# config for this IPA generation (v2, same as the ipa2_* call in the error).
 PRODUCT_PACKAGES += \
     ipacm \
     IPACM_cfg.xml
@@ -454,19 +434,12 @@ PRODUCT_PACKAGES += \
     libhwbinder.vendor
 
 # Keymaster / gatekeeper
-# AOSP keymaster 3.0 and gatekeeper 1.0 around the keystore.mdfpp and
-# gatekeeper.mdfpp modules (ro.hardware.keystore/gatekeeper=mdfpp); the stock
-# Android 10 keymaster@3.0-impl cannot load against Android 12+ keymaster
-# libraries. The services keep their stock options (see init.a9y18qlte.rc).
 PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0-impl \
     android.hardware.gatekeeper@1.0-service \
     android.hardware.keymaster@3.0-impl \
     android.hardware.keymaster@3.0-service
 
-# keystore.mdfpp and gatekeeper.mdfpp are built from source (skeymast/): they
-# replace Samsung's blobs under the same names and speak the same protocol to
-# the same skeymast TrustZone app.
 PRODUCT_PACKAGES += \
     gatekeeper.mdfpp \
     keystore.mdfpp
@@ -552,11 +525,7 @@ PRODUCT_PACKAGES += libhidltransport libhwbinder
 # Samsung IMS system blobs link android.hardware.radio@1.0.
 PRODUCT_PACKAGES += android.hardware.radio@1.0
 
-# VNDK libraries the stock blobs link. Android 14 no longer ships the VNDK
-# APEX, so install their vendor variants: libsec-ril and netmgrd (libnetutils,
-# libsqlite), the camera HAL (libion, sensorservice), sensors.ssc (libpower),
-# GPS (libsqlite) and libsi (libpng).
-# libcutils_shim is provided by hardware/lineage/compat.
+# VNDK compat
 PRODUCT_PACKAGES += \
     android.frameworks.sensorservice@1.0.vendor \
     libcutils_shim \
@@ -584,12 +553,6 @@ PRODUCT_PACKAGES += \
     android.hardware.vibrator-service.samsung
 
 # Fingerprint
-# AIDL HAL around Samsung's libbauthserver, the library the stock
-# fingerprint.default module wraps. A copy of hardware/samsung's in
-# fingerprint/, which also detects a finger while unlocking with it is
-# not allowed, so a touch after boot brings up the PIN screen.
-# libfp_sensortest_shim stands in for the self-test libraries of the sensors
-# this device does not have, which libbauthserver links.
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint-service.samsung-a9y18qlte \
     libfp_sensortest_shim
@@ -630,9 +593,6 @@ PRODUCT_PACKAGES += \
     vendor.lineage.touch-service.samsung
 
 # Graphics
-# Display HAL from the sdm660 qcom-caf variant: QTI mapper and allocator,
-# gralloc and hwcomposer. The AOSP composer service keeps its stock options
-# (see init.a9y18qlte.rc).
 PRODUCT_PACKAGES += \
     android.hardware.graphics.composer@2.1-service \
     android.hardware.graphics.mapper@3.0-impl-qti-display \

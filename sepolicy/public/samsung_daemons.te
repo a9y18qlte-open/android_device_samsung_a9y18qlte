@@ -1,18 +1,2 @@
-# Public declarations for the two Samsung /system daemons that vendor policy
-# needs to name.
-#
-# Types declared in plat_private are invisible to vendor policy, and these two
-# have to be reachable from both sides:
-#
-#   multiclientd  multiplexes RIL clients, so rild calls into it and it calls
-#                 back - 14 denials of "rild -> multiclientd : binder { call }".
-#                 rild is a vendor domain, multiclientd is coredomain because
-#                 its binary sits on /system, so neither side could express the
-#                 rule while the type was private.
-#   smdexe        opens /dev/at_mdm0, typed at_device by qcom vendor policy.
-#
-# Only the domain types live here. Their exec types and their plat-side rules
-# stay in sepolicy/private/samsung_system_daemons.te, since nothing in vendor
-# policy needs to see those.
 type multiclientd, domain, coredomain;
 type smdexe, domain, coredomain;
