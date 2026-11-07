@@ -129,9 +129,6 @@ BOARD_HAVE_BLUETOOTH_QCOM := true
 QCOM_BT_USE_BTNV := true
 QCOM_BT_USE_SMD_TTY := true
 
-# Camera
-TARGET_USES_QTI_CAMERA_DEVICE := true
-
 # Dexpreopt
 ifeq ($(HOST_OS),linux)
   ifneq ($(TARGET_BUILD_VARIANT),eng)
