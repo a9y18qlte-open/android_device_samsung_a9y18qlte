@@ -1,4 +1,8 @@
-// SPDX-License-Identifier: Apache-2.0
+/*
+ * SPDX-FileCopyrightText: The LineageOS Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // OSS keymaster2 HAL for a9y18qlte: talks the skeymast KM_INDATA/KM_OUTDATA
 // protocol to the TrustZone app via libskeymast_common. See keymaster/README.md.
 

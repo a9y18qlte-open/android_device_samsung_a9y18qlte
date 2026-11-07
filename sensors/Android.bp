@@ -1,4 +1,8 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
 // SPDX-License-Identifier: Apache-2.0
+//
+
 // AOSP's android.hardware.sensors@1.0 passthrough service, built from source.
 //
 // It loads android.hardware.sensors@1.0-impl.samsung from hardware/samsung,

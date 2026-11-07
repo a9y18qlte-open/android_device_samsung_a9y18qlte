@@ -1,4 +1,8 @@
-// SPDX-License-Identifier: Apache-2.0
+/*
+ * SPDX-FileCopyrightText: The LineageOS Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // Self-test entry points of the fingerprint sensors this device does not have.
 // libbauthserver only calls the one for the sensor it detected (Egis here), so
 // these just report failure.

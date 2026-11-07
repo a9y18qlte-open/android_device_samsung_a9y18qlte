@@ -1,3 +1,8 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
 // Samsung's libbauthserver links the factory sensor self-test library of every
 // fingerprint sensor vendor it supports. This device has an Egis sensor, so the
 // Goodix, Qualcomm and Synaptics self-tests can never run; this provides their

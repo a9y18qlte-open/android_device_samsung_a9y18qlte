@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
 <resources>
     <!-- The list of package IDs that are allowed to use aux cameras.
          NOTE: If this list is empty then all apps will be able to use aux cameras. -->

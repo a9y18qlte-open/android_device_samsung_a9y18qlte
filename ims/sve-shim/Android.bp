@@ -1,3 +1,8 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
 // Android 10 entry points used by Samsung's SVE blobs (sveservice, the audio engine
 // for VoWiFi calls). libAudioFWInterface.so and libsamsung_videoengine_9_0.so call
 // AudioRecord, Camera and Surface methods whose signatures changed in Android 11/12;

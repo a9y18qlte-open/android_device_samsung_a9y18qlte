@@ -1,4 +1,8 @@
-// SPDX-License-Identifier: Apache-2.0
+/*
+ * SPDX-FileCopyrightText: The LineageOS Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // Canonical DER encode/decode for KM_INDATA/KM_OUTDATA, byte-identical to the
 // stock skeymast templates. Uses BoringSSL's CBB/CBS byte API (not the ASN1_ITEM
 // macros) and must build against the platform's own BoringSSL headers.

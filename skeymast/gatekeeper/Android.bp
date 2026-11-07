@@ -1,4 +1,8 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
 // SPDX-License-Identifier: Apache-2.0
+//
+
 // OSS MDFPP gatekeeper module for a9y18qlte (talks to skeymast TA).
 //
 // Replaces Samsung's gatekeeper.mdfpp.so under the same name, selected by

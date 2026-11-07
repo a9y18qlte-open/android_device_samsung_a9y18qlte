@@ -1,3 +1,8 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
 cc_library_static {
     name: "libinit_a9y18qlte",
     srcs: ["init_a9y18qlte.cpp"],

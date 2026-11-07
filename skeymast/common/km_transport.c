@@ -1,4 +1,8 @@
-// SPDX-License-Identifier: Apache-2.0
+/*
+ * SPDX-FileCopyrightText: The LineageOS Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // OSS QSEECom client for the Samsung skeymast trusted app. Open starts the TA
 // with a 2*region shared buffer; transact encodes KM_INDATA into [u64 len][DER],
 // sends it over QSEECom and decodes KM_OUTDATA from the response.

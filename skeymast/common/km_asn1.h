@@ -1,4 +1,8 @@
-// SPDX-License-Identifier: Apache-2.0
+/*
+ * SPDX-FileCopyrightText: The LineageOS Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // KM_INDATA/KM_OUTDATA wire format for the Samsung skeymast TA. Encoded/decoded
 // with BoringSSL's ABI-stable CBB/CBS byte API (not the ASN1_ITEM macros), so
 // the module links whatever platform libcrypto ships, no libcrypto-v33 pin.
