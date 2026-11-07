@@ -104,3 +104,7 @@ vendor.powerhal.disp.idle_support=false
 # SoC
 ro.soc.manufacturer=QTI
 ro.soc.model=SDM660
+
+# Zygote
+zygote.critical_window.minute=10
+
