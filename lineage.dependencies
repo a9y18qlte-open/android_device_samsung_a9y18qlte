@@ -6,10 +6,10 @@
 		"revision": "lineage-22.2"
 	},
 	{
-		"repository": "a9y18qlte-open/android_kernel_samsung_a9y18qlte",
-		"target_path": "kernel/samsung/a9y18qlte",
+		"repository": "a9y18qlte-open/android_kernel_samsung_a9y18qlte-4.19",
+		"target_path": "kernel/samsung/a9y18qlte-4.19",
 		"remote": "github",
-		"revision": "lineage-20-ksu"
+		"revision": "lineage-22.2-4.19"
 	},
 	{
 		"repository": "a9y18qlte-open/android_vendor_samsung_a9y18qlte",
