@@ -198,9 +198,6 @@ TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
 # Protobuf
 PROTOBUF_SUPPORTED := true
 
-# Use mke2fs to create ext4 images
-TARGET_USES_MKE2FS := true
-
 # RIL
 TARGET_PROVIDES_QTI_TELEPHONY_JAR := true
 
