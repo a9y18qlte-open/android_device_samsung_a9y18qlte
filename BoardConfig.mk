@@ -43,15 +43,6 @@ TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
 # Platform
-# APNs
-#
-# AOSP's apns-conf.xml has no type="ims" entry for BSNL (mcc 404), only
-# default/supl/mms. IMS registration needs an IMS PDN, so without it the modem
-# can never bring up the IMS bearer and SIP registration never happens
-# (dumpsys secims: "Registered: false"). Add an IMS APN for every BSNL MNC.
-# vendor/qassa/prebuilt/common/Android.mk merges this via custom_apns.py.
-CUSTOM_APNS_FILE := $(DEVICE_PATH)/configs/custom_apns.xml
-
 TARGET_BOARD_PLATFORM := sdm660
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno512
 
