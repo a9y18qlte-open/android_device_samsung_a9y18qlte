@@ -1,3 +1,8 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
 // Sets the IPv6 addresses of the VoWiFi tunnel. Samsung's EpdgService gets them from
 // the ePDG and had netd add them (Samsung netd); on AOSP an app may not call netd, so
 // the patched EpdgService puts them in sys.epdg.tunaddr.<iface> and init runs this

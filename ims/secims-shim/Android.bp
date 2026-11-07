@@ -1,3 +1,8 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
 // utf8_length() for Samsung's libsec-ims.so (Android 10 blob). It lived in
 // libutils (utils/Unicode.h) until Android 11 removed it.
 

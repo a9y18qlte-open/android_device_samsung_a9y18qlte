@@ -1,3 +1,8 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
 // Android 14's hardware/interfaces/audio/core/all-versions/default, built for
 // @6.0, with Samsung SIM slot hooks (SimSlot.cpp): PrimaryDevice::setMode()
 // tells Samsung's audio HAL which SIM a call is on, and output/stream hooks

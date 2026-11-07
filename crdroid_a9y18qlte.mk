@@ -1,6 +1,5 @@
 #
-# Copyright (C) 2022-2026 crDroid Android Project
-#
+# SPDX-FileCopyrightText: The LineageOS Project
 # SPDX-License-Identifier: Apache-2.0
 #
 

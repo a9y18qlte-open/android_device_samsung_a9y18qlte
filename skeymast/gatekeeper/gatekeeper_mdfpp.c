@@ -1,4 +1,8 @@
-// SPDX-License-Identifier: Apache-2.0
+/*
+ * SPDX-FileCopyrightText: The LineageOS Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // OSS gatekeeper hw_module for the Samsung skeymast TA (a9y18qlte): enroll=0x201,
 // verify=0x202, AOSP 58-byte handle / 69-byte token. See gatekeeper/README.md.
 

@@ -1,4 +1,8 @@
-// SPDX-License-Identifier: Apache-2.0
+/*
+ * SPDX-FileCopyrightText: The LineageOS Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // OSS transport to the Samsung skeymast trusted app over QSEECom.
 // Reimplements nwd_tz_open / nwd_tz_run_cmd / pack / unpack from the stock
 // gatekeeper.mdfpp.so (see ~/gatekeeper-re/PLAN.md).

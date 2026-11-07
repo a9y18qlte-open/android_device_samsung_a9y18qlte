@@ -1,4 +1,8 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
 // SPDX-License-Identifier: Apache-2.0
+//
+
 // Shared skeymast transport + KM_INDATA/KM_OUTDATA codec, used by both the OSS
 // gatekeeper and keymaster HAL modules. See each module's dir and the project
 // notes for the protocol. Links the platform's BoringSSL (CBB/CBS) — build in
