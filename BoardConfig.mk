@@ -86,7 +86,7 @@ TARGET_KERNEL_CONFIG := vendor/sdm660-perf_defconfig vendor/a9y18qlte.config
 ifeq ($(TARGET_KERNEL_KSU),true)
 TARGET_KERNEL_CONFIG += vendor/ksu.config
 endif
-TARGET_KERNEL_SOURCE := kernel/samsung/a9y18qlte-4.19
+TARGET_KERNEL_SOURCE := kernel/samsung/a9y18qlte
 TARGET_KERNEL_VERSION := 4.19
 TARGET_KERNEL_CLANG_COMPILE := true
 # Clang in 16 defaults to --target=aarch64-linux-android when CROSS_COMPILE uses android prefix;
