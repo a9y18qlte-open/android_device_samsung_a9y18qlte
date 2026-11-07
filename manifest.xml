@@ -84,11 +84,6 @@
         <fqname>@1.1::IRadioConfig/default</fqname>
     </hal>
     <hal format="hidl">
-        <name>android.hardware.renderscript</name>
-        <transport arch="32+64">passthrough</transport>
-        <fqname>@1.0::IDevice/default</fqname>
-    </hal>
-    <hal format="hidl">
         <name>android.hardware.sensors</name>
         <transport>hwbinder</transport>
         <fqname>@1.0::ISensors/default</fqname>
@@ -134,49 +129,9 @@
         <fqname>@1.0::INxpNfc/default</fqname>
     </hal>
     <hal format="hidl">
-        <name>vendor.qti.esepowermanager</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::IEsePowerManager/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.alarm</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::IAlarm/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.bluetooth_audio</name>
-        <transport>hwbinder</transport>
-        <fqname>@2.0::IBluetoothAudioProvidersFactory/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.bluetooth_sar</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::IBluetoothSar/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.btconfigstore</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::IBTConfigStore/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.cacert</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::IService/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.factory</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.1::IFactory/default</fqname>
-    </hal>
-    <hal format="hidl">
         <name>vendor.qti.hardware.fm</name>
         <transport>hwbinder</transport>
         <fqname>@1.0::IFmHci/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.improvetouch.touchcompanion</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::ITouchCompanion/TouchCompanionService</fqname>
     </hal>
     <hal format="hidl">
         <name>vendor.qti.hardware.perf</name>
@@ -189,44 +144,14 @@
         <fqname>@1.0::IQdutilsDisp/default</fqname>
     </hal>
     <hal format="hidl">
-        <name>vendor.qti.hardware.qseecom</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::IQSEECom/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.soter</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::ISoter/default</fqname>
-    </hal>
-    <hal format="hidl">
         <name>vendor.qti.hardware.tui_comm</name>
         <transport>hwbinder</transport>
         <fqname>@1.0::ITuiComm/default</fqname>
     </hal>
     <hal format="hidl">
-        <name>vendor.qti.hardware.wifi.hostapd</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.1::IHostapdVendor/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.wifi.supplicant</name>
-        <transport>hwbinder</transport>
-        <fqname>@2.0::ISupplicantVendor/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.wifi.wifilearner</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::IWifiStats/wifiStats</fqname>
-    </hal>
-    <hal format="hidl">
         <name>vendor.samsung.hardware.gnss</name>
         <transport>hwbinder</transport>
         <fqname>@2.0::ISehGnss/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.samsung.hardware.media.converter</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::ISehColorConverterStore/default</fqname>
     </hal>
     <hal format="hidl">
         <name>vendor.samsung.hardware.miscpower</name>
@@ -259,59 +184,14 @@
         <fqname>@2.0::ISehProca/default</fqname>
     </hal>
     <hal format="hidl">
-        <name>vendor.samsung.hardware.security.securestorage</name>
-        <transport>hwbinder</transport>
-        <fqname>@3.0::ISehSecureStorage/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.samsung.hardware.security.widevine.keyprovisioning</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::ISehWidevineKeyProvisioning/default</fqname>
-    </hal>
-    <hal format="hidl">
         <name>vendor.samsung.hardware.security.wsm</name>
         <transport>hwbinder</transport>
         <fqname>@1.0::ISehWsm/default</fqname>
     </hal>
     <hal format="hidl">
-        <name>vendor.samsung.hardware.snap</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.1::ISehSnap/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.samsung.hardware.tlc.atn</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::ISehAtn/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.samsung.hardware.tlc.iccc</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::ISehIccc/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.samsung.hardware.tlc.payment</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::ISehTlcPayment/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.samsung.hardware.tlc.tima</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.0::ISehTima/default</fqname>
-    </hal>
-    <hal format="hidl">
         <name>vendor.samsung.hardware.wifi</name>
         <transport>hwbinder</transport>
         <fqname>@2.0::ISehWifi/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.samsung.hardware.wifi.hostapd</name>
-        <transport>hwbinder</transport>
-        <fqname>@2.0::ISehHostapd/default</fqname>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.samsung.hardware.wifi.supplicant</name>
-        <transport>hwbinder</transport>
-        <fqname>@2.0::ISehSupplicant/default</fqname>
     </hal>
     <hal format="hidl">
         <name>android.hardware.drm</name>
