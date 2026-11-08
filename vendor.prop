@@ -108,3 +108,6 @@ ro.soc.model=SDM660
 # Zygote
 zygote.critical_window.minute=10
 
+# FUSE passthrough
+persist.sys.fuse.passthrough.enable=true
+
