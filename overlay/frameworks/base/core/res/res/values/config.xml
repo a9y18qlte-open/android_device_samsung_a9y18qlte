@@ -1154,16 +1154,6 @@
         <item>7,1</item>
     </string-array>
 
-    <!-- The vibrator is an on/off motor without amplitude control, which
-         barely spins up within the default 100 ms fallback pulses. Use the
-         350 ms pulses of config_defaultNotificationVibePattern instead. -->
-    <integer-array name="config_notificationFallbackVibePattern">
-        <item>0</item>
-        <item>350</item>
-        <item>250</item>
-        <item>350</item>
-    </integer-array>
-
     <!-- Flag indicating whether the current device allows stk sms send service via framework.
          If true,this means that the device supports sending of stk triggered sms via the telephony.
          This can be overridden to false for devices which can't send stk sms message via
