@@ -6,18 +6,6 @@ genfscon sysfs /class/backlight/panel/max_brightness                 u:object_r:
 # Sec Key
 genfscon sysfs /devices/virtual/sec/sec_key                                       u:object_r:sysfs_sec_key:s0
 
-# Battery. This board exposes power_supply under /sys/devices/battery rather
-# than the path the stock genfs_contexts covers, so healthd is refused its own
-# battery nodes:
-#   avc: denied { read } path="/sys/devices/battery/power_supply/battery/present"
-genfscon sysfs /devices/battery/power_supply                         u:object_r:sysfs_batteryinfo:s0
-# The charger's own power_supply tree, which is where the health HAL actually
-# reads from - the path above only covers what healthd touches.
-genfscon sysfs /devices/soc/soc:i2c@26/i2c-26/26-0049/sm5705-charger/power_supply u:object_r:sysfs_batteryinfo:s0
-# And the fuel gauge, on a different i2c bus again. Three separate power_supply
-# trees on this board; healthd reads this one.
-genfscon sysfs /devices/soc/soc:i2c@24/i2c-24/24-0071/power_supply u:object_r:sysfs_batteryinfo:s0
-
 # Camera: flash and firmware nodes, plus the v4l2 device names the provider
 # enumerates at startup.
 genfscon sysfs /devices/virtual/sec/switch                           u:object_r:sysfs_sec_switch:s0

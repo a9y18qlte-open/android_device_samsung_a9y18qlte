@@ -6,10 +6,6 @@
 # back to generic sysfs, which hal_camera_default is not permitted to touch.
 genfscon sysfs /devices/virtual/camera                        u:object_r:sysfs_camera:s0
 genfscon sysfs /devices/virtual/camera/flash/rear_flash       u:object_r:sysfs_samsung_flashlight:s0
-genfscon sysfs /devices/soc/ca00000.qcom,msm-cam/video4linux  u:object_r:sysfs_camera:s0
-genfscon sysfs /devices/soc/caa0000.qcom,jpeg/video4linux     u:object_r:sysfs_camera:s0
-genfscon sysfs /devices/soc/ca0c000.qcom,cci                  u:object_r:sysfs_camera:s0
-# 4.19 puts the soc devices under the platform bus.
 genfscon sysfs /devices/platform/soc/ca00000.qcom,msm-cam/video4linux u:object_r:sysfs_camera:s0
 genfscon sysfs /devices/platform/soc/caa0000.qcom,jpeg/video4linux    u:object_r:sysfs_camera:s0
 genfscon sysfs /devices/platform/soc/ca0c000.qcom,cci                 u:object_r:sysfs_camera:s0
@@ -23,15 +19,6 @@ genfscon sysfs /kernel/mm/vmscan                              u:object_r:sysfs_v
 # and the per_mgr/per_proxy pair. An earlier pass labelled only the two nodes
 # that happened to appear in that boot log; this is every subsys*/name and
 # uio*/name on the board, enumerated from the device.
-genfscon sysfs /devices/soc/0.qcom,rmtfs_sharedmem/uio/uio0   u:object_r:sysfs_subsys:s0
-genfscon sysfs /devices/soc/780000.qcom,msm-core/uio/uio1     u:object_r:sysfs_subsys:s0
-genfscon sysfs /devices/soc/cce0000.qcom,venus/subsys0        u:object_r:sysfs_subsys:s0
-genfscon sysfs /devices/soc/soc:qcom,kgsl-hyp/subsys1         u:object_r:sysfs_subsys:s0
-genfscon sysfs /devices/soc/15700000.qcom,lpass/subsys2       u:object_r:sysfs_subsys:s0
-genfscon sysfs /devices/soc/1a300000.qcom,turing/subsys3      u:object_r:sysfs_subsys:s0
-genfscon sysfs /devices/soc/4080000.qcom,mss/subsys4          u:object_r:sysfs_subsys:s0
-# 4.19: under the platform bus, and the subsystems register in another order.
-# There is no msm-core uio there.
 genfscon sysfs /devices/platform/soc/0.qcom,rmtfs_sharedmem/uio/uio0 u:object_r:sysfs_subsys:s0
 genfscon sysfs /devices/platform/soc/4080000.qcom,mss/subsys0        u:object_r:sysfs_subsys:s0
 genfscon sysfs /devices/platform/soc/cce0000.qcom,venus/subsys1      u:object_r:sysfs_subsys:s0
@@ -53,7 +40,6 @@ genfscon sysfs /power/volkey_wakeup                           u:object_r:sysfs_v
 
 # SPMI/PMIC tree, walked by hvdcp. The RTC sits underneath it, so it needs the
 # longer prefix to win - genfscon resolves by longest match.
-genfscon sysfs /devices/soc/800f000.qcom,spmi                 u:object_r:sysfs_spmi:s0
 genfscon sysfs /devices/platform/soc/800f000.qcom,spmi        u:object_r:sysfs_spmi:s0
 
 # Battery, charger and fuel gauge power supplies, read by the health HAL. On
@@ -70,7 +56,6 @@ genfscon sysfs /kernel/boot_wlan                              u:object_r:sysfs_w
 genfscon sysfs /wifi                                          u:object_r:sysfs_wlan_boot:s0
 
 # UFS host controller, read by hal_perf_default.
-genfscon sysfs /devices/soc/1da4000.ufshc                     u:object_r:sysfs_ufs:s0
 genfscon sysfs /devices/platform/soc/1da4000.ufshc            u:object_r:sysfs_ufs:s0
 
 # msm_core parameters, written by init and energyawareness.
@@ -93,5 +78,4 @@ genfscon sysfs /devices/virtual/sec/tsp/cmd_result            u:object_r:sysfs_s
 # Samsung LCD sysfs tree
 genfscon sysfs /devices/virtual/lcd/panel                                 u:object_r:sysfs_lcd:s0
 
-genfscon sysfs /devices/soc/c900000.qcom,mdss_mdp/c900000.qcom,mdss_mdp:qcom,mdss_fb_primary/leds/lcd-backlight u:object_r:sysfs_leds:s0
 genfscon sysfs /devices/platform/soc/c900000.qcom,mdss_mdp/c900000.qcom,mdss_mdp:qcom,mdss_fb_primary/leds/lcd-backlight u:object_r:sysfs_leds:s0
