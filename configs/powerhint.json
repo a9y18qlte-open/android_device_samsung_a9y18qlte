@@ -105,24 +105,28 @@
       "ResetOnInit": true
     },
     {
-      "Name": "CPUBWHystTriggerCount",
+      "Name": "CPUBWMinFreq",
       "Paths": [
-        "/sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/hyst_trigger_count"
+        "/sys/class/devfreq/soc:qcom,cpu-cpu-ddr-bw/min_freq"
       ],
       "Values": [
-        "0",
-        "3"
+        "6881",
+        "4943",
+        "2929",
+        "762"
       ],
       "ResetOnInit": true
     },
     {
-      "Name": "CPUBWHistMemory",
+      "Name": "GPUBusMinFreq",
       "Paths": [
-        "/sys/class/devfreq/soc:qcom,cpubw/bw_hwmon/hist_memory"
+        "/sys/class/devfreq/soc:qcom,gpubw/min_freq"
       ],
       "Values": [
-        "0",
-        "20"
+        "6881",
+        "5931",
+        "5161",
+        "0"
       ],
       "ResetOnInit": true
     },
@@ -194,15 +198,9 @@
     },
     {
       "PowerHint": "INTERACTION",
-      "Node": "CPUBWHystTriggerCount",
+      "Node": "CPUBWMinFreq",
       "Duration": 0,
-      "Value": "0"
-    },
-    {
-      "PowerHint": "INTERACTION",
-      "Node": "CPUBWHistMemory",
-      "Duration": 0,
-      "Value": "0"
+      "Value": "2929"
     },
     {
       "PowerHint": "LAUNCH",
@@ -242,15 +240,15 @@
     },
     {
       "PowerHint": "LAUNCH",
-      "Node": "CPUBWHystTriggerCount",
+      "Node": "CPUBWMinFreq",
       "Duration": 6000,
-      "Value": "0"
+      "Value": "6881"
     },
     {
       "PowerHint": "LAUNCH",
-      "Node": "CPUBWHistMemory",
+      "Node": "GPUBusMinFreq",
       "Duration": 6000,
-      "Value": "0"
+      "Value": "5161"
     },
     {
       "PowerHint": "EXPENSIVE_RENDERING",
@@ -263,6 +261,18 @@
       "Node": "GPUMinFreq",
       "Duration": 0,
       "Value": "465000000"
+    },
+    {
+      "PowerHint": "EXPENSIVE_RENDERING",
+      "Node": "GPUBusMinFreq",
+      "Duration": 0,
+      "Value": "5931"
+    },
+    {
+      "PowerHint": "EXPENSIVE_RENDERING",
+      "Node": "CPUBWMinFreq",
+      "Duration": 0,
+      "Value": "4943"
     },
     {
       "PowerHint": "LOW_POWER",
