@@ -31,4 +31,6 @@
         <item>0</item> <!-- 1: dark -->
         <item>0</item> <!-- 2: bright -->
     </integer-array>
+    <!-- Whether to play turbulence noise after clicking the play button -->
+    <bool name="config_turbulenceNoise">false</bool>
 </resources>
