@@ -1,5 +1,7 @@
 allow hal_lineage_livedisplay_sysfs sysfs_lcd:dir search;
 
+vndbinder_use(hal_lineage_livedisplay_sysfs)
+
 # Default display mode, kept in /data/vendor/display.
 allow hal_lineage_livedisplay_sysfs display_vendor_data_file:dir rw_dir_perms;
 allow hal_lineage_livedisplay_sysfs display_vendor_data_file:file create_file_perms;

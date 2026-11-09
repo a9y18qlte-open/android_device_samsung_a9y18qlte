@@ -79,3 +79,6 @@ genfscon sysfs /devices/virtual/sec/tsp/cmd_result            u:object_r:sysfs_s
 genfscon sysfs /devices/virtual/lcd/panel                                 u:object_r:sysfs_lcd:s0
 
 genfscon sysfs /devices/platform/soc/c900000.qcom,mdss_mdp/c900000.qcom,mdss_mdp:qcom,mdss_fb_primary/leds/lcd-backlight u:object_r:sysfs_leds:s0
+
+# External display extcon, read by system_server (WiredAccessoryManager)
+genfscon sysfs /devices/platform/soc/soc:qcom,msm-ext-disp/extcon u:object_r:sysfs_extcon:s0

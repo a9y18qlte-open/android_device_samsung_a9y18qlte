@@ -1,3 +1,8 @@
 dontaudit qti_init_shell self:capability dac_read_search;
 vendor_internal_prop(vendor_crash_prop)
 set_prop(qti_init_shell, vendor_crash_prop)
+
+# Allow usb and post-boot configuration
+allow qti_init_shell configfs:dir create_dir_perms;
+allow qti_init_shell configfs:file create_file_perms;
+allow qti_init_shell self:perf_event cpu;
