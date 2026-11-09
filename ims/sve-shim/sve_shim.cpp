@@ -3,12 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <map>
 #include <mutex>
-#include <new>
 
 #include <android/content/AttributionSourceState.h>
-#include <binder/Binder.h>
 #include <camera/Camera.h>
 #include <camera/CameraBase.h>
 #include <binder/Parcel.h>
@@ -16,14 +13,10 @@
 #include <gui/BufferQueue.h>
 #include <gui/Flags.h>
 #include <gui/Surface.h>
-#include <media/AudioRecord.h>
-#include <media/AudioTrack.h>
 #include <ui/GraphicBuffer.h>
 #include <ui/GraphicBufferMapper.h>
 #include <utils/String8.h>
 
-using android::AudioRecord;
-using android::AudioTrack;
 using android::BufferItem;
 using android::BufferItemConsumer;
 using android::BufferQueue;
@@ -31,7 +24,6 @@ using android::Camera;
 using android::GraphicBuffer;
 using android::IGraphicBufferConsumer;
 using android::IGraphicBufferProducer;
-using android::RefBase;
 using android::CameraBase;
 using android::sp;
 using android::String16;
@@ -40,167 +32,7 @@ using android::Surface;
 using android::content::AttributionSourceState;
 using android::content::res::CameraCompatibilityInfo;
 
-namespace {
-
-// Android 14 removed AudioRecord's legacy callback interface; Android 13's adapter.
-typedef void (*legacy_callback_t)(int event, void* user, void* info);
-enum {
-    EVENT_MORE_DATA = 0,
-    EVENT_OVERRUN = 1,
-    EVENT_MARKER = 2,
-    EVENT_NEW_POS = 3,
-    EVENT_NEW_IAUDIORECORD = 4,
-};
-
-class LegacyCallbackWrapper : public AudioRecord::IAudioRecordCallback {
-    const legacy_callback_t mCallback;
-    void* const mData;
-
-  public:
-    LegacyCallbackWrapper(legacy_callback_t callback, void* user)
-        : mCallback(callback), mData(user) {}
-
-    size_t onMoreData(const AudioRecord::Buffer& buffer) override {
-        AudioRecord::Buffer copy = buffer;
-        mCallback(EVENT_MORE_DATA, mData, &copy);
-        return copy.size();
-    }
-
-    void onOverrun() override { mCallback(EVENT_OVERRUN, mData, nullptr); }
-
-    void onMarker(uint32_t markerPosition) override {
-        mCallback(EVENT_MARKER, mData, &markerPosition);
-    }
-
-    void onNewPos(uint32_t newPos) override { mCallback(EVENT_NEW_POS, mData, &newPos); }
-
-    void onNewIAudioRecord() override { mCallback(EVENT_NEW_IAUDIORECORD, mData, nullptr); }
-};
-
-// AudioRecord only keeps a weak reference to its callback. Keep each wrapper alive
-// until the next set() on the same object address; the blob creates one AudioRecord
-// per call, so this stays at a handful of small objects.
-std::mutex gCallbackWrappersLock;
-std::map<const AudioRecord*, sp<LegacyCallbackWrapper>> gCallbackWrappers;
-
-class LegacyTrackCallbackWrapper : public AudioTrack::IAudioTrackCallback {
-    const legacy_callback_t mCallback;
-    void* const mData;
-
-  public:
-    LegacyTrackCallbackWrapper(legacy_callback_t callback, void* user)
-        : mCallback(callback), mData(user) {}
-
-    size_t onMoreData(const AudioTrack::Buffer& buffer) override {
-        AudioTrack::Buffer copy = buffer;
-        mCallback(AudioTrack::EVENT_MORE_DATA, mData, &copy);
-        return copy.size();
-    }
-
-    void onUnderrun() override { mCallback(AudioTrack::EVENT_UNDERRUN, mData, nullptr); }
-    void onLoopEnd(int32_t loopsRemaining) override { mCallback(AudioTrack::EVENT_LOOP_END, mData, &loopsRemaining); }
-    void onMarker(uint32_t markerPosition) override { mCallback(AudioTrack::EVENT_MARKER, mData, &markerPosition); }
-    void onNewPos(uint32_t newPos) override { mCallback(AudioTrack::EVENT_NEW_POS, mData, &newPos); }
-    void onBufferEnd() override { mCallback(AudioTrack::EVENT_BUFFER_END, mData, nullptr); }
-    void onNewIAudioTrack() override { mCallback(AudioTrack::EVENT_NEW_IAUDIOTRACK, mData, nullptr); }
-    void onStreamEnd() override { mCallback(AudioTrack::EVENT_STREAM_END, mData, nullptr); }
-    size_t onCanWriteMoreData(const AudioTrack::Buffer& buffer) override {
-        AudioTrack::Buffer copy = buffer;
-        mCallback(AudioTrack::EVENT_CAN_WRITE_MORE_DATA, mData, &copy);
-        return copy.size();
-    }
-};
-
-std::mutex gTrackCallbackWrappersLock;
-std::map<const AudioTrack*, sp<LegacyTrackCallbackWrapper>> gTrackCallbackWrappers;
-
-}  // namespace
-
 extern "C" {
-
-// AudioRecord::AudioRecord(const String16& opPackageName)
-// The blob allocates sizeof(AudioRecord) of Android 10; its blob fixup raises that
-// allocation to the Android 12 size. uid and pid are filled in by set(); recording is
-// refused without an attribution token.
-// AudioTrack::AudioTrack()
-// Removed in Android 15; construct with empty AttributionSourceState.
-void _ZN7android10AudioTrackC1Ev(AudioTrack* self) {
-    new (self) AudioTrack(AttributionSourceState());
-}
-void _ZN7android10AudioTrackC2Ev(AudioTrack* self) {
-    new (self) AudioTrack(AttributionSourceState());
-}
-
-void _ZN7android11AudioRecordC1ERKNS_8String16E(AudioRecord* self,
-                                                 const String16& opPackageName) {
-    AttributionSourceState attributionSource;
-    attributionSource.packageName = std::string(String8(opPackageName).c_str());
-    attributionSource.token = sp<android::BBinder>::make();
-    new (self) AudioRecord(attributionSource);
-}
-
-// status_t AudioRecord::set(...) without maxSharedAudioHistoryMs
-// Samsung's audio engine records from its own source (13) for VoWiFi calls, which
-// Android 12 rejects; record the call from the VoIP source instead.
-android::status_t
-_ZN7android11AudioRecord3setE14audio_source_tj14audio_format_tjmPFviPvS3_ES3_jb15audio_session_tNS0_13transfer_typeE19audio_input_flags_tjiPK18audio_attributes_ti28audio_microphone_direction_tf(
-        AudioRecord* self, audio_source_t inputSource, uint32_t sampleRate, audio_format_t format,
-        audio_channel_mask_t channelMask, size_t frameCount, legacy_callback_t cbf,
-        void* user, uint32_t notificationFrames, bool threadCanCallJava,
-        audio_session_t sessionId, AudioRecord::transfer_type transferType,
-        audio_input_flags_t flags, uid_t uid, pid_t pid, const audio_attributes_t* pAttributes,
-        audio_port_handle_t selectedDeviceId, audio_microphone_direction_t selectedMicDirection,
-        float microphoneFieldDimension) {
-    if (inputSource >= AUDIO_SOURCE_CNT && inputSource != AUDIO_SOURCE_ECHO_REFERENCE &&
-        inputSource != AUDIO_SOURCE_FM_TUNER && inputSource != AUDIO_SOURCE_HOTWORD) {
-        inputSource = AUDIO_SOURCE_VOICE_COMMUNICATION;
-    }
-    sp<LegacyCallbackWrapper> callback;
-    if (cbf != nullptr) callback = sp<LegacyCallbackWrapper>::make(cbf, user);
-    {
-        std::lock_guard<std::mutex> lock(gCallbackWrappersLock);
-        if (callback != nullptr) {
-            gCallbackWrappers[self] = callback;
-        } else {
-            gCallbackWrappers.erase(self);
-        }
-    }
-    return self->set(inputSource, sampleRate, format, channelMask, frameCount, callback,
-                     notificationFrames, threadCanCallJava, sessionId, transferType, flags, uid,
-                     pid, pAttributes, selectedDeviceId, selectedMicDirection,
-                     microphoneFieldDimension, 0 /* maxSharedAudioHistoryMs */);
-}
-
-// status_t AudioTrack::set(...) legacy overload removed in Android 16
-android::status_t
-_ZN7android10AudioTrack3setE19audio_stream_type_tj14audio_format_tjm20audio_output_flags_tPFviPvS4_ES4_iRKNS_2spINS_7IMemoryEEEb15audio_session_tNS0_13transfer_typeEPK20audio_offload_info_tjiPK18audio_attributes_tbfi(
-        AudioTrack* self, audio_stream_type_t streamType, uint32_t sampleRate,
-        audio_format_t format, audio_channel_mask_t channelMask, size_t frameCount,
-        audio_output_flags_t flags, legacy_callback_t cbf, void* user,
-        int32_t notificationFrames, const sp<android::IMemory>& sharedBuffer,
-        bool threadCanCallJava, audio_session_t sessionId,
-        AudioTrack::transfer_type transferType, const audio_offload_info_t* offloadInfo,
-        uid_t uid, pid_t pid, const audio_attributes_t* pAttributes, bool doNotReconnect,
-        float maxRequiredSpeed, audio_port_handle_t selectedDeviceId) {
-    AttributionSourceState attributionSource;
-    attributionSource.uid = uid;
-    attributionSource.pid = pid;
-    attributionSource.token = sp<android::BBinder>::make();
-    sp<LegacyTrackCallbackWrapper> callback;
-    if (cbf != nullptr) callback = sp<LegacyTrackCallbackWrapper>::make(cbf, user);
-    {
-        std::lock_guard<std::mutex> lock(gTrackCallbackWrappersLock);
-        if (callback != nullptr) {
-            gTrackCallbackWrappers[self] = callback;
-        } else {
-            gTrackCallbackWrappers.erase(self);
-        }
-    }
-    return self->set(streamType, sampleRate, format, channelMask, frameCount, flags,
-                     callback, notificationFrames, sharedBuffer, threadCanCallJava,
-                     sessionId, transferType, offloadInfo, attributionSource,
-                     pAttributes, doNotReconnect, maxRequiredSpeed, selectedDeviceId);
-}
 
 // static bool Surface::isValid(const sp<Surface>&), inline until Android 11 removed it
 bool _ZN7android7Surface7isValidERKNS_2spIS0_EE(const sp<Surface>& surface) {
@@ -303,37 +135,6 @@ int32_t CameraGetNumberOfCameras()
 int32_t CameraGetNumberOfCameras() {
     AttributionSourceState clientAttribution;
     return CameraBase<Camera>::getNumberOfCameras(clientAttribution, 0 /* devicePolicy */);
-}
-
-// RefBase::incStrong() and decStrong() for libAudioFWInterface.so, whose imports of
-// them are renamed to SveBase (same length, see extract-files.sh). Android 13 made AudioSystem::AudioDeviceCallback a
-// virtual RefBase, which moved the RefBase of AudioTrack and AudioRecord away from
-// the start of the object; the blob still passes the object address as the RefBase.
-static const RefBase* toRefBase(const void* object) {
-    static const void* const kAudioTrackVtable = [] {
-        sp<AudioTrack> track = sp<AudioTrack>::make();
-        return *reinterpret_cast<const void* const*>(track.get());
-    }();
-    static const void* const kAudioRecordVtable = [] {
-        sp<AudioRecord> record = sp<AudioRecord>::make(AttributionSourceState());
-        return *reinterpret_cast<const void* const*>(record.get());
-    }();
-    const void* vtable = *static_cast<const void* const*>(object);
-    if (vtable == kAudioTrackVtable) return static_cast<const AudioTrack*>(object);
-    if (vtable == kAudioRecordVtable) return static_cast<const AudioRecord*>(object);
-    return static_cast<const RefBase*>(object);
-}
-
-extern "C" void sve_RefBase_incStrong(const void* object, const void* id)
-        __asm__("_ZNK7android7SveBase9incStrongEPKv");
-extern "C" void sve_RefBase_incStrong(const void* object, const void* id) {
-    toRefBase(object)->incStrong(id);
-}
-
-extern "C" void sve_RefBase_decStrong(const void* object, const void* id)
-        __asm__("_ZNK7android7SveBase9decStrongEPKv");
-extern "C" void sve_RefBase_decStrong(const void* object, const void* id) {
-    toRefBase(object)->decStrong(id);
 }
 
 // Parcel::print(TextOutput&, uint32_t) for libsveservice.so; Android 14 takes a
