@@ -1218,7 +1218,6 @@ system/priv-app/imsservice/imsservice.apk|d6616f51a22ae9a67a1e52332699c62543653b
 system/app/sveservice/sveservice.apk
 system/etc/mapconprovider.xml
 system/etc/permissions/privapp-permissions-com.sec.epdg.xml
-system/lib64/libAudioFWInterface.so
 system/lib64/libPSI.so
 system/lib64/libRecorder.so
 system/lib64/libSTE.so

@@ -240,42 +240,6 @@ blob_fixups: blob_fixups_user_type = {
     # exists, for nothing it uses.
     'system/lib64/libsvejni.so': blob_fixup()
         .remove_needed('libsurfaceflinger.so'),
-    # Android 10 AudioRecord/AudioTrack users. libsve_shim provides the old
-    # AudioRecord constructor and set(), which Android 12 changed.
-    # It allocates the objects itself, with the Android 10 sizes:
-    # AudioRecord 696 -> 1128 bytes, AudioTrack 1032 -> 1264 bytes (Android 13).
-    # Samsung's stream type 15 does not exist on AOSP and AudioTrack rejects it;
-    # play the call on the voice call stream (0) instead:
-    # orr w1, wzr, #0xf -> mov w1, #0.
-    # Android 13 moved the RefBase of AudioTrack and AudioRecord off the start
-    # of the object; libsve_shim finds it before counting references. Point the
-    # RefBase::incStrong()/decStrong() imports at it by renaming them in place
-    # (RefBase -> SveBase keeps the string table layout).
-    # The same change moved fields it reads inline: AudioTrack::mStatus
-    # (initCheck()) 0x208 -> 0x200, AudioTrack::mSessionId (getSessionId())
-    # 0x34c -> 0x35c, AudioRecord::mStatus 0x88 -> 0x8c. Android 16 dropped
-    # mLegacyCallbackWrapper from both, ahead of AudioTrack::mSessionId (now
-    # 0x354) and AudioRecord::mStatus (now 0x84); with the old offset the
-    # engine read a wrong status, failed to open the microphone and ended
-    # every VoWiFi call as soon as it was answered.
-    'system/lib64/libAudioFWInterface.so': blob_fixup()
-        .call(patch_bytes, [
-            (0x20b0, '00578052', 0x20b0, '008d8052'),
-            (0x22e8, '00818052', 0x22e8, '009e8052'),
-            (0x2818, 'e10f0032', 0x2818, '01008052'),
-        ])
-        .add_needed('libsve_shim.so')
-        .binary_regex_replace(
-            rb'_ZNK7android7RefBase9(inc|dec)StrongEPKv',
-            rb'_ZNK7android7SveBase9\1StrongEPKv',
-        )
-        .call(patch_bytes, [
-            (0x240c, '040942b9', 0x240c, '040142b9'),
-            (0x2950, '080842b9', 0x2950, '080042b9'),
-            (0x2514, '144c43b9', 0x2514, '145443b9'),
-            (0x2528, '88698052', 0x2528, '886a8052'),
-            (0x21d4, '048940b9', 0x21d4, '048540b9'),
-        ]),
     # Camera::connect() and Surface::isValid() changed in Android 11/12.
     # CControlManager::SetDeviceOrientInfo() indexes a four entry table with its
     # orientation argument, which Samsung's own phone app passes as a 0-3 index.
