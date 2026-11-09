@@ -132,7 +132,9 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.btconfigstore@1.0 \
     vendor.qti.hardware.btconfigstore@1.0.vendor
 
-
+# Configstore
+PRODUCT_PACKAGES += \
+    disable_configstore
 
 # Display
 PRODUCT_PRODUCT_PROPERTIES += \

@@ -3,14 +3,6 @@
      declare; check_vintf rejects undeclared HALs. All optional. -->
 <compatibility-matrix version="1.0" type="framework">
     <hal format="hidl" optional="true">
-        <name>android.hardware.configstore</name>
-        <version>1.1</version>
-        <interface>
-            <name>ISurfaceFlingerConfigs</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl" optional="true">
         <name>android.hardware.drm</name>
         <version>1.2</version>
         <interface>
