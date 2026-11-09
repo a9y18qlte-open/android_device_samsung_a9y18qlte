@@ -3,10 +3,22 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+import common
+import os
+
 PARTITIONS = ("system", "vendor")
 
 
 def FullOTA_InstallBegin(info):
+    try:
+        script_data = info.input_zip.read("SYSTEM/etc/check_migration.sh")
+    except KeyError:
+        script_path = os.path.join(os.path.dirname(__file__), "check_migration.sh")
+        with open(script_path, "rb") as f:
+            script_data = f.read()
+
+    common.ZipWriteStr(info.output_zip, "install/bin/check_migration.sh", script_data)
+
     info.script.Print("Verifying build compatibility...")
     info.script.AppendExtra(
         'package_extract_file("install/bin/check_migration.sh", "/tmp/check_migration.sh");\n'

@@ -58,7 +58,7 @@ PRODUCT_PACKAGES += \
 # IMS
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/ims_samsung.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/ims_samsung.rc \
-    $(LOCAL_PATH)/releasetools/check_migration.sh:install/bin/check_migration.sh
+    $(LOCAL_PATH)/releasetools/check_migration.sh:$(TARGET_COPY_OUT_SYSTEM)/etc/check_migration.sh
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/configs/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \

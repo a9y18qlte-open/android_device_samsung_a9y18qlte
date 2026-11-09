@@ -1,4 +1,4 @@
-#!/sbin/sh
+#!/bin/sh
 #
 # SPDX-FileCopyrightText: The LineageOS Project
 # SPDX-License-Identifier: Apache-2.0
@@ -56,8 +56,8 @@ if mount -o ro "$SYSDEV" "$MNT" 2>/dev/null; then
         umount "$MNT"
         rm -rf "$MNT"
         
-        # Check if the installed build is 20261107 (1794067086) or newer
-        if [ -n "$DATE" ] && [ "$DATE" -ge 1794067086 ] 2>/dev/null; then
+        # Check if the installed build is LineageOS 22.2 and is 20261107 (1794067086) or newer
+        if [ -n "$DATE" ] && [ "$DATE" -ge 1794067086 ] 2>/dev/null && echo "$VER" | grep -q '^22\.2'; then
             exit 0
         fi
         
