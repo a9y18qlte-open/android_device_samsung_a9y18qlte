@@ -15,6 +15,6 @@
 		"repository": "a9y18qlte-open/android_vendor_samsung_a9y18qlte",
 		"target_path": "vendor/samsung/a9y18qlte",
 		"remote": "github",
-		"revision": "lineage-23.2"
+		"revision": "lineage-24.0"
 	}
 ]
