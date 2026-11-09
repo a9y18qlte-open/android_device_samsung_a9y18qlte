@@ -81,10 +81,6 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION) --pagesize
 
 # Kernel config
 TARGET_KERNEL_CONFIG := vendor/sdm660-perf_defconfig vendor/a9y18qlte.config
-# KernelSU-Next is off unless the build sets TARGET_KERNEL_KSU=true
-ifeq ($(TARGET_KERNEL_KSU),true)
-TARGET_KERNEL_CONFIG += vendor/ksu.config
-endif
 TARGET_KERNEL_SOURCE := kernel/samsung/a9y18qlte
 TARGET_KERNEL_VERSION := 4.19
 TARGET_KERNEL_CLANG_COMPILE := true
