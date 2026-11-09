@@ -61,7 +61,7 @@ r_dir_file(factory_adsp, sensors_persist_file)
 allow factory_adsp mnt_vendor_file:dir getattr;
 allow factory_adsp sysfs:file r_file_perms;
 allow factory_adsp self:socket { create read write };
-allow factory_adsp self:qipcrtr_socket create_socket_perms;
+allow factory_adsp self:qipcrtr_socket create_socket_perms_no_ioctl;
 allow factory_adsp self:netlink_socket { create bind read write };
 allow factory_adsp self:tcp_socket { create bind listen accept read write };
 allow factory_adsp node:tcp_socket node_bind;

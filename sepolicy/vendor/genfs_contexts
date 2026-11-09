@@ -82,3 +82,13 @@ genfscon sysfs /devices/platform/soc/c900000.qcom,mdss_mdp/c900000.qcom,mdss_mdp
 
 # External display extcon, read by system_server (WiredAccessoryManager)
 genfscon sysfs /devices/platform/soc/soc:qcom,msm-ext-disp/extcon u:object_r:sysfs_extcon:s0
+
+# Wakeup sources, read by system_suspend (AOSP sysfs_wakeup)
+genfscon sysfs /devices/platform/battery/power_supply/ps/wakeup48                                u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/battery/power_supply/wireless/wakeup49                          u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/battery/power_supply/usb/wakeup50                               u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/battery/power_supply/ac/wakeup51                                u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/battery/power_supply/battery/wakeup52                           u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/soc:i2c@24/i2c-24/24-0071/power_supply/sm5705-fuelgauge/wakeup26 u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/soc:i2c@26/i2c-26/26-0049/sm5705-charger/power_supply/sm5705-charger/wakeup27 u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/soc:i2c@26/i2c-26/26-0049/sm5705-charger/power_supply/otg/wakeup28 u:object_r:sysfs_wakeup:s0
