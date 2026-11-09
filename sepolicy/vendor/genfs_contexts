@@ -73,3 +73,28 @@ genfscon sysfs /devices/virtual/sec/tsp/cmd_result            u:object_r:sysfs_s
 genfscon sysfs /devices/virtual/lcd/panel                                 u:object_r:sysfs_lcd:s0
 
 genfscon sysfs /devices/soc/c900000.qcom,mdss_mdp/c900000.qcom,mdss_mdp:qcom,mdss_fb_primary/leds/lcd-backlight u:object_r:sysfs_leds:s0
+
+# External display extcon, read by system_server (WiredAccessoryManager)
+genfscon sysfs /devices/soc/soc:qcom,msm-ext-disp/extcon          u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/soc/soc:qcom,msm-ext-disp/extcon u:object_r:sysfs_extcon:s0
+
+# Battery and charger wakeup sources, read by system_suspend (AOSP sysfs_wakeup)
+# 4.4 paths (kernel 4.4 layout)
+genfscon sysfs /devices/battery/power_supply/ps/wakeup                                           u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/battery/power_supply/wireless/wakeup                                     u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/battery/power_supply/usb/wakeup                                          u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/battery/power_supply/ac/wakeup                                           u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/battery/power_supply/battery/wakeup                                      u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/soc/soc:i2c@24/i2c-24/24-0071/power_supply/sm5705-fuelgauge/wakeup     u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/soc/soc:i2c@26/i2c-26/26-0049/sm5705-charger/power_supply/sm5705-charger/wakeup u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/soc/soc:i2c@26/i2c-26/26-0049/sm5705-charger/power_supply/otg/wakeup  u:object_r:sysfs_wakeup:s0
+
+# 4.19 paths (under platform bus)
+genfscon sysfs /devices/platform/battery/power_supply/ps/wakeup                                  u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/battery/power_supply/wireless/wakeup                            u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/battery/power_supply/usb/wakeup                                 u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/battery/power_supply/ac/wakeup                                  u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/battery/power_supply/battery/wakeup                             u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/soc:i2c@24/i2c-24/24-0071/power_supply/sm5705-fuelgauge/wakeup u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/soc:i2c@26/i2c-26/26-0049/sm5705-charger/power_supply/sm5705-charger/wakeup u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/soc:i2c@26/i2c-26/26-0049/sm5705-charger/power_supply/otg/wakeup u:object_r:sysfs_wakeup:s0

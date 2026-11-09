@@ -53,3 +53,10 @@ allow kernel block_device:dir search;
 # Service manager IPC
 allow connfwexe hwservicemanager:binder call;
 allow multiclientd hwservicemanager:binder call;
+dontaudit servicemanager hal_power_server:binder call;
+
+# Suspend wakeup stats collection
+dontaudit system_suspend { sysfs sysfs_batteryinfo }:file r_file_perms;
+
+# Logpersist capability dontaudit
+dontaudit logpersist self:capability { dac_override dac_read_search };

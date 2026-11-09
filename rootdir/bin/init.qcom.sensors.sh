@@ -49,7 +49,6 @@ start_sensors()
         # core_data_file_type too.
 
         start vendor.sensors.qti
-        start factory_adsp
     fi
 }
 
