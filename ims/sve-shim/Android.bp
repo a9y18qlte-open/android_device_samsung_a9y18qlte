@@ -20,6 +20,7 @@ cc_library_shared {
         "libcamera_client",
         "libcameracompatbilityinfo",
         "libgui",
+        "liblog",
         "libui",
         "libutils",
         "framework-permission-aidl-cpp",

@@ -6,26 +6,34 @@
 #include <mutex>
 
 #include <android/content/AttributionSourceState.h>
+#include <binder/Binder.h>
+#include <binder/Parcel.h>
 #include <camera/Camera.h>
 #include <camera/CameraBase.h>
-#include <binder/Parcel.h>
 #include <gui/BufferItemConsumer.h>
 #include <gui/BufferQueue.h>
 #include <gui/Flags.h>
 #include <gui/Surface.h>
+#include <log/log.h>
 #include <ui/GraphicBuffer.h>
 #include <ui/GraphicBufferMapper.h>
 #include <utils/String8.h>
 
+#undef LOG_TAG
+#define LOG_TAG "sve_shim"
+
+using android::BBinder;
 using android::BufferItem;
 using android::BufferItemConsumer;
 using android::BufferQueue;
 using android::Camera;
 using android::GraphicBuffer;
+using android::IBinder;
 using android::IGraphicBufferConsumer;
 using android::IGraphicBufferProducer;
 using android::CameraBase;
 using android::sp;
+using android::status_t;
 using android::String16;
 using android::String8;
 using android::Surface;
@@ -86,10 +94,17 @@ void setDummyPreviewTarget(const sp<Camera>& camera) {
         surface = new Surface(producer);
     }
 #if WB_LIBCAMERASERVICE_WITH_DEPENDENCIES
-    camera->setPreviewTarget(surface);
+    status_t rc = camera->setPreviewTarget(surface);
 #else
-    camera->setPreviewTarget(surface->getIGraphicBufferProducer());
+    status_t rc = camera->setPreviewTarget(surface->getIGraphicBufferProducer());
 #endif
+    ALOGI("setDummyPreviewTarget: rc=%d", rc);
+}
+
+// Token for AppOps / PermissionChecker to linkToDeath
+static sp<IBinder> getClientToken() {
+    static sp<IBinder> sClientToken = sp<BBinder>::make();
+    return sClientToken;
 }
 
 }  // namespace
@@ -99,10 +114,18 @@ sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int cl
                          int clientPid) __asm__("_ZN7android6Camera7connectEiRKNS_8String16Eii");
 sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int clientUid,
                          int clientPid) {
+    ALOGI("CameraConnect: cameraId=%d pkg=%s uid=%d pid=%d",
+          cameraId, String8(clientPackageName).c_str(), clientUid, clientPid);
+
     AttributionSourceState clientAttribution;
     clientAttribution.packageName = std::string(String8(clientPackageName).c_str());
     clientAttribution.uid = clientUid;
     clientAttribution.pid = clientPid;
+    // Android 12+ requires a non-null binder token in AttributionSourceState;
+    // without it, AppOpsService throws NullPointerException on token.linkToDeath()
+    // during startCameraOps(), causing PermissionChecker to revoke camera access.
+    clientAttribution.token = getClientToken();
+
     CameraCompatibilityInfo compatInfo;
     sp<Camera> camera =
             Camera::connect(cameraId, 29 /* targetSdkVersion */, compatInfo,
@@ -115,7 +138,10 @@ sp<Camera> CameraConnect(int cameraId, const String16& clientPackageName, int cl
     // so the camera never streams and no callback ever arrives. Give it a
     // target of our own, which nothing reads, to get the streams configured.
     if (camera != nullptr) {
+        ALOGI("CameraConnect: Camera %d connected successfully, setting dummy preview target", cameraId);
         setDummyPreviewTarget(camera);
+    } else {
+        ALOGE("CameraConnect: Failed to connect to camera %d", cameraId);
     }
     return camera;
 }
@@ -125,8 +151,9 @@ android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInf
         __asm__("_ZN7android10CameraBaseINS_6CameraENS_12CameraTraitsIS1_EEE13getCameraInfoEiPNS_8hardware10CameraInfoE");
 android::status_t CameraGetCameraInfo(int cameraId, android::hardware::CameraInfo* cameraInfo) {
     AttributionSourceState clientAttribution;
+    clientAttribution.token = getClientToken();
     CameraCompatibilityInfo compatInfo;
-    return CameraBase<Camera>::getCameraInfo(cameraId, compatInfo, clientAttribution, 0 /* deviceAolicy */, cameraInfo);
+    return CameraBase<Camera>::getCameraInfo(cameraId, compatInfo, clientAttribution, 0 /* devicePolicy */, cameraInfo);
 }
 
 // static int32_t CameraBase<Camera>::getNumberOfCameras()
@@ -134,6 +161,7 @@ int32_t CameraGetNumberOfCameras()
         __asm__("_ZN7android10CameraBaseINS_6CameraENS_12CameraTraitsIS1_EEE18getNumberOfCamerasEv");
 int32_t CameraGetNumberOfCameras() {
     AttributionSourceState clientAttribution;
+    clientAttribution.token = getClientToken();
     return CameraBase<Camera>::getNumberOfCameras(clientAttribution, 0 /* devicePolicy */);
 }
 
