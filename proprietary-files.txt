@@ -1212,7 +1212,7 @@ system/lib64/libsecril-client.so
 system/lib64/libstrongswan.so;DISABLE_CHECKELF
 system/lib64/vendor.samsung.hardware.radio.bridge@2.0.so
 # imsservice.apk is patched on extraction by blob-patches/imsservice.
-system/priv-app/imsservice/imsservice.apk|d6616f51a22ae9a67a1e52332699c62543653b90|78ce2a28b58c9a51a9245a1f3fe75f8182172164
+system/priv-app/imsservice/imsservice.apk|d6616f51a22ae9a67a1e52332699c62543653b90|f2f0cceb3355f35b5857d18acaa1a08a8290e14a
 
 # Radio-IMS - VoWiFi: EpdgService (ePDG tunnel) and sveservice (AP voice engine)
 system/app/sveservice/sveservice.apk
