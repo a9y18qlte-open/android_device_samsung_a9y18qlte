@@ -33,7 +33,6 @@ import /vendor/etc/init/hw/init.${ro.product.model}.rc
 on early-init
 	symlink /data/tombstones /tombstones
     mkdir /efs 0771 system radio
-    mkdir /mnt/vendor/persist 0771 system system
 
     mkdir /firmware 0771 system system
     mkdir /bt_firmware 0771 system system
@@ -78,6 +77,7 @@ on fs
     mount ext4 /dev/block/bootdevice/by-name/cache /cache nosuid nodev noatime noauto_da_alloc,discard,journal_checksum,data=ordered,errors=continue
 
     wait /dev/block/bootdevice/by-name/persist
+    mkdir /mnt/vendor/persist 0771 system system
     mount ext4 /dev/block/bootdevice/by-name/persist /mnt/vendor/persist nosuid nodev noatime noauto_da_alloc,discard,journal_checksum,data=ordered,errors=continue
     restorecon_recursive /mnt/vendor/persist
 	mkdir /mnt/vendor/persist/rfs 0700 system system
