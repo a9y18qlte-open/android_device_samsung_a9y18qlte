@@ -80,6 +80,12 @@ ro.vendor.sdk.sensors.gestures=false
 ro.hardware.gatekeeper=mdfpp
 ro.hardware.keystore=mdfpp
 
+# Bluetooth
+vendor.bluetooth.soc=cherokee
+vendor.qcom.bluetooth.soc=cherokee
+persist.vendor.btstack.enable.splita2dp=true
+persist.vendor.btstack.a2dp_offload_cap=sbc-aptx-aptxhd-aac
+
 # Camera
 vendor.camera.aux.packageexcludelist=com.adobe.scan.android,com.tencent.mm,org.telegram.messenger,us.zoom.videomeetings
 ro.camerax.extensions.enabled=true

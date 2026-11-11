@@ -11,12 +11,6 @@ ro.bluetooth.a2dp_offload.supported=false
 persist.bluetooth.a2dp_offload.disabled=true
 vendor.audio.feature.a2dp_offload.enable=false
 
-# Bluetooth
-vendor.bluetooth.soc=cherokee
-vendor.qcom.bluetooth.soc=cherokee
-persist.vendor.btstack.enable.splita2dp=true
-persist.vendor.btstack.a2dp_offload_cap=sbc-aptx-aptxhd-aac
-
 # Bluetooth profiles
 bluetooth.profile.a2dp.source.enabled=true
 bluetooth.profile.asha.central.enabled=true
