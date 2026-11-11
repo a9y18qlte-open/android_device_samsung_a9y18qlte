@@ -113,6 +113,11 @@ set_prop(secril_config, radio_control_prop)
 # PMIC brightness
 allow init sysfs_spmi:file setattr;
 
+# Samsung boot time stats. init.rc writes this at every boot stage and it fell
+# back to generic sysfs, which init may not write.
+type sysfs_boot_stat, sysfs_type, fs_type;
+allow init sysfs_boot_stat:file w_file_perms;
+
 # Gatekeeper credential storage
 typeattribute tee data_between_core_and_vendor_violators;
 allow tee gatekeeper_data_file:dir rw_dir_perms;

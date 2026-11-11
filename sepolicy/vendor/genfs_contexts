@@ -14,6 +14,9 @@ genfscon sysfs /devices/platform/soc/ca0c000.qcom,cci                 u:object_r
 # /sys/kernel rather than /sys/devices, so no camera genfscon above covers it.
 genfscon sysfs /kernel/mm/vmscan                              u:object_r:sysfs_vmscan:s0
 
+# Samsung boot time stats, written by init at each boot stage.
+genfscon sysfs /devices/virtual/sec/bsp/boot_stat              u:object_r:sysfs_boot_stat:s0
+
 # Subsystem and UIO device names, enumerated at startup by rmt_storage,
 # thermal-engine, wcnss_service, the sensors HAL, time_daemon, vendor_pd_mapper
 # and the per_mgr/per_proxy pair. An earlier pass labelled only the two nodes
