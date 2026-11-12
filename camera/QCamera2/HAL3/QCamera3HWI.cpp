@@ -13810,6 +13810,20 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     int32_t samsungFeatures[] = { 11 };
     staticInfo.update(SAMSUNG_CONTROL_AVAILABLE_FEATURES, samsungFeatures, 1);
 
+    // One UI Panorama sizes its sweep from these; ratios 16:9, 4:3, 1:1, 18.5:9, 19:9
+    {
+        const float ratios[] = { 16.0f / 9, 4.0f / 3, 1.0f, 18.5f / 9, 19.0f / 9 };
+        float pw = gCamCapability[cameraId]->sensor_physical_size[0];
+        float ph = gCamCapability[cameraId]->sensor_physical_size[1];
+        float fl = gCamCapability[cameraId]->focal_length;
+        float hAngles[5] = {};
+        for (size_t i = 0; i < 5 && fl > 0 && ph > 0; i++) {
+            float w = std::min(pw, ph * ratios[i]);
+            hAngles[i] = 2.0f * atanf(w / (2.0f * fl)) * 180.0f / (float)M_PI;
+        }
+        staticInfo.update(SAMSUNG_LENS_INFO_HORIZONTAL_VIEW_ANGLES, hAngles, 5);
+    }
+
 #ifndef USE_HAL_3_3
     Vector<int32_t> opaque_size;
     for (size_t j = 0; j < scalar_formats_count; j++) {

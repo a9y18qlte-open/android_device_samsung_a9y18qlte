@@ -78,6 +78,7 @@ enum qcamera3_ext_tags qcamera3_ext3_section_bounds[QCAMERA3_SECTIONS_END -
         QCAMERA3_EIS_FLUSH_END,
         QCAMERA3_SWMFNR_END,
         SAMSUNG_CONTROL_END,
+        SAMSUNG_LENS_INFO_END,
 };
 
 typedef struct vendor_tag_info {
@@ -121,7 +122,8 @@ const char *qcamera3_ext_section_names[QCAMERA3_SECTIONS_END -
     "org.codeaurora.qcamera3.sat",
     "org.quic.camera.recording",
     "org.codeaurora.qcamera3.swmfnr",
-    "samsung.android.control"
+    "samsung.android.control",
+    "samsung.android.lens.info"
 };
 
 vendor_tag_info_t qcamera3_privatedata[QCAMERA3_PRIVATEDATA_END - QCAMERA3_PRIVATEDATA_START] = {
@@ -336,6 +338,11 @@ vendor_tag_info_t samsung_control[SAMSUNG_CONTROL_END -
     { "bokehSpecialEffectInfo", TYPE_INT32 }
 };
 
+vendor_tag_info_t samsung_lens_info[SAMSUNG_LENS_INFO_END -
+        SAMSUNG_LENS_INFO_START] = {
+    { "horizontalViewAngles", TYPE_FLOAT }
+};
+
 vendor_tag_info_t qcamera3_sat_cam[QCAMERA3_SAT_MODE_END -
         QCAMERA3_SAT_MODE_START] = {
     { "on", TYPE_BYTE }
@@ -383,6 +390,7 @@ vendor_tag_info_t *qcamera3_tag_info[QCAMERA3_SECTIONS_END -
     qcamera3_eis_flush,
     qcamera3_swmfnr,
     samsung_control,
+    samsung_lens_info,
 };
 
 uint32_t qcamera3_all_tags[] = {
@@ -527,7 +535,9 @@ uint32_t qcamera3_all_tags[] = {
     // SAMSUNG_CONTROL
     (uint32_t)SAMSUNG_CONTROL_AVAILABLE_FEATURES,
     (uint32_t)SAMSUNG_CONTROL_SHOOTING_MODE,
-    (uint32_t)SAMSUNG_CONTROL_BOKEH_SPECIAL_EFFECT_INFO
+    (uint32_t)SAMSUNG_CONTROL_BOKEH_SPECIAL_EFFECT_INFO,
+    // SAMSUNG_LENS_INFO
+    (uint32_t)SAMSUNG_LENS_INFO_HORIZONTAL_VIEW_ANGLES
 };
 
 const vendor_tag_ops_t* QCamera3VendorTags::Ops = NULL;
