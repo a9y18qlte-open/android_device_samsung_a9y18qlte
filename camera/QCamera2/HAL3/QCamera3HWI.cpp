@@ -13792,6 +13792,10 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     staticInfo.update(QCAMERA3_SENSOR_IS_MONO_ONLY,
             &isMonoOnly, 1);
 
+    // One UI camera only starts its JPEG post-processor (needed by Portrait) with feature 11
+    int32_t samsungFeatures[] = { 11 };
+    staticInfo.update(SAMSUNG_CONTROL_AVAILABLE_FEATURES, samsungFeatures, 1);
+
 #ifndef USE_HAL_3_3
     Vector<int32_t> opaque_size;
     for (size_t j = 0; j < scalar_formats_count; j++) {

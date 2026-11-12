@@ -77,6 +77,7 @@ enum qcamera3_ext_tags qcamera3_ext3_section_bounds[QCAMERA3_SECTIONS_END -
         QCAMERA3_SAT_MODE_END,
         QCAMERA3_EIS_FLUSH_END,
         QCAMERA3_SWMFNR_END,
+        SAMSUNG_CONTROL_END,
 };
 
 typedef struct vendor_tag_info {
@@ -119,7 +120,8 @@ const char *qcamera3_ext_section_names[QCAMERA3_SECTIONS_END -
     "org.codeaurora.qcamera3.manualWB",
     "org.codeaurora.qcamera3.sat",
     "org.quic.camera.recording",
-    "org.codeaurora.qcamera3.swmfnr"
+    "org.codeaurora.qcamera3.swmfnr",
+    "samsung.android.control"
 };
 
 vendor_tag_info_t qcamera3_privatedata[QCAMERA3_PRIVATEDATA_END - QCAMERA3_PRIVATEDATA_START] = {
@@ -327,6 +329,11 @@ vendor_tag_info qcamera3_swmfnr[QCAMERA3_SWMFNR_END -
     { "enable", TYPE_BYTE }
 };
 
+vendor_tag_info_t samsung_control[SAMSUNG_CONTROL_END -
+        SAMSUNG_CONTROL_START] = {
+    { "availableFeatures", TYPE_INT32 }
+};
+
 vendor_tag_info_t qcamera3_sat_cam[QCAMERA3_SAT_MODE_END -
         QCAMERA3_SAT_MODE_START] = {
     { "on", TYPE_BYTE }
@@ -373,6 +380,7 @@ vendor_tag_info_t *qcamera3_tag_info[QCAMERA3_SECTIONS_END -
     qcamera3_sat_cam,
     qcamera3_eis_flush,
     qcamera3_swmfnr,
+    samsung_control,
 };
 
 uint32_t qcamera3_all_tags[] = {
@@ -513,7 +521,9 @@ uint32_t qcamera3_all_tags[] = {
     (uint32_t)QCAMERA3_SAT_MODE_ON,
     (uint32_t)QCAMERA3_EIS_FLUSH_ON,
     //QCAMERA3 SWMFNR
-    (uint32_t)QCAMERA3_SWMFNR_ENABLE
+    (uint32_t)QCAMERA3_SWMFNR_ENABLE,
+    // SAMSUNG_CONTROL
+    (uint32_t)SAMSUNG_CONTROL_AVAILABLE_FEATURES
 };
 
 const vendor_tag_ops_t* QCamera3VendorTags::Ops = NULL;
