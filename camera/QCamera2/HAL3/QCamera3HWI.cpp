@@ -2633,8 +2633,13 @@ int32_t QCamera3HardwareInterface::validateStreamCombination(uint32_t cameraId,
     //    {[PRIV, PREVIEW] [PRIV, RECORD] [JPEG, RECORD]}
     //    {[PRIV, PREVIEW] [YUV, RECORD] [JPEG, RECORD]}
     //    (These two configurations will not have CAC2 enabled even in HQ modes.)
+    // SEC: allow a full-size YUV next to the JPEG (One UI Portrait captures the
+    // YUV and encodes it itself); only CAC2 on the JPEG is lost then
+    bool yuvCoversJpeg = numYuv888OnEncoder &&
+            status->largeYuv888Size.width >= status->jpegSize.width &&
+            status->largeYuv888Size.height >= status->jpegSize.height;
     if (!status->isZsl && status->bJpegOnEncoder && bJpegExceeds4K &&
-            status->bUseCommonFeatureMask) {
+            status->bUseCommonFeatureMask && !yuvCoversJpeg) {
         ALOGE("%s: Blob size greater than 4k and multiple streams are on encoder output",
                 __func__);
         return -EINVAL;
