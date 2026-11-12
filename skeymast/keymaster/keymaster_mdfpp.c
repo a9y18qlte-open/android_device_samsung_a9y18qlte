@@ -310,7 +310,12 @@ static keymaster_error_t km_update(const keymaster2_device_t *dev __unused,
     if (km_tz_open() != 0) return KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
     km_indata in; req_init(&in, KM_C_UPDATE);
     in.long0_set = true; in.long0 = (uint64_t)operation_handle;
-    in.bin0_set = true;  if (input) { in.bin0.data = input->data; in.bin0.len = (uint32_t)input->data_length; }
+    // The TA takes at most KM_BLOB_MAX per octet string; callers loop on input_consumed.
+    in.bin0_set = true;
+    if (input) {
+        in.bin0.data = input->data;
+        in.bin0.len = (uint32_t)(input->data_length < KM_BLOB_MAX ? input->data_length : KM_BLOB_MAX);
+    }
     in.params = p; in.n_params = n;
     km_outdata out;
     int rc = km_tz_transact(&in, &out);
@@ -318,7 +323,7 @@ static keymaster_error_t km_update(const keymaster2_device_t *dev __unused,
     if (rc == 0) {
         e = (keymaster_error_t)out.err;
         if (e == KM_ERROR_OK) {
-            *input_consumed = out.int0_set ? (size_t)out.int0 : (input ? input->data_length : 0);
+            *input_consumed = out.int0_set ? (size_t)out.int0 : in.bin0.len;
             output->data = NULL; output->data_length = 0;
             if (out.bin0) dup_blob(out.bin0, out.bin0_len, &output->data, &output->data_length);
             if (out_params) from_km_params(out.params, out.n_params, out_params);
@@ -336,28 +341,62 @@ static keymaster_error_t km_finish(const keymaster2_device_t *dev __unused,
                                    keymaster_key_param_set_t *out_params,
                                    keymaster_blob_t *output) {
     if (output == NULL) return KM_ERROR_UNEXPECTED_NULL_POINTER;
+
+    // The TA takes at most KM_BLOB_MAX per octet string (odsign signs ~18 KB in one
+    // finish), so feed the excess through update first. Params go with the first
+    // TA call only, so associated data is not sent twice.
+    const uint8_t *data = input ? input->data : NULL;
+    size_t left = input ? input->data_length : 0;
+    uint8_t *acc = NULL;
+    size_t acc_len = 0;
+    keymaster_error_t e = KM_ERROR_OK;
+    while (left > KM_BLOB_MAX) {
+        keymaster_blob_t chunk = {data, left}, o = {NULL, 0};
+        size_t used = 0;
+        e = km_update(dev, operation_handle, in_params, &chunk, &used, NULL, &o);
+        in_params = NULL;
+        if (e == KM_ERROR_OK && (used == 0 || used > left)) e = KM_ERROR_UNKNOWN_ERROR;
+        if (e == KM_ERROR_OK && o.data_length) {
+            uint8_t *grown = realloc(acc, acc_len + o.data_length);
+            if (grown) { memcpy(grown + acc_len, o.data, o.data_length); acc = grown; acc_len += o.data_length; }
+            else e = KM_ERROR_MEMORY_ALLOCATION_FAILED;
+        }
+        free((void *)o.data);
+        if (e != KM_ERROR_OK) { free(acc); return e; }
+        data += used;
+        left -= used;
+    }
+
     km_param p[KM_MAX_PARAMS];
     uint32_t n = to_km_params(in_params, p, KM_MAX_PARAMS);
 
-    if (km_tz_open() != 0) return KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
+    if (km_tz_open() != 0) { free(acc); return KM_ERROR_SECURE_HW_COMMUNICATION_FAILED; }
     km_indata in; req_init(&in, KM_C_FINISH);
     in.long0_set = true; in.long0 = (uint64_t)operation_handle;
-    in.bin0_set = true;  if (input) { in.bin0.data = input->data; in.bin0.len = (uint32_t)input->data_length; }
+    in.bin0_set = true;  if (data) { in.bin0.data = data; in.bin0.len = (uint32_t)left; }
     in.bin1_set = true;  if (signature) { in.bin1.data = signature->data; in.bin1.len = (uint32_t)signature->data_length; }
     in.params = p; in.n_params = n;
     km_outdata out;
     int rc = km_tz_transact(&in, &out);
-    keymaster_error_t e = KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
+    e = KM_ERROR_SECURE_HW_COMMUNICATION_FAILED;
     if (rc == 0) {
         e = (keymaster_error_t)out.err;
         if (e == KM_ERROR_OK) {
-            output->data = NULL; output->data_length = 0;
-            if (out.bin0) dup_blob(out.bin0, out.bin0_len, &output->data, &output->data_length);
-            if (out_params) from_km_params(out.params, out.n_params, out_params);
+            size_t tail = out.bin0 ? out.bin0_len : 0;
+            uint8_t *all = malloc(acc_len + tail ? acc_len + tail : 1);
+            if (all) {
+                if (acc_len) memcpy(all, acc, acc_len);
+                if (tail) memcpy(all + acc_len, out.bin0, tail);
+                output->data = all; output->data_length = acc_len + tail;
+                if (out_params) from_km_params(out.params, out.n_params, out_params);
+            } else {
+                e = KM_ERROR_MEMORY_ALLOCATION_FAILED;
+            }
         }
         km_outdata_release(&out);
     }
     km_tz_close();
+    free(acc);
     return e;
 }
 
