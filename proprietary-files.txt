@@ -46,7 +46,6 @@ system/framework/audiosphere.jar
 vendor/etc/SoundBoosterParam.txt
 vendor/etc/audio_configs.xml
 vendor/etc/audio_effects_sec.xml
-vendor/etc/audio_policy_configuration_sec.xml
 vendor/etc/audio_policy_volumes_sec.xml
 vendor/etc/playback_record_audio_policy_configuration.xml
 vendor/etc/playback_record_audio_policy_configuration.xml:vendor/etc/audio/playback_record_audio_policy_configuration.xml
