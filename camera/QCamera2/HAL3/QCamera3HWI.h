@@ -885,6 +885,7 @@ private:
     QCamera3Bokeh *mBokeh;
     uint8_t mFwkControlMode;
     uint8_t mFwkExtSceneMode;
+    int32_t mSamsungShootingMode = 0;
     bool mBokehRequest;
     uint32_t mNonBokehRequests;
     float mBokehAfX, mBokehAfY;        // AF region centre, < 0 if none

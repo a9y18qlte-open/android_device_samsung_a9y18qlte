@@ -331,7 +331,8 @@ vendor_tag_info qcamera3_swmfnr[QCAMERA3_SWMFNR_END -
 
 vendor_tag_info_t samsung_control[SAMSUNG_CONTROL_END -
         SAMSUNG_CONTROL_START] = {
-    { "availableFeatures", TYPE_INT32 }
+    { "availableFeatures", TYPE_INT32 },
+    { "shootingMode", TYPE_INT32 }
 };
 
 vendor_tag_info_t qcamera3_sat_cam[QCAMERA3_SAT_MODE_END -
@@ -523,7 +524,8 @@ uint32_t qcamera3_all_tags[] = {
     //QCAMERA3 SWMFNR
     (uint32_t)QCAMERA3_SWMFNR_ENABLE,
     // SAMSUNG_CONTROL
-    (uint32_t)SAMSUNG_CONTROL_AVAILABLE_FEATURES
+    (uint32_t)SAMSUNG_CONTROL_AVAILABLE_FEATURES,
+    (uint32_t)SAMSUNG_CONTROL_SHOOTING_MODE
 };
 
 const vendor_tag_ops_t* QCamera3VendorTags::Ops = NULL;

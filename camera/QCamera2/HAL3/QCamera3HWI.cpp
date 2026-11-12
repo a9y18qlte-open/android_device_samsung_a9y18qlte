@@ -5626,6 +5626,10 @@ void QCamera3HardwareInterface::updateBokeh(const camera3_capture_request_t *req
                 ANDROID_CONTROL_EXTENDED_SCENE_MODE, &e) == 0 && e.count > 0) {
             mFwkExtSceneMode = e.data.u8[0];
         }
+        if (find_camera_metadata_ro_entry(request->settings,
+                SAMSUNG_CONTROL_SHOOTING_MODE, &e) == 0 && e.count > 0) {
+            mSamsungShootingMode = e.data.i32[0];
+        }
         /* a tapped AF region is the bokeh focus; the default full-array region
          * (or weight 0) means none */
         if (find_camera_metadata_ro_entry(request->settings, ANDROID_CONTROL_AF_REGIONS,
@@ -5647,9 +5651,11 @@ void QCamera3HardwareInterface::updateBokeh(const camera3_capture_request_t *req
             }
         }
     }
-    mBokehRequest = (mFwkControlMode == ANDROID_CONTROL_MODE_USE_EXTENDED_SCENE_MODE) &&
+    mBokehRequest = ((mFwkControlMode == ANDROID_CONTROL_MODE_USE_EXTENDED_SCENE_MODE) &&
             (mFwkExtSceneMode == ANDROID_CONTROL_EXTENDED_SCENE_MODE_BOKEH_STILL_CAPTURE ||
-             mFwkExtSceneMode == ANDROID_CONTROL_EXTENDED_SCENE_MODE_BOKEH_CONTINUOUS);
+             mFwkExtSceneMode == ANDROID_CONTROL_EXTENDED_SCENE_MODE_BOKEH_CONTINUOUS)) ||
+            /* One UI camera Portrait mode */
+            mSamsungShootingMode == 25;
     if (mBokehRequest) {
         mNonBokehRequests = 0;
         if (mBokeh == NULL) {
