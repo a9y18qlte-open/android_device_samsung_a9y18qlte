@@ -1938,6 +1938,11 @@ int32_t QCamera3ProcessingChannel::setReprocConfig(reprocess_config_t &reproc_cf
         LOGE("Stream %d plane info calculation failed!", mStreamType);
         return rc;
     }
+    /* SEC: reprocessing this channel's own frame (the binned frame of a full
+     * size YUV): read it with the layout its stream was written with */
+    if (NULL == pInputBuffer && reproc_cfg.stream_type == CAM_STREAM_TYPE_CALLBACK) {
+        getStreamByIndex(0)->getFrameOffset(reproc_cfg.input_stream_plane_info.plane_info);
+    }
     LOGD("reprocess input dim %dx%d output dim %dx%d", reproc_cfg.input_stream_dim.width,
                                                  reproc_cfg.input_stream_dim.height,
                                                  reproc_cfg.output_stream_dim.width,

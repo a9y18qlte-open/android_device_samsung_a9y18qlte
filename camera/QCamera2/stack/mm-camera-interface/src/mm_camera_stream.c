@@ -4812,9 +4812,11 @@ int32_t mm_stream_calc_offset_postproc(cam_stream_info_t *stream_info,
         break;
     case CAM_STREAM_TYPE_SNAPSHOT:
     case CAM_STREAM_TYPE_CALLBACK:
+        /* SEC: by the source type, so that reprocessing a callback stream
+         * writes the framework's YUV buffer in its 64-aligned gralloc layout */
         rc = mm_stream_calc_offset_snapshot(stream_info->fmt,
                                             &stream_info->dim,
-                                            stream_info->stream_type,
+                                            type,
                                             padding,
                                             plns);
         break;
@@ -4938,9 +4940,15 @@ int32_t mm_stream_calc_offset(mm_stream_t *my_obj)
       break;
     case CAM_STREAM_TYPE_SNAPSHOT:
     case CAM_STREAM_TYPE_CALLBACK:
+        /* SEC: only CPP-written callback streams use the 64-aligned gralloc
+         * layout; without post-processing the VFE writes its own 32-aligned
+         * one (the HAL's own buffers, e.g. the binned frame of a full size YUV) */
         rc = mm_stream_calc_offset_snapshot(my_obj->stream_info->fmt,
                                             &dim,
-                                            my_obj->stream_info->stream_type,
+                                            (my_obj->stream_info->pp_config.feature_mask ==
+                                                    CAM_QCOM_FEATURE_NONE) ?
+                                                    CAM_STREAM_TYPE_SNAPSHOT :
+                                                    my_obj->stream_info->stream_type,
                                             &my_obj->padding_info,
                                             &my_obj->stream_info->buf_planes);
         break;
