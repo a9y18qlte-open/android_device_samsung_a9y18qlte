@@ -59,8 +59,11 @@ public:
     int32_t process(uint8_t *y, uint8_t *uv, int32_t width, int32_t height,
             int32_t yStride, int32_t uvStride, bool nv12, int64_t timestamp,
             int32_t focusX, int32_t focusY);
+    // Blur intensity 0..100 for the next stills, < 0 for the property default.
+    void setBlur(int32_t blur) { mBlur = blur; }
 
 private:
+    int32_t mBlur = -1;
     struct AuxBuffer {
         buffer_handle_t handle;
         uint32_t frameNumber;

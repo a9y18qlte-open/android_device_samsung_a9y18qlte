@@ -790,6 +790,9 @@ int32_t QCamera3Bokeh::process(uint8_t *y, uint8_t *uv, int32_t width, int32_t h
     if (blur < 0 || blur > 100) {
         blur = 70;
     }
+    if (mBlur >= 0 && mBlur <= 100) {
+        blur = mBlur;
+    }
 
     uint32_t fmt = nv12 ? ASVL_PAF_NV12 : ASVL_PAF_NV21;
     ASVLOFFSCREEN mainImg, auxImg, outImg;

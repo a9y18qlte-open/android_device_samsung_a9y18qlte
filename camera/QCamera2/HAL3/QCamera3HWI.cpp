@@ -5630,6 +5630,11 @@ void QCamera3HardwareInterface::updateBokeh(const camera3_capture_request_t *req
                 SAMSUNG_CONTROL_SHOOTING_MODE, &e) == 0 && e.count > 0) {
             mSamsungShootingMode = e.data.i32[0];
         }
+        /* One UI blur slider: { effect type, level } */
+        if (find_camera_metadata_ro_entry(request->settings,
+                SAMSUNG_CONTROL_BOKEH_SPECIAL_EFFECT_INFO, &e) == 0 && e.count >= 2) {
+            mSamsungBokehLevel = e.data.i32[1];
+        }
         /* a tapped AF region is the bokeh focus; the default full-array region
          * (or weight 0) means none */
         if (find_camera_metadata_ro_entry(request->settings, ANDROID_CONTROL_AF_REGIONS,
@@ -5662,6 +5667,9 @@ void QCamera3HardwareInterface::updateBokeh(const camera3_capture_request_t *req
             mBokeh = new QCamera3Bokeh(mCameraId, mCallbacks);
         }
         mBokeh->start();
+        /* slider levels 1..7 -> ArcSoft intensity 10..100 */
+        mBokeh->setBlur(mSamsungBokehLevel < 0 ? -1 :
+                std::max(0, std::min(100, 15 * mSamsungBokehLevel - 5)));
     } else if (mBokeh != NULL && ++mNonBokehRequests == 90) {
         /* about 3 s without bokeh: stop the depth camera */
         mBokeh->stop();

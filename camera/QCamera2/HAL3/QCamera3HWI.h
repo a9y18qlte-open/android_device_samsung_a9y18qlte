@@ -886,6 +886,7 @@ private:
     uint8_t mFwkControlMode;
     uint8_t mFwkExtSceneMode;
     int32_t mSamsungShootingMode = 0;
+    int32_t mSamsungBokehLevel = -1;   // One UI blur slider, -1 = none
     bool mBokehRequest;
     uint32_t mNonBokehRequests;
     float mBokehAfX, mBokehAfY;        // AF region centre, < 0 if none
