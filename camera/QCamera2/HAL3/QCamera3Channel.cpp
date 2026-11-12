@@ -7448,6 +7448,22 @@ void QCamera3ReprocessChannel::streamCbRoutine(mm_camera_super_buf_t *super_fram
         resultBuffer = (buffer_handle_t *)mGrallocMemory.getBufferHandle(frameIndex);
         resultFrameNumber = mGrallocMemory.getFrameNumber(frameIndex);
         LOGD(" Reprocessed Frame Number is : %d",resultFrameNumber);
+        qcamera_hal3_pp_data_t *pp_job = obj->m_postprocessor.dequeuePPJob(resultFrameNumber);
+        /* SEC: dual camera bokeh on a YUV still too (One UI Portrait encodes it
+         * itself), blurred in place before the buffer goes back. Only stills
+         * reach this offline reprocess; preview YUV streams come off the ISP. */
+        metadata_buffer_t *ppMeta = (pp_job != NULL) ? pp_job->metadata : NULL;
+        if (ppMeta == NULL && pp_job != NULL && pp_job->src_metadata != NULL) {
+            ppMeta = (metadata_buffer_t *)pp_job->src_metadata->bufs[0]->buffer;
+        }
+        if (hal_obj->isBokehRequest() && hal_obj->getBokeh() != NULL && ppMeta != NULL) {
+            float fx = -1.0f, fy = -1.0f;
+            hal_obj->getBokehFocus(fx, fy);
+            mGrallocMemory.invalidateCache(frameIndex);
+            obj->m_postprocessor.applyBokeh(hal_obj->getBokeh(), stream,
+                    super_frame->bufs[0], ppMeta, fx, fy, hal_obj->getCamHalCapabilities());
+            mGrallocMemory.cleanInvalidateCache(frameIndex);
+        }
         int32_t rc = stream->bufRelease(frameIndex);
         if (NO_ERROR != rc) {
             LOGE("Error %d releasing stream buffer %d",
@@ -7460,7 +7476,6 @@ void QCamera3ReprocessChannel::streamCbRoutine(mm_camera_super_buf_t *super_fram
         }
         obj->m_postprocessor.releaseOfflineBuffers(false);
         obj->reprocessCbRoutine(resultBuffer, resultFrameNumber);
-        qcamera_hal3_pp_data_t *pp_job = obj->m_postprocessor.dequeuePPJob(resultFrameNumber);
         if (pp_job != NULL) {
             obj->m_postprocessor.releasePPJobData(pp_job);
         }

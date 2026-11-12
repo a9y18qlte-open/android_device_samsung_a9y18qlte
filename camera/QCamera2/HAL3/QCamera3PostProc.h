@@ -183,6 +183,9 @@ public:
     bool isMpoEnabled() { return m_bMpoEnabled; }
     int releaseFreeJpegSessions();
     void eraseJpegSetting(uint32_t resultFrameNumber);
+    void applyBokeh(QCamera3Bokeh *bokeh, QCamera3Stream *stream,
+            mm_camera_buf_def_t *frame, metadata_buffer_t *metadata,
+            float focusX, float focusY, const cam_capability_t *cap);
 
 private:
     int32_t sendEvtNotify(int32_t msg_type, int32_t ext1, int32_t ext2);
@@ -199,9 +202,6 @@ private:
             jpeg_settings_t *jpeg_settings, bool needJpegExifRotation);
     int32_t encodeData(qcamera_hal3_jpeg_data_t *jpeg_job_data,
                        uint8_t &needNewSess);
-    void applyBokeh(QCamera3Bokeh *bokeh, QCamera3Stream *stream,
-            mm_camera_buf_def_t *frame, metadata_buffer_t *metadata,
-            float focusX, float focusY, const cam_capability_t *cap);
     int32_t encodeFWKData(qcamera_hal3_jpeg_data_t *jpeg_job_data,
             uint8_t &needNewSess);
     void releaseSuperBuf(mm_camera_super_buf_t *super_buf);
