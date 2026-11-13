@@ -93,6 +93,12 @@ namespace qcamera {
 /* Batch mode is enabled only if FPS set is equal to or greater than this */
 #define MIN_FPS_FOR_BATCH_MODE (120)
 #define PREVIEW_FPS_FOR_HFR    (30)
+/* SEC: One UI super slow motion, see updateSuperSlowMotion */
+#define SSM_BURST_MS           (400)
+#define SSM_PLAYBACK_FRAME_NS  (NSEC_PER_SEC / 30)
+#define SSM_STATE_READY        (1)
+#define SSM_STATE_OPERATING    (2)
+#define SSM_STATE_STOP         (4)
 #define DEFAULT_VIDEO_FPS      (30.0)
 #define TEMPLATE_MAX_PREVIEW_FPS (30.0)
 /* SEC: the IMX576 16:9 binned mode (res 1, 2832x1592) runs at up to 60 fps
@@ -2701,6 +2707,10 @@ int QCamera3HardwareInterface::configureStreamsPerfLocked(
 
     mOpMode = streamList->operation_mode;
     LOGD("mOpMode: %d", mOpMode);
+    mSsmActive = false;
+    mSsmState = SSM_STATE_READY;
+    mSsmStartFrame = mSsmEndFrame = mSsmStopFrame = 0;
+    mSsmBaseTime = mSsmOffset = 0;
 
     mCurrentSceneMode = 0;
     mQuadraCfaStage = QCFA_INACTIVE;
@@ -4713,6 +4723,11 @@ void QCamera3HardwareInterface::handleBatchMetadata(
                         (((loopCount - 1) * NSEC_PER_SEC) / (double) mHFRVideoFps);
                 capture_time =
                         first_frame_capture_time + (i * NSEC_PER_SEC / (double) mHFRVideoFps);
+                if (frame_number_valid && i < frameNumDiff) {
+                    pthread_mutex_lock(&mMutex);
+                    capture_time = superSlowMotionFrame(frame_number, capture_time);
+                    pthread_mutex_unlock(&mMutex);
+                }
                 ADD_SET_PARAM_ENTRY_TO_BATCH(metadata,
                         CAM_INTF_META_SENSOR_TIMESTAMP, capture_time);
                 LOGD("batch capture_time: %lld, capture_time: %lld",
@@ -5247,7 +5262,9 @@ void QCamera3HardwareInterface::handleMetadataWithLock(
         // If dropped, then send the ERROR_BUFFER for the corresponding stream
         // OR check if instant AEC is enabled, then need to drop frames untill AEC is settled.
         bool dropFrame = false;
-        if (p_cam_frame_drop ||
+        // super slow motion records only its burst
+        bool ssmDropVideo = superSlowMotionDropsVideo(i->frame_number);
+        if (p_cam_frame_drop || ssmDropVideo ||
                 (mInstantAEC || i->frame_number < mInstantAECSettledFrameNumber)) {
             /* Clear notify_msg structure */
             camera3_notify_msg_t notify_msg;
@@ -5265,9 +5282,13 @@ void QCamera3HardwareInterface::handleMetadataWithLock(
                             break;
                         }
                     }
-                } else {
+                } else if (!ssmDropVideo) {
                     // This is instant AEC case.
                     // For instant AEC drop the stream untill AEC is settled.
+                    dropFrame = true;
+                }
+                if (ssmDropVideo &&
+                        (channel->getStreamTypeMask() & (1U << CAM_STREAM_TYPE_VIDEO))) {
                     dropFrame = true;
                 }
                 if (dropFrame && !j->isZSL) {
@@ -5413,6 +5434,12 @@ void QCamera3HardwareInterface::handleMetadataWithLock(
                         firstMetadataInBatch, i->enableZSL, i->fwkFlashMode);
                 result.result = restoreHdrScene(i->scene_mode, i->fwkControlMode,
                         i->fwkExtSceneMode, result.result);
+                if (mSsmActive) {
+                    CameraMetadata ssm;
+                    ssm.acquire((camera_metadata_t *)result.result);
+                    ssm.update(SAMSUNG_CONTROL_SUPER_SLOW_MOTION_STATE, &mSsmState, 1);
+                    result.result = ssm.release();
+                }
             }
 
             if (i->blob_request) {
@@ -5599,6 +5626,72 @@ camera_metadata_t* QCamera3HardwareInterface::restoreHdrScene(
     }
 
     return resultWrapper.release();
+}
+
+/* SEC: One UI super slow motion. Samsung HALs run it themselves: the app records
+ * the whole time the mode is open, sends superSlowMotionTrigger = 1 and follows
+ * superSlowMotionState (1 ready, 2 operating, 4 stop video stream). Here the
+ * recording gets only a burst of SSM_BURST_MS of high speed frames, stamped
+ * SSM_PLAYBACK_FRAME_NS apart so that the file plays it slow. */
+void QCamera3HardwareInterface::updateSuperSlowMotion(const camera3_capture_request_t *request)
+{
+    camera_metadata_ro_entry_t e;
+
+    if (mOpMode != CAMERA3_STREAM_CONFIGURATION_CONSTRAINED_HIGH_SPEED_MODE ||
+            request->settings == NULL) {
+        return;
+    }
+    if (find_camera_metadata_ro_entry(request->settings,
+            SAMSUNG_CONTROL_SUPER_SLOW_MOTION_MODE, &e) == 0) {
+        mSsmActive = true;
+    }
+    if (mSsmActive && mSsmState == SSM_STATE_READY &&
+            find_camera_metadata_ro_entry(request->settings,
+            SAMSUNG_CONTROL_SUPER_SLOW_MOTION_TRIGGER, &e) == 0 &&
+            e.count > 0 && e.data.i32[0] == 1) {
+        mSsmState = SSM_STATE_OPERATING;
+        mSsmStartFrame = request->frame_number;
+        mSsmEndFrame = mSsmStartFrame + mHFRVideoFps * SSM_BURST_MS / 1000;
+        LOGI("super slow motion: frames %u-%u", mSsmStartFrame, mSsmEndFrame - 1);
+    }
+}
+
+/* Called for every frame of a batch, in order: moves the state on and returns the
+ * timestamp for the frame (burst frames stretched, later ones shifted to follow) */
+nsecs_t QCamera3HardwareInterface::superSlowMotionFrame(uint32_t frameNumber,
+        nsecs_t captureTime)
+{
+    if (!mSsmActive || mSsmEndFrame == 0) {
+        return captureTime;
+    }
+    if (frameNumber >= mSsmStartFrame && frameNumber < mSsmEndFrame) {
+        if (frameNumber == mSsmStartFrame) {
+            mSsmBaseTime = captureTime + mSsmOffset;
+        }
+        nsecs_t t = mSsmBaseTime +
+                (nsecs_t)(frameNumber - mSsmStartFrame) * SSM_PLAYBACK_FRAME_NS;
+        mSsmOffset = t - captureTime;
+        return t;
+    }
+    if (frameNumber >= mSsmEndFrame) {
+        /* stop 1 s after the burst: the app cancels a recording it has seen less
+         * than 2.5 s of, and the encoder is still catching up on the burst */
+        if (mSsmState == SSM_STATE_OPERATING &&
+                frameNumber >= mSsmEndFrame + mHFRVideoFps) {
+            mSsmState = SSM_STATE_STOP;
+            mSsmStopFrame = frameNumber;
+        } else if (mSsmState == SSM_STATE_STOP &&
+                frameNumber >= mSsmStopFrame + mHFRVideoFps / 2) {
+            mSsmState = SSM_STATE_READY;
+        }
+    }
+    return captureTime + mSsmOffset;
+}
+
+bool QCamera3HardwareInterface::superSlowMotionDropsVideo(uint32_t frameNumber)
+{
+    return mSsmActive &&
+            !(frameNumber >= mSsmStartFrame && frameNumber < mSsmEndFrame);
 }
 
 /*===========================================================================
@@ -7253,6 +7346,7 @@ int QCamera3HardwareInterface::processCaptureRequest(
     logical_setting = request->settings;
 
     updateBokeh(request);
+    updateSuperSlowMotion(request);
 
     meta = request->settings;
     if(!m_bRecoveryDone){
@@ -13806,9 +13900,10 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     staticInfo.update(QCAMERA3_SENSOR_IS_MONO_ONLY,
             &isMonoOnly, 1);
 
-    // One UI camera only starts its JPEG post-processor (needed by Portrait) with feature 11
-    int32_t samsungFeatures[] = { 11 };
-    staticInfo.update(SAMSUNG_CONTROL_AVAILABLE_FEATURES, samsungFeatures, 1);
+    // One UI camera only starts its JPEG post-processor (needed by Portrait) with feature 11;
+    // feature 10 makes it read superSlowMotionState
+    int32_t samsungFeatures[] = { 10, 11 };
+    staticInfo.update(SAMSUNG_CONTROL_AVAILABLE_FEATURES, samsungFeatures, 2);
 
     // One UI slow motion previews at the max of function 2's range {function, ?, min, max}
     // (default 60); the backend gives one preview per high speed batch of fps/30 frames

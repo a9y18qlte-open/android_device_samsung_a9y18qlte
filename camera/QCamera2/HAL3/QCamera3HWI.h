@@ -540,6 +540,9 @@ private:
     camera_metadata_t* restoreHdrScene(uint8_t sceneMode, uint8_t controlMode,
             uint8_t extSceneMode, const camera_metadata_t *result);
     void updateBokeh(const camera3_capture_request_t *request);
+    void updateSuperSlowMotion(const camera3_capture_request_t *request);
+    nsecs_t superSlowMotionFrame(uint32_t frameNumber, nsecs_t captureTime);
+    bool superSlowMotionDropsVideo(uint32_t frameNumber);
     void hdrPlusPerfLock(mm_camera_super_buf_t *metadata_buf);
 
     static bool supportBurstCapture(uint32_t cameraId);
@@ -887,6 +890,14 @@ private:
     uint8_t mFwkExtSceneMode;
     int32_t mSamsungShootingMode = 0;
     int32_t mSamsungBokehLevel = -1;   // One UI blur slider, -1 = none
+    // One UI super slow motion: high speed session whose requests carry superSlowMotionMode
+    bool mSsmActive = false;
+    int32_t mSsmState = 1;             // superSlowMotionState: 1 ready, 2 operating, 4 stop video
+    uint32_t mSsmStartFrame = 0;       // burst frames [start, end) are recorded, played slow
+    uint32_t mSsmEndFrame = 0;
+    uint32_t mSsmStopFrame = 0;        // first frame after the burst
+    nsecs_t mSsmBaseTime = 0;
+    nsecs_t mSsmOffset = 0;            // added to later timestamps to keep them increasing
     bool mBokehRequest;
     uint32_t mNonBokehRequests;
     float mBokehAfX, mBokehAfY;        // AF region centre, < 0 if none
