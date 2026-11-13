@@ -11,6 +11,9 @@ ro.bluetooth.a2dp_offload.supported=false
 persist.bluetooth.a2dp_offload.disabled=true
 vendor.audio.feature.a2dp_offload.enable=false
 
+# Bluetooth
+bluetooth.device.default_name=Galaxy A9 (2018)
+
 # Bluetooth profiles
 bluetooth.profile.a2dp.source.enabled=true
 bluetooth.profile.asha.central.enabled=true
