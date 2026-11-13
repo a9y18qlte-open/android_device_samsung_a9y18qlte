@@ -335,7 +335,8 @@ vendor_tag_info_t samsung_control[SAMSUNG_CONTROL_END -
         SAMSUNG_CONTROL_START] = {
     { "availableFeatures", TYPE_INT32 },
     { "shootingMode", TYPE_INT32 },
-    { "bokehSpecialEffectInfo", TYPE_INT32 }
+    { "bokehSpecialEffectInfo", TYPE_INT32 },
+    { "specialFunctionsAvailableFpsRanges", TYPE_INT32 }
 };
 
 vendor_tag_info_t samsung_lens_info[SAMSUNG_LENS_INFO_END -
@@ -536,6 +537,7 @@ uint32_t qcamera3_all_tags[] = {
     (uint32_t)SAMSUNG_CONTROL_AVAILABLE_FEATURES,
     (uint32_t)SAMSUNG_CONTROL_SHOOTING_MODE,
     (uint32_t)SAMSUNG_CONTROL_BOKEH_SPECIAL_EFFECT_INFO,
+    (uint32_t)SAMSUNG_CONTROL_SPECIAL_FUNCTIONS_AVAILABLE_FPS_RANGES,
     // SAMSUNG_LENS_INFO
     (uint32_t)SAMSUNG_LENS_INFO_HORIZONTAL_VIEW_ANGLES
 };

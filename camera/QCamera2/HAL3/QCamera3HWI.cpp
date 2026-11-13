@@ -13810,6 +13810,12 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     int32_t samsungFeatures[] = { 11 };
     staticInfo.update(SAMSUNG_CONTROL_AVAILABLE_FEATURES, samsungFeatures, 1);
 
+    // One UI slow motion previews at the max of function 2's range {function, ?, min, max}
+    // (default 60); the backend gives one preview per high speed batch of fps/30 frames
+    int32_t specialFpsRanges[] = { 2, 0, PREVIEW_FPS_FOR_HFR, PREVIEW_FPS_FOR_HFR };
+    staticInfo.update(SAMSUNG_CONTROL_SPECIAL_FUNCTIONS_AVAILABLE_FPS_RANGES,
+            specialFpsRanges, 4);
+
     // One UI Panorama sizes its sweep from these; ratios 16:9, 4:3, 1:1, 18.5:9, 19:9
     {
         const float ratios[] = { 16.0f / 9, 4.0f / 3, 1.0f, 18.5f / 9, 19.0f / 9 };
