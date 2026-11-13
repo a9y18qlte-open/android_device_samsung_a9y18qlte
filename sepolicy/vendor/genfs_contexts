@@ -77,6 +77,8 @@ genfscon sysfs /devices/virtual/lcd/panel/power_reduce        u:object_r:sysfs_l
 genfscon sysfs /devices/virtual/sec/tsp/cmd                   u:object_r:sysfs_sec_tsp:s0
 genfscon sysfs /devices/virtual/sec/tsp/cmd_list              u:object_r:sysfs_sec_tsp:s0
 genfscon sysfs /devices/virtual/sec/tsp/cmd_result            u:object_r:sysfs_sec_tsp:s0
+genfscon sysfs /devices/virtual/sec/tsp/support_feature       u:object_r:sysfs_sec_tsp:s0
+genfscon sysfs /devices/virtual/sec/tsp/scrub_pos             u:object_r:sysfs_sec_tsp:s0
 
 # Samsung LCD sysfs tree
 genfscon sysfs /devices/virtual/lcd/panel                                 u:object_r:sysfs_lcd:s0
