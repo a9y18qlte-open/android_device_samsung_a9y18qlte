@@ -41,6 +41,12 @@ allow hal_keymaster_default sec_efs_file:dir create_dir_perms;
 allow hal_keymaster_default sec_efs_file:file create_file_perms;
 allow hal_keymaster_default efs_file:dir search;
 
+# Samsung attestation keys (GAK/SAK) read by attest_key. One UI labels the efs
+# mount root mnt_vendor_file, so the path walk needs search there too.
+type dak_efs_file, file_type, data_file_type;
+allow hal_keymaster_default mnt_vendor_file:dir search;
+r_dir_file(hal_keymaster_default, dak_efs_file)
+
 # Power HAL: double tap to wake
 type sysfs_dt2w, sysfs_type, fs_type;
 allow hal_power_default sysfs_dt2w:file rw_file_perms;

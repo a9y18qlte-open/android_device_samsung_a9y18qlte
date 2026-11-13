@@ -64,6 +64,10 @@
 /efs/FactoryApp(/.*)?                                               u:object_r:app_efs_file:s0
 /mnt/vendor/efs/FactoryApp(/.*)?                                    u:object_r:app_efs_file:s0
 
+# Samsung attestation keys, read by the keymaster HAL.
+/efs/DAK(/.*)?                                                      u:object_r:dak_efs_file:s0
+/mnt/vendor/efs/DAK(/.*)?                                           u:object_r:dak_efs_file:s0
+
 # IMEI data, read by rild.
 /efs/imei(/.*)?                                                     u:object_r:imei_efs_file:s0
 /mnt/vendor/efs/imei(/.*)?                                          u:object_r:imei_efs_file:s0
