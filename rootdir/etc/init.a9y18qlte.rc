@@ -63,6 +63,12 @@ service faced /system/bin/faced
     group system
 
 on post-fs
+    # secril_config_svc looks for /efs/factory.prop (or /mnt/vendor/efs/factory.prop).
+    # Stock writes it to /efs/imei/factory.prop (owned by root:root 0600).
+    copy /efs/imei/factory.prop /efs/factory.prop
+    chown radio radio /efs/factory.prop
+    chmod 0644 /efs/factory.prop
+
     # Permissions for NXP AMP calibration
     chown system audio /sys/class/nxp/tfa_cal/status
     chown system audio /sys/class/nxp/tfa_cal/rdc

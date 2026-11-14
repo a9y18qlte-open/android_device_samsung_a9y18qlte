@@ -15,7 +15,7 @@
 
 # Oneshot services - see samsung_vendor_daemons.te.
 /vendor/bin/hw/macloader                                            u:object_r:macloader_exec:s0
-/vendor/bin/secril_config_svc                                       u:object_r:secril_config_exec:s0
+/(vendor|system/vendor)/bin/secril_config_svc                       u:object_r:secril_config_exec:s0
 /vendor/bin/energy-awareness                                        u:object_r:energyawareness_exec:s0
 /vendor/bin/init\.qti\.qseecomd\.sh                                 u:object_r:qseecomd_sh_exec:s0
 
@@ -56,6 +56,7 @@
 
 # Battery calibration data. Matches the xattr the stock firmware already wrote,
 # and covers the files inside the directory, which were never labelled.
+/mnt/vendor/efs(/.*)?                                               u:object_r:efs_file:s0
 /efs/Battery(/.*)?                                                  u:object_r:battery_efs_file:s0
 /mnt/vendor/efs/Battery(/.*)?                                       u:object_r:battery_efs_file:s0
 
@@ -71,6 +72,10 @@
 # IMEI data, read by rild.
 /efs/imei(/.*)?                                                     u:object_r:imei_efs_file:s0
 /mnt/vendor/efs/imei(/.*)?                                          u:object_r:imei_efs_file:s0
+
+# Widevine and security calibration in EFS
+/efs/sec_efs(/.*)?                                                  u:object_r:sec_efs_file:s0
+/mnt/vendor/efs/sec_efs(/.*)?                                       u:object_r:sec_efs_file:s0
 
 # Fingerprint calibration and template data. See samsung_hals.te.
 /data/vendor/biometrics(/.*)?                                       u:object_r:sec_biometrics_data_file:s0
