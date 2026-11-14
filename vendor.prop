@@ -69,7 +69,7 @@ ro.vendor.multisim.simslotcount=2
 ro.vendor.cscsupported=1
 
 # FRP
-ro.frp.pst=/dev/block/bootdevice/by-name/persistent
+ro.frp.pst=
 
 # Sensors
 ro.vendor.sensors.facing=false
