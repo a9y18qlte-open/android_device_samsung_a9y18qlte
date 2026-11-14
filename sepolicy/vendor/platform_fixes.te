@@ -60,6 +60,7 @@ allow macloader wifi_vendor_data_file:file create_file_perms;
 allow secril_config mnt_vendor_file:dir search;
 allow secril_config efs_file:dir search;
 allow secril_config efs_file:file r_file_perms;
+r_dir_file(secril_config, imei_efs_file)
 
 # qseecomd wrapper
 get_prop(qseecomd_sh, vendor_tee_listener_prop)
