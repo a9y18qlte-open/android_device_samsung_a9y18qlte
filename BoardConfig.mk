@@ -179,6 +179,8 @@ OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
 
 # HIDL manifests
 DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest.xml
+DEVICE_MANIFEST_SKUS += nfc_ese
+DEVICE_MANIFEST_NFC_ESE_FILES := $(DEVICE_PATH)/manifest_nfc_ese.xml
 DEVICE_MATRIX_FILE := \
     hardware/qcom-caf/common/compatibility_matrix.xml \
     $(DEVICE_PATH)/compatibility_matrix.xml

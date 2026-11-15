@@ -1,6 +1,9 @@
 on early-boot && property:ro.product.vendor.model=SM-A9200
     mount none /vendor/etc/libnfc-nxp_chn.conf /vendor/etc/libnfc-nxp.conf bind
 
+on property:ro.product.vendor.model=SM-A9200 && property:nfc.initialized=true
+    start vendor.secure_element_hal_service_1_1
+
 on early-boot && property:ro.product.vendor.model=SM-A920N
     mount none /vendor/firmware/wlan/qca_cld/bdwlan_kor.bin /vendor/firmware/wlan/qca_cld/bdwlan.bin bind
     mount none /vendor/etc/libnfc-nxp_kor.conf /vendor/etc/libnfc-nxp.conf bind
@@ -219,6 +222,13 @@ service vendor.gatekeeper-1-0 /vendor/bin/hw/android.hardware.gatekeeper@1.0-ser
     class hal
     user system
     group system 5678
+
+service vendor.secure_element_hal_service_1_1 /vendor/bin/hw/android.hardware.secure_element@1.1-service
+    override
+    class hal
+    user secure_element
+    group secure_element
+    disabled
 
 on post-fs-data
     mkdir /efs/DAK 0775 system system
