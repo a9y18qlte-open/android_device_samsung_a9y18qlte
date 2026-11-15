@@ -15,4 +15,5 @@
     <dimen name="rounded_corner_content_padding">8dp</dimen>
 
     <dimen name="max_shade_window_blur_radius">17dp</dimen>
+    <dimen name="physical_power_button_center_screen_location_y">843px</dimen>
 </resources>
