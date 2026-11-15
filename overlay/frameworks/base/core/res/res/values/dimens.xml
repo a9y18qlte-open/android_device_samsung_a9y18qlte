@@ -11,4 +11,7 @@
 
     <!-- Content padding for rounded corners (8dp matching stock padding) -->
     <dimen name="rounded_corner_content_padding">8dp</dimen>
+
+    <item name="config_wallpaperMinScale" format="float" type="dimen">1</item>
+    <item name="config_wallpaperMaxScale" format="float" type="dimen">1</item>
 </resources>

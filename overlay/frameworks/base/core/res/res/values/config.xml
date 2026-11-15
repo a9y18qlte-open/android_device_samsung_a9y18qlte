@@ -1161,4 +1161,5 @@
     <bool name="config_stk_sms_send_support">true</bool>
     <bool name="config_deviceSupportsHighPerfTransitions">false</bool>
     <bool name="config_sf_limitedAlpha">true</bool>
+    <bool name="config_pinnerHomeApp">true</bool>
 </resources>
