@@ -13,4 +13,6 @@
 
     <!-- Content padding for rounded corners in SystemUI -->
     <dimen name="rounded_corner_content_padding">8dp</dimen>
+
+    <dimen name="physical_power_button_center_screen_location_y">843px</dimen>
 </resources>
