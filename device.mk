@@ -166,7 +166,7 @@ PRODUCT_COPY_FILES += \
 # Use Havoc-style ODM layout during bring-up.
 # Runtime /odm paths are satisfied via root symlinks into /vendor/odm,
 # which avoids the separate-odm symlink loop seen in earlier builds.
-	
+
 # Keylayout
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/gpio_keys.kl:$(TARGET_COPY_OUT_SYSTEM)/usr/keylayout/gpio_keys.kl
@@ -318,7 +318,7 @@ PRODUCT_PACKAGES += \
     init.qti.fm.sh \
     init.qti.ims.sh \
     init.qti.qseecomd.sh \
-	qca6234-service.sh \
+    qca6234-service.sh \
     init.a9y18qlte.rc \
     init.carrier.rc \
     init.msm.usb.configfs.rc \
@@ -532,12 +532,10 @@ PRODUCT_PACKAGES += \
     libpower.vendor \
     libsqlite.vendor
 
-# Sound trigger
-# The stock Android 10 build of this AOSP default implementation is the same
-# code; build it. It loads the stock sound_trigger.primary.sdm660 module.
+# Sound trigger (Open-source QTI ST-HAL)
 PRODUCT_PACKAGES += \
-    android.hardware.soundtrigger@2.0-impl \
-    android.hardware.soundtrigger@2.1-impl
+    android.hardware.soundtrigger@2.2-impl \
+    sound_trigger.primary.sdm660
 
 # Thermal
 PRODUCT_PACKAGES += \
