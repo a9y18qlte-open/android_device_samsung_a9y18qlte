@@ -226,7 +226,7 @@ static void get_library_path(char *lib_path)
 static void get_library_path(char *lib_path)
 {
     snprintf(lib_path, MAX_LIBRARY_PATH,
-             "/vendor/lib/hw/sound_trigger.primary.%s.so",
+             SOUND_TRIGGER_LIBRARY_PATH,
              XSTR(SOUND_TRIGGER_PLATFORM_NAME));
 }
 #endif
