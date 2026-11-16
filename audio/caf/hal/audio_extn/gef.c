@@ -58,6 +58,8 @@
 
 #if LINUX_ENABLED
 #define GEF_LIBRARY "libqtigef.so"
+#elif defined(__LP64__)
+#define GEF_LIBRARY "/vendor/lib64/libqtigef.so"
 #else
 #define GEF_LIBRARY "/vendor/lib/libqtigef.so"
 #endif
