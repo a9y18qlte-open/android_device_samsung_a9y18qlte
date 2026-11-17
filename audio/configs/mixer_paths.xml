@@ -1945,6 +1945,10 @@
         <path name="spk" />
     </path>
 
+    <path name="speaker-safe">
+        <path name="speaker" />
+    </path>
+
     <path name="dual-speaker">
         <path name="dual-spk" />
     </path>
