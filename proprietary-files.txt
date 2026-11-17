@@ -1,14 +1,11 @@
 
 # ADSP
 vendor/bin/adsprpcd
-vendor/lib/libadsp_default_listener.so
 vendor/lib/libadsp_hvx_callback_skel.so
 vendor/lib/libadsp_hvx_stub.so
 vendor/lib/libadsprpc.so
 vendor/lib/libfastcvadsp_stub.so
 vendor/lib/libfastcvopt.so
-vendor/lib/libmdsprpc.so
-vendor/lib/libsdsprpc.so
 vendor/lib64/libadsp_default_listener.so
 vendor/lib64/libadsprpc.so
 vendor/lib64/libfastcvadsp_stub.so
@@ -35,8 +32,6 @@ vendor/lib/rfsa/adsp/libsns_low_lat_stream_skel.so
 # ANT
 system/lib/com.qualcomm.qti.ant@1.0.so
 system/lib64/com.qualcomm.qti.ant@1.0.so
-vendor/lib/com.qualcomm.qti.ant@1.0.so;MODULE_SUFFIX=_vendor
-vendor/lib/hw/com.qualcomm.qti.ant@1.0-impl.so
 vendor/lib64/com.qualcomm.qti.ant@1.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/hw/com.qualcomm.qti.ant@1.0-impl.so
 
@@ -51,10 +46,7 @@ vendor/etc/audio_policy_volumes_sec.xml
 vendor/etc/playback_record_audio_policy_configuration.xml
 vendor/etc/playback_record_audio_policy_configuration.xml:vendor/etc/audio/playback_record_audio_policy_configuration.xml
 vendor/lib/lib_SamsungRec_06005.so;DISABLE_CHECKELF
-vendor/lib/lib_SoundAlive_3DPosition_ver202.so
-vendor/lib/lib_SoundAlive_SRC384_ver320.so
 vendor/lib/lib_SoundBooster_ver950.so;DISABLE_CHECKELF
-vendor/lib/lib_soundaliveresampler.so
 vendor/lib/libacdb-fts.so
 vendor/lib/libacdbloader.so
 vendor/lib/libacdbrtac.so
@@ -63,12 +55,10 @@ vendor/lib/libadm.so
 vendor/lib/libaudcal.so
 vendor/lib/libaudioalsa.so
 vendor/lib/libaudioparsers.so
-vendor/lib/libdrc.so
 vendor/lib/libqtigef.so
 vendor/lib/librecordalive.so
 vendor/lib/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsecaudioinfo.so
-vendor/lib/libsurround_3mic_proc.so
 vendor/lib64/libacdb-fts.so
 vendor/lib64/libacdbloader.so
 vendor/lib64/libacdbrtac.so
@@ -129,10 +119,6 @@ vendor/etc/audconf/OPEN/workspaceFile.qwsp
 # Bluetooth
 vendor/bin/hw/android.hardware.bluetooth@1.0-service-qti
 vendor/etc/init/android.hardware.bluetooth@1.0-service-qti.rc
-vendor/lib/com.qualcomm.qti.bluetooth_audio@1.0.so
-vendor/lib/hw/android.hardware.bluetooth@1.0-impl-qti.so
-vendor/lib/libbt-hidlclient.so
-vendor/lib/vendor.samsung.hardware.bluetooth@2.0.so
 vendor/lib64/hw/android.hardware.bluetooth@1.0-impl-qti.so
 vendor/lib64/libbt-hidlclient.so
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so
@@ -143,20 +129,16 @@ system/lib64/libaptX_encoder.so
 
 # CDSP
 vendor/bin/cdsprpcd
-vendor/lib/libcdsp_default_listener.so
 vendor/lib/libcdsprpc.so
 vendor/lib/libsysmon_cdsp_skel.so
 vendor/lib64/libcdsp_default_listener.so
 vendor/lib64/libcdsprpc.so
 
 # CNE
-vendor/lib/libxml.so
-vendor/lib/vendor.qti.hardware.data.dynamicdds@1.0.so
 vendor/lib64/libxml.so
 vendor/lib64/vendor.qti.hardware.data.dynamicdds@1.0.so
 
 # Camera
-vendor/lib/libbase64.so
 # Camera-bokeh: Samsung's ArcSoft dual camera refocus engine, from the stock system partition
 system/lib/libdualcam_refocus.so:vendor/lib/libdualcam_refocus.so
 system/lib/libmpbase.so:vendor/lib/libmpbase.so
@@ -176,10 +158,8 @@ vendor/lib/libqomx_jpegenc.so
 vendor/lib/libqomx_jpegenc_pipe.so
 vendor/lib/libremosaic_daemon.so
 vendor/lib/libremosaiclib.so
-vendor/lib/libsns_low_lat_stream_stub.so
 vendor/lib/libvdis_core.so
 vendor/lib/libvdis_interface.so
-vendor/lib/libvideoutils.so
 vendor/lib64/libbase64.so
 vendor/lib64/libremosaic_daemon.so
 vendor/lib64/libremosaiclib.so
@@ -191,9 +171,6 @@ vendor/lib64/libvideoutils.so
 # Camera-actuators
 vendor/lib/libactuator_dw9808.so
 vendor/lib/libactuator_dw9808_sub.so
-
-# Camera-bin
-vendor/bin/mm-qcamera-daemon
 
 # Camera-chromatix
 vendor/lib/libchromatix_imx576_d24qs_3rd_preview_high_cpp.so
@@ -409,18 +386,12 @@ vendor/lib/libois_lc898122.so
 # Camera-samsung
 vendor/etc/snap_gpu_kernel_32.bin
 vendor/etc/snap_gpu_kernel_64.bin
-vendor/lib/libDLInterface.camera.samsung.so
 vendor/lib/libOpenCv.camera.samsung.so;DISABLE_CHECKELF
 vendor/lib/libhifills.so;DISABLE_CHECKELF
 vendor/lib/libhifills_interface.so
 vendor/lib/libhypermotion_core.so
 vendor/lib/libhypermotion_interface.so
 vendor/lib/libsaiv_BeautySolutionVideo.so
-vendor/lib/libsnap_caffe.so
-vendor/lib/libsnap_caffe_wrapper.so
-vendor/lib/libsnap_compute.so
-vendor/lib/libsnap_compute_wrapper.so
-vendor/lib/libsnap_vndk.so
 vendor/lib/libswldc_capture_core.camera.samsung.so
 vendor/lib/libuniplugin.so
 vendor/lib/libvideobeauty_interface.so
@@ -602,29 +573,15 @@ vendor/bin/hvdcp_opti
 product/framework/com.qti.dpmframework.jar
 product/framework/dpmapi.jar
 system/framework/tcmclient.jar
-vendor/lib/com.qualcomm.qti.dpm.api@1.0.so
 vendor/lib64/com.qualcomm.qti.dpm.api@1.0.so
 
 # DRM
 vendor/bin/qseecomd
-vendor/lib/libGPreqcancel.so
-vendor/lib/libGPreqcancel_svc.so
 vendor/lib/libQSEEComAPI.so
-vendor/lib/libSecureUILib.so
-vendor/lib/libStDrvInt.so
 vendor/lib/libcpion.so
 vendor/lib/libcppf.so
 vendor/lib/libdrmfs.so
-vendor/lib/libdrmtime.so
 vendor/lib/liboemcrypto.so
-vendor/lib/libqisl.so
-vendor/lib/librmp.so
-vendor/lib/librpmb.so
-vendor/lib/libsdedrm.so
-vendor/lib/libsecureui.so
-vendor/lib/libsecureui_svcsock.so
-vendor/lib/libssd.so
-vendor/lib/libtzdrmgenprov.so
 vendor/lib64/libGPreqcancel.so
 vendor/lib64/libGPreqcancel_svc.so
 vendor/lib64/libQSEEComAPI.so
@@ -650,9 +607,7 @@ vendor/lib/libwvhidl.so
 vendor/lib/mediadrm/libwvdrmengine.so
 
 # Display-Hardware
-system/lib/libsdm-disp-apis.so
 system/lib64/libsdm-disp-apis.so
-vendor/lib/libsdmextension.so
 vendor/lib64/libsdmextension.so
 
 # Dolby
@@ -669,8 +624,6 @@ system/lib64/fm_helium.so
 system/lib64/libfm-hci.so
 system/lib64/vendor.qti.hardware.fm@1.0.so
 vendor/bin/fmconfig
-vendor/lib/hw/vendor.qti.hardware.fm@1.0-impl.so
-vendor/lib/vendor.qti.hardware.fm@1.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/hw/vendor.qti.hardware.fm@1.0-impl.so
 vendor/lib64/vendor.qti.hardware.fm@1.0.so;MODULE_SUFFIX=_vendor
 
@@ -744,33 +697,6 @@ vendor/etc/init/android.hardware.gnss@2.0-service-qti.rc
 vendor/etc/vintf/manifest/android.hardware.gnss@2.0-service-qti.xml
 vendor/etc/vintf/manifest/vendor.qti.gnss@3.0-service.xml
 vendor/etc/xtra_root_cert.pem
-vendor/lib/hw/android.hardware.gnss@2.0-impl-qti.so
-vendor/lib/hw/vendor.qti.gnss@3.0-impl.so
-vendor/lib/hw/vendor.samsung.hardware.gnss@2.0-impl-sec.so
-vendor/lib/libbatching.so
-vendor/lib/libdataitems.so
-vendor/lib/libgdtap.so
-vendor/lib/libgeofencing.so
-vendor/lib/libizat_client_api.so
-vendor/lib/libizat_core.so
-vendor/lib/liblbs_core.so
-vendor/lib/libloc_api_v02.so
-vendor/lib/libloc_core.so
-vendor/lib/liblocation_api.so
-vendor/lib/liblocationservice.so
-vendor/lib/liblocationservice_glue.so
-vendor/lib/liblowi_client.so
-vendor/lib/liblowi_wifihal.so
-vendor/lib/libqdma_file_agent.so
-vendor/lib/libsynergy_loc_api.so
-vendor/lib/libxtadapter.so
-vendor/lib/vendor.qti.gnss@1.0.so
-vendor/lib/vendor.qti.gnss@1.1.so
-vendor/lib/vendor.qti.gnss@1.2.so
-vendor/lib/vendor.qti.gnss@2.0.so
-vendor/lib/vendor.qti.gnss@2.1.so
-vendor/lib/vendor.qti.gnss@3.0.so
-vendor/lib/vendor.samsung.hardware.gnss@2.0.so
 vendor/lib64/hw/android.hardware.gnss@2.0-impl-qti.so
 vendor/lib64/hw/vendor.qti.gnss@3.0-impl.so
 vendor/lib64/hw/vendor.samsung.hardware.gnss@2.0-impl-sec.so
@@ -801,10 +727,6 @@ vendor/lib64/vendor.qti.gnss@3.0.so
 vendor/lib64/vendor.samsung.hardware.gnss@2.0.so
 
 # GPS-Hardware
-vendor/lib/libgarden.so
-vendor/lib/libgnss.so
-vendor/lib/libgnsspps.so
-vendor/lib/libgps.utils.so
 vendor/lib64/libgarden.so
 vendor/lib64/libgnss.so
 vendor/lib64/libgnsspps.so
@@ -827,17 +749,10 @@ vendor/lib/libadreno_utils.so
 vendor/lib/libbccQTI.so
 vendor/lib/libc2d30_bltlib.so
 vendor/lib/libgsl.so;DISABLE_CHECKELF
-vendor/lib/libhdr_tm.so
 vendor/lib/libllvm-glnext.so
 vendor/lib/libllvm-qcom.so
-vendor/lib/libpvr.so
-vendor/lib/libqseed3.so
 vendor/lib/librs_adreno.so;DISABLE_CHECKELF
 vendor/lib/librs_adreno_sha1.so
-vendor/lib/libsdm-color.so
-vendor/lib/libsdm-diag.so
-vendor/lib/libsdm-disp-vndapis.so
-vendor/lib/libtinyxml2_1.so
 vendor/lib64/egl/eglSubDriverAndroid.so
 vendor/lib64/egl/libEGL_adreno.so
 vendor/lib64/egl/libGLESv1_CM_adreno.so
@@ -871,10 +786,6 @@ system/priv-app/HotwordEnrollmentOKGoogleExTL3210/HotwordEnrollmentOKGoogleExTL3
 system/priv-app/HotwordEnrollmentXGoogleExTL3210/HotwordEnrollmentXGoogleExTL3210.apk
 
 # IOP
-vendor/lib/hw/vendor.qti.hardware.iop@2.0-impl.so
-vendor/lib/libqti-iopd-client.so
-vendor/lib/vendor.qti.hardware.iop@1.0.so
-vendor/lib/vendor.qti.hardware.iop@2.0.so
 vendor/lib64/hw/vendor.qti.hardware.iop@2.0-impl.so
 vendor/lib64/libqti-iopd-client.so
 vendor/lib64/vendor.qti.hardware.iop@1.0.so
@@ -905,22 +816,8 @@ system/lib64/libmmparser_lite.so
 system/lib64/libmmrtpdecoder.so
 system/lib64/libmmrtpencoder.so
 vendor/etc/somxreg.conf
-vendor/lib/libAlacSwDec.so
-vendor/lib/libApeSwDec.so
-vendor/lib/libFlacSwDec.so
-vendor/lib/libI420colorconvert.so
 vendor/lib/libdsd2pcm.so
 vendor/lib/libgpustats.so
-vendor/lib/libmm-color-convertor.so
-vendor/lib/libmmosal_proprietary.so
-vendor/lib/libmmsw_detail_enhancement.so
-vendor/lib/libmmsw_math.so
-vendor/lib/libmmsw_opencl.so
-vendor/lib/libmmsw_platform.so
-vendor/lib/libmulawdec.so
-vendor/lib/libsnaace.so
-vendor/lib/libsnamrnb.so
-vendor/lib/libsnamrwb.so
 vendor/lib/libsomx263dsw.so
 vendor/lib/libsomx264dsw.so
 vendor/lib/libsomxaacd.so
@@ -941,14 +838,9 @@ vendor/lib/libsomxwmv7d.so
 vendor/lib/libsomxwmv8d.so
 vendor/lib/libstagefright_bufferqueue_helper_vendor.so
 vendor/lib/libstagefright_soft_g711dec.so;MODULE_SUFFIX=_vendor
-vendor/lib/libstagefright_soft_qtiflacdec.so
 vendor/lib/libstagefright_soft_rawdec.so;MODULE_SUFFIX=_vendor
 vendor/lib/libstagefright_soft_vorbisdec.so;MODULE_SUFFIX=_vendor
-vendor/lib/libvpphvx.so
-vendor/lib/libvpplibrary.so
 vendor/lib/libvqzip.so
-vendor/lib/vendor.qti.hardware.vpp@1.1.so
-vendor/lib/vendor.qti.hardware.vpp@1.2.so
 # vendor/lib/vndk/libstagefright_foundation.so - dropped: stock blob exports only
 # DIVX/DIVX3, but source-built libstagefright_omx.so is compiled with
 # -D__ANDROID_VNDK_EXT__ and needs DIVX4/DIVX311. Built libstagefright_foundation_ext
@@ -1015,11 +907,6 @@ vendor/etc/perf/commonresourceconfigs.xml
 vendor/etc/perf/perfboostsconfig.xml
 vendor/etc/perf/targetconfig.xml
 vendor/etc/perf/targetresourceconfigs.xml
-vendor/lib/libperfconfig.so
-vendor/lib/libperfgluelayer.so
-vendor/lib/libqti-perfd.so
-vendor/lib/libqti-util.so
-vendor/lib/libqti-utils.so
 vendor/lib64/libperfconfig.so
 vendor/lib64/libperfgluelayer.so
 vendor/lib64/libqti-perfd.so
@@ -1029,17 +916,11 @@ vendor/lib64/libqti-utils.so
 # Peripheral
 vendor/bin/pm-proxy
 vendor/bin/pm-service
-vendor/lib/libperipheral_client.so
 vendor/lib64/libperipheral_client.so
 
 # Postprocessing
 vendor/bin/hw/vendor.display.color@1.0-service
 vendor/etc/init/vendor.display.color@1.0-service.rc
-vendor/lib/libdisp-aba.so
-vendor/lib/libmm-hdcpmgr.so
-vendor/lib/vendor.display.color@1.0.so
-vendor/lib/vendor.display.color@1.1.so
-vendor/lib/vendor.display.postproc@1.0.so
 vendor/lib64/libdisp-aba.so
 vendor/lib64/libmm-hdcpmgr.so
 vendor/lib64/vendor.display.color@1.0.so
@@ -1054,18 +935,6 @@ vendor/lib64/hw/power.qcom.so
 vendor/bin/irsc_util
 vendor/bin/pd-mapper
 vendor/lib/libdiag.so
-vendor/lib/libdsutils.so
-vendor/lib/libidl.so
-vendor/lib/libqdi.so
-vendor/lib/libqdp.so
-vendor/lib/libqmi.so
-vendor/lib/libqmi_cci.so
-vendor/lib/libqmi_client_helper.so
-vendor/lib/libqmi_client_qmux.so
-vendor/lib/libqmi_common_so.so
-vendor/lib/libqmi_csi.so
-vendor/lib/libqmi_encdec.so
-vendor/lib/libqmiservices.so
 vendor/lib64/libdiag.so
 vendor/lib64/libdsutils.so
 vendor/lib64/libidl.so
@@ -1083,7 +952,6 @@ vendor/lib64/libqmiservices.so
 # Qdutils
 vendor/bin/hw/vendor.qti.hardware.qdutils_disp@1.0-service-qti
 vendor/etc/init/vendor.qti.hardware.qdutils_disp@1.0-service-qti.rc
-vendor/lib/vendor.qti.hardware.qdutils_disp@1.0.so
 vendor/lib64/vendor.qti.hardware.qdutils_disp@1.0.so
 
 # Radio
@@ -1110,31 +978,6 @@ vendor/etc/plmn_delta_attaio.bin
 vendor/etc/plmn_delta_usacdma.bin
 vendor/etc/plmn_delta_usagsm.bin
 vendor/etc/plmn_se13.bin
-vendor/lib/libconfigdb.so
-vendor/lib/libdsi_netctrl.so
-vendor/lib/liblqe.so
-vendor/lib/libmdmdetect.so
-vendor/lib/libnetmgr.so
-vendor/lib/libnetmgr_common.so
-vendor/lib/libnetmgr_nr_fusion.so
-vendor/lib/libnetmgr_rmnet_ext.so
-vendor/lib/liboemaids_vendor.so
-vendor/lib/libpdmapper.so
-vendor/lib/libpdnotifier.so
-vendor/lib/libqcmaputils.so
-vendor/lib/libqrtr.so
-vendor/lib/libqsocket.so
-vendor/lib/libreference-ril.so
-vendor/lib/libril.so
-vendor/lib/librilutils.so
-vendor/lib/libsec-ril-dsds.so
-vendor/lib/libsec-ril.so
-vendor/lib/libsec_semRil.so
-vendor/lib/libsystem_health_mon.so
-vendor/lib/libvndsecril-client.so
-vendor/lib/vendor.qti.hardware.radio.atcmdfwd@1.0.so
-vendor/lib/vendor.samsung.hardware.radio.bridge@2.0.so;MODULE_SUFFIX=_vendor
-vendor/lib/vendor.samsung.hardware.radio.channel@2.0.so
 vendor/lib64/libconfigdb.so
 vendor/lib64/libdsi_netctrl.so
 vendor/lib64/liblqe.so
@@ -1232,8 +1075,6 @@ system/priv-app/EpdgService/EpdgService.apk
 vendor/bin/ssr_diag
 vendor/bin/ssr_setup
 vendor/bin/subsystem_ramdump
-vendor/lib/libSubSystemShutdown.so
-vendor/lib/libsubsystem_control.so
 vendor/lib64/libSubSystemShutdown.so
 vendor/lib64/libsubsystem_control.so
 vendor/lib64/libwsmd_functions.so
@@ -1250,14 +1091,7 @@ vendor/etc/init/vendor.samsung.hardware.miscpower@2.0-service.rc
 vendor/etc/init/wsm-service.rc
 vendor/etc/process_authenticator/pa_config
 vendor/lib/libfloatingfeature.so;MODULE_SUFFIX=_vendor
-vendor/lib/libmdf.so;MODULE_SUFFIX=_vendor
-vendor/lib/libpa.so
-vendor/lib/libpadm.so
 vendor/lib/libsecnativefeature.so;MODULE_SUFFIX=_vendor
-vendor/lib/libsecure_storage.so;MODULE_SUFFIX=_vendor
-vendor/lib/libspictrl.so
-vendor/lib/vendor.samsung.hardware.security.proca@2.0.so
-vendor/lib/vendor.samsung.hardware.security.securestorage@3.0.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libdsms_vendor.so
 vendor/lib64/libfloatingfeature.so;MODULE_SUFFIX=_vendor
 vendor/lib64/libhal.wsm.samsung.so
@@ -1275,14 +1109,7 @@ vendor/lib64/vendor.samsung.hardware.security.securestorage@3.0.so;MODULE_SUFFIX
 
 # Sensors
 vendor/bin/sensors.qti
-vendor/lib/hw/activity_recognition.sdm660.so
-vendor/lib/libsensor1.so
-vendor/lib/libsensor_reg.so
-vendor/lib/libsensorlistener.so
 vendor/lib/libsensorndkbridge.so
-vendor/lib/sensor_calibrate.so
-vendor/lib/sensors.grip.so
-vendor/lib/sensors.ssc.so
 vendor/lib64/hw/activity_recognition.sdm660.so
 vendor/lib64/libsensor1.so
 vendor/lib64/libsensor_reg.so
@@ -1299,7 +1126,6 @@ vendor/lib64/vendor.qti.hardware.soter@1.0.so
 # TUI
 vendor/bin/hw/vendor.qti.hardware.tui_comm@1.0-service-qti
 vendor/etc/init/vendor.qti.hardware.tui_comm@1.0-service-qti.rc
-vendor/lib/vendor.qti.hardware.tui_comm@1.0.so
 vendor/lib64/vendor.qti.hardware.tui_comm@1.0.so
 
 # Thermal
@@ -1312,22 +1138,16 @@ vendor/lib64/libthermalioctl.so
 # Time
 vendor/app/TimeService/TimeService.apk
 vendor/bin/time_daemon
-vendor/lib/libtime_genoff.so
 vendor/lib64/libtime_genoff.so
 
 # UBWC
-vendor/lib/libUBWC.so
-vendor/lib/libstreamparser.so
 vendor/lib64/libUBWC.so
 vendor/lib64/libstreamparser.so
 
 # Voice
-vendor/lib/vendor.qti.voiceprint@1.0.so
 vendor/lib64/vendor.qti.voiceprint@1.0.so
 
 # WFD
-vendor/lib/libhdcp1prov.so
-vendor/lib/libhdcp2p2prov.so
 vendor/lib/libhdcpsrm.so
 vendor/lib64/libhdcp1prov.so
 vendor/lib64/libhdcp2p2prov.so
@@ -1360,13 +1180,10 @@ vendor/etc/public.libraries.txt.backup
 vendor/etc/sec_config_oem
 vendor/lib/libHMT.so
 vendor/lib/libarac.so
-vendor/lib/libdiagjni.so
-vendor/lib/libfastcrc.so
 vendor/lib/libprofileparamstorage.so
 vendor/lib/libsavsac.so
 vendor/lib/libsavscmn.so;MODULE_SUFFIX=_vendor
 vendor/lib/libsavsvc.so
-vendor/lib/libsi.so
 vendor/lib/libsxqk.so
 vendor/lib64/libarac.so
 vendor/lib64/libdiagjni.so
