@@ -62,9 +62,6 @@ TARGET_KERNEL_CONFIG := vendor/sdm660-perf_defconfig vendor/a9y18qlte.config
 TARGET_KERNEL_SOURCE := kernel/samsung/a9y18qlte
 TARGET_KERNEL_VERSION := 4.19
 TARGET_KERNEL_CLANG_COMPILE := true
-# Clang in 16 defaults to --target=aarch64-linux-android when CROSS_COMPILE uses android prefix;
-# kernel requires GNU bare-metal target triple. Pass via Kbuild KCFLAGS/KAFLAGS.
-TARGET_KERNEL_ADDITIONAL_FLAGS := KCFLAGS=--target=aarch64-linux-gnu KAFLAGS=--target=aarch64-linux-gnu
 #TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
 # Partitions
