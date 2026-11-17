@@ -634,8 +634,9 @@ bool compress_voip_is_config_supported(struct audio_config *config)
     ret = compress_voip_is_format_supported(config->format);
     if (ret) {
         if ((popcount(config->channel_mask) == 1) &&
+            /* Samsung's HAL never runs the sdm660 DSP VoIP session at 48 kHz */
             (config->sample_rate == 8000 || config->sample_rate == 16000 ||
-             config->sample_rate == 32000 || config->sample_rate == 48000))
+             config->sample_rate == 32000))
             ret = ((voip_data.sample_rate == 0) ? true:
                     (voip_data.sample_rate == config->sample_rate));
         else
