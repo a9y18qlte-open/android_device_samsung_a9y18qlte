@@ -68,6 +68,7 @@ vendor/lib64/libaudioalsa.so
 vendor/lib64/libaudioparsers.so
 vendor/lib64/libqtigef.so
 vendor/lib64/libsecaudiocoreutils.so;MODULE_SUFFIX=_vendor
+vendor/lib64/libsecaudioinfo.so
 
 # Audio FX Modules
 vendor/lib/soundfx/libasphere.so
