@@ -331,8 +331,6 @@ blob_fixups: blob_fixups_user_type = {
     # a radio_prop that vendor processes may not read. Rename it (same length)
     # so the audio HIDL impl can use it to select the SIM 2 voice session.
     (
-        'vendor/lib/libsec-ril.so',
-        'vendor/lib/libsec-ril-dsds.so',
         'vendor/lib64/libsec-ril.so',
         'vendor/lib64/libsec-ril-dsds.so',
     ): blob_fixup()
