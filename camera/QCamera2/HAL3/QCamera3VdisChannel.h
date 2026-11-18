@@ -80,8 +80,9 @@ public:
     virtual int32_t timeoutFrame(uint32_t frameNumber);
 
 private:
-    /* input frames held: queued in the backend plus inside VDIS */
-    static constexpr uint32_t NUM_INPUT_BUFFERS = 18;
+    /* input frames held: queued in the backend (up to 10 at 60 fps) plus
+     * inside VDIS */
+    static constexpr uint32_t NUM_INPUT_BUFFERS = 22;
     static constexpr uint32_t NUM_OUTPUT_BUFFERS = 12;
     /* no input for this long while frames are inside VDIS: drain it */
     static constexpr nsecs_t STALL_NS = 150000000;

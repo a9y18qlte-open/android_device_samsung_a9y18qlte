@@ -98,8 +98,7 @@ QCamera3VdisChannel::~QCamera3VdisChannel()
 bool QCamera3VdisChannel::enableVdis(int32_t fps)
 {
     int32_t inW, inH;
-    /* shortcut: 30 fps only; stock also ran VDIS at 60 fps, untested here */
-    if (fps > 30 || !QCamera3Vdis::getInputSize(mCamera3Stream->width,
+    if (fps > 60 || !QCamera3Vdis::getInputSize(mCamera3Stream->width,
             mCamera3Stream->height, inW, inH)) {
         return false;
     }

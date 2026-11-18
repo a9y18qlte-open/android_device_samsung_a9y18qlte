@@ -188,7 +188,7 @@ bool QCamera3Vdis::isAvailable()
 
 bool QCamera3Vdis::getInputSize(int32_t outW, int32_t outH, int32_t &inW, int32_t &inH)
 {
-    /* the sizes stock records with VDIS at 30 fps, 6/5 of the output */
+    /* the sizes stock records with VDIS, 6/5 of the output */
     if (outW == 1920 && outH == 1080) {
         inW = 2304;
         inH = 1296;
