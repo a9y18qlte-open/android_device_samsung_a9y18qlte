@@ -1,0 +1,11 @@
+//
+// SPDX-FileCopyrightText: 2026 The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+cc_library_shared {
+    name: "libshim_vdis_ion",
+    srcs: ["vdis_ion.cpp"],
+    shared_libs: ["libion"],
+    vendor: true,
+}

@@ -314,12 +314,23 @@ blob_fixups: blob_fixups_user_type = {
         .remove_needed('libqfp_sensortest.so')
         .remove_needed('libsynaFpSensorTestNwd.so')
         .add_needed('libfp_sensortest_shim.so'),
+    'vendor/lib64/libsensorlistener.so': blob_fixup()
+        .add_needed('libshim_sensorndkbridge.so'),
+    # libvdis_core allocates with the ION ABI of the 4.4 kernel, which 4.19
+    # rejects. Its ION imports are renamed to the dma-buf versions in
+    # libshim_vdis_ion: same-name overrides would lose to libion, which
+    # libuniplugin loads first.
     (
         'vendor/lib/libvdis_core.so',
-        'vendor/lib64/libsensorlistener.so',
         'vendor/lib64/libvdis_core.so',
     ): blob_fixup()
-        .add_needed('libshim_sensorndkbridge.so'),
+        .binary_regex_replace(b'\x00ion_alloc\x00', b'\x00vds_alloc\x00')
+        .binary_regex_replace(b'\x00ion_share\x00', b'\x00vds_share\x00')
+        .binary_regex_replace(b'\x00ion_free\x00', b'\x00vds_free\x00')
+        .binary_regex_replace(b'\x00ion_sync_fd\x00', b'\x00vds_sync_fd\x00')
+        .binary_regex_replace(b'\x00ioctl\x00', b'\x00vdsio\x00')
+        .add_needed('libshim_sensorndkbridge.so')
+        .add_needed('libshim_vdis_ion.so'),
     # Parcel::print(TextOutput&), removed in Android 14; libsve_shim provides it.
     'system/lib64/libsveservice.so': blob_fixup()
         .add_needed('libsve_shim.so'),

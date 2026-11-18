@@ -570,7 +570,8 @@ PRODUCT_PACKAGES += \
     camera.sdm660 \
     libmmcamera_interface \
     libmmjpeg_interface \
-    libqomx_core
+    libqomx_core \
+    libshim_vdis_ion
 
 # Camera extensions (bokeh, rendered by the camera HAL)
 PRODUCT_PACKAGES += \
