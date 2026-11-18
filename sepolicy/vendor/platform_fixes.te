@@ -153,11 +153,15 @@ dontaudit secril_config { radio_prop default_prop }:file read;
 
 # Camera & Graphics
 allow hal_graphics_composer_default sysfs_camera:dir search;
-dontaudit hal_camera_default { default_prop radio_prop bootanim_system_prop persist_debug_prop }:file read;
+dontaudit hal_camera_default { default_prop radio_prop bootanim_system_prop persist_debug_prop }:file { getattr open map read };
 
 # Bluetooth & Audio
 allow hal_bluetooth_qti efs_file:dir search;
 dontaudit hal_audio_default radio_prop:file read;
+dontaudit hal_audio_default imei_efs_file:dir search;
+
+# fsck.exfat probing the sd card's block device node
+dontaudit fsck_untrusted sysfs:dir read;
 
 # Daemon dontaudits
 dontaudit multiclientd system_data_file:dir search;
