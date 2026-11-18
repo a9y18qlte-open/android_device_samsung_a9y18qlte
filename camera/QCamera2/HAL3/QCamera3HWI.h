@@ -41,6 +41,7 @@
 #include "hardware/camera3.h"
 #include "QCamera3Channel.h"
 #include "QCamera3Bokeh.h"
+#include "QCamera3VdisChannel.h"
 #include "QCamera3CropRegionMapper.h"
 #include "QCamera3HALHeader.h"
 #include "QCamera3Mem.h"
@@ -608,6 +609,7 @@ private:
     QCamera3RawDumpChannel *mRawDumpChannel;
     QCamera3RegularChannel *mDummyBatchChannel;
     QCamera3DepthChannel *mDepthChannel;
+    QCamera3VdisChannel *mVdisChannel; /* owned by its stream, like other stream channels */
     QCameraPerfLockMgr mPerfLockMgr;
     QCameraThermalAdapter &m_thermalAdapter;
     uint32_t mChannelHandle;

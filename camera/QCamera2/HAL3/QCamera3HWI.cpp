@@ -455,6 +455,7 @@ QCamera3HardwareInterface::QCamera3HardwareInterface(uint32_t cameraId,
       mAnalysisChannel(NULL),
       mRawDumpChannel(NULL),
       mDummyBatchChannel(NULL),
+      mVdisChannel(NULL),
       mPerfLockMgr(),
       m_thermalAdapter(QCameraThermalAdapter::getInstance()),
       mChannelHandle(0),
@@ -2990,6 +2991,7 @@ int QCamera3HardwareInterface::configureStreamsPerfLocked(
 
     mPictureChannel = NULL;
     mZSLChannel = NULL;
+    mVdisChannel = NULL;
 
     mHALZSL = CAM_HAL3_ZSL_TYPE_NONE;
     if(mOpMode == QCAMERA3_VENDOR_STREAM_CONFIGURATION_YUV_ZSL_MODE)
@@ -3519,16 +3521,36 @@ int QCamera3HardwareInterface::configureStreamsPerfLocked(
                             mStreamConfigInfo[index].is_secure = SECURE;
                         }
 
-                        channel = new QCamera3RegularChannel(camHdl,
-                                channelHdl, mCameraHandle->ops, captureResultCb,
-                                setBufferErrorStatus, &l_padding,
-                                this,
-                                newStream,
-                                (cam_stream_type_t)
-                                        mStreamConfigInfo[index].type[stream_index],
-                                mStreamConfigInfo[index].postprocess_mask[stream_index],
-                                mMetadataChannel,
-                                bufferCount);
+                        /* SEC: video that Samsung VDIS can stabilize; it holds
+                         * buffers for its delay */
+                        if (mStreamConfigInfo[index].type[stream_index] ==
+                                    CAM_STREAM_TYPE_VIDEO && !isSecureMode() &&
+                                !isDualCamera() &&
+                                QCamera3VdisChannel::isEligible(mCameraId, newStream,
+                                        streamList->operation_mode)) {
+                            channel = new QCamera3VdisChannel(camHdl,
+                                    channelHdl, mCameraHandle->ops, captureResultCb,
+                                    setBufferErrorStatus, &l_padding,
+                                    this,
+                                    newStream,
+                                    (cam_stream_type_t)
+                                            mStreamConfigInfo[index].type[stream_index],
+                                    mStreamConfigInfo[index].postprocess_mask[stream_index],
+                                    mMetadataChannel,
+                                    bufferCount + QCamera3VdisChannel::EXTRA_BUFFERS);
+                            mVdisChannel = (QCamera3VdisChannel *)channel;
+                        } else {
+                            channel = new QCamera3RegularChannel(camHdl,
+                                    channelHdl, mCameraHandle->ops, captureResultCb,
+                                    setBufferErrorStatus, &l_padding,
+                                    this,
+                                    newStream,
+                                    (cam_stream_type_t)
+                                            mStreamConfigInfo[index].type[stream_index],
+                                    mStreamConfigInfo[index].postprocess_mask[stream_index],
+                                    mMetadataChannel,
+                                    bufferCount);
+                        }
                         if (channel == NULL) {
                             LOGE("allocation of channel failed");
                             pthread_mutex_unlock(&mMutex);
@@ -7636,6 +7658,22 @@ int QCamera3HardwareInterface::processCaptureRequest(
                 rc = BAD_VALUE;
             }
             LOGD("setEis %d", setEis);
+
+            /* SEC: the backend has no EIS; stabilize video with Samsung VDIS,
+             * which needs a 6/5 larger backend video stream */
+            if (mVdisChannel != NULL && !setEis &&
+                    fwkVideoStabMode == ANDROID_CONTROL_VIDEO_STABILIZATION_MODE_ON) {
+                int32_t vdisFps = l_meta.exists(ANDROID_CONTROL_AE_TARGET_FPS_RANGE) ?
+                        l_meta.find(ANDROID_CONTROL_AE_TARGET_FPS_RANGE).data.i32[1] : 30;
+                if (mVdisChannel->enableVdis(vdisFps)) {
+                    for (size_t i = 0; i < mStreamConfigInfo[config_index].num_streams; i++) {
+                        if (mStreamConfigInfo[config_index].type[i] == CAM_STREAM_TYPE_VIDEO) {
+                            mStreamConfigInfo[config_index].stream_sizes[i] =
+                                    mVdisChannel->getBackendDim();
+                        }
+                    }
+                }
+            }
             bool eis3Supported = false;
             size_t count = IS_TYPE_MAX;
             count = MIN(gCamCapability[mCameraId]->supported_is_types_cnt, count);
@@ -10368,6 +10406,13 @@ QCamera3HardwareInterface::translateFromHalMetadata(
         camMetadata.update(ANDROID_CONTROL_VIDEO_STABILIZATION_MODE, &fwkVideoStabMode, 1);
         LOGD("EIS result default to OFF mode");
     }
+    /* SEC: video is stabilized by VDIS in this HAL, not by the backend */
+    if (mVdisChannel != NULL) {
+        uint8_t vdisMode = mVdisChannel->isVdisEnabled() ?
+                ANDROID_CONTROL_VIDEO_STABILIZATION_MODE_ON :
+                ANDROID_CONTROL_VIDEO_STABILIZATION_MODE_OFF;
+        camMetadata.update(ANDROID_CONTROL_VIDEO_STABILIZATION_MODE, &vdisMode, 1);
+    }
 
     IF_META_AVAILABLE(uint32_t, noiseRedMode, CAM_INTF_META_NOISE_REDUCTION_MODE, metadata) {
         uint8_t fwk_noiseRedMode = (uint8_t) *noiseRedMode;
@@ -12929,7 +12974,8 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
             break;
         }
     }
-    if (eis_prop_set && eisSupported) {
+    /* SEC: Samsung VDIS on the main rear camera (QCamera3VdisChannel) */
+    if ((eis_prop_set && eisSupported) || (cameraId == 0 && QCamera3Vdis::isAvailable())) {
         availableVstabModes.add(ANDROID_CONTROL_VIDEO_STABILIZATION_MODE_ON);
     }
     staticInfo.update(ANDROID_CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES,
