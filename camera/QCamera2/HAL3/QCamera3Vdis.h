@@ -25,7 +25,8 @@
 namespace qcamera {
 
 /*
- * Samsung software video stabilization (VDIS 3.0) for the main rear camera.
+ * Samsung software video stabilization (VDIS 3.0) for the main rear and the
+ * front camera.
  *
  * The stock camera.sdm660 runs it through the "VDISplugin" uniplugin
  * (libuniplugin -> libvdis_interface -> libvdis_core): it reads the gyro
@@ -48,14 +49,14 @@ public:
     /* frames an input stays in the plugin before its output is ready */
     static constexpr uint32_t VDIS_DELAY = 8;
 
-    static bool isAvailable();
+    static bool isAvailable(uint32_t cameraId);
     /* input size for an output size, or false if the size is not supported */
     static bool getInputSize(int32_t outW, int32_t outH, int32_t &inW, int32_t &inH);
 
     QCamera3Vdis();
     ~QCamera3Vdis();
 
-    android::status_t init(int32_t inW, int32_t inH, int32_t inStride,
+    android::status_t init(uint32_t cameraId, int32_t inW, int32_t inH, int32_t inStride,
             int32_t outW, int32_t outH, int32_t outStride, int32_t fps);
     void deinit();
     bool isActive() const { return mHandle != nullptr; }
@@ -69,6 +70,7 @@ public:
 
 private:
     void *mHandle;
+    int32_t mCamType;
     int32_t mInW, mInH, mInStride, mOutW, mOutH, mOutStride;
 };
 

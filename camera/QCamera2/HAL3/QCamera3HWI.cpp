@@ -12974,8 +12974,8 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
             break;
         }
     }
-    /* SEC: Samsung VDIS on the main rear camera (QCamera3VdisChannel) */
-    if ((eis_prop_set && eisSupported) || (cameraId == 0 && QCamera3Vdis::isAvailable())) {
+    /* SEC: Samsung VDIS on the main rear and front camera (QCamera3VdisChannel) */
+    if ((eis_prop_set && eisSupported) || QCamera3Vdis::isAvailable(cameraId)) {
         availableVstabModes.add(ANDROID_CONTROL_VIDEO_STABILIZATION_MODE_ON);
     }
     staticInfo.update(ANDROID_CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES,

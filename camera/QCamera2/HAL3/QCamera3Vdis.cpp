@@ -116,17 +116,18 @@ struct Plugin {
     int32_t sensorType;
 };
 
-/* stock QCamera2HardwareInterface::getSensorID(): rear_camtype -> VDIS sensor */
-int32_t readSensorType()
+/* stock QCamera2HardwareInterface::getSensorID(): camtype -> VDIS sensor */
+int32_t readSensorType(const char *node)
 {
     static const struct {
         const char *name;
         int32_t type;
     } kSensors[] = {
         {"SONY_IMX576", 0x73},
+        {"SONY_IMX576_SUB", 0x74},
     };
     char name[32] = {};
-    FILE *f = fopen("/sys/class/camera/rear/rear_camtype", "r");
+    FILE *f = fopen(node, "r");
     if (f == nullptr) {
         return -1;
     }
@@ -140,8 +141,26 @@ int32_t readSensorType()
             return s.type;
         }
     }
-    ALOGW("no VDIS sensor type for rear sensor %s", name);
+    ALOGW("no VDIS sensor type for sensor %s", name);
     return -1;
+}
+
+/* stock camera type of a HAL camera, -1 if VDIS does not run on it */
+int32_t getCamType(uint32_t cameraId)
+{
+    switch (cameraId) {
+        case 0:
+            return 0x00;
+        case 1:
+            /* shortcut: libvdis_core has no a9y18qlte data for the front
+             * IMX576 (0x74, its init fails), so the front camera runs with the
+             * rear one's: fast shake drops ~30% but slow sway grows a little;
+             * use real front data if a firmware ever ships it */
+            return readSensorType("/sys/class/camera/front/front_camtype") == 0x74 ?
+                    0x10 : -1;
+        default:
+            return -1;
+    }
 }
 
 const Plugin *getPlugin()
@@ -153,7 +172,7 @@ const Plugin *getPlugin()
     }
     tried = true;
 
-    plugin.sensorType = readSensorType();
+    plugin.sensorType = readSensorType("/sys/class/camera/rear/rear_camtype");
     if (plugin.sensorType < 0) {
         return nullptr;
     }
@@ -181,9 +200,9 @@ const Plugin *getPlugin()
 
 } // namespace
 
-bool QCamera3Vdis::isAvailable()
+bool QCamera3Vdis::isAvailable(uint32_t cameraId)
 {
-    return getPlugin() != nullptr;
+    return getCamType(cameraId) >= 0 && getPlugin() != nullptr;
 }
 
 bool QCamera3Vdis::getInputSize(int32_t outW, int32_t outH, int32_t &inW, int32_t &inH)
@@ -202,7 +221,8 @@ bool QCamera3Vdis::getInputSize(int32_t outW, int32_t outH, int32_t &inW, int32_
 }
 
 QCamera3Vdis::QCamera3Vdis()
-    : mHandle(nullptr), mInW(0), mInH(0), mInStride(0), mOutW(0), mOutH(0), mOutStride(0)
+    : mHandle(nullptr), mCamType(0), mInW(0), mInH(0), mInStride(0), mOutW(0), mOutH(0),
+      mOutStride(0)
 {
 }
 
@@ -211,11 +231,12 @@ QCamera3Vdis::~QCamera3Vdis()
     deinit();
 }
 
-status_t QCamera3Vdis::init(int32_t inW, int32_t inH, int32_t inStride,
+status_t QCamera3Vdis::init(uint32_t cameraId, int32_t inW, int32_t inH, int32_t inStride,
         int32_t outW, int32_t outH, int32_t outStride, int32_t fps)
 {
     const Plugin *p = getPlugin();
-    if (p == nullptr) {
+    mCamType = getCamType(cameraId);
+    if (p == nullptr || mCamType < 0) {
         return NO_INIT;
     }
     deinit();
@@ -241,6 +262,7 @@ status_t QCamera3Vdis::init(int32_t inW, int32_t inH, int32_t inStride,
     mOutStride = outStride;
 
     BufferInfo info = {};
+    info.camType = mCamType;
     info.type = BUF_TYPE_FRAME;
     info.inW = inW;
     info.inH = inH;
@@ -284,6 +306,7 @@ void QCamera3Vdis::deinit()
 void QCamera3Vdis::setOutput(uint32_t slot, const Buffer &out)
 {
     BufferInfo info = {};
+    info.camType = mCamType;
     info.type = BUF_TYPE_OUTPUT;
     info.outY = (uint32_t)(uintptr_t)out.y;
     info.outU = info.outY + out.uvOffset;
@@ -313,6 +336,7 @@ void QCamera3Vdis::process(uint32_t slot, const Buffer &in, nsecs_t timestamp)
     p->set(mHandle, kPluginName, IDX_EXTRA_BUFFER_INFO, &extra);
 
     BufferInfo info = {};
+    info.camType = mCamType;
     info.type = BUF_TYPE_FRAME;
     info.inY = (uint32_t)(uintptr_t)in.y;
     info.inU = info.inY + in.uvOffset;
@@ -334,6 +358,7 @@ void QCamera3Vdis::process(uint32_t slot, const Buffer &in, nsecs_t timestamp)
 bool QCamera3Vdis::getOutput(uint32_t &outSlot, uint32_t &inSlot, bool &valid)
 {
     BufferInfo info = {};
+    info.camType = mCamType;
     info.type = BUF_TYPE_OUTPUT;
     getPlugin()->get(mHandle, kPluginName, IDX_BUFFER_INFO, &info);
     if (info.index & 0x80000000u) {

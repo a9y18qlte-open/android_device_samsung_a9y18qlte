@@ -22,6 +22,7 @@
 
 #include <utils/Timers.h>
 
+#include "QCamera3HWI.h"
 #include "QCamera3VdisChannel.h"
 
 extern "C" {
@@ -39,10 +40,10 @@ bool QCamera3VdisChannel::isEligible(uint32_t cameraId, const camera3_stream_t *
         uint32_t opMode)
 {
     int32_t inW, inH;
-    return cameraId == 0 && opMode == CAMERA3_STREAM_CONFIGURATION_NORMAL_MODE &&
+    return opMode == CAMERA3_STREAM_CONFIGURATION_NORMAL_MODE &&
             stream->rotation == CAMERA3_STREAM_ROTATION_0 &&
             QCamera3Vdis::getInputSize(stream->width, stream->height, inW, inH) &&
-            QCamera3Vdis::isAvailable();
+            QCamera3Vdis::isAvailable(cameraId);
 }
 
 QCamera3VdisChannel::QCamera3VdisChannel(uint32_t cam_handle,
@@ -378,8 +379,9 @@ bool QCamera3VdisChannel::startVdisLocked()
     mStreams[0]->getFrameOffset(offset);
     mInStride = offset.mp[0].stride;
     mInUvOffset = offset.mp[0].len + offset.mp[1].offset;
-    return mVdis.init(mInDim.width, mInDim.height, mInStride, mCamera3Stream->width,
-            mCamera3Stream->height, mOutStride, mFps) == NO_ERROR;
+    uint32_t cameraId = ((QCamera3HardwareInterface *)mUserData)->getCameraID();
+    return mVdis.init(cameraId, mInDim.width, mInDim.height, mInStride,
+            mCamera3Stream->width, mCamera3Stream->height, mOutStride, mFps) == NO_ERROR;
 }
 
 void QCamera3VdisChannel::resetVdisLocked()
