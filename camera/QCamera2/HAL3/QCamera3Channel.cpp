@@ -2175,6 +2175,7 @@ QCamera3RegularChannel::QCamera3RegularChannel(uint32_t cam_handle,
             QCamera3ProcessingChannel(cam_handle, channel_handle, cam_ops,
                     cb_routine, cb_buffer_err, paddingInfo, userData, stream, stream_type,
                     postprocess_mask, metadataChannel, numBuffers),
+            mBackendDim{0, 0},
             mBatchSize(0),
             mRotation(ROTATE_0),
             mAuxChannel(NULL)
@@ -2314,6 +2315,9 @@ int32_t QCamera3RegularChannel::initialize(cam_is_type_t isType)
 
     streamDim.width = mCamera3Stream->width;
     streamDim.height = mCamera3Stream->height;
+    if (mBackendDim.width > 0) {
+        streamDim = mBackendDim;
+    }
 
     //In DualCamera usecase for Asymetric mode
     QCamera3HardwareInterface* hal_obj = (QCamera3HardwareInterface*)mUserData;

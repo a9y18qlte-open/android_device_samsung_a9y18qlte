@@ -117,6 +117,8 @@ cc_library_shared {
         "HAL3/QCamera3PostProc.cpp",
         "HAL3/QCamera3CropRegionMapper.cpp",
         "HAL3/QCamera3StreamMem.cpp",
+        "HAL3/QCamera3Vdis.cpp",
+        "HAL3/QCamera3VdisChannel.cpp",
         "HAL/QCameraMem.cpp",
         "HAL/QCameraThermalAdapter.cpp",
         "util/QCameraFOVControl.cpp",

@@ -413,6 +413,10 @@ public:
     virtual void setDualChannelMode(bool bMode);
     int32_t mNumDepthPoints;
 
+protected:
+    /* backend stream size when it differs from the framework stream */
+    cam_dimension_t mBackendDim;
+
 private:
     int32_t initialize(struct private_handle_t *priv_handle);
 
