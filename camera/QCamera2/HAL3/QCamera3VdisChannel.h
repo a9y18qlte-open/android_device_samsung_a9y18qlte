@@ -28,7 +28,7 @@
 namespace qcamera {
 
 /*
- * Video channel of the main rear camera that can run Samsung VDIS.
+ * Video channel of the main rear or the front camera that can run Samsung VDIS.
  *
  * Until enableVdis() is called before the first request it is a plain
  * QCamera3RegularChannel. With VDIS the backend fills internal buffers 6/5 the
