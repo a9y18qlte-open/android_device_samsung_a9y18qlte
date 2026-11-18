@@ -3,5 +3,9 @@
 binder_call(system_app, rild)
 allow system_app samsung_radio_hwservice:hwservice_manager find;
 
+# Suspend stats, tracing and HAL dump queries from a system app thread.
+dontaudit system_app { system_suspend_control_service system_suspend_control_internal_service }:service_manager find;
+dontaudit system_app { hal_memtrack_default hal_health_default hal_camera_default hal_audio_default }:binder call;
+
 # imsservice reads ro.csc.omcnw_code.
 get_prop(system_app, vendor_audio_prop)

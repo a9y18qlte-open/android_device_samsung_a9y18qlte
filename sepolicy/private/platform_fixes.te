@@ -19,6 +19,7 @@ allow vendor_init cgroup:file getattr;
 
 # Core domains
 allow ueventd self:capability sys_nice;
+dontaudit ueventd self:capability kill;
 allow vold rootfs:dir setattr;
 allow migrate_legacy_obb_data self:capability sys_resource;
 allow adbd shell:unix_stream_socket shutdown;

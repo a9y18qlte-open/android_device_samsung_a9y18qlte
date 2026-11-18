@@ -21,6 +21,8 @@ vendor.sys.qseecomd.enable    u:object_r:vendor_qseecomd_prop:s0
 # rild records a failed interface configuration - but both were logging denials
 # on every boot.
 vendor.bluetooth_fw_ver          u:object_r:samsung_bluetooth_prop:s0
+vendor.bluetooth.soc             u:object_r:samsung_bluetooth_prop:s0
+audio.volume.headset.gain.depcal u:object_r:vendor_audio_prop:s0
 persist.ril.interfaceconf.failed u:object_r:samsung_ril_prop:s0
 
 # secril_config_svc sets these from /efs/factory.prop and telephony.prop.
