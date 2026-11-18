@@ -399,7 +399,7 @@ PRODUCT_PACKAGES += \
 
 # Updater
 PRODUCT_SYSTEM_EXT_PROPERTIES += \
-    lineage.updater.uri=https://raw.githubusercontent.com/a9y18qlte-open/OTA/main/lineage-23.2/{device}.json
+    lineage.updater.uri=https://raw.githubusercontent.com/a9y18qlte-open/OTA/main/lineage-24.0/{device}.json
 
 
 # Whitelisted app
