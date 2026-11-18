@@ -158,13 +158,13 @@ vendor/lib/libqomx_jpegenc.so
 vendor/lib/libqomx_jpegenc_pipe.so
 vendor/lib/libremosaic_daemon.so
 vendor/lib/libremosaiclib.so
-vendor/lib/libvdis_core.so
+vendor/lib/libvdis_core.so;DISABLE_CHECKELF
 vendor/lib/libvdis_interface.so
 vendor/lib64/libbase64.so
 vendor/lib64/libremosaic_daemon.so
 vendor/lib64/libremosaiclib.so
 vendor/lib64/libsns_low_lat_stream_stub.so
-vendor/lib64/libvdis_core.so
+vendor/lib64/libvdis_core.so;DISABLE_CHECKELF
 vendor/lib64/libvdis_interface.so
 vendor/lib64/libvideoutils.so
 
