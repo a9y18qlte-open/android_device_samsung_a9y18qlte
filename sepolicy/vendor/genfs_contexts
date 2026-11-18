@@ -97,3 +97,9 @@ genfscon sysfs /devices/platform/battery/power_supply/battery/wakeup52          
 genfscon sysfs /devices/platform/soc/soc:i2c@24/i2c-24/24-0071/power_supply/sm5705-fuelgauge/wakeup26 u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/soc:i2c@26/i2c-26/26-0049/sm5705-charger/power_supply/sm5705-charger/wakeup27 u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/soc/soc:i2c@26/i2c-26/26-0049/sm5705-charger/power_supply/otg/wakeup28 u:object_r:sysfs_wakeup:s0
+
+# The v4l2 nodes above are sysfs_camera, so their wakeup sources inherited it.
+# qcom's sdm660 policy covers camera@0-2; these are the two sensors it misses.
+# The number varies by boot, and the match is by prefix, so leave it off.
+genfscon sysfs /devices/platform/soc/ca0c000.qcom,cci/ca0c000.qcom,cci:qcom,camera@3/video4linux/video6/wakeup u:object_r:sysfs_wakeup:s0
+genfscon sysfs /devices/platform/soc/ca0c000.qcom,cci/ca0c000.qcom,cci:qcom,camera@4/video4linux/video7/wakeup u:object_r:sysfs_wakeup:s0
