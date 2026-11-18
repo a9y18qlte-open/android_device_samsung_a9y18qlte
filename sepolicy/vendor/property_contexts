@@ -46,6 +46,8 @@ service.camera.                  u:object_r:camera_prop:s0
 vendor.camera.                   u:object_r:camera_prop:s0
 camera.cpp.                      u:object_r:camera_prop:s0
 ubwc.no.compression              u:object_r:camera_prop:s0
+# CPP clock override in MHz; the CPP module looks it up on every clock update
+cpp.set.clock                    u:object_r:camera_prop:s0
 
 # cameraserver reads the FMQ sizes for camera requests and results. They are not
 # set on this device, so they fell through to vendor_default_prop, which core
