@@ -337,7 +337,11 @@ blob_fixups: blob_fixups_user_type = {
     # Android 13's BoringSSL renamed the lh_* hash table functions to
     # OPENSSL_lh_*; liberis_shim provides the old names.
     'system/lib64/liberis_strongswan.so': blob_fixup()
-        .add_needed('liberis_shim.so'),
+        .add_needed('liberis_shim.so')
+        .call(patch_bytes, [
+            (0x8f188, '000140f9', 0x8f188, 'e00308aa'),
+            (0x86724, '000140f9', 0x86724, 'e00308aa'),
+        ]),
     # Q blob importing strdup8to16(), removed from libcutils in Android 11.
     # libcutils_shim provides it.
     'system/bin/multiclientd': blob_fixup()

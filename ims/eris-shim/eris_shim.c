@@ -120,3 +120,17 @@ void *OPENSSL_sk_delete_ptr(OPENSSL_STACK *sk, const void *p);
 void *sk_delete_ptr(OPENSSL_STACK *sk, const void *p) {
     return OPENSSL_sk_delete_ptr(sk, p);
 }
+
+typedef struct x509_st X509;
+typedef struct X509_crl_st X509_CRL;
+
+int i2d_re_X509_tbs(X509 *x509, unsigned char **outp);
+int i2d_re_X509_CRL_tbs(X509_CRL *crl, unsigned char **outp);
+
+int i2d_X509_CINF(X509 *x509, unsigned char **outp) {
+    return i2d_re_X509_tbs(x509, outp);
+}
+
+int i2d_X509_CRL_INFO(X509_CRL *crl, unsigned char **outp) {
+    return i2d_re_X509_CRL_tbs(crl, outp);
+}
