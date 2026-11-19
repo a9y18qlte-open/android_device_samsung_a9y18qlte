@@ -9,8 +9,6 @@ typedef uint32_t (*lhash_hash_func_helper)(lhash_hash_func func, const void *a);
 
 uint32_t OPENSSL_strhash(const char *s);
 
-// BoringSSL made lhash internal in Android 17, so the old chained hash table is
-// kept here with the same entry points and semantics.
 typedef struct lhash_item {
     void *data;
     struct lhash_item *next;
@@ -75,7 +73,6 @@ int lh_insert(_LHASH *lh, void **old_data, void *data, lhash_hash_func_helper ca
         (*pp)->data = data;
         return 1;
     }
-    // shortcut: grows by rehashing every item once the load passes 2, never shrinks
     if (lh->num_items > 2 * lh->num_buckets) {
         size_t n = lh->num_buckets * 2;
         lhash_item **nb = calloc(n, sizeof(*nb));
