@@ -2820,7 +2820,6 @@ int QCamera3HardwareInterface::configureStreamsPerfLocked(
     bool bSmallJpegSize = streamStatus.bSmallJpegSize;
     camera3_stream_t *inputStream = streamStatus.inputStream;
     bool isJpeg = streamStatus.isJpeg;
-    cam_dimension_t jpegSize = streamStatus.jpegSize;
     cam_dimension_t previewSize = {0, 0};
 
     cam_padding_info_t padding_info = gCamCapability[mCameraId]->padding_info;
