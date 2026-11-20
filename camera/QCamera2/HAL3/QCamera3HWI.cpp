@@ -5730,9 +5730,10 @@ bool QCamera3HardwareInterface::superSlowMotionDropsVideo(uint32_t frameNumber)
 }
 
 /*===========================================================================
- * FUNCTION   : reportLowLightBoost
+ * FUNCTION   : reportLowLight
  *
- * DESCRIPTION: SEC: report the Low Light Boost AE mode and state
+ * DESCRIPTION: SEC: report the night mode indicator and the Low Light Boost AE mode
+ *              and state
  *
  * PARAMETERS : @result    : result metadata being built
  *              @fwkAeMode : AE mode derived from the backend, replaced when
@@ -5740,7 +5741,7 @@ bool QCamera3HardwareInterface::superSlowMotionDropsVideo(uint32_t frameNumber)
  *              @metadata  : backend metadata
  *
  *==========================================================================*/
-void QCamera3HardwareInterface::reportLowLightBoost(CameraMetadata &result,
+void QCamera3HardwareInterface::reportLowLight(CameraMetadata &result,
         uint8_t &fwkAeMode, metadata_buffer_t *metadata)
 {
     IF_META_AVAILABLE(int64_t, expTime, CAM_INTF_META_SENSOR_EXPOSURE_TIME, metadata) {
@@ -5753,6 +5754,17 @@ void QCamera3HardwareInterface::reportLowLightBoost(CameraMetadata &result,
             }
         }
     }
+    if (!isLowLightBoostCamera(mCameraId)) {
+        return;
+    }
+    int32_t nightMode = mLlbDark ? ANDROID_EXTENSION_NIGHT_MODE_INDICATOR_ON :
+            ANDROID_EXTENSION_NIGHT_MODE_INDICATOR_OFF;
+    if (fwkAeMode == ANDROID_CONTROL_AE_MODE_ON_AUTO_FLASH ||
+            fwkAeMode == ANDROID_CONTROL_AE_MODE_ON_ALWAYS_FLASH ||
+            fwkAeMode == ANDROID_CONTROL_AE_MODE_ON_AUTO_FLASH_REDEYE) {
+        nightMode = ANDROID_EXTENSION_NIGHT_MODE_INDICATOR_UNKNOWN;
+    }
+    result.update(ANDROID_EXTENSION_NIGHT_MODE_INDICATOR, &nightMode, 1);
     if (!mLlbRequested) {
         return;
     }
@@ -10280,7 +10292,7 @@ camera_metadata_t * QCamera3HardwareInterface::getPhysicalMeta(
                   "flashMode:%d, aeMode:%u!!!",
                      redeye, flashMode, aeMode);
         }
-        reportLowLightBoost(resultWrapper, fwk_aeMode, meta);
+        reportLowLight(resultWrapper, fwk_aeMode, meta);
     }
 
     return resultWrapper.release();
@@ -11711,7 +11723,7 @@ QCamera3HardwareInterface::translateCbUrgentMetadataToResultMetadata
               "flashMode:%d, aeMode:%u!!!",
                  redeye, flashMode, aeMode);
     }
-    reportLowLightBoost(camMetadata, fwk_aeMode, metadata);
+    reportLowLight(camMetadata, fwk_aeMode, metadata);
     if (mInstantAEC) {
         // Increment frame Idx count untill a bound reached for instant AEC.
         mInstantAecFrameIdxCount++;
@@ -13831,6 +13843,7 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     }
     if (isLowLightBoostCamera(cameraId)) {
         available_result_keys.add(ANDROID_CONTROL_LOW_LIGHT_BOOST_STATE);
+        available_result_keys.add(ANDROID_EXTENSION_NIGHT_MODE_INDICATOR);
     }
     staticInfo.update(ANDROID_REQUEST_AVAILABLE_RESULT_KEYS,
             available_result_keys.array(), available_result_keys.size());
