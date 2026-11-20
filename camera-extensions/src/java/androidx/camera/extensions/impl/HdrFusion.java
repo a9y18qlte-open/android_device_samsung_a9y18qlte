@@ -176,7 +176,7 @@ final class HdrFusion {
 
     // ---- alignment (median threshold bitmaps) ----
 
-    private static int[] align(Frame ref, Frame f) {
+    static int[] align(Frame ref, Frame f) {
         // pyramid of 1/2 size luma, coarsest level ~ 64 pixels high
         int levels = 0;
         for (int s = Math.min(ref.width, ref.height) / 2; s > 64; s /= 2) {
