@@ -401,6 +401,10 @@ blob_fixups: blob_fixups_user_type = {
         .patch_file('camera/tools/chromatix/imx576_d24qs_chromatix'),
     'vendor/lib/libchromatix_imx576_e24qs_zsl_preview_3a.so': blob_fixup()
         .call(extend_exposure_table, 9000),
+    'vendor/lib/libchromatix_s5k4hayx_a08ql_zsl_preview_3a.so': blob_fixup()
+        .call(extend_exposure_table, 10000),
+    'vendor/lib/libchromatix_s5k3m3_c13ql_zsl_preview_3a.so': blob_fixup()
+        .call(extend_exposure_table, 13500),
     'vendor/lib/libchromatix_imx576_e24qs_60_preview_3a.so': blob_fixup()
         .call(scale_exposure_table, 'libchromatix_imx576_e24qs_4k_preview_3a.so'),
     'vendor/lib/libchromatix_imx576_e24qs_60_video_3a.so': blob_fixup()
