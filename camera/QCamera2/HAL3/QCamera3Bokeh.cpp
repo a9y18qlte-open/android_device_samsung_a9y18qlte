@@ -297,6 +297,11 @@ QCamera3Bokeh::~QCamera3Bokeh()
     pthread_mutex_destroy(&mLock);
 }
 
+uint32_t QCamera3Bokeh::depthCameraId()
+{
+    return findAuxCamera();
+}
+
 bool QCamera3Bokeh::isSupported(uint32_t cameraId)
 {
     char prop[PROPERTY_VALUE_MAX];

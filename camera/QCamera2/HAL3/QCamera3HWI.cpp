@@ -301,7 +301,7 @@ static constexpr double LLB_DARK_OFF = 2.0e10;
 
 static bool isLowLightBoostCamera(uint32_t cameraId)
 {
-    return gCamCapability[cameraId]->position == CAM_POSITION_BACK;
+    return cameraId != QCamera3Bokeh::depthCameraId();
 }
 
 const QCamera3HardwareInterface::QCameraMap<
@@ -15565,7 +15565,7 @@ int32_t QCamera3HardwareInterface::setHalFpsRange(const CameraMetadata &settings
     if (isLowLightBoostCamera(mCameraId) && fps_range.max_fps <= 30.0f) {
         if (mLlbRequested && !mAfScanning) {
             fps_range.min_fps = MIN(fps_range.min_fps, LLB_MIN_FPS);
-        } else {
+        } else if (gCamCapability[mCameraId]->position != CAM_POSITION_FRONT) {
             fps_range.min_fps = MAX(fps_range.min_fps, MIN(NORMAL_MIN_FPS, fps_range.max_fps));
         }
     }

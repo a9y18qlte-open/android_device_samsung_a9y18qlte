@@ -48,6 +48,9 @@ public:
     // engine, the calibration and the depth sensor present).
     static bool isSupported(uint32_t cameraId);
 
+    // The depth sensor's camera id.
+    static uint32_t depthCameraId();
+
     // Starts the depth camera in the background; returns at once.
     void start();
     // Stops and closes the depth camera.
