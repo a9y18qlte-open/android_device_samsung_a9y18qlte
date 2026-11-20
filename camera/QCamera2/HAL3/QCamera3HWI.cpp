@@ -5753,6 +5753,10 @@ void QCamera3HardwareInterface::reportLowLight(CameraMetadata &result,
             }
         }
     }
+    IF_META_AVAILABLE(uint32_t, afState, CAM_INTF_META_AF_STATE, metadata) {
+        mAfScanning = *afState == CAM_AF_STATE_PASSIVE_SCAN ||
+                *afState == CAM_AF_STATE_ACTIVE_SCAN;
+    }
     if (!isLowLightBoostCamera(mCameraId)) {
         return;
     }
@@ -15559,7 +15563,7 @@ int32_t QCamera3HardwareInterface::setHalFpsRange(const CameraMetadata &settings
     fps_range.max_fps = (float)
             settings.find(ANDROID_CONTROL_AE_TARGET_FPS_RANGE).data.i32[1];
     if (isLowLightBoostCamera(mCameraId) && fps_range.max_fps <= 30.0f) {
-        if (mLlbRequested) {
+        if (mLlbRequested && !mAfScanning) {
             fps_range.min_fps = MIN(fps_range.min_fps, LLB_MIN_FPS);
         } else {
             fps_range.min_fps = MAX(fps_range.min_fps, MIN(NORMAL_MIN_FPS, fps_range.max_fps));

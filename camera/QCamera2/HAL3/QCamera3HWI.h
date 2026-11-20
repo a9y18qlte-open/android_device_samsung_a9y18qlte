@@ -894,6 +894,7 @@ private:
     uint8_t mFwkExtSceneMode;
     bool mLlbRequested = false;
     bool mLlbDark = false;
+    bool mAfScanning = false;
     int32_t mSamsungShootingMode = 0;
     int32_t mSamsungBokehLevel = -1;   // One UI blur slider, -1 = none
     // One UI super slow motion: high speed session whose requests carry superSlowMotionMode
