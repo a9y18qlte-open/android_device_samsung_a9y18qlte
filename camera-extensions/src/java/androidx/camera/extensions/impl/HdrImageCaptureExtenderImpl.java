@@ -7,7 +7,6 @@ package androidx.camera.extensions.impl;
 
 import android.content.Context;
 import android.graphics.ImageFormat;
-import android.graphics.Rect;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
@@ -70,34 +69,25 @@ public final class HdrImageCaptureExtenderImpl implements ImageCaptureExtenderIm
     }
 
     /**
-     * The output sizes of the formats that fit the active array. On the quad Bayer sensors
-     * the active array is the binned size and larger outputs are remosaiced, which would be
-     * done for every frame of the bracket.
+     * The camera's output sizes of the formats, remosaiced ones included: CameraX can pick
+     * them from the camera's own list when an app switches into an extension.
      */
     static List<Pair<Integer, Size[]>> hdrResolutions(CameraCharacteristics characteristics,
             int... formats) {
         if (characteristics == null) {
             return null;
         }
-        Rect active = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         StreamConfigurationMap map =
                 characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-        if (active == null || map == null) {
+        if (map == null) {
             return null;
         }
         List<Pair<Integer, Size[]>> resolutions = new ArrayList<>();
         for (int format : formats) {
             Size[] sizes = map.getOutputSizes(format);
-            if (sizes == null) {
-                continue;
+            if (sizes != null) {
+                resolutions.add(new Pair<>(format, sizes));
             }
-            List<Size> fitting = new ArrayList<>();
-            for (Size size : sizes) {
-                if (size.getWidth() <= active.width() && size.getHeight() <= active.height()) {
-                    fitting.add(size);
-                }
-            }
-            resolutions.add(new Pair<>(format, fitting.toArray(new Size[0])));
         }
         return resolutions;
     }
