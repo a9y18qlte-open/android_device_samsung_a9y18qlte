@@ -155,6 +155,34 @@ def scale_exposure_table(
         f.write(data)
 
 
+def extend_exposure_table(
+    ctx: BlobFixupCtx,
+    file: File,
+    file_path: str,
+    max_lines: int,
+    *args,
+    **kwargs,
+):
+    with open(file_path, 'rb') as f:
+        data = bytearray(f.read())
+    table = 0xcc10
+    count = int.from_bytes(data[0xcc04:0xcc08], 'little')
+    if int.from_bytes(data[table:table + 4], 'little') != 256 or not 0 < count < 400:
+        return
+    last = table + 8 * (count - 1)
+    gain = data[last:last + 4]
+    lines = int.from_bytes(data[last + 4:last + 8], 'little')
+    while round(lines * 1.03) <= max_lines and count < 420:
+        lines = round(lines * 1.03)
+        entry = table + 8 * count
+        data[entry:entry + 8] = gain + lines.to_bytes(4, 'little')
+        count += 1
+    data[0xcc04:0xcc08] = count.to_bytes(4, 'little')
+    data[0xcc0c:0xcc0e] = count.to_bytes(2, 'little')
+    with open(file_path, 'wb') as f:
+        f.write(data)
+
+
 # 60 fps: make the binned 16:9 mode (res 1, 2832x1592) of the main and
 # front IMX576 a 60 fps mode with the clocking of the high speed modes:
 # VT clock divider 0x0303 4 -> 2, line length 6320 -> 4400, frame length
@@ -367,6 +395,8 @@ blob_fixups: blob_fixups_user_type = {
     # so add a res 5 entry with them, using the main camera's slow-motion 3A.
     'vendor/etc/camera/imx576_d24qs_chromatix.xml': blob_fixup()
         .patch_file('camera/tools/chromatix/imx576_d24qs_chromatix'),
+    'vendor/lib/libchromatix_imx576_e24qs_zsl_preview_3a.so': blob_fixup()
+        .call(extend_exposure_table, 9000),
     'vendor/lib/libchromatix_imx576_e24qs_60_preview_3a.so': blob_fixup()
         .call(scale_exposure_table, 'libchromatix_imx576_e24qs_4k_preview_3a.so'),
     'vendor/lib/libchromatix_imx576_e24qs_60_video_3a.so': blob_fixup()
