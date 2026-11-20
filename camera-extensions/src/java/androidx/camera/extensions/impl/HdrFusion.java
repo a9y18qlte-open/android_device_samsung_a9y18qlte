@@ -8,6 +8,7 @@ package androidx.camera.extensions.impl;
 import android.media.Image;
 
 import java.nio.ByteBuffer;
+import java.util.stream.IntStream;
 
 /**
  * Exposure fusion (Mertens, Kautz and Van Reeth, 2007) of an exposure bracket of YUV frames.
@@ -113,23 +114,20 @@ final class HdrFusion {
         final int h = frames[ref].height;
 
         // global alignment to the reference, in full size pixels (kept even for chroma)
-        int[] dx = new int[n];
-        int[] dy = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (i != ref) {
-                int[] s = align(frames[ref], frames[i]);
-                dx[i] = s[0] & ~1;
-                dy[i] = s[1] & ~1;
-            }
-        }
+        final int[] dx = new int[n];
+        final int[] dy = new int[n];
+        IntStream.range(0, n).filter(i -> i != ref).parallel().forEach(i -> {
+            int[] s = align(frames[ref], frames[i]);
+            dx[i] = s[0] & ~1;
+            dy[i] = s[1] & ~1;
+        });
 
         // low resolution luma of each aligned frame
         final int lw = w / SCALE;
         final int lh = h / SCALE;
-        float[][] low = new float[n][];
-        for (int i = 0; i < n; i++) {
-            low[i] = downscale(frames[i].y, w, h, SCALE, dx[i], dy[i]);
-        }
+        final float[][] low = new float[n][];
+        IntStream.range(0, n).parallel()
+                .forEach(i -> low[i] = downscale(frames[i].y, w, h, SCALE, dx[i], dy[i]));
 
         // weights: well-exposedness, times consistency with the reference
         float[][] weight = new float[n][lw * lh];
@@ -482,16 +480,16 @@ final class HdrFusion {
         final int n = frames.length;
         final int w = out.width;
         final int h = out.height;
-        float[] wt = new float[n];
         // per row: low resolution sample positions, centres of the SCALE x SCALE boxes
-        int[] cx0 = new int[w];
-        float[] cax = new float[w];
+        final int[] cx0 = new int[w];
+        final float[] cax = new float[w];
         for (int x = 0; x < w; x++) {
             float fx = Math.max(0f, Math.min(lw - 1f, (x + 0.5f) / SCALE - 0.5f));
             cx0[x] = Math.min((int) fx, lw - 2);
             cax[x] = fx - cx0[x];
         }
-        for (int y = 0; y < h; y++) {
+        IntStream.range(0, h).parallel().forEach(y -> {
+            float[] wt = new float[n];
             float fy = Math.max(0f, Math.min(lh - 1f, (y + 0.5f) / SCALE - 0.5f));
             int y0 = Math.min((int) fy, lh - 2);
             float ay = fy - y0;
@@ -518,7 +516,7 @@ final class HdrFusion {
                 }
                 out.y[y * w + x] = (byte) clamp255(v);
             }
-        }
+        });
     }
 
     private static void blendChroma(Frame[] frames, float[][] smooth, int[] dx, int[] dy,
@@ -527,7 +525,7 @@ final class HdrFusion {
         final int cw = out.width / 2;
         final int ch = out.height / 2;
         final float cs = SCALE / 2f;
-        for (int y = 0; y < ch; y++) {
+        IntStream.range(0, ch).parallel().forEach(y -> {
             float fy = Math.max(0f, Math.min(lh - 1f, (y + 0.5f) / cs - 0.5f));
             int y0 = Math.min((int) fy, lh - 2);
             float ay = fy - y0;
@@ -549,7 +547,7 @@ final class HdrFusion {
                 out.u[y * cw + x] = (byte) clamp255(u + 128);
                 out.v[y * cw + x] = (byte) clamp255(v + 128);
             }
-        }
+        });
     }
 
     private static int clamp(int v, int size) {
