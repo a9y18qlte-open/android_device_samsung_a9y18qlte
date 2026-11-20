@@ -232,5 +232,5 @@ service vendor.secure_element_hal_service_1_1 /vendor/bin/hw/android.hardware.se
 
 on post-fs-data
     mkdir /efs/DAK 0775 system system
-    restorecon -R /efs/DAK
+    restorecon_recursive /efs/DAK
     mkdir /data/vendor/gatekeeper 0770 system system
