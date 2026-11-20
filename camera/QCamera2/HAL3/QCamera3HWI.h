@@ -540,7 +540,7 @@ private:
             uint32_t width, uint32_t height);
     camera_metadata_t* restoreHdrScene(uint8_t sceneMode, uint8_t controlMode,
             uint8_t extSceneMode, const camera_metadata_t *result);
-    void reportLowLightBoost(CameraMetadata &result, uint8_t &fwkAeMode,
+    void reportLowLight(CameraMetadata &result, uint8_t &fwkAeMode,
             metadata_buffer_t *metadata);
     void updateBokeh(const camera3_capture_request_t *request);
     void updateSuperSlowMotion(const camera3_capture_request_t *request);
