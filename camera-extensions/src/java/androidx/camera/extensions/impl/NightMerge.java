@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Merges a burst of equally exposed YUV frames: the sharpest frame is the reference and frames
@@ -37,9 +38,10 @@ final class NightMerge {
 
     static HdrFusion.Frame merge(HdrFusion.Frame[] burst) {
         float[] sharpness = new float[burst.length];
+        IntStream.range(0, burst.length).parallel()
+                .forEach(i -> sharpness[i] = sharpness(burst[i]));
         int best = 0;
         for (int i = 0; i < burst.length; i++) {
-            sharpness[i] = sharpness(burst[i]);
             if (sharpness[i] > sharpness[best]) {
                 best = i;
             }
@@ -60,29 +62,27 @@ final class NightMerge {
         Log.d(TAG, log + ", reference " + best);
         final HdrFusion.Frame[] frames = kept.toArray(new HdrFusion.Frame[0]);
         final int n = frames.length;
+        final int refIndex = ref;
         final HdrFusion.Frame r = frames[ref];
         final int w = r.width;
         final int h = r.height;
-        int[] dx = new int[n];
-        int[] dy = new int[n];
-        for (int i = 0; i < n; i++) {
-            if (i != ref) {
-                int[] s = HdrFusion.align(r, frames[i]);
-                dx[i] = s[0] & ~1;
-                dy[i] = s[1] & ~1;
-            }
-        }
+        final int[] dx = new int[n];
+        final int[] dy = new int[n];
+        IntStream.range(0, n).filter(i -> i != refIndex).parallel().forEach(i -> {
+            int[] s = HdrFusion.align(r, frames[i]);
+            dx[i] = s[0] & ~1;
+            dy[i] = s[1] & ~1;
+        });
 
-        HdrFusion.Frame out = new HdrFusion.Frame(w, h);
-        int[] histogram = new int[256];
-        for (int y = 0; y < h; y++) {
+        final HdrFusion.Frame out = new HdrFusion.Frame(w, h);
+        IntStream.range(0, h).parallel().forEach(y -> {
             for (int x = 0; x < w; x++) {
                 int p = y * w + x;
                 int yr = r.y[p] & 0xff;
                 int sum = yr << 8;
                 int wsum = 256;
                 for (int i = 0; i < n; i++) {
-                    if (i == ref) {
+                    if (i == refIndex) {
                         continue;
                     }
                     int sx = clamp(x + dx[i], w);
@@ -92,10 +92,12 @@ final class NightMerge {
                     sum += yi * wt;
                     wsum += wt;
                 }
-                int v = sum / wsum;
-                out.y[p] = (byte) v;
-                histogram[v]++;
+                out.y[p] = (byte) (sum / wsum);
             }
+        });
+        int[] histogram = new int[256];
+        for (byte b : out.y) {
+            histogram[b & 0xff]++;
         }
 
         int med = median(histogram);
@@ -111,7 +113,7 @@ final class NightMerge {
 
         final int cw = w / 2;
         final int ch = h / 2;
-        for (int y = 0; y < ch; y++) {
+        IntStream.range(0, ch).parallel().forEach(y -> {
             for (int x = 0; x < cw; x++) {
                 int p = y * cw + x;
                 int ym = out.y[(2 * y) * w + 2 * x] & 0xff;
@@ -120,7 +122,7 @@ final class NightMerge {
                 int sv = (r.v[p] & 0xff) << 8;
                 int wsum = 256;
                 for (int i = 0; i < n; i++) {
-                    if (i == ref) {
+                    if (i == refIndex) {
                         continue;
                     }
                     int sx = clamp(x + dx[i] / 2, cw);
@@ -136,10 +138,12 @@ final class NightMerge {
                 out.u[p] = (byte) clamp255(128 + (((su / wsum) - 128) * k >> 8));
                 out.v[p] = (byte) clamp255(128 + (((sv / wsum) - 128) * k >> 8));
             }
-        }
-        for (int p = 0; p < out.y.length; p++) {
-            out.y[p] = tone[out.y[p] & 0xff];
-        }
+        });
+        IntStream.range(0, h).parallel().forEach(y -> {
+            for (int p = y * w; p < (y + 1) * w; p++) {
+                out.y[p] = tone[out.y[p] & 0xff];
+            }
+        });
         return out;
     }
 
