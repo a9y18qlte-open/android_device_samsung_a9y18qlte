@@ -540,6 +540,8 @@ private:
             uint32_t width, uint32_t height);
     camera_metadata_t* restoreHdrScene(uint8_t sceneMode, uint8_t controlMode,
             uint8_t extSceneMode, const camera_metadata_t *result);
+    void reportLowLightBoost(CameraMetadata &result, uint8_t &fwkAeMode,
+            metadata_buffer_t *metadata);
     void updateBokeh(const camera3_capture_request_t *request);
     void updateSuperSlowMotion(const camera3_capture_request_t *request);
     nsecs_t superSlowMotionFrame(uint32_t frameNumber, nsecs_t captureTime);
@@ -890,6 +892,8 @@ private:
     QCamera3Bokeh *mBokeh;
     uint8_t mFwkControlMode;
     uint8_t mFwkExtSceneMode;
+    bool mLlbRequested = false;
+    bool mLlbDark = false;
     int32_t mSamsungShootingMode = 0;
     int32_t mSamsungBokehLevel = -1;   // One UI blur slider, -1 = none
     // One UI super slow motion: high speed session whose requests carry superSlowMotionMode

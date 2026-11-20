@@ -291,6 +291,19 @@ const QCamera3HardwareInterface::QCameraMap<
     { ANDROID_CONTROL_AE_MODE_ON_AUTO_FLASH_REDEYE, CAM_FLASH_MODE_AUTO}
 };
 
+static constexpr float LLB_LUMINANCE_MIN = 0.3f;
+static constexpr float LLB_LUMINANCE_MAX = 30.0f;
+static constexpr float LLB_BOOST_EV = 1.0f;
+static constexpr float LLB_MIN_FPS = 7.0f;
+static constexpr float NORMAL_MIN_FPS = 15.0f;
+static constexpr double LLB_DARK_ON = 1.33e10;
+static constexpr double LLB_DARK_OFF = 6.67e9;
+
+static bool isLowLightBoostCamera(uint32_t cameraId)
+{
+    return gCamCapability[cameraId]->position == CAM_POSITION_BACK;
+}
+
 const QCamera3HardwareInterface::QCameraMap<
         camera_metadata_enum_android_flash_mode_t,
         cam_flash_mode_t> QCamera3HardwareInterface::FLASH_MODES_MAP[] = {
@@ -5717,6 +5730,42 @@ bool QCamera3HardwareInterface::superSlowMotionDropsVideo(uint32_t frameNumber)
 }
 
 /*===========================================================================
+ * FUNCTION   : reportLowLightBoost
+ *
+ * DESCRIPTION: SEC: report the Low Light Boost AE mode and state
+ *
+ * PARAMETERS : @result    : result metadata being built
+ *              @fwkAeMode : AE mode derived from the backend, replaced when
+ *                           boost was requested
+ *              @metadata  : backend metadata
+ *
+ *==========================================================================*/
+void QCamera3HardwareInterface::reportLowLightBoost(CameraMetadata &result,
+        uint8_t &fwkAeMode, metadata_buffer_t *metadata)
+{
+    IF_META_AVAILABLE(int64_t, expTime, CAM_INTF_META_SENSOR_EXPOSURE_TIME, metadata) {
+        IF_META_AVAILABLE(int32_t, iso, CAM_INTF_META_SENSOR_SENSITIVITY, metadata) {
+            const double exposure = (double)*expTime * (double)*iso;
+            if (exposure >= LLB_DARK_ON) {
+                mLlbDark = true;
+            } else if (exposure < LLB_DARK_OFF) {
+                mLlbDark = false;
+            }
+        }
+    }
+    if (!mLlbRequested) {
+        return;
+    }
+    if (fwkAeMode == ANDROID_CONTROL_AE_MODE_ON) {
+        fwkAeMode = ANDROID_CONTROL_AE_MODE_ON_LOW_LIGHT_BOOST_BRIGHTNESS_PRIORITY;
+        result.update(ANDROID_CONTROL_AE_MODE, &fwkAeMode, 1);
+    }
+    const uint8_t state = mLlbDark ? ANDROID_CONTROL_LOW_LIGHT_BOOST_STATE_ACTIVE :
+            ANDROID_CONTROL_LOW_LIGHT_BOOST_STATE_INACTIVE;
+    result.update(ANDROID_CONTROL_LOW_LIGHT_BOOST_STATE, &state, 1);
+}
+
+/*===========================================================================
  * FUNCTION   : updateBokeh
  *
  * DESCRIPTION: SEC: track the framework control/extended scene mode of a
@@ -10231,6 +10280,7 @@ camera_metadata_t * QCamera3HardwareInterface::getPhysicalMeta(
                   "flashMode:%d, aeMode:%u!!!",
                      redeye, flashMode, aeMode);
         }
+        reportLowLightBoost(resultWrapper, fwk_aeMode, meta);
     }
 
     return resultWrapper.release();
@@ -11661,6 +11711,7 @@ QCamera3HardwareInterface::translateCbUrgentMetadataToResultMetadata
               "flashMode:%d, aeMode:%u!!!",
                  redeye, flashMode, aeMode);
     }
+    reportLowLightBoost(camMetadata, fwk_aeMode, metadata);
     if (mInstantAEC) {
         // Increment frame Idx count untill a bound reached for instant AEC.
         mInstantAecFrameIdxCount++;
@@ -13439,9 +13490,18 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
         avail_ae_modes.add(ANDROID_CONTROL_AE_MODE_ON_ALWAYS_FLASH);
         avail_ae_modes.add(ANDROID_CONTROL_AE_MODE_ON_AUTO_FLASH_REDEYE);
     }
+    const bool llbSupported = isLowLightBoostCamera(cameraId);
+    if (llbSupported) {
+        avail_ae_modes.add(ANDROID_CONTROL_AE_MODE_ON_LOW_LIGHT_BOOST_BRIGHTNESS_PRIORITY);
+    }
     staticInfo.update(ANDROID_CONTROL_AE_AVAILABLE_MODES,
                       avail_ae_modes.array(),
                       avail_ae_modes.size());
+    if (llbSupported) {
+        const float llbLuminanceRange[2] = {LLB_LUMINANCE_MIN, LLB_LUMINANCE_MAX};
+        staticInfo.update(ANDROID_CONTROL_LOW_LIGHT_BOOST_INFO_LUMINANCE_RANGE,
+                          llbLuminanceRange, 2);
+    }
 
     int32_t sensitivity_range[2];
     sensitivity_range[0] = gCamCapability[cameraId]->sensitivity_range.min_sensitivity;
@@ -13769,6 +13829,9 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     if (bokehSupported) {
         available_result_keys.add(ANDROID_CONTROL_EXTENDED_SCENE_MODE);
     }
+    if (isLowLightBoostCamera(cameraId)) {
+        available_result_keys.add(ANDROID_CONTROL_LOW_LIGHT_BOOST_STATE);
+    }
     staticInfo.update(ANDROID_REQUEST_AVAILABLE_RESULT_KEYS,
             available_result_keys.array(), available_result_keys.size());
 
@@ -13843,6 +13906,9 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
         available_characteristics_keys.add(ANDROID_SENSOR_OPTICAL_BLACK_REGIONS);
     }
 #endif
+    if (isLowLightBoostCamera(cameraId)) {
+        available_characteristics_keys.add(ANDROID_CONTROL_LOW_LIGHT_BOOST_INFO_LUMINANCE_RANGE);
+    }
     if (bokehSupported) {
         available_characteristics_keys.add(
                 ANDROID_CONTROL_AVAILABLE_EXTENDED_SCENE_MODE_MAX_SIZES);
@@ -15480,6 +15546,13 @@ int32_t QCamera3HardwareInterface::setHalFpsRange(const CameraMetadata &settings
             settings.find(ANDROID_CONTROL_AE_TARGET_FPS_RANGE).data.i32[0];
     fps_range.max_fps = (float)
             settings.find(ANDROID_CONTROL_AE_TARGET_FPS_RANGE).data.i32[1];
+    if (isLowLightBoostCamera(mCameraId) && fps_range.max_fps <= 30.0f) {
+        if (mLlbRequested) {
+            fps_range.min_fps = MIN(fps_range.min_fps, LLB_MIN_FPS);
+        } else {
+            fps_range.min_fps = MAX(fps_range.min_fps, MIN(NORMAL_MIN_FPS, fps_range.max_fps));
+        }
+    }
     fps_range.video_min_fps = fps_range.min_fps;
     fps_range.video_max_fps = fps_range.max_fps;
     if (fps_range.min_fps == 0 && fps_range.max_fps == 0) {
@@ -15650,6 +15723,8 @@ int QCamera3HardwareInterface::translateToHalMetadata
         uint8_t aeMode;
         int32_t redeye;
 
+        mLlbRequested = isLowLightBoostCamera(mCameraId) && (fwk_aeMode ==
+                ANDROID_CONTROL_AE_MODE_ON_LOW_LIGHT_BOOST_BRIGHTNESS_PRIORITY);
         if (fwk_aeMode == ANDROID_CONTROL_AE_MODE_OFF ) {
             aeMode = CAM_AE_MODE_OFF;
         } else {
@@ -15796,6 +15871,12 @@ int QCamera3HardwareInterface::translateToHalMetadata
             expCompensation = gCamCapability[mCameraId]->exposure_compensation_min;
         if (expCompensation > gCamCapability[mCameraId]->exposure_compensation_max)
             expCompensation = gCamCapability[mCameraId]->exposure_compensation_max;
+        if (mLlbRequested && mLlbDark && gCamCapability[mCameraId]->exposure_compensation_step > 0) {
+            expCompensation += (int32_t)(LLB_BOOST_EV /
+                    gCamCapability[mCameraId]->exposure_compensation_step);
+            expCompensation = MIN(expCompensation,
+                    gCamCapability[mCameraId]->exposure_compensation_max);
+        }
         LOGD("Setting compensation:%d", expCompensation);
         if (ADD_SET_PARAM_ENTRY_TO_BATCH(hal_metadata, CAM_INTF_PARM_EXPOSURE_COMPENSATION,
                 expCompensation)) {
@@ -15942,7 +16023,8 @@ int QCamera3HardwareInterface::translateToHalMetadata
         if (frame_settings.exists(ANDROID_CONTROL_AE_MODE)) {
             uint8_t fwk_aeMode =
                 frame_settings.find(ANDROID_CONTROL_AE_MODE).data.u8[0];
-            if (fwk_aeMode > ANDROID_CONTROL_AE_MODE_ON) {
+            if (fwk_aeMode > ANDROID_CONTROL_AE_MODE_ON &&
+                    fwk_aeMode != ANDROID_CONTROL_AE_MODE_ON_LOW_LIGHT_BOOST_BRIGHTNESS_PRIORITY) {
                 respectFlashMode = 0;
                 LOGH("AE Mode controls flash, ignore android.flash.mode");
             }
