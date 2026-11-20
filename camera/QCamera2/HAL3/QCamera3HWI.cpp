@@ -296,8 +296,8 @@ static constexpr float LLB_LUMINANCE_MAX = 30.0f;
 static constexpr float LLB_BOOST_EV = 1.0f;
 static constexpr float LLB_MIN_FPS = 7.0f;
 static constexpr float NORMAL_MIN_FPS = 15.0f;
-static constexpr double LLB_DARK_ON = 1.33e10;
-static constexpr double LLB_DARK_OFF = 6.67e9;
+static constexpr double LLB_DARK_ON = 4.0e10;
+static constexpr double LLB_DARK_OFF = 2.0e10;
 
 static bool isLowLightBoostCamera(uint32_t cameraId)
 {
