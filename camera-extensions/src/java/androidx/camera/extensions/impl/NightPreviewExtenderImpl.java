@@ -15,18 +15,15 @@ import android.util.Size;
 import java.util.List;
 
 /**
- * Implementation for night preview use case.
+ * Preview for the night extension on a9y18qlte: Low Light Boost auto exposure where the camera
+ * has it, which the still capture burst ({@link NightExposure}) then locks.
  *
- * <p>This class should be implemented by OEM and deployed to the target devices. 3P developers
- * don't need to implement this, unless this is used for related testing usage.
- *
- * @since 1.0
  * @hide
  */
 public final class NightPreviewExtenderImpl implements PreviewExtenderImpl {
     private static final int DEFAULT_STAGE_ID = 0;
-    private static final int SESSION_STAGE_ID = 101;
-    private static final int MODE = CaptureRequest.CONTROL_AWB_MODE_INCANDESCENT;
+
+    private boolean mLowLightBoost;
 
     /**
      * @hide
@@ -39,6 +36,7 @@ public final class NightPreviewExtenderImpl implements PreviewExtenderImpl {
      */
     @Override
     public void init(String cameraId, CameraCharacteristics cameraCharacteristics) {
+        mLowLightBoost = NightExposure.hasLowLightBoost(cameraCharacteristics);
     }
 
     /**
@@ -47,18 +45,7 @@ public final class NightPreviewExtenderImpl implements PreviewExtenderImpl {
     @Override
     public boolean isExtensionAvailable(String cameraId,
             CameraCharacteristics cameraCharacteristics) {
-        return false;
-    }
-
-    public boolean isExtensionAvailableOriginal(String cameraId,
-            CameraCharacteristics cameraCharacteristics) {
-        // Implement the logic to check whether the extension function is supported or not.
-
-        if (cameraCharacteristics == null) {
-            return false;
-        }
-
-        return CameraCharacteristicAvailability.isWBModeAvailable(cameraCharacteristics, MODE);
+        return HdrImageCaptureExtenderImpl.isHdrAvailable(cameraCharacteristics);
     }
 
     /**
@@ -66,12 +53,12 @@ public final class NightPreviewExtenderImpl implements PreviewExtenderImpl {
      */
     @Override
     public CaptureStageImpl getCaptureStage() {
-        // Set the necessary CaptureRequest parameters via CaptureStage, here we use some
-        // placeholder set of CaptureRequest.Key values
-        SettableCaptureStage captureStage = new SettableCaptureStage(DEFAULT_STAGE_ID);
-        captureStage.addCaptureRequestParameters(CaptureRequest.CONTROL_AWB_MODE, MODE);
-
-        return captureStage;
+        SettableCaptureStage stage = new SettableCaptureStage(DEFAULT_STAGE_ID);
+        if (mLowLightBoost) {
+            stage.addCaptureRequestParameters(CaptureRequest.CONTROL_AE_MODE,
+                    CaptureRequest.CONTROL_AE_MODE_ON_LOW_LIGHT_BOOST_BRIGHTNESS_PRIORITY);
+        }
+        return stage;
     }
 
     /**
@@ -104,7 +91,6 @@ public final class NightPreviewExtenderImpl implements PreviewExtenderImpl {
     @Override
     public void onInit(String cameraId, CameraCharacteristics cameraCharacteristics,
             Context context) {
-
     }
 
     /**
@@ -112,7 +98,6 @@ public final class NightPreviewExtenderImpl implements PreviewExtenderImpl {
      */
     @Override
     public void onDeInit() {
-
     }
 
     /**
@@ -120,12 +105,7 @@ public final class NightPreviewExtenderImpl implements PreviewExtenderImpl {
      */
     @Override
     public CaptureStageImpl onPresetSession() {
-        // Set the necessary CaptureRequest parameters via CaptureStage, here we use some
-        // placeholder set of CaptureRequest.Key values
-        SettableCaptureStage captureStage = new SettableCaptureStage(SESSION_STAGE_ID);
-        captureStage.addCaptureRequestParameters(CaptureRequest.CONTROL_AWB_MODE, MODE);
-
-        return captureStage;
+        return null;
     }
 
     /**
@@ -133,12 +113,7 @@ public final class NightPreviewExtenderImpl implements PreviewExtenderImpl {
      */
     @Override
     public CaptureStageImpl onEnableSession() {
-        // Set the necessary CaptureRequest parameters via CaptureStage, here we use some
-        // placeholder set of CaptureRequest.Key values
-        SettableCaptureStage captureStage = new SettableCaptureStage(SESSION_STAGE_ID);
-        captureStage.addCaptureRequestParameters(CaptureRequest.CONTROL_AWB_MODE, MODE);
-
-        return captureStage;
+        return null;
     }
 
     /**
@@ -146,14 +121,12 @@ public final class NightPreviewExtenderImpl implements PreviewExtenderImpl {
      */
     @Override
     public CaptureStageImpl onDisableSession() {
-        // Set the necessary CaptureRequest parameters via CaptureStage, here we use some
-        // placeholder set of CaptureRequest.Key values
-        SettableCaptureStage captureStage = new SettableCaptureStage(SESSION_STAGE_ID);
-        captureStage.addCaptureRequestParameters(CaptureRequest.CONTROL_AWB_MODE, MODE);
-
-        return captureStage;
+        return null;
     }
 
+    /**
+     * @hide
+     */
     @Override
     public int onSessionType() {
         return SessionConfiguration.SESSION_REGULAR;
