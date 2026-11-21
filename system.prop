@@ -38,9 +38,5 @@ ro.netflix.bsp_rev=Q660-13149-1
 # Qualcomm
 ro.vendor.qti.va_aosp.support=1
 
-# Debugging
-persist.service.adb.enable=1
-persist.sys.usb.config=adb
-
 # IMS
 persist.radio.ims.legacysmsip.enabled=0
