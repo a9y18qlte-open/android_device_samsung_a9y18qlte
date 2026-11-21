@@ -116,6 +116,9 @@ vendor.powerhal.disp.idle_support=false
 ro.soc.manufacturer=QTI
 ro.soc.model=SDM660
 
+# GLES 3.2
+ro.opengles.version=196610
+
 # Dex2oat
 dalvik.vm.dex2oat64.enabled=true
 
