@@ -221,6 +221,10 @@ blob_fixups: blob_fixups_user_type = {
         ),
     'vendor/lib64/libgps.utils.so': blob_fixup()
         .add_needed('libprocessgroup_shim.so'),
+    'vendor/etc/media_codecs_dolby_audio.xml': blob_fixup()
+        .regex_replace(r'(?s)\n        <!-- DOLBY_AC4 -->.*<!-- DOLBY_AC4 END -->', ''),
+    'vendor/lib/libstagefright_soft_ddpdec.so': blob_fixup()
+        .replace_needed('libstagefright_omx_vendor.so', 'libstagefright_omx.so'),
     # Uses no C++ runtime symbols; libstdc++ is not available to vendor
     'vendor/lib/libdualcam_refocus.so': blob_fixup()
         .remove_needed('libstdc++.so'),
