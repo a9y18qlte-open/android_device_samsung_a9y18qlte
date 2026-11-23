@@ -11,6 +11,7 @@ ro.bluetooth.a2dp_offload.supported=false
 persist.bluetooth.a2dp_offload.disabled=true
 
 # Bluetooth
+bluetooth.device.class_of_device=90,2,12
 bluetooth.device.default_name=Galaxy A9 (2018)
 
 # Bluetooth profiles
