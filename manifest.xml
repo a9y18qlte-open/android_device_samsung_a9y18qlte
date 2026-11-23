@@ -149,11 +149,6 @@
         <fqname>@2.0::ISehChannel/imsd2</fqname>
     </hal>
     <hal format="hidl">
-        <name>vendor.samsung.hardware.security.proca</name>
-        <transport>hwbinder</transport>
-        <fqname>@2.0::ISehProca/default</fqname>
-    </hal>
-    <hal format="hidl">
         <name>vendor.samsung.hardware.security.wsm</name>
         <transport>hwbinder</transport>
         <fqname>@1.0::ISehWsm/default</fqname>

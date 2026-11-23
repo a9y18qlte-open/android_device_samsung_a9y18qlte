@@ -1037,10 +1037,8 @@ vendor/lib64/libwsmd_functions.so
 # Samsung
 vendor/bin/hw/vendor.samsung.hardware.miscpower@2.0-service
 vendor/bin/secure_storage_daemon
-vendor/bin/vendor.samsung.hardware.security.proca@2.0-service
 vendor/bin/vendor.samsung.hardware.security.wsm@1.0-service
 vendor/etc/floating_feature.xml
-vendor/etc/init/pa_daemon_qsee.rc
 vendor/etc/init/secure_storage_daemon_qsee.rc
 vendor/etc/init/vendor.samsung.hardware.miscpower@2.0-service.rc
 vendor/etc/init/wsm-service.rc
