@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+import hashlib
 import re
 from os import path
 
@@ -96,6 +97,26 @@ def delete_rc_block(
         out.append(line)
     with open(file_path, 'w', newline='', encoding='utf-8') as f:
         f.writelines(out)
+
+
+def extract_ac4_tables(
+    ctx: BlobFixupCtx,
+    file: File,
+    file_path: str,
+    *args,
+    **kwargs,
+):
+    with open(file_path, 'rb') as f:
+        lib = f.read()
+    if hashlib.sha1(lib).hexdigest() != '64f4b2e7bfb31c6213c40b1f19800e92f244ef5e':
+        raise ValueError(f'{file.dst}: unexpected libstagefright.so')
+    key = lib[0x6D720:0x6D820]
+    tables = b''.join(
+        bytes(key[i] ^ lib[offset + i] ^ key[(k + i) & 0xFF] for i in range(size))
+        for offset, size, k in ((0x6D820, 256, 0), (0x6DC70, 84, 4), (0x6D920, 84, 8))
+    )
+    with open(file_path, 'wb') as f:
+        f.write(tables)
 
 
 def fix_depth_mount_angle(
@@ -221,8 +242,11 @@ blob_fixups: blob_fixups_user_type = {
         ),
     'vendor/lib64/libgps.utils.so': blob_fixup()
         .add_needed('libprocessgroup_shim.so'),
-    'vendor/etc/media_codecs_dolby_audio.xml': blob_fixup()
-        .regex_replace(r'(?s)\n        <!-- DOLBY_AC4 -->.*<!-- DOLBY_AC4 END -->', ''),
+    'vendor/etc/dolby/ac4_tables.bin': blob_fixup()
+        .call(extract_ac4_tables),
+    'vendor/lib/libstagefright_soft_ac4dec_dolby.so': blob_fixup()
+        .replace_needed('libstagefright_omx_vendor.so', 'libstagefright_omx.so')
+        .fix_soname(),
     'vendor/lib/libstagefright_soft_ddpdec.so': blob_fixup()
         .replace_needed('libstagefright_omx_vendor.so', 'libstagefright_omx.so'),
     # Uses no C++ runtime symbols; libstdc++ is not available to vendor
