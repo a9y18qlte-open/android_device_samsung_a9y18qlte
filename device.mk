@@ -56,6 +56,10 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_PACKAGES += \
     SamsungDAP
 
+PRODUCT_PACKAGES += \
+    libstagefright_omx_vendor \
+    libstagefright_soft_ac4dec
+
 # IMS
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/ims_samsung.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/ims_samsung.rc

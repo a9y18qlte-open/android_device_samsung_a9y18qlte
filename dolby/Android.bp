@@ -1,0 +1,20 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+cc_library_shared {
+    name: "libstagefright_soft_ac4dec",
+    srcs: ["ac4dec_shim.cpp"],
+    header_libs: ["media_plugin_headers"],
+    shared_libs: ["liblog"],
+    compile_multilib: "32",
+    vendor: true,
+}
+
+cc_library_shared {
+    name: "libstagefright_omx_vendor",
+    srcs: ["omx_vendor.c"],
+    compile_multilib: "32",
+    vendor: true,
+}

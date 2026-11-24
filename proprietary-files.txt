@@ -611,9 +611,11 @@ vendor/lib/mediadrm/libwvdrmengine.so
 system/lib64/libsdm-disp-apis.so
 
 # Dolby
+system/lib/libstagefright.so:vendor/etc/dolby/ac4_tables.bin|64f4b2e7bfb31c6213c40b1f19800e92f244ef5e|1d415773112094e2093ce4aec55cdb0a860c8c61
 vendor/etc/dolby/dax-default.xml
 vendor/etc/media_codecs_dolby_audio.xml
 vendor/lib/libdeccfg.so
+vendor/lib/libstagefright_soft_ac4dec.so:vendor/lib/libstagefright_soft_ac4dec_dolby.so
 vendor/lib/libstagefright_soft_ddpdec.so
 vendor/lib/libstagefright_softomx_plugin.so;MODULE_SUFFIX=_vendor
 vendor/lib/soundfx/libswdap.so
