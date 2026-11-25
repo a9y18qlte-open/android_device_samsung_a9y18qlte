@@ -527,6 +527,11 @@ PRODUCT_PACKAGES += \
     android.hardware.health-service.samsung-recovery \
     vendor.lineage.health-service.default
 
+# fastbootd
+PRODUCT_PACKAGES += \
+    android.hardware.fastboot-service.example_recovery \
+    fastbootd
+
 $(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class/power_supply/battery/batt_slate_mode)
 $(call soong_config_set,lineage_health,charging_control_charging_enabled,0)
 $(call soong_config_set,lineage_health,charging_control_charging_disabled,1)
