@@ -18,3 +18,33 @@ cc_library_shared {
     compile_multilib: "32",
     vendor: true,
 }
+
+cc_library_shared {
+    name: "libstagefright_softomx_plugin_dolby",
+    stem: "libstagefright_softomx_plugin",
+    srcs: ["DolbyOMXPlugin.cpp"],
+    shared_libs: [
+        "libstagefright_softomx",
+        "liblog",
+        "libutils",
+    ],
+    compile_multilib: "32",
+    vendor: true,
+    installable: false,
+}
+
+cc_prebuilt_library_shared {
+    name: "libstagefright_softomx_plugin",
+    srcs: [":libstagefright_softomx_plugin_dolby"],
+    shared_libs: [
+        "libstagefright_softomx",
+        "liblog",
+        "libutils",
+    ],
+    strip: {
+        none: true,
+    },
+    compile_multilib: "32",
+    prefer: true,
+    vendor_available: true,
+}
