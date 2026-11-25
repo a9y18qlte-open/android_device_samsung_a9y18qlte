@@ -497,6 +497,7 @@ PRODUCT_PACKAGES += \
     android.hidl.base@1.0.vendor \
     android.system.net.netd@1.1.vendor \
     libstagefright_softomx.vendor \
+    libstagefright_softomx_plugin.vendor \
     vendor.display.config@1.0.vendor \
     vendor.display.config@1.1.vendor \
     vendor.display.config@1.2.vendor \
