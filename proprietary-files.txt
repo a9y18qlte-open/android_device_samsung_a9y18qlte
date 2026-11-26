@@ -848,10 +848,6 @@ vendor/lib64/libvpplibrary.so
 vendor/lib64/vendor.qti.hardware.vpp@1.1.so
 vendor/lib64/vendor.qti.hardware.vpp@1.2.so
 
-# Media Codecs
-vendor/etc/media_codecs_ac4.xml
-vendor/etc/media_codecs_ddp.xml
-
 # NFC
 system/etc/nfcee_access.xml
 vendor/etc/libnfc-nci.conf
