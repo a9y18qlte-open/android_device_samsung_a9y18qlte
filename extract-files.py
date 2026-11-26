@@ -390,6 +390,14 @@ blob_fixups: blob_fixups_user_type = {
     # Parcel::print(TextOutput&), removed in Android 14; libsve_shim provides it.
     'system/lib64/libsveservice.so': blob_fixup()
         .add_needed('libsve_shim.so'),
+    'system/lib64/libSRTP.so': blob_fixup()
+        .call(patch_bytes, [(
+            0x11dd4, '00288052',
+            0x11dd4, '00808052',
+        ), (
+            0x11e54, '01288052',
+            0x11e54, '01808052',
+        )]),
     # Android 13's BoringSSL renamed the lh_* hash table functions to
     # OPENSSL_lh_*; liberis_shim provides the old names.
     'system/lib64/liberis_strongswan.so': blob_fixup()
