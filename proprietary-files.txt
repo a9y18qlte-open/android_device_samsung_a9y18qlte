@@ -816,9 +816,6 @@ system/lib64/libmmrtpdecoder.so
 system/lib64/libmmrtpencoder.so
 vendor/lib/libdsd2pcm.so
 vendor/lib/libstagefright_bufferqueue_helper_vendor.so
-vendor/lib/libstagefright_soft_g711dec.so;MODULE_SUFFIX=_vendor
-vendor/lib/libstagefright_soft_rawdec.so;MODULE_SUFFIX=_vendor
-vendor/lib/libstagefright_soft_vorbisdec.so;MODULE_SUFFIX=_vendor
 vendor/lib/libvqzip.so
 # vendor/lib/vndk/libstagefright_foundation.so - dropped: stock blob exports only
 # DIVX/DIVX3, but source-built libstagefright_omx.so is compiled with
@@ -830,7 +827,6 @@ vendor/lib/libvqzip.so
 # crash-looped. AOSP builds libstagefright_omx_utils itself (vendor_available VNDK).
 vendor/lib64/libAlacSwDec.so
 vendor/lib64/libApeSwDec.so
-vendor/lib64/libFlacSwDec.so
 vendor/lib64/libI420colorconvert.so
 vendor/lib64/libmm-color-convertor.so
 vendor/lib64/libmmosal_proprietary.so
@@ -842,7 +838,6 @@ vendor/lib64/libmulawdec.so
 vendor/lib64/libsnaace.so
 vendor/lib64/libsnamrnb.so
 vendor/lib64/libsnamrwb.so
-vendor/lib64/libstagefright_soft_qtiflacdec.so
 vendor/lib64/libvpphvx.so
 vendor/lib64/libvpplibrary.so
 vendor/lib64/vendor.qti.hardware.vpp@1.1.so
