@@ -36,6 +36,14 @@ final class HdrFusion {
             u = new byte[(width / 2) * (height / 2)];
             v = new byte[(width / 2) * (height / 2)];
         }
+
+        Frame(int width, int height, byte[] y, byte[] u, byte[] v) {
+            this.width = width;
+            this.height = height;
+            this.y = y;
+            this.u = u;
+            this.v = v;
+        }
     }
 
     private static final int SCALE = 4;
@@ -116,11 +124,15 @@ final class HdrFusion {
         // global alignment to the reference, in full size pixels (kept even for chroma)
         final int[] dx = new int[n];
         final int[] dy = new int[n];
-        IntStream.range(0, n).filter(i -> i != ref).parallel().forEach(i -> {
-            int[] s = align(frames[ref], frames[i]);
-            dx[i] = s[0] & ~1;
-            dy[i] = s[1] & ~1;
-        });
+        AlignPyramid refPyr = new AlignPyramid(frames[ref]);
+        for (int i = 0; i < n; i++) {
+            if (i != ref) {
+                int[] s = refPyr.align(frames[i]);
+                dx[i] = s[0] & ~1;
+                dy[i] = s[1] & ~1;
+            }
+        }
+        refPyr = null;
 
         // low resolution luma of each aligned frame
         final int lw = w / SCALE;
@@ -174,51 +186,73 @@ final class HdrFusion {
 
     // ---- alignment (median threshold bitmaps) ----
 
-    static int[] align(Frame ref, Frame f) {
-        // pyramid of 1/2 size luma, coarsest level ~ 64 pixels high
-        int levels = 0;
-        for (int s = Math.min(ref.width, ref.height) / 2; s > 64; s /= 2) {
-            levels++;
+    /** Reusable MTB pyramid for aligning multiple frames to one reference sequentially. */
+    static final class AlignPyramid {
+        private final int levels;
+        private final byte[][] pa;
+        private final int[] pw;
+        private final int[] ph;
+        private final int[] ma;
+
+        AlignPyramid(Frame ref) {
+            int lv = 0;
+            for (int s = Math.min(ref.width, ref.height) / 2; s > 64; s /= 2) {
+                lv++;
+            }
+            levels = lv;
+            pa = new byte[lv + 1][];
+            pw = new int[lv + 1];
+            ph = new int[lv + 1];
+            ma = new int[lv + 1];
+            pa[0] = half(ref.y, ref.width, ref.height);
+            pw[0] = ref.width / 2;
+            ph[0] = ref.height / 2;
+            ma[0] = median(pa[0]);
+            for (int l = 1; l <= lv; l++) {
+                pa[l] = half(pa[l - 1], pw[l - 1], ph[l - 1]);
+                pw[l] = pw[l - 1] / 2;
+                ph[l] = ph[l - 1] / 2;
+                ma[l] = median(pa[l]);
+            }
         }
-        byte[][] pa = new byte[levels + 1][];
-        byte[][] pb = new byte[levels + 1][];
-        int[] pw = new int[levels + 1];
-        int[] ph = new int[levels + 1];
-        pa[0] = half(ref.y, ref.width, ref.height);
-        pb[0] = half(f.y, f.width, f.height);
-        pw[0] = ref.width / 2;
-        ph[0] = ref.height / 2;
-        for (int l = 1; l <= levels; l++) {
-            pa[l] = half(pa[l - 1], pw[l - 1], ph[l - 1]);
-            pb[l] = half(pb[l - 1], pw[l - 1], ph[l - 1]);
-            pw[l] = pw[l - 1] / 2;
-            ph[l] = ph[l - 1] / 2;
-        }
-        int sx = 0;
-        int sy = 0;
-        for (int l = levels; l >= 0; l--) {
-            sx *= 2;
-            sy *= 2;
-            int ma = median(pa[l]);
-            int mb = median(pb[l]);
-            long best = Long.MAX_VALUE;
-            int bx = 0;
-            int by = 0;
-            for (int oy = -1; oy <= 1; oy++) {
-                for (int ox = -1; ox <= 1; ox++) {
-                    long e = mtbError(pa[l], pb[l], pw[l], ph[l], ma, mb, sx + ox, sy + oy);
-                    if (e < best) {
-                        best = e;
-                        bx = ox;
-                        by = oy;
+
+        int[] align(Frame f) {
+            byte[][] pb = new byte[levels + 1][];
+            pb[0] = half(f.y, f.width, f.height);
+            for (int l = 1; l <= levels; l++) {
+                pb[l] = half(pb[l - 1], pw[l - 1], ph[l - 1]);
+            }
+            int sx = 0;
+            int sy = 0;
+            for (int l = levels; l >= 0; l--) {
+                sx *= 2;
+                sy *= 2;
+                int mb = median(pb[l]);
+                long best = Long.MAX_VALUE;
+                int bx = 0;
+                int by = 0;
+                for (int oy = -1; oy <= 1; oy++) {
+                    for (int ox = -1; ox <= 1; ox++) {
+                        long e = mtbError(pa[l], pb[l], pw[l], ph[l], ma[l], mb,
+                                sx + ox, sy + oy);
+                        if (e < best) {
+                            best = e;
+                            bx = ox;
+                            by = oy;
+                        }
                     }
                 }
+                sx += bx;
+                sy += by;
+                pb[l] = null;
             }
-            sx += bx;
-            sy += by;
+            // level 0 is half size
+            return new int[] {sx * 2, sy * 2};
         }
-        // level 0 is half size
-        return new int[] {sx * 2, sy * 2};
+    }
+
+    static int[] align(Frame ref, Frame f) {
+        return new AlignPyramid(ref).align(f);
     }
 
     private static byte[] half(byte[] src, int w, int h) {

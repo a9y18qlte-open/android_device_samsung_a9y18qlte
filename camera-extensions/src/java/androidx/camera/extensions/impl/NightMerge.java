@@ -57,6 +57,8 @@ final class NightMerge {
             }
             if (keep) {
                 kept.add(burst[i]);
+            } else {
+                burst[i] = null;
             }
         }
         Log.d(TAG, log + ", reference " + best);
@@ -68,13 +70,28 @@ final class NightMerge {
         final int h = r.height;
         final int[] dx = new int[n];
         final int[] dy = new int[n];
-        IntStream.range(0, n).filter(i -> i != refIndex).parallel().forEach(i -> {
-            int[] s = HdrFusion.align(r, frames[i]);
-            dx[i] = s[0] & ~1;
-            dy[i] = s[1] & ~1;
-        });
+        HdrFusion.AlignPyramid refPyr = new HdrFusion.AlignPyramid(r);
+        for (int i = 0; i < n; i++) {
+            if (i != refIndex) {
+                int[] s = refPyr.align(frames[i]);
+                dx[i] = s[0] & ~1;
+                dy[i] = s[1] & ~1;
+            }
+        }
+        refPyr = null;
 
-        final HdrFusion.Frame out = new HdrFusion.Frame(w, h);
+        final int cw = w / 2;
+        final int ch = h / 2;
+        final byte[] refChromaY = new byte[cw * ch];
+        for (int y = 0; y < ch; y++) {
+            int row = (2 * y) * w;
+            int crow = y * cw;
+            for (int x = 0; x < cw; x++) {
+                refChromaY[crow + x] = r.y[row + 2 * x];
+            }
+        }
+
+        // Merge luma in-place into r.y (each thread only reads r.y at its own pixel p)
         IntStream.range(0, h).parallel().forEach(y -> {
             for (int x = 0; x < w; x++) {
                 int p = y * w + x;
@@ -92,11 +109,11 @@ final class NightMerge {
                     sum += yi * wt;
                     wsum += wt;
                 }
-                out.y[p] = (byte) (sum / wsum);
+                r.y[p] = (byte) (sum / wsum);
             }
         });
         int[] histogram = new int[256];
-        for (byte b : out.y) {
+        for (byte b : r.y) {
             histogram[b & 0xff]++;
         }
 
@@ -111,13 +128,12 @@ final class NightMerge {
             chromaScale[x] = Math.round(256f * (float) Math.sqrt(t / (float) Math.max(x, 1)));
         }
 
-        final int cw = w / 2;
-        final int ch = h / 2;
+        // Merge chroma in-place into r.u and r.v
         IntStream.range(0, ch).parallel().forEach(y -> {
             for (int x = 0; x < cw; x++) {
                 int p = y * cw + x;
-                int ym = out.y[(2 * y) * w + 2 * x] & 0xff;
-                int yr = r.y[(2 * y) * w + 2 * x] & 0xff;
+                int ym = r.y[(2 * y) * w + 2 * x] & 0xff;
+                int yr = refChromaY[p] & 0xff;
                 int su = (r.u[p] & 0xff) << 8;
                 int sv = (r.v[p] & 0xff) << 8;
                 int wsum = 256;
@@ -135,16 +151,16 @@ final class NightMerge {
                     wsum += wt;
                 }
                 int k = chromaScale[ym];
-                out.u[p] = (byte) clamp255(128 + (((su / wsum) - 128) * k >> 8));
-                out.v[p] = (byte) clamp255(128 + (((sv / wsum) - 128) * k >> 8));
+                r.u[p] = (byte) clamp255(128 + (((su / wsum) - 128) * k >> 8));
+                r.v[p] = (byte) clamp255(128 + (((sv / wsum) - 128) * k >> 8));
             }
         });
         IntStream.range(0, h).parallel().forEach(y -> {
             for (int p = y * w; p < (y + 1) * w; p++) {
-                out.y[p] = tone[out.y[p] & 0xff];
+                r.y[p] = tone[r.y[p] & 0xff];
             }
         });
-        return out;
+        return r;
     }
 
     private static float sharpness(HdrFusion.Frame f) {
