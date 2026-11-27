@@ -9704,12 +9704,14 @@ int QCamera3HardwareInterface::flush(bool restartChannels)
     int32_t rc = NO_ERROR;
     Mutex::Autolock lock(mMultiFrameReqLock);
     LOGD("Unblocking Process Capture Request");
+    bool lockedRemosaic = false;
     pthread_mutex_lock(&mMutex);
     if(m_bPreSnapQuadraCfaRequest)
     {
         LOGD("Flush while remosaic is processing. lets wait on remosaic lock");
         pthread_mutex_unlock(&mMutex);
         pthread_mutex_lock(&mRemosaicLock);
+        lockedRemosaic = true;
         mFlush = true;
     } else {
         LOGD("Unblocking Process Capture Request");
@@ -9769,7 +9771,9 @@ int QCamera3HardwareInterface::flush(bool restartChannels)
         mStreamOnPending = restartChannels;
     }
     pthread_mutex_unlock(&mMutex);
-    pthread_mutex_unlock(&mRemosaicLock);
+    if (lockedRemosaic) {
+        pthread_mutex_unlock(&mRemosaicLock);
+    }
     mPerfLockMgr.releasePerfLock(PERF_LOCK_FLUSH);
     if(!m_bRecoveryDone)
     {
